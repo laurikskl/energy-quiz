@@ -10,9 +10,13 @@ Add your own name (do not add the names for others!) to the section below.
 
 | Profile Picture | Name | Email |
 |---|---|---|
+<<<<<<< HEAD
 | ![Max de Groot](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5033/avatar.png?width=90) | Max de Groot | m.r.degroot-1@student.tudelft.nl |
 
 
+=======
+| ![Jakub Kontak](https://secure.gravatar.com/avatar/c66ae4fa31e1a797a88043f6673cc76f?s=800&d=identicon&size=50) | Jakub Kontak | J.Kontak@student.tudelft.nl |
+>>>>>>> 30f6f62b21a8ac6a5ca87c49a09aacaf0ca1328a
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
 <!-- - Mention your *student* email address -->
