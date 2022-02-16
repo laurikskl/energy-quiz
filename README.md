@@ -10,7 +10,12 @@ Add your own name (do not add the names for others!) to the section below.
 
 | Profile Picture | Name | Email |
 |---|---|---|
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Your Name Here | Y.NameHere@student.tudelft.nl |
+| ![Max de Groot](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5033/avatar.png?width=96) | Max de Groot | m.r.degroot-1@student.tudelft.nl |
+| ![Demetra Carata](https://secure.gravatar.com/avatar/1872d0d272df591c5e120f0574cf657f?s=192&d=identicon&size=96&width=96) | Ioana Demetra Carata Dejoianu | I.D.CarataDejoianu@student.tudelft.nl |
+| ![Jakub Kontak](https://secure.gravatar.com/avatar/c66ae4fa31e1a797a88043f6673cc76f?s=800&d=identicon&size=96&width=96) | Jakub Kontak | J.Kontak@student.tudelft.nl |
+| ![Daniël Ravensbergen](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5010/avatar.png?width=96&size=50) | Daniël Ravensbergen | d.g.s.ravensbergen@student.tudelft.nl |
+| ![Lauri Kesküll](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4943/avatar.png?&width=96&size=96) | Lauri Kesküll | L.Keskull@student.tudelft.nl |
+| ![Alexandra Carutasu](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4756/avatar.png?width=96&size=50) | Alexandra Carutasu | A.Carutasu@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
