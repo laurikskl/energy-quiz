@@ -11,7 +11,7 @@ Add your own name (do not add the names for others!) to the section below.
 | Profile Picture | Name | Email |
 |---|---|---|
 | ![Demetra Carata](https://secure.gravatar.com/avatar/1872d0d272df591c5e120f0574cf657f?s=192&d=identicon&size=50) | Ioana Demetra Carata Dejoianu | I.D.CarataDejoianu@student.tudelft.nl |
-
+| ![Jakub Kontak](https://secure.gravatar.com/avatar/c66ae4fa31e1a797a88043f6673cc76f?s=800&d=identicon&size=50) | Jakub Kontak | J.Kontak@student.tudelft.nl |
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
 <!-- - Mention your *student* email address -->
