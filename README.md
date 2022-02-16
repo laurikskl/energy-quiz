@@ -10,6 +10,10 @@ Add your own name (do not add the names for others!) to the section below.
 
 | Profile Picture | Name | Email |
 |---|---|---|
+| ![Max de Groot](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5033/avatar.png?width=90) | Max de Groot | m.r.degroot-1@student.tudelft.nl |
+| ![Demetra Carata](https://secure.gravatar.com/avatar/1872d0d272df591c5e120f0574cf657f?s=192&d=identicon&size=50) | Ioana Demetra Carata Dejoianu | I.D.CarataDejoianu@student.tudelft.nl |
+| ![Jakub Kontak](https://secure.gravatar.com/avatar/c66ae4fa31e1a797a88043f6673cc76f?s=800&d=identicon&size=50) | Jakub Kontak | J.Kontak@student.tudelft.nl |
+| ![Daniël Ravensbergen](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5010/avatar.png?width=96&size=50) | Daniël Ravensbergen | d.g.s.ravensbergen@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Alexandra Carutasu | A.Carutasu@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
