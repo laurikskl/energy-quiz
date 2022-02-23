@@ -12,7 +12,7 @@ Add your own name (do not add the names for others!) to the section below.
 |---|---|---|
 | ![Max de Groot](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5033/avatar.png?width=96) | Max de Groot | M.R.degroot-1@student.tudelft.nl |
 | ![Demetra Carata](https://secure.gravatar.com/avatar/1872d0d272df591c5e120f0574cf657f?s=192&d=identicon&size=96&width=96) | Ioana Demetra Carata Dejoianu | I.D.CarataDejoianu@student.tudelft.nl |
-| ![Jakub Kontak](https://secure.gravatar.com/avatar/c66ae4fa31e1a797a88043f6673cc76f?s=800&d=identicon&size=96&width=96) | Jakub Kontak | J.Kontak@student.tudelft.nl |
+| ![Jakub Kontak](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4493/avatar.png?width=96&size=50) | Jakub Kontak | J.Kontak@student.tudelft.nl |
 | ![Daniël Ravensbergen](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/5010/avatar.png?width=96&size=50) | Daniël Ravensbergen | D.G.S.Ravensbergen@student.tudelft.nl |
 | ![Lauri Kesküll](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4943/avatar.png?&width=96&size=96) | Lauri Kesküll | L.Keskull@student.tudelft.nl |
 | ![Alexandra Carutasu](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4756/avatar.png?width=96&size=50) | Alexandra Carutasu | A.Carutasu@student.tudelft.nl |
