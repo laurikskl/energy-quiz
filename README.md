@@ -26,6 +26,7 @@ Add your own name (do not add the names for others!) to the section below.
 ## How to run it
 
 You should download the game.
+You should have a stable internet connection in order for the game to work properly.
 
 ## How to contribute to it
 
