@@ -31,3 +31,4 @@ You should have a stable internet connection in order for the game to work prope
 ## How to contribute to it
 
 ## Copyright / License (opt.)
+OOPP Group No. 17
