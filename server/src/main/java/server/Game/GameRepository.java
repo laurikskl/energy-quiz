@@ -3,6 +3,6 @@ package server.Game;
 import commons.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GameRepository extends JpaRepository <Game, Integer> {
+public interface GameRepository extends JpaRepository <Game, Long> {
 
 }
