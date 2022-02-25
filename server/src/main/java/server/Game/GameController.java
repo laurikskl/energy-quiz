@@ -12,6 +12,7 @@ import java.util.List;
 @RequestMapping(path = "api/game")
 public class GameController {
 
+    private final Random random;
     private final GameService gameService;
 
     public GameController(GameService gameService){
@@ -20,6 +21,12 @@ public class GameController {
     @GetMapping
     public List<Game> getGames() {
         return gameService.getGames();
+    }
+
+    @GetMapping("rnd")
+    public Game getRandom(){
+        var idx = random.nextInt((int) gameService.count());
+        return ResponseEntity.ok(gameService.getGameById((long) idx));
     }
 
 }
