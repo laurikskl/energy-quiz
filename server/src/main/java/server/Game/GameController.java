@@ -1,6 +1,7 @@
 package server.Game;
 
 
+import commons.Game;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,8 @@ public class GameController {
         this.gameService = gameService;
     }
     @GetMapping
-    public String getGames() {
-        return "Some text";
-        //return gameService.getGames();
+    public List<Game> getGames() {
+        return gameService.getGames();
     }
 
 }
