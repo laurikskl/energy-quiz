@@ -18,5 +18,9 @@ public class GameService {
         return gameRepository.findAll();
     }
 
+    public List<Game> getGameById(Integer position){
+        return gameRepository.getGames().get(position);
+    }
+
 
 }
