@@ -24,10 +24,4 @@ public class GameController {
         return gameService.getGames();
     }
 
-    @GetMapping("rnd")
-    public Game getRandom(){
-        var idx = random.nextInt((int) gameService.count());
-        return ResponseEntity.ok(gameService.getGameById((long) idx));
-    }
-
 }
