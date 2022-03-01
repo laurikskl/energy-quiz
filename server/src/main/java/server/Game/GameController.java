@@ -13,7 +13,6 @@ import java.util.*;
 @RequestMapping(path = "api/game")
 public class GameController {
 
-    private final Random random;
     private final GameService gameService;
 
     public GameController(GameService gameService){
