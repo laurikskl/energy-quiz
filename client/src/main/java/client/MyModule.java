@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package client;
 
 import com.google.inject.Binder;
@@ -25,10 +26,10 @@ import client.scenes.QuoteOverviewCtrl;
 
 public class MyModule implements Module {
 
-    @Override
-    public void configure(Binder binder) {
-        binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
-    }
+  @Override
+  public void configure(Binder binder) {
+    binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
+    binder.bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
+    binder.bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
+  }
 }
