@@ -81,11 +81,6 @@ import javax.persistence.Id;
         }
 
         @Override
-        public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this);
-        }
-
-        @Override
         public String toString() {
             return "Username: "+this.getUserName()+"\nHighest score: "+this.getScore();
         }
