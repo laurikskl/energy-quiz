@@ -15,22 +15,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void equalsHashCode(){
-        Player player1 = new Player("Adda", 6969);
-        Player player2 = new Player("Adda", 6969);
-        assertEquals(player1, player2);
-        assertEquals(player1.hashCode(), player2.hashCode());
-    }
-
-    @Test
-    public void notEqualHashCode(){
-        Player player1 = new Player("Adda", 6969);
-        Player player2 = new Player("Adda", 0);
-        assertNotEquals(player1, player2);
-        assertNotEquals(player1.hashCode(), player2.hashCode());
-    }
-
-    @Test
     public void getName() {
         Player player = new Player("Adda", 6969);
         assertEquals(player.getUserName(), "Adda");
