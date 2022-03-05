@@ -22,18 +22,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, String> {
-
-    Player getOne(String userName);
-
-    List<Player> findAllById(Iterable<String> usernames);
-
-    void deleteAllByIdInBatch(Iterable<String> usernames);
-
-    Player getById(String userName);
-
-    Optional<Player> findById(String userName);
-
-    boolean existsById(String username);
-
-    void deleteById(String username);
 }
