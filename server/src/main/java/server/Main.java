@@ -20,6 +20,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
+
 @SpringBootApplication
 @EntityScan(basePackages = {"commons", "server"})
 public class Main {

@@ -16,9 +16,12 @@
 
 package server.database;
 
+import commons.Quote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import commons.Quote;
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
 }

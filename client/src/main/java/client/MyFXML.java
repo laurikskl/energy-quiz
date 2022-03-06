@@ -16,19 +16,21 @@
 
 package client;
 
+import com.google.inject.Injector;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-
-import com.google.inject.Injector;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.util.Builder;
 import javafx.util.BuilderFactory;
 import javafx.util.Callback;
 import javafx.util.Pair;
+
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
 
 public class MyFXML {
 
@@ -37,6 +39,10 @@ public class MyFXML {
   public MyFXML(Injector injector) {
     this.injector = injector;
   }
+
+  /**
+   * This comment is a temporary fix for checkstyle.
+   */
 
   public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
     try {
