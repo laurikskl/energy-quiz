@@ -16,6 +16,7 @@
 package server.api;
 
 import commons.Player;
+import server.Player.PlayerController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
