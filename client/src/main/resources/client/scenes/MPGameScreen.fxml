@@ -15,11 +15,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" stylesheets="@../../stylesheets/mp-game-screen.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox layoutX="1747.0" layoutY="534.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 450; -fx-pref-width: 100; -fx-background-color: #6639D4; -fx-background-radius: 20;" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="80.0">
+        <VBox alignment="CENTER" layoutX="1747.0" layoutY="534.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 450; -fx-pref-width: 100; -fx-background-color: #6639D4; -fx-background-radius: 20;" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="80.0">
             <children>
-                <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets left="15.0" top="20.0" />
+                        <Insets top="20.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -30,7 +30,7 @@
                 </Button>
                 <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets left="15.0" top="10.0" />
+                        <Insets top="10.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -41,7 +41,7 @@
                 </Button>
                 <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets left="15.0" top="10.0" />
+                        <Insets top="10.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -52,7 +52,7 @@
                 </Button>
                 <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets left="15.0" top="10.0" />
+                        <Insets top="10.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -63,7 +63,7 @@
                 </Button>
                 <Button alignment="CENTER" mnemonicParsing="false" prefWidth="77.0" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets left="15.0" top="10.0" />
+                        <Insets top="10.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -75,7 +75,7 @@
                 </Button>
                 <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets bottom="20.0" left="15.0" top="10.0" />
+                        <Insets bottom="20.0" top="10.0" />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -92,7 +92,7 @@
                 <Font name="System Bold" size="36.0" />
             </font>
         </Text>
-        <Button layoutX="81.0" layoutY="47.0" mnemonicParsing="false" style="-fx-background-color: #f1f1f1;">
+        <Button id="back-button" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" style="-fx-background-color: #f1f1f1;">
          <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -106,7 +106,7 @@
                 <TableColumn prefWidth="120.0" text="Score" />
             </columns>
         </TableView>
-        <Button layoutX="501.0" layoutY="27.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" AnchorPane.topAnchor="30.0">
+        <Button id="bomb-joker" layoutX="501.0" layoutY="27.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" styleClass="joker-button" AnchorPane.topAnchor="30.0">
             <padding>
                 <Insets right="30.0" />
             </padding>
@@ -118,7 +118,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button layoutX="662.0" layoutY="30.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" AnchorPane.topAnchor="30.0">
+        <Button id="timer-joker" layoutX="662.0" layoutY="30.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" styleClass="joker-button" AnchorPane.topAnchor="30.0">
             <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -126,7 +126,7 @@
                     </image>
                 </ImageView>
             </graphic></Button>
-        <Button layoutX="824.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" textFill="#f1f1f1" AnchorPane.topAnchor="30.0">
+        <Button id="points-joker" layoutX="824.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" styleClass="joker-button" textFill="#f1f1f1" AnchorPane.topAnchor="30.0">
             <font>
                 <Font size="36.0" />
             </font>
@@ -138,11 +138,12 @@
                 </Text>
             </graphic>
         </Button>
-        <PieChart layoutX="1702.0" layoutY="21.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #6639d4;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
+        <PieChart id="timer" layoutX="1702.0" layoutY="21.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
         <Text fill="#6639d4" layoutX="1742.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20" AnchorPane.rightAnchor="100.0">
             <font>
                 <Font name="System Bold" size="36.0" />
             </font>
         </Text>
+      <ImageView id="emoji-viewer" fitHeight="120.0" fitWidth="120.0" layoutX="1731.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="70.0" />
     </children>
 </AnchorPane>
