@@ -1,17 +1,19 @@
 package commons;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-    @Entity
+import javax.persistence.*;
+
+@Entity
     public class Player {
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
+        public long id;
 
+        @Column(unique = true)
         public String userName;
+
         public int score;
 
         @SuppressWarnings("unused")
@@ -58,7 +60,7 @@ import javax.persistence.Id;
 
         /**
          * Setter for the score of the object Player
-         * @param score - the new score for the obejct Player
+         * @param score - the new score for the object Player
          */
 
         public void setScore(int score) {
@@ -79,7 +81,12 @@ import javax.persistence.Id;
         }
 
         @Override
+        public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override
         public String toString() {
             return "Username: "+this.getUserName()+"\nHighest score: "+this.getScore();
         }
-    }
+}

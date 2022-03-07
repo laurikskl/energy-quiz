@@ -8,15 +8,24 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import server.Player.PlayerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
 public class TestPlayerRepository implements PlayerRepository {
 
+    public final List<Player> players = new ArrayList<>();
+    public final List<String> calledMethods = new ArrayList<>();
+
+    private void call(String name) {
+        calledMethods.add(name);
+    }
+
     @Override
     public List<Player> findAll() {
-        return null;
+        calledMethods.add("findAll");
+        return players;
     }
 
     @Override
@@ -30,17 +39,17 @@ public class TestPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public List<Player> findAllById(Iterable<String> strings) {
+    public List<Player> findAllById(Iterable<Long> longs) {
         return null;
     }
 
     @Override
     public long count() {
-        return 0;
+        return players.size();
     }
 
     @Override
-    public void deleteById(String s) {
+    public void deleteById(Long aLong) {
 
     }
 
@@ -50,7 +59,7 @@ public class TestPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends String> strings) {
+    public void deleteAllById(Iterable<? extends Long> longs) {
 
     }
 
@@ -66,7 +75,10 @@ public class TestPlayerRepository implements PlayerRepository {
 
     @Override
     public <S extends Player> S save(S entity) {
-        return null;
+        call("save");
+        entity.id = players.size();
+        players.add(entity);
+        return entity;
     }
 
     @Override
@@ -75,13 +87,14 @@ public class TestPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public Optional<Player> findById(String s) {
+    public Optional<Player> findById(Long aLong) {
         return Optional.empty();
     }
 
     @Override
-    public boolean existsById(String s) {
-        return false;
+    public boolean existsById(Long aLong) {
+        call("existsById");
+        return find(aLong).isPresent();
     }
 
     @Override
@@ -105,7 +118,7 @@ public class TestPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public void deleteAllByIdInBatch(Iterable<String> strings) {
+    public void deleteAllByIdInBatch(Iterable<Long> longs) {
 
     }
 
@@ -115,14 +128,20 @@ public class TestPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public Player getOne(String s) {
+    public Player getOne(Long aLong) {
         return null;
     }
 
     @Override
-    public Player getById(String s) {
-        return null;
+    public Player getById(Long aLong) {
+        call("getById");
+        return find(aLong).get();
     }
+
+    private Optional<Player> find(Long id) {
+        return players.stream().filter(q -> q.id == id).findFirst();
+    }
+
 
     @Override
     public <S extends Player> Optional<S> findOne(Example<S> example) {

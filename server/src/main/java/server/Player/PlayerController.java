@@ -3,41 +3,50 @@ package server.Player;
 import commons.Player;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.Player.PlayerRepository;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/player")
+@RequestMapping("/player")
 public class PlayerController {
 
-    private final PlayerRepository players;
+    private final PlayerService playerService;
+    private final PlayerRepository playerRepository;
 
-    public PlayerController(PlayerRepository players) {
-        this.players = players;
+    public PlayerController(PlayerService playerService, PlayerRepository playerRepository) {
+        this.playerService = playerService;
+        this.playerRepository=playerRepository;
     }
 
     @GetMapping(path = { "", "/" })
     public List<Player> getAll(){
-        return players.findAll();
+        return playerService.getPlayers();
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<Player> getByUsername(@PathVariable("username") String username) {
-        if (username==null || username.equals(" ") || !players.existsById(username)) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Player> getById(@PathVariable("id") long id) {
+        if (id<0 || !playerRepository.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(players.getById(username));
+        return ResponseEntity.ok(playerRepository.getById(id));
     }
 
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Player> add(@RequestBody Player player) {
 
+        List<Player> allPlayers = playerRepository.findAll();
+        boolean usernameAlreadyExists = false;
+
         if (isNullOrEmpty(player.userName)) {
             return ResponseEntity.badRequest().build();
         }
-
-        Player saved = players.save(player);
+        for (int i=0; i<allPlayers.size(); i++){
+            if(allPlayers.get(i).userName.equals(player.userName)) usernameAlreadyExists=true;
+        }
+        if (usernameAlreadyExists) {
+            return ResponseEntity.badRequest().build();
+        }
+        Player saved = playerRepository.save(player);
         return ResponseEntity.ok(saved);
     }
 
