@@ -47,6 +47,7 @@ public class Activity {
 
     /**
      * Getter for Id
+     *
      * @return id
      */
     public long getId() {
@@ -55,6 +56,7 @@ public class Activity {
 
     /**
      * Getter for name
+     *
      * @return name
      */
     public String getName() {
@@ -63,6 +65,7 @@ public class Activity {
 
     /**
      * Getter for powerConsumption
+     *
      * @return powerConsumption
      */
     public int getPowerConsumption() {
@@ -71,6 +74,7 @@ public class Activity {
 
     /**
      * Setter for id
+     *
      * @param id
      */
     public void setId(long id) {
@@ -79,6 +83,7 @@ public class Activity {
 
     /**
      * Setter for the name
+     *
      * @param name
      */
     public void setName(String name) {
@@ -87,6 +92,7 @@ public class Activity {
 
     /**
      * Setter for the powerConsumption
+     *
      * @param powerConsumption
      */
     public void setPowerConsumption(int powerConsumption) {
@@ -95,6 +101,7 @@ public class Activity {
 
     /**
      * Equals method comparing to activities if the name and power consumption is the same they are treated as equal
+     *
      * @param o
      * @return true if equal
      */
@@ -108,6 +115,7 @@ public class Activity {
 
     /**
      * Hash code for activity object
+     *
      * @return
      */
     @Override
@@ -117,6 +125,7 @@ public class Activity {
 
     /**
      * To string method listing all parameters of activity
+     *
      * @return stringified activity
      */
     @Override
