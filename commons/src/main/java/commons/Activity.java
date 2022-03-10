@@ -92,7 +92,12 @@ public class Activity {
     return Objects.hash(id, name, powerConsumption);
   }
 
-
-
-
+  @Override
+  public String toString() {
+    return "Activity{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", powerConsumption=" + powerConsumption +
+        '}';
+  }
 }
