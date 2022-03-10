@@ -24,4 +24,12 @@ public class PlayerService {
         playerRepository.save(player);
         return player;
     }
+
+    public boolean delete(Long id) {
+        List<Player> players = playerRepository.findAll();
+        boolean isRemoved = false;
+        if (playerRepository.findById(id)!=null) isRemoved = true;
+
+        return isRemoved;
+    }
 }
