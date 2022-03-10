@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package client.scenes;
 
 import java.net.URL;
@@ -29,43 +30,52 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+/**
+ * Temporary comment for checkstyle.
+ */
 
 public class QuoteOverviewCtrl implements Initializable {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+  private final ServerUtils server;
+  private final MainCtrl mainCtrl;
 
-    private ObservableList<Quote> data;
+  private ObservableList<Quote> data;
 
-    @FXML
-    private TableView<Quote> table;
-    @FXML
-    private TableColumn<Quote, String> colFirstName;
-    @FXML
-    private TableColumn<Quote, String> colLastName;
-    @FXML
-    private TableColumn<Quote, String> colQuote;
+  @FXML
+  private TableView<Quote> table;
+  @FXML
+  private TableColumn<Quote, String> colFirstName;
+  @FXML
+  private TableColumn<Quote, String> colLastName;
+  @FXML
+  private TableColumn<Quote, String> colQuote;
 
-    @Inject
-    public QuoteOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
-    }
+  @Inject
+  public QuoteOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    this.server = server;
+    this.mainCtrl = mainCtrl;
+  }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
-        colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
-        colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
-    }
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
+    colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
+    colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
+  }
+  /**
+   * Temporary comment for checkstyle.
+   */
 
-    public void addQuote() {
-        mainCtrl.showAdd();
-    }
+  public void addQuote() {
+    mainCtrl.showAdd();
+  }
+  /**
+   * Temporary comment for checkstyle.
+   */
 
-    public void refresh() {
-        var quotes = server.getQuotes();
-        data = FXCollections.observableList(quotes);
-        table.setItems(data);
-    }
+  public void refresh() {
+    var quotes = server.getQuotes();
+    data = FXCollections.observableList(quotes);
+    table.setItems(data);
+  }
 }

@@ -1,8 +1,8 @@
 # Starting template
 
-This README will need to contain a description of your project, how to run it, how to set up the development environment, and who worked on it.
-This information can be added throughout the course, except for the names of the group members.
-Add your own name (do not add the names for others!) to the section below.
+This README will need to contain a description of your project, how to run it, how to set up the development
+environment, and who worked on it. This information can be added throughout the course, except for the names of the
+group members. Add your own name (do not add the names for others!) to the section below.
 
 ## Description of project
 
@@ -25,10 +25,10 @@ Add your own name (do not add the names for others!) to the section below.
 
 ## How to run it
 
-You should download the game.
-You should have a stable internet connection in order for the game to work properly.
+You should download the game. You should have a stable internet connection in order for the game to work properly.
 
 ## How to contribute to it
 
 ## Copyright / License (opt.)
+
 OOPP Group No. 17

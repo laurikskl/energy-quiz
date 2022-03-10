@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package client;
 
 import java.io.IOException;
@@ -28,47 +29,57 @@ import javafx.util.Builder;
 import javafx.util.BuilderFactory;
 import javafx.util.Callback;
 import javafx.util.Pair;
+/**
+ * Temporary comment for checkstyle.
+ */
 
 public class MyFXML {
 
-    private Injector injector;
+  private Injector injector;
 
-    public MyFXML(Injector injector) {
-        this.injector = injector;
+  public MyFXML(Injector injector) {
+    this.injector = injector;
+  }
+  /**
+   * Temporary comment for checkstyle.
+   */
+
+  public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
+    try {
+      var loader =
+          new FXMLLoader(getLocation(parts), null, null, new MyFactory(), StandardCharsets.UTF_8);
+      Parent parent = loader.load();
+      T ctrl = loader.getController();
+      return new Pair<>(ctrl, parent);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
-        try {
-            var loader = new FXMLLoader(getLocation(parts), null, null, new MyFactory(), StandardCharsets.UTF_8);
-            Parent parent = loader.load();
-            T ctrl = loader.getController();
-            return new Pair<>(ctrl, parent);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  private URL getLocation(String... parts) {
+    var path = Path.of("", parts).toString();
+    return MyFXML.class.getClassLoader().getResource(path);
+  }
+  /**
+   * Temporary comment for checkstyle.
+   */
 
-    private URL getLocation(String... parts) {
-        var path = Path.of("", parts).toString();
-        return MyFXML.class.getClassLoader().getResource(path);
-    }
+  private class MyFactory implements BuilderFactory, Callback<Class<?>, Object> {
 
-    private class MyFactory implements BuilderFactory, Callback<Class<?>, Object> {
-
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Builder<?> getBuilder(Class<?> type) {
+      return new Builder() {
         @Override
-        @SuppressWarnings("rawtypes")
-        public Builder<?> getBuilder(Class<?> type) {
-            return new Builder() {
-                @Override
-                public Object build() {
-                    return injector.getInstance(type);
-                }
-            };
+        public Object build() {
+          return injector.getInstance(type);
         }
-
-        @Override
-        public Object call(Class<?> type) {
-            return injector.getInstance(type);
-        }
+      };
     }
+
+    @Override
+    public Object call(Class<?> type) {
+      return injector.getInstance(type);
+    }
+  }
 }

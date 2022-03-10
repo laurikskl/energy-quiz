@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package commons;
 
 import javax.persistence.Entity;
@@ -21,121 +22,77 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
+/**
+ * Temporary comment for checkstyle.
+ */
 @Entity
 public class Activity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public long id;
 
-    public String name;
-    public int powerConsumption;
+  public String name;
+  public int powerConsumption;
 
-    /**
-     * Basic constructor
-     */
-    private Activity() {
-        // for object mappers
+
+  private Activity() {
+    // for object mappers
+  }
+
+
+  public Activity(String name, int powerConsumption) {
+    this.name = name;
+    this.powerConsumption = powerConsumption;
+  }
+
+
+  public long getId() {
+    return id;
+  }
+
+
+  public String getName() {
+    return name;
+  }
+
+
+  public int getPowerConsumption() {
+    return powerConsumption;
+  }
+
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+
+  public void setPowerConsumption(int powerConsumption) {
+    this.powerConsumption = powerConsumption;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Constructor with name and powerConsumption
-     */
-    public Activity(String name, int powerConsumption) {
-        this.name = name;
-        this.powerConsumption = powerConsumption;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    Activity activity = (Activity) o;
+    return powerConsumption == activity.powerConsumption && Objects.equals(name, activity.name);
+  }
 
-    /**
-     * Getter for Id
-     *
-     * @return id
-     */
-    public long getId() {
-        return id;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, powerConsumption);
+  }
 
-    /**
-     * Getter for name
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
 
-    /**
-     * Getter for powerConsumption
-     *
-     * @return powerConsumption
-     */
-    public int getPowerConsumption() {
-        return powerConsumption;
-    }
-
-    /**
-     * Setter for id
-     *
-     * @param id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Setter for the name
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Setter for the powerConsumption
-     *
-     * @param powerConsumption
-     */
-    public void setPowerConsumption(int powerConsumption) {
-        this.powerConsumption = powerConsumption;
-    }
-
-    /**
-     * Equals method comparing to activities if the name and power consumption is the same they are treated as equal
-     *
-     * @param o
-     * @return true if equal
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Activity activity = (Activity) o;
-        return powerConsumption == activity.powerConsumption && Objects.equals(name, activity.name);
-    }
-
-    /**
-     * Hash code for activity object
-     *
-     * @return
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, powerConsumption);
-    }
-
-    /**
-     * To string method listing all parameters of activity
-     *
-     * @return stringified activity
-     */
-    @Override
-    public String toString() {
-        return "Activity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", powerConsumption=" + powerConsumption +
-                '}';
-    }
 
 
 }
