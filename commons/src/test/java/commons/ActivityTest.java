@@ -15,8 +15,8 @@ public class ActivityTest {
      */
     @BeforeEach
     public void initialize() {
-        activity = new Activity("Cycling", 420);
-        activityChanged = new Activity("Cycling", 420);
+        activity = new Activity("Cycling", 420, "randomURL1");
+        activityChanged = new Activity("Cycling", 420, "randomURL2");
     }
 
     /**
@@ -52,6 +52,14 @@ public class ActivityTest {
     }
 
     /**
+     * Testing getter for the source
+     */
+    @Test
+    void getSourceTest() {
+        assertEquals("randomURL1", activity.getSource());
+    }
+
+    /**
      * Testing if setting Id to 2 works
      */
     @Test
@@ -79,6 +87,15 @@ public class ActivityTest {
     }
 
     /**
+     * Testing if setting source to 'randomURL' works
+     */
+    @Test
+    void setSourceTest() {
+        activityChanged.setSource("randomURL");
+        assertEquals("randomURL", activityChanged.getSource());
+    }
+
+    /**
      * Testing if equals method works for the same reference
      */
     @Test
@@ -99,8 +116,8 @@ public class ActivityTest {
      */
     @Test
     public void equalsTest() {
-        Activity activitySame = new Activity("Cycling", 420);
-        Activity activityDiff = new Activity("Biking", 420);
+        Activity activitySame = new Activity("Cycling", 420, "randomURL");
+        Activity activityDiff = new Activity("Biking", 420, "randomURL");
         assertTrue(activity.equals(activitySame));
         assertTrue(activitySame.equals(activity));
         assertFalse(activity.equals(activityDiff));
@@ -112,7 +129,8 @@ public class ActivityTest {
      */
     @Test
     public void toStringTest() {
-        assertEquals("Activity{id=" + 0 + ", name='Cycling', powerConsumption=" + 420 + '}'
-                    , activity.toString());
+        assertEquals("Activity{id=" + 0 + ", name='Cycling', powerConsumption=" + 420
+                        + ", source='randomURL1'" + '}'
+                , activity.toString());
     }
 }

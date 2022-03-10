@@ -29,6 +29,7 @@ public class Activity {
 
     public String name;
     public int powerConsumption;
+    public String source;
 
     /**
      * Basic constructor
@@ -40,13 +41,15 @@ public class Activity {
     /**
      * Constructor with name and powerConsumption
      */
-    public Activity(String name, int powerConsumption) {
+    public Activity(String name, int powerConsumption, String source) {
         this.name = name;
         this.powerConsumption = powerConsumption;
+        this.source = source;
     }
 
     /**
      * Getter for Id
+     *
      * @return id
      */
     public long getId() {
@@ -54,23 +57,8 @@ public class Activity {
     }
 
     /**
-     * Getter for name
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Getter for powerConsumption
-     * @return powerConsumption
-     */
-    public int getPowerConsumption() {
-        return powerConsumption;
-    }
-
-    /**
      * Setter for id
+     *
      * @param id
      */
     public void setId(long id) {
@@ -78,7 +66,17 @@ public class Activity {
     }
 
     /**
+     * Getter for name
+     *
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Setter for the name
+     *
      * @param name
      */
     public void setName(String name) {
@@ -86,7 +84,17 @@ public class Activity {
     }
 
     /**
+     * Getter for powerConsumption
+     *
+     * @return powerConsumption
+     */
+    public int getPowerConsumption() {
+        return powerConsumption;
+    }
+
+    /**
      * Setter for the powerConsumption
+     *
      * @param powerConsumption
      */
     public void setPowerConsumption(int powerConsumption) {
@@ -94,7 +102,26 @@ public class Activity {
     }
 
     /**
+     * Getter for the source
+     *
+     * @return source
+     */
+    public String getSource() {
+        return source;
+    }
+
+    /**
+     * Setter for the source
+     *
+     * @param source
+     */
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    /**
      * Equals method comparing to activities if the name and power consumption is the same they are treated as equal
+     *
      * @param o
      * @return true if equal
      */
@@ -108,15 +135,17 @@ public class Activity {
 
     /**
      * Hash code for activity object
+     *
      * @return
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, powerConsumption);
+        return Objects.hash(name, powerConsumption);
     }
 
     /**
      * To string method listing all parameters of activity
+     *
      * @return stringified activity
      */
     @Override
@@ -125,8 +154,7 @@ public class Activity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", powerConsumption=" + powerConsumption +
+                ", source='" + source + '\'' +
                 '}';
     }
-
-
 }
