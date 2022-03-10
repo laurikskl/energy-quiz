@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Temporary comment for checkstyle.
  */
 
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
+
 @Controller
 @RequestMapping("/")
 public class SomeController {

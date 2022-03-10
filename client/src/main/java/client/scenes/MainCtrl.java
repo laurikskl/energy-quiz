@@ -24,6 +24,10 @@ import javafx.util.Pair;
  * Temporary comment for checkstyle.
  */
 
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
+
 public class MainCtrl {
 
   private Stage primaryStage;
@@ -33,8 +37,9 @@ public class MainCtrl {
 
   private AddQuoteCtrl addCtrl;
   private Scene add;
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
@@ -49,8 +54,9 @@ public class MainCtrl {
     showOverview();
     primaryStage.show();
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void showOverview() {
@@ -58,8 +64,9 @@ public class MainCtrl {
     primaryStage.setScene(overview);
     overviewCtrl.refresh();
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void showAdd() {

@@ -16,13 +16,11 @@
 
 package client.scenes;
 
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Quote;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.google.inject.Inject;
-
-import client.utils.ServerUtils;
-import commons.Quote;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +30,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 /**
  * Temporary comment for checkstyle.
+ */
+
+/**
+ * This comment is a temporary fix for checkstyle.
  */
 
 public class QuoteOverviewCtrl implements Initializable {
@@ -56,21 +58,23 @@ public class QuoteOverviewCtrl implements Initializable {
     this.mainCtrl = mainCtrl;
   }
 
+  /**
+   * This comment is a temporary fix for checkstyle.
+   */
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
     colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
     colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
   }
-  /**
-   * Temporary comment for checkstyle.
-   */
 
   public void addQuote() {
     mainCtrl.showAdd();
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void refresh() {

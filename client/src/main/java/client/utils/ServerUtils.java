@@ -18,20 +18,19 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import commons.Quote;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.GenericType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
-
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.GenericType;
 /**
- * Temporary comment for checkstyle.
+ * This comment is a temporary fix for checkstyle.
  */
 
 public class ServerUtils {
@@ -40,8 +39,9 @@ public class ServerUtils {
    */
 
   private static final String SERVER = "http://localhost:8080/";
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void getQuotesTheHardWay() throws IOException {
@@ -53,8 +53,9 @@ public class ServerUtils {
       System.out.println(line);
     }
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public List<Quote> getQuotes() {
@@ -65,8 +66,9 @@ public class ServerUtils {
         .get(new GenericType<List<Quote>>() {
         });
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public Quote addQuote(Quote quote) {

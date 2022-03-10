@@ -29,6 +29,48 @@ You should download the game. You should have a stable internet connection in or
 
 ## How to contribute to it
 
+We adhere our code style to that of https://google.github.io/styleguide/javaguide.html
+
+Follow this guide to set up your IDE accordingly.
+
+1. Install the plugin
+    - Go to File -> Settings -> Plugins
+    - Select the Marketplace tab
+    - Search for CheckStyle-IDEA and install it
+    - Press Restart IDE
+    - Press Restart
+2. Configure checkstyle
+    - Go to File -> Settings -> Tools -> Checkstyle
+    - Make sure you have Checkstyle version 9.3
+    - Set the Scan Scope to All files in project
+    - Enable 'Treat Checkstyle errors as warnings'
+    - Click the + Symbol to add a configuration file
+    - Enter a Description (e.g. Custom checkstyle rules)
+    - Press Browse
+    - Select the checkstyle.xml file in the root of the project
+    - Enable 'Store relative to project location'
+    - Press 'Next'
+    - Press 'Next' again
+    - Press 'Finish'
+    - Activate the newly added checkstyle rules by pressing the checkbox of the corresponding configuration file
+    - Press 'Apply' to save the changes
+3. Update the code style of the editor
+    - Go to File -> Settings -> Editor -> Code Style
+    - Select Project as scheme
+    - Press the settings icon
+    - Press 'Import Scheme'
+    - Press 'CheckStyle Configuration'
+    - Choose the checkstyle.xml file that is in the root of the project
+    - Press 'OK'
+    - Press 'Apply'
+4. Automate reformatting (recommended)
+    - Go to File -> Settings -> Tools -> Actions on Save
+    - Enable the following actions
+        - Reformat code
+        - Optimize imports
+        - Rearrange code
+    - Press Apply
+
 ## Copyright / License (opt.)
 
 OOPP Group No. 17

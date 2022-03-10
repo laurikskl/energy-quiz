@@ -16,9 +16,9 @@
 
 package server.api;
 
+import commons.Quote;
 import java.util.List;
 import java.util.Random;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import commons.Quote;
 import server.database.QuoteRepository;
 /**
  * Temporary comment for checkstyle.
+ */
+
+/**
+ * This comment is a temporary fix for checkstyle.
  */
 
 @RestController
@@ -45,12 +47,17 @@ public class QuoteController {
     this.repo = repo;
   }
 
+  private static boolean isNullOrEmpty(String s) {
+    return s == null || s.isEmpty();
+  }
+
   @GetMapping(path = {"", "/"})
   public List<Quote> getAll() {
     return repo.findAll();
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   @GetMapping("/{id}")
@@ -60,8 +67,9 @@ public class QuoteController {
     }
     return ResponseEntity.ok(repo.getById(id));
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   @PostMapping(path = {"", "/"})
@@ -75,10 +83,6 @@ public class QuoteController {
 
     Quote saved = repo.save(quote);
     return ResponseEntity.ok(saved);
-  }
-
-  private static boolean isNullOrEmpty(String s) {
-    return s == null || s.isEmpty();
   }
 
   @GetMapping("rnd")

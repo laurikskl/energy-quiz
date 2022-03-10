@@ -16,9 +16,8 @@
 
 package client.scenes;
 
-import com.google.inject.Inject;
-
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Person;
 import commons.Quote;
 import jakarta.ws.rs.WebApplicationException;
@@ -29,6 +28,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 /**
  * Temporary comment for checkstyle.
+ */
+
+/**
+ * This comment is a temporary fix for checkstyle.
  */
 
 public class AddQuoteCtrl {
@@ -44,8 +47,9 @@ public class AddQuoteCtrl {
 
   @FXML
   private TextField quote;
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   @Inject
@@ -59,8 +63,9 @@ public class AddQuoteCtrl {
     clearFields();
     mainCtrl.showOverview();
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void ok() {
@@ -78,26 +83,21 @@ public class AddQuoteCtrl {
     clearFields();
     mainCtrl.showOverview();
   }
-  /**
-   * Temporary comment for checkstyle.
-   */
 
   private Quote getQuote() {
     var p = new Person(firstName.getText(), lastName.getText());
     var q = quote.getText();
     return new Quote(p, q);
   }
-  /**
-   * Temporary comment for checkstyle.
-   */
 
   private void clearFields() {
     firstName.clear();
     lastName.clear();
     quote.clear();
   }
+
   /**
-   * Temporary comment for checkstyle.
+   * This comment is a temporary fix for checkstyle.
    */
 
   public void keyPressed(KeyEvent e) {

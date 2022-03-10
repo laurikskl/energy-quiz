@@ -22,6 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
+
 public class PersonTest {
 
   @Test
