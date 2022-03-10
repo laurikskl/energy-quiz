@@ -34,6 +34,9 @@ import org.glassfish.jersey.client.ClientConfig;
  */
 
 public class ServerUtils {
+  /**
+   * Temporary comment for checkstyle.
+   */
 
   private static final String SERVER = "http://localhost:8080/";
 
