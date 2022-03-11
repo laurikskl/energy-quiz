@@ -3,16 +3,13 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.net.URL;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
-public class SplashCtrl implements Initializable {
+public class SplashCtrl {
 
     @FXML
     private ImageView logoIMG;
@@ -45,11 +42,9 @@ public class SplashCtrl implements Initializable {
      * Is called after constructor (Initializable)
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
-     * @param location no idea what this means yet
-     * @param resources no idea what this means yet
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
         logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
         this.invisibleHowToPlay();
     }
