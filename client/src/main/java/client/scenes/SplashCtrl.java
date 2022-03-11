@@ -45,8 +45,8 @@ public class SplashCtrl implements Initializable {
      * Is called after constructor (Initializable)
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
-     * @param location ??
-     * @param resources ??
+     * @param location no idea what this means yet
+     * @param resources no idea what this means yet
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
