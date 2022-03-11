@@ -1,5 +1,5 @@
 plugins {
-    //id 'org.kordamp.gradle.jacoco' version '0.43.0'
+    id 'org.kordamp.gradle.jacoco' version '0.43.0'
 }
 
 allprojects {
@@ -11,7 +11,7 @@ allprojects {
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'checkstyle'
-	//apply plugin: 'jacoco'
+	apply plugin: 'jacoco'
 	
 	
 	group = 'oopp'
@@ -28,15 +28,15 @@ subprojects {
 
 	tasks.named('test') {
 		useJUnitPlatform()
-		//finalizedBy jacocoTestReport
+		finalizedBy jacocoTestReport
 	}
-	/*jacocoTestReport {
+	jacocoTestReport {
 		reports {
 			xml.required = false
 			csv.required = false
 			html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
 			}
-	}*/
+	}
 	
 	dependencies {
 		implementation 'org.apache.commons:commons-lang3:3.12.0'
