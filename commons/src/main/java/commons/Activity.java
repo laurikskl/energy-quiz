@@ -15,21 +15,26 @@
  */
 package commons;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.FileNotFoundException;
 import java.util.Objects;
+import java.util.Scanner;
 
 @Entity
+@Table
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
+    @Column
     public String name;
-    public int powerConsumption;
+    @Column
+    public Long powerConsumption;
+    @Column(length = 500)
     public String source;
+    @Column
+    public String imagePath;
 
     /**
      * Basic constructor
@@ -39,12 +44,68 @@ public class Activity {
     }
 
     /**
-     * Constructor with name and powerConsumption
+     * Constructor with name, powerConsumption, source and imagePath
+     *
+     * @param name
+     * @param powerConsumption
+     * @param source
+     * @param imagePath
      */
-    public Activity(String name, int powerConsumption, String source) {
+    public Activity(String name, long powerConsumption, String source, String imagePath) {
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
+        this.imagePath = imagePath;
+    }
+
+    /**
+     * Constructor with name, power consupmtion and source
+     *
+     * @param name
+     * @param powerConsumption
+     * @param source
+     */
+    public Activity(String name, long powerConsumption, String source) {
+        this.name = name;
+        this.powerConsumption = powerConsumption;
+        this.source = source;
+    }
+
+    /**
+     * Reads the JSON file and creates activity from it
+     *
+     * @param scanner
+     * @return activity created from the json file
+     * @throws FileNotFoundException
+     */
+    public static Activity JSONActivityReader(Scanner scanner) throws FileNotFoundException {
+        String title;
+        long consumption;
+        String source;
+
+        scanner.useDelimiter("\"title\"|\"consumption_in_wh\"|\"source\"");
+        scanner.next();
+
+        //Get the title
+        String nextLine = scanner.next().strip();
+        nextLine = nextLine.substring(1).strip();
+        nextLine = nextLine.substring(1, nextLine.length() - 2);
+        title = nextLine;
+
+        //Get the power consumption
+        nextLine = scanner.next().strip();
+        nextLine = nextLine.substring(1).strip();
+        nextLine = nextLine.substring(0, nextLine.length() - 1).strip();
+        consumption = Long.parseLong(nextLine);
+
+        //Get the source
+        nextLine = scanner.next().strip();
+        nextLine = nextLine.substring(1).strip();
+        nextLine = nextLine.substring(1, nextLine.length() - 1).strip();
+        nextLine = nextLine.substring(0, nextLine.length() - 1).strip();
+        source = nextLine;
+
+        return new Activity(title, consumption, source);
     }
 
     /**
@@ -88,7 +149,7 @@ public class Activity {
      *
      * @return powerConsumption
      */
-    public int getPowerConsumption() {
+    public long getPowerConsumption() {
         return powerConsumption;
     }
 
@@ -97,7 +158,7 @@ public class Activity {
      *
      * @param powerConsumption
      */
-    public void setPowerConsumption(int powerConsumption) {
+    public void setPowerConsumption(long powerConsumption) {
         this.powerConsumption = powerConsumption;
     }
 
@@ -117,6 +178,24 @@ public class Activity {
      */
     public void setSource(String source) {
         this.source = source;
+    }
+
+    /**
+     * Getter fot the image path
+     *
+     * @return imagePath
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * Setter for the image path
+     *
+     * @param imagePath
+     */
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     /**
@@ -155,6 +234,7 @@ public class Activity {
                 ", name='" + name + '\'' +
                 ", powerConsumption=" + powerConsumption +
                 ", source='" + source + '\'' +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }
