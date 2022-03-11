@@ -1,0 +1,28 @@
+.mainButton {
+    -fx-background-color: #7CCADE;
+}
+
+.mainButton:hover {
+    -fx-background-color: #6639D4;
+}
+
+#quitButton {
+    -fx-background-color: #8DF5EE;
+}
+
+#quitButton:hover {
+    -fx-background-color: #7259ff;
+}
+
+#howToPlayButton {
+    -fx-background-color: #6639D4;
+}
+
+#howToPlayButton:hover {
+    -fx-background-color: #8DF5EE;
+}
+
+#howToPlayText {
+    -fx-background-color: white;
+}
+

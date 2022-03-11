@@ -20,38 +20,42 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-public class MainCtrl {
+import java.util.Objects;
+
+public class MainCtrl{
 
     private Stage primaryStage;
+    private SplashCtrl splashCtrl;
+    private Scene splash;
 
-    private QuoteOverviewCtrl overviewCtrl;
-    private Scene overview;
-
-    private AddQuoteCtrl addCtrl;
-    private Scene add;
-
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    /**
+     * Acts as constructor
+     * @param primaryStage the primary stage
+     * @param splashCtrl pair of SplashCtrl instance and root for fxml loader
+     */
+    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
-
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
-
-        showOverview();
+        this.splashCtrl = splashCtrl.getKey();
+        this.splash = new Scene(splashCtrl.getValue());
+        showSplash();
         primaryStage.show();
     }
 
-    public void showOverview() {
-        primaryStage.setTitle("Quotes: Overview");
-        primaryStage.setScene(overview);
-        overviewCtrl.refresh();
+    /**
+     * Sets the current stage's scene to the splash screen and adds the css to it
+     * Should probably set the path to be non-relative but that's a problem for later
+     */
+    public void showSplash() {
+        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
+        splash.getStylesheets().add(sheet);
+        primaryStage.setScene(splash);
     }
 
-    public void showAdd() {
-        primaryStage.setTitle("Quotes: Adding Quote");
-        primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+    /**
+     * Closes the primary stage to quit the application
+     */
+    public void close() {
+        primaryStage.close();
     }
+
 }
