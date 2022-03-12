@@ -146,12 +146,30 @@ public class ActivityTest {
      */
     @Test
     public void equalsTest() {
-        Activity activitySame = new Activity("Cycling", 420, "randomURL", "activities/00/tesla.jpg");
+        Activity activitySame = new Activity("Cycling", 420, "randomURL1", "activities/00/tesla.jpg");
         Activity activityDiff = new Activity("Biking", 420, "randomURL", "activities/00/tesla.jpg");
         assertTrue(activity.equals(activitySame));
         assertTrue(activitySame.equals(activity));
         assertFalse(activity.equals(activityDiff));
         assertFalse(activityDiff.equals(activity));
+    }
+
+    /**
+     * Testing if the hash code is same for activities with equal fields
+     */
+    @Test
+    void hashEqualTest() {
+        Activity activitySame = new Activity("Cycling", 420, "randomURL1", "activities/00/tesla.jpg");
+        assertEquals(activity.hashCode(), activitySame.hashCode());
+    }
+
+    /**
+     * Testing if the hash code is different for activities with different fields
+     */
+    @Test
+    void hashDifferentTest() {
+        Activity activityDiff = new Activity("Biking", 420, "randomURL", "activities/00/tesla.jpg");
+        assertNotEquals(activity.hashCode(), activityDiff.hashCode());
     }
 
     /**

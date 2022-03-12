@@ -199,17 +199,30 @@ public class Activity {
     }
 
     /**
-     * Equals method comparing if the name and powerConsumption are the same
+     * Equals method comparing all fields except id of the activity class
      *
      * @param o
-     * @return true if name and power consumption match, false otherwise
+     * @return If the fields match the activities are treated as equal and the method returns true
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Activity activity = (Activity) o;
-        return Objects.equals(name, activity.name) && Objects.equals(powerConsumption, activity.powerConsumption);
+        return Objects.equals(name, activity.name)
+                && Objects.equals(powerConsumption, activity.powerConsumption)
+                && Objects.equals(source, activity.source)
+                && Objects.equals(imagePath, activity.imagePath);
+    }
+
+    /**
+     * Hash method creating hash from name, powerConsumption, source and image path
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, powerConsumption, source, imagePath);
     }
 
     /**
