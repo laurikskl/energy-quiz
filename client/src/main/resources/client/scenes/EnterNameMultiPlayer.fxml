@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EnterNameCtrl">
+   <children>
+      <TextField alignment="CENTER" layoutX="520.0" layoutY="379.0" prefHeight="200.0" prefWidth="900.0" promptText="Enter Name" style="-fx-background-color: c4c4c4;">
+         <font>
+            <Font name="Symbol" size="64.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <Button alignment="CENTER" layoutX="770.0" layoutY="652.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #7CCADE;" text="PLAY!" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="750.0">
+         <font>
+            <Font name="System Bold" size="45.0" />
+         </font>
+      </Button>
+      <Text fill="#6639d4" layoutX="829.0" layoutY="809.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Multiplayer">
+         <font>
+            <Font size="52.0" />
+         </font>
+      </Text>
+      <Button fx:id="quitButton" layoutX="118.0" layoutY="72.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #6639d4;" text="QUIT" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="118.0" AnchorPane.topAnchor="72.0" />
+      <ImageView fitHeight="277.0" fitWidth="465.0" layoutX="720.0" layoutY="92.0">
+         <image>
+            <Image url="@../../entername/MaxThePlants.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -16,8 +16,11 @@
 
 package client.scenes;
 
+import client.Main;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 /**
@@ -28,6 +31,7 @@ import javafx.util.Pair;
  * This comment is a temporary fix for checkstyle.
  */
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class MainCtrl{
@@ -66,4 +70,27 @@ public class MainCtrl{
         primaryStage.close();
     }
 
+    public void setPrimaryStage(Stage stage){
+        this.primaryStage = stage;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public SplashCtrl getSplashCtrl() {
+        return splashCtrl;
+    }
+
+    public void setSplashCtrl(SplashCtrl splashCtrl) {
+        this.splashCtrl = splashCtrl;
+    }
+
+    public Scene getSplash() {
+        return splash;
+    }
+
+    public void setSplash(Scene splash) {
+        this.splash = splash;
+    }
 }
