@@ -4,6 +4,15 @@ package commons;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({@Type(value = Question.MultiChoice.class, name = "mc"),
+    @Type(value = Question.ChoiceEstimation.class, name = "choiceEstimation"),
+    @Type(value = Question.Matching.class, name = "matching"),
+    @Type(value = Question.AccurateEstimation.class, name = "accurateEstimation"),
+
+})
 public abstract class Question {
 
   /**

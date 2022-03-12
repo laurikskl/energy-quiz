@@ -13,23 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package client.scenes;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
+
 public class MainCtrlTest {
 
-    private MainCtrl sut;
+  private MainCtrl sut;
 
-    @BeforeEach
-    public void setup() {
-        sut = new MainCtrl();
-    }
+  @BeforeEach
+  public void setup() {
+    sut = new MainCtrl();
+  }
 
-    @Test
-    public void writeSomeTests() {
-        // TODO create replacement objects and write some tests
-        // sut.initialize(null, null, null);
-    }
+  @Test
+  public void writeSomeTests() {
+    // TODO create replacement objects and write some tests
+    // sut.initialize(null, null, null);
+  }
 }
