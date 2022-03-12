@@ -6,14 +6,8 @@ import lombok.Getter;
 
 import java.util.List;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({@Type(value = Question.MultiChoice.class, name = "mc"),
-    @Type(value = Question.ChoiceEstimation.class, name = "choiceEstimation"),
-    @Type(value = Question.Matching.class, name = "matching"),
-    @Type(value = Question.AccurateEstimation.class, name = "accurateEstimation"),
-
-})
 public abstract class Question {
+
 
   /**
    * Question where the player must choose the activity with the highest energyConsumption
@@ -35,7 +29,7 @@ public abstract class Question {
   @AllArgsConstructor
   @Getter
   public static class ChoiceEstimation extends Question {
-    private final Activity activity;
+    private final List<Activity> activity;
     private final int consumptionWh;
   }
   /**
@@ -57,7 +51,7 @@ public abstract class Question {
   @AllArgsConstructor
   @Getter
   public static class AccurateEstimation extends Question {
-    private final Activity activity;
+    private final List<Activity> activity;
     private final int consumptionWh;
   }
 
