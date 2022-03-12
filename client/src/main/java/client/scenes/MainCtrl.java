@@ -13,12 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package client.scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+/**
+ * Temporary comment for checkstyle.
+ */
+
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
 
 import java.util.Objects;
 

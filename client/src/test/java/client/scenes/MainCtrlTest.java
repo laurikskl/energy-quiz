@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-package server.database;
+package client.scenes;
 
-import commons.Quote;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * This comment is a temporary fix for checkstyle.
  */
 
-public interface QuoteRepository extends JpaRepository<Quote, Long> {
+public class MainCtrlTest {
+
+  private MainCtrl sut;
+
+  @BeforeEach
+  public void setup() {
+    sut = new MainCtrl();
+  }
+
+  @Test
+  public void writeSomeTests() {
+    // TODO create replacement objects and write some tests
+    // sut.initialize(null, null, null);
+  }
 }
