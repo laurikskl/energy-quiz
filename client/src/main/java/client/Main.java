@@ -16,40 +16,43 @@
 
 package client;
 
-import static com.google.inject.Guice.createInjector;
-
-import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
-import client.scenes.QuoteOverviewCtrl;
+import client.scenes.SplashCtrl;
 import com.google.inject.Injector;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import javafx.application.Application;
 import javafx.stage.Stage;
-/**
- * Temporary comment for checkstyle.
- */
+import java.io.IOException;
+import java.net.URISyntaxException;
 
-/**
- * This comment is a temporary fix for checkstyle.
- */
+import static com.google.inject.Guice.createInjector;
 
 public class Main extends Application {
 
   private static final Injector INJECTOR = createInjector(new MyModule());
   private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-  public static void main(String[] args) throws URISyntaxException, IOException {
-    launch();
-  }
+    /**
+     * Run to start the client
+     * launch() calls start method
+     * @param args arguments for main method
+     * @throws URISyntaxException can throw this exception
+     * @throws IOException can throw this exception
+     */
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        launch();
+    }
 
-  @Override
-  public void start(Stage primaryStage) throws IOException {
-
-    var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
-    var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
-
-    var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-    mainCtrl.initialize(primaryStage, overview, add);
-  }
+    /**
+     * This method is called by launch() in main
+     * Creates and instance of the splash and main controller
+     * Initializes the main controller with the primary stage and the splash controller
+     * @param primaryStage the main stage we will be displaying our scenes in
+     * @throws IOException can throw this exception
+     */
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        var splash = FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml");
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl.initialize(primaryStage, splash);
+    }
 }

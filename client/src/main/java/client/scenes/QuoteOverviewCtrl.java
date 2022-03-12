@@ -70,7 +70,7 @@ public class QuoteOverviewCtrl implements Initializable {
   }
 
   public void addQuote() {
-    mainCtrl.showAdd();
+    //mainCtrl.showAdd(); unfortunately this method doesn't exist anymore, similar to showSplash
   }
 
   /**
