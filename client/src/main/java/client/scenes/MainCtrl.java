@@ -27,8 +27,6 @@ import javafx.util.Pair;
 /**
  * This comment is a temporary fix for checkstyle.
  */
-
-import java.io.IOException;
 import java.util.Objects;
 
 public class MainCtrl{
