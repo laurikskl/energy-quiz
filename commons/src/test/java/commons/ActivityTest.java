@@ -142,7 +142,7 @@ public class ActivityTest {
     }
 
     /**
-     * Testing if equals method works when id is
+     * Testing if equals method works
      */
     @Test
     public void equalsTest() {
