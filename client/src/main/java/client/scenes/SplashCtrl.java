@@ -12,29 +12,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class SplashCtrl implements MouseListener {
+public class SplashCtrl {
 
     @FXML
     private ImageView logoIMG;
 
     @FXML
     private TextField howToPlayText;
-
-    @FXML
-    private AnchorPane rootPane;
-
-    @FXML
-    private Button singlePlayer;
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -53,12 +43,7 @@ public class SplashCtrl implements MouseListener {
      * Exits the application, called by quit button
      */
     public void cancel() {
-        Platform.exit();
-    }
-
-    public void quit(ActionEvent actionEvent){
-        this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
-        Platform.exit();
+        mainCtrl.close();
     }
 
     /**
@@ -86,33 +71,12 @@ public class SplashCtrl implements MouseListener {
         howToPlayText.setVisible(false);
     }
 
-    public void mouseClickedMultiPlayer(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
-        URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        this.mainCtrl.getPrimaryStage().setScene(scene);
-        mainCtrl.getPrimaryStage().show();
-    }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
+    /**
+     * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
+     * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
+     * @throws IOException
+     */
 
     public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
         URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
@@ -120,6 +84,20 @@ public class SplashCtrl implements MouseListener {
         this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
         this.mainCtrl.setSplash(new Scene(root));
         this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
+        mainCtrl.getPrimaryStage().show();
+    }
+
+    /**
+     *Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
+     * @param actionEvent - the mouse clicked on the MULTIPLAYER button
+     * @throws IOException
+     */
+
+    public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
+        URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        this.mainCtrl.getPrimaryStage().setScene(scene);
         mainCtrl.getPrimaryStage().show();
     }
 }
