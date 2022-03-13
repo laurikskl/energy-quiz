@@ -57,7 +57,8 @@ public abstract class Question {
     }
   }
   /**
-   * Question with x possible activities to choose, one of them is the correct answer
+   * Question where the player must enter how much energy an activity consumes in an open
+   * field
    */
 
 
