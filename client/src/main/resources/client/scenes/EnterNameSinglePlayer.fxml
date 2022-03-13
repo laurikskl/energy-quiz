@@ -38,6 +38,6 @@
             <Image url="@../../entername/MaxThePlant.png" />
          </image>
       </ImageView>
-      <Button fx:id="quitButton" layoutX="118.0" layoutY="72.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #6639d4;" text="QUIT" textAlignment="CENTER" textFill="WHITE" />
+      <Button fx:id="quitButton" layoutX="920.0" layoutY="873.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #6639d4;" text="QUIT" textAlignment="CENTER" textFill="WHITE" />
    </children>
 </AnchorPane>
