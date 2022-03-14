@@ -16,6 +16,14 @@ import java.util.Scanner;
 @Configuration
 public class activityConfig {
 
+    /**
+     * Setting up the database. Reading all the JSON activities files
+     * and inserting the activities into the database.
+     * Database is also storing a path to the image for the activity.
+     *
+     * @param repository
+     * @return
+     */
     @Bean
     CommandLineRunner commandLineRunner(ActivityRepository repository) {
         return args -> {
@@ -51,5 +59,4 @@ public class activityConfig {
             repository.saveAll(activitiesList);
         };
     }
-
 }
