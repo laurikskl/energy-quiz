@@ -17,11 +17,9 @@ public abstract class Question {
   @Getter
   public static class MultiChoice extends Question {
     private final List<Activity> activities;
-    private final int consumptionWh;
 
     public MultiChoice(List<Activity> activities, int consumptionWh) {
       this.activities = activities;
-      this.consumptionWh = consumptionWh;
     }
   }
   /**
@@ -33,11 +31,9 @@ public abstract class Question {
   @Getter
   public static class ChoiceEstimation extends Question {
     private final List<Activity> activity;
-    private final int consumptionWh;
 
     public ChoiceEstimation(List<Activity> activity, int consumptionWh) {
       this.activity = activity;
-      this.consumptionWh = consumptionWh;
     }
   }
   /**
@@ -49,11 +45,9 @@ public abstract class Question {
   @Getter
   public static class Matching extends Question {
     private final List<Activity> activities;
-    private final int consumptionWh;
 
     public Matching(List<Activity> activities, int consumptionWh) {
       this.activities = activities;
-      this.consumptionWh = consumptionWh;
     }
   }
   /**
@@ -65,11 +59,9 @@ public abstract class Question {
   @Getter
   public static class AccurateEstimation extends Question {
     private final List<Activity> activity;
-    private final int consumptionWh;
 
     public AccurateEstimation(List<Activity> activity, int consumptionWh) {
       this.activity = activity;
-      this.consumptionWh = consumptionWh;
     }
   }
 
