@@ -1,4 +1,8 @@
-package commons;
+package server.src.main.java;
+
+import commons.Activity;
+import commons.Question;
+import server.api.ActivityController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,22 +12,24 @@ import java.util.Objects;
  * Question type where you're asked which of three activities consumes the most energy
  * Some commented out code will be re-added once the abstract question class has been made
  */
-public class MostNRGQuestion /*extends Question*/{
+public class MostNRGQuestion extends Question {
 
     private Activity correct;
     private List<Activity> activities;
+    private ActivityController activityController;
 
     /**
      * constructor
      * The list of activities is filled with three unique activities
      * The correct answer is the activity with the most energy consumption
      */
-    MostNRGQuestion() {
+    MostNRGQuestion(ActivityController activityController) {
+        this.activityController = activityController;
         this.activities = new ArrayList<>();
-        /*while(activities.size() < 3) {
-            Activity toAdd = getRandomActivity();
-            if(!activities.contains(toAdd) activities.add(toAdd)
-        }*/
+        while(activities.size() < 3) {
+            Activity toAdd = activityController.getRandomActivity().getBody();
+            if(!activities.contains(toAdd)) activities.add(toAdd);
+        }
         this.correct = findMax();
     }
 

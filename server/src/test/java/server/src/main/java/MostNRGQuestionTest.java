@@ -1,5 +1,6 @@
-package commons;
+package server.src.main.java;
 
+import commons.Activity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +31,8 @@ class MostNRGQuestionTest {
      */
     @BeforeEach
     void setUp() {
-        a1 = new Activity("Charging a phone", 1000);
-        a2 = new Activity("Browsing tiktok", 800);
+        a1 = new Activity("Charging a phone", 1000, "wikipedia.nl");
+        a2 = new Activity("Browsing tiktok", 800, "wikipedia.nl");
         activities = new ArrayList<>();
         List<Activity> single = new ArrayList<>();
         activities.add(a1);
@@ -123,7 +124,7 @@ class MostNRGQuestionTest {
      */
     @Test
     void testToString() {
-        assertEquals("MostNRGQuestion{correct=Activity{id=0, name='Charging a phone', powerConsumption=1000}, activities=[Activity{id=0, name='Charging a phone', powerConsumption=1000}, Activity{id=0, name='Browsing tiktok', powerConsumption=800}]}",
+        assertEquals("MostNRGQuestion{correct=Activity{id=0, name='Charging a phone', powerConsumption=1000, source='wikipedia.nl', imagePath='null'}, activities=[Activity{id=0, name='Charging a phone', powerConsumption=1000, source='wikipedia.nl', imagePath='null'}, Activity{id=0, name='Browsing tiktok', powerConsumption=800, source='wikipedia.nl', imagePath='null'}]}",
                 q1.toString());
     }
 }
