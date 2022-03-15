@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package server.database;
 
+import commons.Quote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import commons.Quote;
+/**
+ * This comment is a temporary fix for checkstyle.
+ */
 
-public interface QuoteRepository extends JpaRepository<Quote, Long> {}
+public interface QuoteRepository extends JpaRepository<Quote, Long> {
+}
