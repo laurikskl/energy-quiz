@@ -26,9 +26,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import javafx.application.Application;
 import javafx.stage.Stage;
-/**
- * Temporary comment for checkstyle.
- */
 
 /**
  * This comment is a temporary fix for checkstyle.

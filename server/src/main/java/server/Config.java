@@ -20,10 +20,6 @@ import java.util.Random;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
- * Temporary comment for checkstyle.
- */
-
-/**
  * This comment is a temporary fix for checkstyle.
  */
 

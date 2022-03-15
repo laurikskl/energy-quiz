@@ -94,10 +94,10 @@ public class Activity {
 
   @Override
   public String toString() {
-    return "Activity{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", powerConsumption=" + powerConsumption +
-        '}';
+    return "Activity{"
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", powerConsumption=" + powerConsumption
+        + '}';
   }
 }
