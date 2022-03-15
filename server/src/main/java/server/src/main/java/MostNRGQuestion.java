@@ -12,6 +12,7 @@ import java.util.Objects;
  * Question type where you're asked which of three activities consumes the most energy
  * Some commented out code will be re-added once the abstract question class has been made
  */
+
 public class MostNRGQuestion extends Question {
 
     private Activity correct;
