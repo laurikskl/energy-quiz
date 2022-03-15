@@ -145,5 +145,6 @@
             </font>
         </Text>
       <ImageView id="emoji-viewer" fitHeight="120.0" fitWidth="120.0" layoutX="1731.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="70.0" />
+      <AnchorPane layoutX="511.0" layoutY="185.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-pref-height: 800; -fx-pref-width: 1200;" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="220.0" />
     </children>
 </AnchorPane>
