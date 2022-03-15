@@ -3,7 +3,10 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ActivityTest {
 
@@ -11,7 +14,7 @@ public class ActivityTest {
   Activity activityChanged;
 
   /**
-   * Initializing activity and activityChange for the rest of the tests
+   * Initializing activity and activityChange for the rest of the tests.
    */
   @BeforeEach
   public void initialize() {
@@ -20,7 +23,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if the constructor worked
+   * Testing if the constructor worked.
    */
   @Test
   public void constructorTest() {
@@ -28,7 +31,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if the id of the 1st activity is 0
+   * Testing if the id of the 1st activity is 0.
    */
   @Test
   public void getIdTest1() {
@@ -36,7 +39,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing getter for the name
+   * Testing getter for the name.
    */
   @Test
   public void getNameTest() {
@@ -44,7 +47,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing getter for the power consumption
+   * Testing getter for the power consumption.
    */
   @Test
   public void getPowerConsumptionTest() {
@@ -52,7 +55,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if setting Id to 2 works
+   * Testing if setting ID to 2 works.
    */
   @Test
   public void setIdTest() {
@@ -61,7 +64,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if seting name to "Biking" works
+   * Testing if setting name to "Biking" works.
    */
   @Test
   public void setNameTest() {
@@ -70,7 +73,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if setting power consumption to 666 works
+   * Testing if setting power consumption to 666 works.
    */
   @Test
   public void setPowerConsumptionTest() {
@@ -79,7 +82,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if equals method works for the same reference
+   * Testing if equals method works for the same reference.
    */
   @Test
   public void equalsSameObjectTest() {
@@ -87,7 +90,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if equals method works when comparing with null
+   * Testing if equals method works when comparing with null.
    */
   @Test
   public void equalsNullTest() {
@@ -95,7 +98,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if equals method works when id is
+   * Testing if equals method works when id is.
    */
   @Test
   public void equalsTest() {
@@ -108,7 +111,7 @@ public class ActivityTest {
   }
 
   /**
-   * Testing if toString method works
+   * Testing if toString method works.
    */
   @Test
   public void toStringTest() {
