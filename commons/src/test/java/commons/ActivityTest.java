@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Tests for the Activity class.
+ */
 public class ActivityTest {
 
   Activity activity;
@@ -115,7 +118,7 @@ public class ActivityTest {
    */
   @Test
   public void toStringTest() {
-    assertEquals("Activity{id=" + 0 + ", name='Cycling', powerConsumption=" + 420 + '}'
-        , activity.toString());
+    assertEquals("Activity{id=" + 0 + ", name='Cycling', powerConsumption=" + 420 + '}',
+        activity.toString());
   }
 }
