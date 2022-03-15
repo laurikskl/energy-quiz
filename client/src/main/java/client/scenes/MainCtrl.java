@@ -24,51 +24,65 @@ import javafx.util.Pair;
 /**
  * This comment is a temporary fix for checkstyle.
  */
+import java.util.Objects;
 
-public class MainCtrl {
+public class MainCtrl{
 
-  private Stage primaryStage;
+    private Stage primaryStage;
+    private SplashCtrl splashCtrl;
+    private Scene splash;
 
-  private QuoteOverviewCtrl overviewCtrl;
-  private Scene overview;
+    /**
+     * Acts as constructor
+     * @param primaryStage the primary stage
+     * @param splashCtrl pair of SplashCtrl instance and root for fxml loader
+     */
+    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl) {
+        this.primaryStage = primaryStage;
+        this.splashCtrl = splashCtrl.getKey();
+        this.splash = new Scene(splashCtrl.getValue());
+        showSplash();
+        primaryStage.show();
+    }
 
-  private AddQuoteCtrl addCtrl;
-  private Scene add;
+    /**
+     * Sets the current stage's scene to the splash screen and adds the css to it
+     * Should probably set the path to be non-relative but that's a problem for later
+     */
+    public void showSplash() {
+        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
+        splash.getStylesheets().add(sheet);
+        primaryStage.setScene(splash);
+    }
 
-  /**
-   * This comment is a temporary fix for checkstyle.
-   */
+    /**
+     * Closes the primary stage to quit the application
+     */
+    public void close() {
+        primaryStage.close();
+    }
 
-  public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-                         Pair<AddQuoteCtrl, Parent> add) {
-    this.primaryStage = primaryStage;
-    this.overviewCtrl = overview.getKey();
-    this.overview = new Scene(overview.getValue());
+    public void setPrimaryStage(Stage stage){
+        this.primaryStage = stage;
+    }
 
-    this.addCtrl = add.getKey();
-    this.add = new Scene(add.getValue());
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
 
-    showOverview();
-    primaryStage.show();
-  }
+    public SplashCtrl getSplashCtrl() {
+        return splashCtrl;
+    }
 
-  /**
-   * This comment is a temporary fix for checkstyle.
-   */
+    public void setSplashCtrl(SplashCtrl splashCtrl) {
+        this.splashCtrl = splashCtrl;
+    }
 
-  public void showOverview() {
-    primaryStage.setTitle("Quotes: Overview");
-    primaryStage.setScene(overview);
-    overviewCtrl.refresh();
-  }
+    public Scene getSplash() {
+        return splash;
+    }
 
-  /**
-   * This comment is a temporary fix for checkstyle.
-   */
-
-  public void showAdd() {
-    primaryStage.setTitle("Quotes: Adding Quote");
-    primaryStage.setScene(add);
-    add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-  }
+    public void setSplash(Scene splash) {
+        this.splash = splash;
+    }
 }

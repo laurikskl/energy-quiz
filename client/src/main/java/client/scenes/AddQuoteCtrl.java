@@ -58,7 +58,7 @@ public class AddQuoteCtrl {
 
   public void cancel() {
     clearFields();
-    mainCtrl.showOverview();
+    //mainCtrl.showOverview(); unfortunately this method doesn't exist anymore, is similar to showSplash
   }
 
   /**
@@ -78,7 +78,7 @@ public class AddQuoteCtrl {
     }
 
     clearFields();
-    mainCtrl.showOverview();
+    //mainCtrl.showOverview(); unfortunately this method doesn't exist anymore, is similar to showSplash
   }
 
   private Quote getQuote() {
