@@ -2,11 +2,19 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.stage.Stage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 public class SplashCtrl {
@@ -37,7 +45,6 @@ public class SplashCtrl {
         mainCtrl.close();
     }
 
-
     /**
      * Is called after constructor (Initializable)
      * Sets the image of the ImageView in the splash screen to the logo
@@ -63,4 +70,33 @@ public class SplashCtrl {
         howToPlayText.setVisible(false);
     }
 
+
+    /**
+     * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
+     * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
+     * @throws IOException
+     */
+
+    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+        URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
+        this.mainCtrl.setSplash(new Scene(root));
+        this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
+        mainCtrl.getPrimaryStage().show();
+    }
+
+    /**
+     *Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
+     * @param actionEvent - the mouse clicked on the MULTIPLAYER button
+     * @throws IOException
+     */
+
+    public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
+        URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        this.mainCtrl.getPrimaryStage().setScene(scene);
+        mainCtrl.getPrimaryStage().show();
+    }
 }
