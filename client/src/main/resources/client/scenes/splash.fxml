@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SplashCtrl">
+   <children>
+      <Button layoutX="1108.0" layoutY="172.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" onAction="#mouseClickedSinglePlayer" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="SINGLEPLAYER" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="195.0">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Button>
+      <Button layoutX="1108.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" onAction="#mouseClickedMultiPlayer" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="MULTIPLAYER" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="355.0">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Button>
+      <Button layoutX="1108.0" layoutY="598.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="LEADERBOARD" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="515.0">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Button>
+      <Button id="quitButton" layoutX="1205.0" layoutY="828.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="90.0" minWidth="350.0" mnemonicParsing="false" onAction="#cancel" prefHeight="90.0" prefWidth="350.0" style="-fx-background-radius: 15px;" text="QUIT" AnchorPane.rightAnchor="390.0" AnchorPane.topAnchor="675.0">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="logoIMG" fitHeight="600.0" fitWidth="600.0" layoutX="68.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 100;" AnchorPane.bottomAnchor="380.0" AnchorPane.leftAnchor="300.0">
+         <image>
+            <Image url="@../../main/Logo.png" />
+         </image>
+      </ImageView>
+      <Button id="howToPlayButton" contentDisplay="CENTER" layoutX="1630.0" layoutY="829.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" onMouseEntered="#showHowToPlay" onMouseExited="#invisibleHowToPlay" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 100; -fx-label-padding: -12;" text="?" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="171.0" AnchorPane.rightAnchor="210.0">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Button>
+      <TextField id="howToPlayText" fx:id="howToPlayText" editable="false" layoutX="1627.0" layoutY="787.0" prefHeight="26.0" prefWidth="99.0" text="HOW TO PLAY" AnchorPane.bottomAnchor="266.6" AnchorPane.rightAnchor="200.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>
