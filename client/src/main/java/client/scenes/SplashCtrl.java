@@ -2,12 +2,15 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class SplashCtrl {
 
@@ -25,8 +29,8 @@ public class SplashCtrl {
     @FXML
     private TextField howToPlayText;
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private ServerUtils server;
+    private MainCtrl mainCtrl;
 
     /**
      * @param server reference to an instance of ServerUtils
@@ -38,11 +42,14 @@ public class SplashCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    public SplashCtrl(){
+    }
+
     /**
      * Exits the application, called by quit button
      */
     public void cancel() {
-        mainCtrl.close();
+        Platform.exit();
     }
 
     /**
@@ -52,7 +59,9 @@ public class SplashCtrl {
      */
     @FXML
     public void initialize() {
+        //logoIMG = new ImageView();
         logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
+        //howToPlayText = new TextField();
         this.invisibleHowToPlay();
     }
 
@@ -82,8 +91,11 @@ public class SplashCtrl {
         Parent root = FXMLLoader.load(url);
         this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
         this.mainCtrl.setSplash(new Scene(root));
+        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/enterNameSinglePlayer.css")).toExternalForm();
+        mainCtrl.getSplash().getStylesheets().add(sheet);
         this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
-        mainCtrl.getPrimaryStage().show();
+        EnterNameCtrl enterNameCtrl = new EnterNameCtrl(server, this);
+        enterNameCtrl.getSplashCtrl().mainCtrl.getPrimaryStage().show();
     }
 
     /**
@@ -95,8 +107,10 @@ public class SplashCtrl {
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
         URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        this.mainCtrl.getPrimaryStage().setScene(scene);
-        mainCtrl.getPrimaryStage().show();
+        this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
+        this.mainCtrl.setSplash(new Scene(root));
+        this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
+        EnterNameCtrl enterNameCtrl = new EnterNameCtrl(server, this);
+        enterNameCtrl.getSplashCtrl().mainCtrl.getPrimaryStage().show();
     }
 }
