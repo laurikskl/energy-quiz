@@ -66,13 +66,15 @@ public class EnterNameCtrl {
 
 
     public void startGame(ActionEvent actionEvent) {
-        if (username.getText().equals("")) System.out.println("merge");
-        else System.out.println("maus ca nu merge");
+        username = new TextField(username.getText());
+        if (username.getText().equals("")) System.out.println("nu merge");
+
+        else System.out.println(username.getText());
     }
 
     public void setNewPlayer(KeyEvent keyEvent) {
         if (keyEvent.getEventType() == KeyEvent.KEY_TYPED){
-            if (!username.getText().equals("")){
+            if (username.getText().equals("")){
                 System.out.println("merge");
             }
             else Platform.exit();
