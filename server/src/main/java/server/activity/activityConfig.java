@@ -38,6 +38,7 @@ public class activityConfig {
                     String ending = fileName.substring(fileName.length() - 4);
 
                     if (ending.equals("json")) {
+                        //Get the content of the file to String
                         String jsonFileToString = Files.readString(Path.of(f.getPath()));
                         //Read the activity from the current json file
                         Activity activity = Activity.JSONActivityReader(jsonFileToString);
@@ -56,7 +57,6 @@ public class activityConfig {
                     }
                 }
             }
-            System.out.println(activitiesList.toString());
             repository.saveAll(activitiesList);
         };
     }
