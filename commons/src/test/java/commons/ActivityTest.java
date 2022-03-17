@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +29,7 @@ public class ActivityTest {
                 "}";
         json2 = "{\n" +
                 "    \"title\": \"Vacuuming your home for 30min\",\n" +
-                "    \"consumption_in_wh\": 900,\n" +
+                "    \"consumption_in_wh\": 9000000000000,\n" +
                 "    \"source\": \"https://www.philips.com.sg/c-p/FC9350_61/3000-series-bagless-vacuum-cleaner\"\n" +
                 "}\n";
     }
@@ -190,7 +189,7 @@ public class ActivityTest {
      */
     @Test
     void JSONActivityReaderTest1() throws FileNotFoundException {
-        Activity readFromJson = Activity.JSONActivityReader(new Scanner(json1));
+        Activity readFromJson = Activity.JSONActivityReader(json1);
         assertEquals("Using a blender for one hour", readFromJson.getName());
         assertEquals(400, readFromJson.getPowerConsumption());
         assertEquals("https://www.electricalclassroom.com/power-consume-energy-usage-of-blenders/" +
@@ -200,14 +199,15 @@ public class ActivityTest {
 
     /**
      * Testing the reader if it properly reads JSON. Example from the activities/00/vacuuming.json
+     * with changed the power consumption to Long
      *
      * @throws FileNotFoundException
      */
     @Test
     void JSONActivityReaderTest2() throws FileNotFoundException {
-        Activity readFromJson = Activity.JSONActivityReader(new Scanner(json2));
+        Activity readFromJson = Activity.JSONActivityReader(json2);
         assertEquals("Vacuuming your home for 30min", readFromJson.getName());
-        assertEquals(900, readFromJson.getPowerConsumption());
+        assertEquals(9000000000000L, readFromJson.getPowerConsumption());
         assertEquals("https://www.philips.com.sg/c-p/FC9350_61/3000-series-bagless-vacuum-cleaner"
                 , readFromJson.getSource());
     }

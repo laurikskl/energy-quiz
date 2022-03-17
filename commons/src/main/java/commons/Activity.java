@@ -15,10 +15,11 @@
  */
 package commons;
 
+
+import org.json.JSONObject;
+
 import javax.persistence.*;
-import java.io.FileNotFoundException;
 import java.util.Objects;
-import java.util.Scanner;
 
 @Entity
 @Table
@@ -72,40 +73,18 @@ public class Activity {
     }
 
     /**
-     * Reads the JSON file and creates activity from it
+     * JSON reader creating an Activity object from a JSON string
      *
-     * @param scanner
-     * @return activity created from the json file
-     * @throws FileNotFoundException
+     * @param jsonString
+     * @return Activity from a JSON
      */
-    public static Activity JSONActivityReader(Scanner scanner) throws FileNotFoundException {
-        String title;
-        long consumption;
-        String source;
+    public static Activity JSONActivityReader(String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String name = jsonObject.getString("title");
+        long powerConsumption = jsonObject.getLong("consumption_in_wh");
+        String source = jsonObject.getString("source");
 
-        scanner.useDelimiter("\"title\"|\"consumption_in_wh\"|\"source\"");
-        scanner.next();
-
-        //Get the title
-        String nextLine = scanner.next().strip();
-        nextLine = nextLine.substring(1).strip();
-        nextLine = nextLine.substring(1, nextLine.length() - 2);
-        title = nextLine;
-
-        //Get the power consumption
-        nextLine = scanner.next().strip();
-        nextLine = nextLine.substring(1).strip();
-        nextLine = nextLine.substring(0, nextLine.length() - 1).strip();
-        consumption = Long.parseLong(nextLine);
-
-        //Get the source
-        nextLine = scanner.next().strip();
-        nextLine = nextLine.substring(1).strip();
-        nextLine = nextLine.substring(1, nextLine.length() - 1).strip();
-        nextLine = nextLine.substring(0, nextLine.length() - 1).strip();
-        source = nextLine;
-
-        return new Activity(title, consumption, source);
+        return new Activity(name, powerConsumption, source);
     }
 
     /**
