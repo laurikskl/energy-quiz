@@ -17,6 +17,7 @@
 package client.utils;
 
 import commons.Player;
+import commons.Question;
 import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -40,7 +41,9 @@ public class ServerUtils {
    * Temporary comment for checkstyle.
    */
 
-  private static final String SERVER = "http://localhost:8080/";
+  private static final String SERVER = "http://localhost:8080/";;
+  private static List<Player> players;
+
 
   /**
    * This comment is a temporary fix for checkstyle.
@@ -56,6 +59,7 @@ public class ServerUtils {
     }
   }
 
+
   /**
    * This comment is a temporary fix for checkstyle.
    */
@@ -69,6 +73,7 @@ public class ServerUtils {
         });
   }
 
+
   /**
    * This comment is a temporary fix for checkstyle.
    */
@@ -81,28 +86,55 @@ public class ServerUtils {
         .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
   }
 
+
   /**
-   * Method for returning all players.
-   * @return
+   * @return a question from the server by making a request to the path defined
    */
-  public List<Player> getPlayers(){
+
+  public Question getQuestion() {
     return ClientBuilder.newClient(new ClientConfig())
-            .target(SERVER).path("player")
+            .target(SERVER).path("api/questions")
             .request(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .get(new GenericType<List<Player>>() {
-            });
+            .get(Question.class);
   }
+
+
   /**
-   * A method for posting a new player to the database.
-   * @param player
-   * @return
+   * @param name the name of a player
+   * @return the score associated with the name of the player
    */
-  public Player addPlayer(Player player){
+
+  public Integer getScore(String name) {
+    //If list of players hasn't been generated yet, retrieve it from PlayerController
+    if(players == null) {
+      players = ClientBuilder.newClient(new ClientConfig())
+              .target(SERVER).path("player").
+              request(APPLICATION_JSON)
+              .accept(APPLICATION_JSON).
+              get(new GenericType<List<Player>>() {
+              });
+    }
+    //try to find player by name and return score
+    for(Player player : players) {
+      if(player.getUserName().equals(name)) return (int) player.getScore();
+    }
+    //return null if not found
+    return null;
+  }
+
+
+  /**
+   * @param name the name of a player
+   * @param score the score associated with the name of the player
+   * @return the player sent to the server
+   */
+
+  public Player setPlayer(String name, int score) {
     return ClientBuilder.newClient(new ClientConfig())
-            .target(SERVER).path("player")
+            .target(SERVER).path("player/setPlayer")
             .request(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .post(Entity.entity(player, APPLICATION_JSON), Player.class);
+            .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
   }
 }

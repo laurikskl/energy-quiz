@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package commons;
 
 import javax.persistence.*;
@@ -21,9 +20,6 @@ import java.io.FileNotFoundException;
 import java.util.Objects;
 import java.util.Scanner;
 
-/**
- * Temporary comment for checkstyle.
- */
 @Entity
 @Table
 public class Activity {
