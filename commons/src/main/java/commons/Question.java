@@ -7,29 +7,29 @@ import java.util.List;
 
 public abstract class Question {
 
-
   /**
    * Question where the player must choose the activity with the highest energyConsumption
    * out of 3 available options.
    */
 
+  public static abstract class ActivitiesQuestion extends Question {
+    private int correctActivityIndex;
+    protected List<Activity> activities;
+  }
+
+  public static abstract class EstimationQuestion extends Question{
+    protected Activity activity;
+  }
+
   @Getter
-  public static class MultiChoice extends Question {
-    private final List<Activity> activities;
-    private Activity correct;
-
-    public MultiChoice(List<Activity> activities, Activity correct) {
+  public static class MultiChoice extends ActivitiesQuestion {
+    int correctActivityId;
+    public MultiChoice(List<Activity> activities, int correctActivityId) {
       this.activities = activities;
-      this.correct = correct;
+      this.correctActivityId = correctActivityId;
     }
 
-    public List<Activity> getActivities() {
-      return activities;
-    }
 
-    public Activity getCorrect() {
-      return correct;
-    }
   }
   /**
    * Question where the player must choose the correct amount of consumption in Wh out of 3
@@ -38,10 +38,9 @@ public abstract class Question {
 
 
   @Getter
-  public static class ChoiceEstimation extends Question {
-    private final List<Activity> activity;
-
-    public ChoiceEstimation(List<Activity> activity, int consumptionWh) {
+  public static class ChoiceEstimation extends EstimationQuestion {
+    private List<Integer> consumptionsWh;
+    public ChoiceEstimation(Activity activity, List<Integer> consumptionsWh) {
       this.activity = activity;
     }
   }
@@ -52,10 +51,9 @@ public abstract class Question {
 
 
   @Getter
-  public static class Matching extends Question {
-    private final List<Activity> activities;
-
-    public Matching(List<Activity> activities, int consumptionWh) {
+  public static class Matching extends ActivitiesQuestion {
+    private Activity toMatchActivity;
+    public Matching(Activity toMatchActivity, List<Activity> activities) {
       this.activities = activities;
     }
   }
@@ -66,10 +64,8 @@ public abstract class Question {
 
 
   @Getter
-  public static class AccurateEstimation extends Question {
-    private final List<Activity> activity;
-
-    public AccurateEstimation(List<Activity> activity, int consumptionWh) {
+  public static class AccurateEstimation extends EstimationQuestion {
+    public AccurateEstimation(Activity activity) {
       this.activity = activity;
     }
   }
