@@ -23,6 +23,7 @@ public abstract class Question {
       this.activities = activities;
       this.correct = correct;
     }
+
   }
   /**
    * Question where the player must choose the correct amount of consumption in Wh out of 3
