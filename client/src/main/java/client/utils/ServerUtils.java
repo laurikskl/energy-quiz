@@ -16,6 +16,7 @@
 
 package client.utils;
 
+import commons.Activity;
 import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -67,6 +68,16 @@ public class ServerUtils {
         .get(new GenericType<List<Quote>>() {
         });
   }
+
+  public Activity getRandomActivity() {
+    return (Activity) ClientBuilder.newClient(new ClientConfig())
+        .target(SERVER).path("api/activities/getRandomActivity")
+        .request(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .get(new GenericType<Activity>() {
+        });
+  }
+
 
   /**
    * This comment is a temporary fix for checkstyle.

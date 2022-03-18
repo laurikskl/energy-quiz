@@ -32,7 +32,7 @@ public class ActivityController {
      *
      * @return
      */
-    @GetMapping(path = {"rnd"})
+    @GetMapping("/getRandomActivity")
     public ResponseEntity<Activity> getRandomActivity() {
         //Get a random number that is smaller than number of elements in repository
         var randomId = random.nextInt((int) repository.count());
