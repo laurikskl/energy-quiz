@@ -36,7 +36,7 @@ public class PlayerController {
         //check if player with name already in database, if so delete it
         for(Player toComp : playerRepository.findAll()) {
             if(toComp.getUserName().equals(player.getUserName())) {
-                playerRepository.delete(toComp);
+                playerRepository.deleteById(toComp.id);
             }
         }
         //save the player with the new score to the database
