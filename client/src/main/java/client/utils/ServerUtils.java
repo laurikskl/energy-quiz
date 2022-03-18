@@ -17,6 +17,7 @@
 package client.utils;
 
 import commons.Activity;
+import commons.Question;
 import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -69,12 +70,16 @@ public class ServerUtils {
         });
   }
 
-  public Activity getRandomActivity() {
-    return (Activity) ClientBuilder.newClient(new ClientConfig())
-        .target(SERVER).path("api/activities/getRandomActivity")
+  /**
+   *
+   * @return A Multichoice question from MultiChoiceController
+   */
+  public Question.MultiChoice getMultiChoice() {
+    return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
+        .target(SERVER).path("api/questions/multichoice")
         .request(APPLICATION_JSON)
         .accept(APPLICATION_JSON)
-        .get(new GenericType<Activity>() {
+        .get(new GenericType<Question.MultiChoice>() {
         });
   }
 

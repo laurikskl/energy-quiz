@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
+import commons.Question;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MultiChoiceButtonCtrl {
+public class MultiChoiceCtrl {
 
   @FXML
   private Button answer1;
@@ -21,15 +22,14 @@ public class MultiChoiceButtonCtrl {
 
   private final ServerUtils server;
   private final MainCtrl mainCtrl;
-  private List<Activity> activities = new ArrayList<>();
-  private final Random random;
+  private final Question.MultiChoice multiChoice;
 
 
   @Inject
-  public MultiChoiceButtonCtrl(ServerUtils server, MainCtrl mainCtrl, Random random) {
+  public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
     this.server = server;
     this.mainCtrl = mainCtrl;
-    this.random = random;
+    this.multiChoice = server.getMultiChoice();
   }
 
 
