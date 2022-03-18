@@ -31,6 +31,19 @@ public class PlayerController {
         return ResponseEntity.ok(playerRepository.getById(id));
     }
 
+    @PostMapping(path = "/setPlayer")
+    public ResponseEntity<Player> setPlayer(@RequestBody Player player) {
+        //check if player with name already in database, if so delete it
+        for(Player toComp : playerRepository.findAll()) {
+            if(toComp.getUserName().equals(player.getUserName())) {
+                playerRepository.delete(toComp);
+            }
+        }
+        //save the player with the new score to the database
+        playerRepository.save(player);
+        return ResponseEntity.ok(player);
+    }
+
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Player> add(@RequestBody Player player) {
 
