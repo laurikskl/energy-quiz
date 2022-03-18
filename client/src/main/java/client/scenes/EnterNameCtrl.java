@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 
 import java.util.Objects;
 
@@ -22,10 +21,15 @@ public class EnterNameCtrl {
     private Button back;
 
     @FXML
-    private TextField username;
+    private TextField userName;
+
+    @FXML
+    private Button play;
 
     private ServerUtils serverUtils;
     private SplashCtrl splashCtrl;
+
+    String usernameString;
 
     @Inject
     public EnterNameCtrl(ServerUtils serverUtils, SplashCtrl splashCtrl) {
@@ -46,7 +50,7 @@ public class EnterNameCtrl {
         backIMG = new ImageView();
         backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
         back = new Button("", backIMG);
-        username = new TextField();
+        play = new Button("PLAY!");
     }
 
     /**
@@ -64,20 +68,25 @@ public class EnterNameCtrl {
         this.splashCtrl = splashCtrl;
     }
 
-
+    @FXML
     public void startGame(ActionEvent actionEvent) {
-        username = new TextField(username.getText());
-        if (username.getText().equals("")) System.out.println("nu merge");
 
-        else System.out.println(username.getText());
+        System.out.println(usernameString+"play");
     }
 
-    public void setNewPlayer(KeyEvent keyEvent) {
-        if (keyEvent.getEventType() == KeyEvent.KEY_TYPED){
-            if (username.getText().equals("")){
-                System.out.println("merge");
-            }
-            else Platform.exit();
-        }
+    @FXML
+    public void setUsername(ActionEvent actionEvent) {
+        usernameString = userName.getText();
     }
+
+    /**
+    public void back(ActionEvent actionEvent) throws IOException {
+        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        this.splashCtrl.getMainCtrl().setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
+        this.splashCtrl.getMainCtrl().setSplash(new Scene(root));
+        this.splashCtrl.getMainCtrl().getPrimaryStage().setScene(this.splashCtrl.getMainCtrl().getSplash());
+        this.splashCtrl.getMainCtrl().getPrimaryStage().show();
+    }
+     */
 }

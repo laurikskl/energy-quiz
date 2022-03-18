@@ -35,11 +35,19 @@ public class SplashCtrl {
      */
     @Inject
     public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
+        this.server = new ServerUtils();
         this.mainCtrl = mainCtrl;
     }
 
     public SplashCtrl(){
+    }
+
+    public ServerUtils getServer() {
+        return server;
+    }
+
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
     }
 
     /**
@@ -91,7 +99,7 @@ public class SplashCtrl {
         String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/enterNameSinglePlayer.css")).toExternalForm();
         mainCtrl.getSplash().getStylesheets().add(sheet);
         this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
-        EnterNameCtrl enterNameCtrl = new EnterNameCtrl(server, this);
+        EnterNameCtrl enterNameCtrl = new EnterNameCtrl(this.server, this);
         enterNameCtrl.getSplashCtrl().mainCtrl.getPrimaryStage().show();
     }
 

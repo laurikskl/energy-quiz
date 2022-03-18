@@ -16,6 +16,7 @@
 
 package client.utils;
 
+import commons.Player;
 import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -78,5 +79,30 @@ public class ServerUtils {
         .request(APPLICATION_JSON) //
         .accept(APPLICATION_JSON) //
         .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+  }
+
+  /**
+   * Method for returning all players.
+   * @return
+   */
+  public List<Player> getPlayers(){
+    return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("player")
+            .request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .get(new GenericType<List<Player>>() {
+            });
+  }
+  /**
+   * A method for posting a new player to the database.
+   * @param player
+   * @return
+   */
+  public Player addPlayer(Player player){
+    return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("player")
+            .request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .post(Entity.entity(player, APPLICATION_JSON), Player.class);
   }
 }
