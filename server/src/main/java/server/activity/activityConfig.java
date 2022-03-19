@@ -24,7 +24,6 @@ public class activityConfig {
      * @param repository
      * @return
      */
-    /**
     @Bean
     CommandLineRunner commandLineRunner(ActivityRepository repository) {
         return args -> {
@@ -60,5 +59,4 @@ public class activityConfig {
             repository.saveAll(activitiesList);
         };
     }
-    */
 }
