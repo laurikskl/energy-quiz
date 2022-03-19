@@ -1,10 +1,10 @@
 #root{
     font-family: spartan;
 }
-#button {
+#play {
     -fx-background-color: #7ccade;
 }
 
-#button:hover {
+#play:hover {
     -fx-background-color: #6639d4;
 }
