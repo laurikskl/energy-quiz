@@ -59,7 +59,7 @@ public class MultiChoiceCtrl {
    * need to know how this information is going to be retrieved by the gameController
    * @param actionEvent the Button that was clicked
    */
-  @FXML
+ /** @FXML
   public void handleButtonPress(ActionEvent actionEvent) {
     Button correct = answer1;
     Button wrong1 = answer2;
@@ -78,7 +78,7 @@ public class MultiChoiceCtrl {
     wrong1.setStyle("-fx-background-color: #FF0000; ");
     wrong2.setStyle("-fx-background-color: #FF0000; ");
   }
-
+**/
   }
 
 
