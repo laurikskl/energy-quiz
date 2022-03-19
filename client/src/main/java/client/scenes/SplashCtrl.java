@@ -13,10 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 
 public class SplashCtrl {
 
@@ -33,6 +33,7 @@ public class SplashCtrl {
      * @param server reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
+
     @Inject
     public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = new ServerUtils();
@@ -53,32 +54,39 @@ public class SplashCtrl {
     /**
      * Exits the application, called by quit button
      */
+
     public void cancel() {
         Platform.exit();
     }
 
+
     /**
-     * Is called after constructor (Initializable)
+     * Is called automatically after constructor
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
      * @param mainCtrl
      */
+
     @FXML
     public void initialize(MainCtrl mainCtrl) {
         logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
         this.invisibleHowToPlay();
     }
 
+
     /**
      * Makes the how to play text visible (on hovering how2play button)
      */
+
     public void showHowToPlay() {
         howToPlayText.setVisible(true);
     }
 
+
     /**
      * Makes the how to play text invisible (on exiting how2play button and startup)
      */
+
     public void invisibleHowToPlay() {
         howToPlayText.setVisible(false);
     }
@@ -87,7 +95,7 @@ public class SplashCtrl {
     /**
      * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
      * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
-     * @throws IOException
+     * @throws IOException when file is not found
      */
 
     public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -102,10 +110,11 @@ public class SplashCtrl {
 
     }
 
+
     /**
      *Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
      * @param actionEvent - the mouse clicked on the MULTIPLAYER button
-     * @throws IOException
+     * @throws IOException when file is not found
      */
 
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {

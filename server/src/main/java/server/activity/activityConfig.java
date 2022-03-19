@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 @Configuration
 public class activityConfig {
@@ -39,8 +38,10 @@ public class activityConfig {
                     String ending = fileName.substring(fileName.length() - 4);
 
                     if (ending.equals("json")) {
+                        //Get the content of the file to String
+                        String jsonFileToString = Files.readString(Path.of(f.getPath()));
                         //Read the activity from the current json file
-                        Activity activity = Activity.JSONActivityReader(new Scanner(f));
+                        Activity activity = Activity.JSONActivityReader(jsonFileToString);
                         //Add the path for the image
                         String path = file.toString() + "\\" + beginning;
                         if (Files.exists(Path.of(path + "jpg"))) {
