@@ -13,7 +13,6 @@ public abstract class Question {
    * out of 3 available options.
    */
 
-
   @Getter
   public static class MultiChoice extends Question {
     private final List<Activity> activities;
@@ -24,6 +23,13 @@ public abstract class Question {
       this.correct = correct;
     }
 
+    public List<Activity> getActivities() {
+      return activities;
+    }
+
+    public Activity getCorrect() {
+      return correct;
+    }
   }
   /**
    * Question where the player must choose the correct amount of consumption in Wh out of 3

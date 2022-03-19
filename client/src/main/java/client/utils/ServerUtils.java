@@ -16,7 +16,6 @@
 
 package client.utils;
 
-import commons.Activity;
 import commons.Question;
 import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
