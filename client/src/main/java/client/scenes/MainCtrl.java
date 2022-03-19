@@ -16,10 +16,11 @@
 
 package client.scenes;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Pair;
+/**
+ * Temporary comment for checkstyle.
+ */
 
 import java.io.File;
 
@@ -30,23 +31,8 @@ public class MainCtrl{
     private Scene splash;
 
     /**
-     * Acts as constructor
-     * @param primaryStage the primary stage
-     * @param splashCtrl pair of SplashCtrl instance and root for fxml loader
-     */
-
-    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl) {
-        this.primaryStage = primaryStage;
-        this.splashCtrl = splashCtrl.getKey();
-        this.splash = new Scene(splashCtrl.getValue());
-        showSplash();
-        primaryStage.show();
-    }
-
-
-    /**
-     * Adds css to the splash scene
-     * Sets scene of primaryStage to splash
+     * Sets the current stage's scene to the splash screen and adds the css to it
+     * Should probably set the path to be non-relative but that's a problem for later
      */
 
     public void showSplash() {
