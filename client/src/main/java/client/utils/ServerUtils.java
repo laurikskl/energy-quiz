@@ -16,6 +16,7 @@
 
 package client.utils;
 
+import commons.Question;
 import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -67,6 +68,20 @@ public class ServerUtils {
         .get(new GenericType<List<Quote>>() {
         });
   }
+
+  /**
+   *
+   * @return A Multichoice question from MultiChoiceController
+   */
+  public Question.MultiChoice getMultiChoice() {
+    return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
+        .target(SERVER).path("api/questions/multichoice")
+        .request(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .get(new GenericType<Question.MultiChoice>() {
+        });
+  }
+
 
   /**
    * This comment is a temporary fix for checkstyle.
