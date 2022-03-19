@@ -48,12 +48,20 @@ public class EnterNameMultiPlayerCtrl {
 
     String usernameString;
 
+    /**
+     * Constructor for the controller.
+     * @param serverUtils
+     * @param mainCtrl
+     */
     @Inject
     public EnterNameMultiPlayerCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
         this.serverUtils = serverUtils;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Default constructor.
+     */
     public EnterNameMultiPlayerCtrl(){
     }
 
@@ -81,6 +89,11 @@ public class EnterNameMultiPlayerCtrl {
         return mainCtrl;
     }
 
+    /**
+     * Method that changes the screen to the SP.
+     * @param actionEvent - pressing the play button triggers this function.
+     * @throws IOException
+     */
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
 
@@ -100,6 +113,11 @@ public class EnterNameMultiPlayerCtrl {
 
     }
 
+    /**
+     * Method that returns the application to the initial screen when the back button is pressed.
+     * @param actionEvent - pressing the back button triggers this function
+     * @throws IOException
+     */
     public void back(ActionEvent actionEvent) throws IOException {
 
         //sets the scene back to the main screen

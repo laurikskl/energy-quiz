@@ -16,8 +16,6 @@
 
 package client;
 
-import client.scenes.MainCtrl;
-import client.scenes.SplashCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 
 import static com.google.inject.Guice.createInjector;
 

@@ -48,12 +48,20 @@ public class EnterNameSinglePlayerCtrl {
 
     String usernameString;
 
+    /**
+     * Constructor for the controller.
+     * @param serverUtils
+     * @param mainCtrl
+     */
     @Inject
     public EnterNameSinglePlayerCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
         this.serverUtils = serverUtils;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Default constructor.
+     */
     public EnterNameSinglePlayerCtrl(){
     }
 
@@ -77,15 +85,17 @@ public class EnterNameSinglePlayerCtrl {
         Platform.exit();
     }
 
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
-    }
-
+    /**
+     * Method that changes the screen to the SP.
+     * @param actionEvent - pressing the play button triggers this function.
+     * @throws IOException
+     */
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
 
         usernameString = userName.getText();
 
+        //if the user doesn't provide a username, send a warning text
         if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else{
@@ -94,7 +104,7 @@ public class EnterNameSinglePlayerCtrl {
             Parent root = loader.load();
 
             SPGameController spGameController = loader.getController();
-            spGameController.initialize(usernameString);
+            spGameController.initialize(usernameString); //here we initialize the SP screen with the name the user has provided in the top center
 
 
             Scene newScene = new Scene(root);
@@ -105,6 +115,11 @@ public class EnterNameSinglePlayerCtrl {
 
     }
 
+    /**
+     * Method that returns the application to the initial screen when the back button is pressed.
+     * @param actionEvent - pressing the back button triggers this function
+     * @throws IOException
+     */
     public void back(ActionEvent actionEvent) throws IOException {
 
         //sets the scene back to the main screen

@@ -16,7 +16,6 @@
 
 package client.scenes;
 
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 /**

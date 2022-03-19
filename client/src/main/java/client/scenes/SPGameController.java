@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.sun.scenario.effect.impl.prism.PrImage;
 import commons.Player;
 import commons.Question;
 import javafx.application.Platform;
@@ -51,6 +50,7 @@ public class SPGameController {
     public void initialize(String username) {
 
         text.setText(username);
+        //commented this part temporarily to make the client work
         /**
         while(questions.size() < 20) {
             questions.add(server.getQuestion());
@@ -79,6 +79,10 @@ public class SPGameController {
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Exists the application when pressing the back button.
+     * @param actionEvent - pressing the back button triggers this function.
+     */
     public void cancel(ActionEvent actionEvent) {
         Platform.exit();
     }
