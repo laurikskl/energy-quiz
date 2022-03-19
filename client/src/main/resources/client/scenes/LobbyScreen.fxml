@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6539d4" height="900.0" layoutX="332.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="587.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="332.0" AnchorPane.topAnchor="90.0" />
+      <Button id="back-button" layoutX="91.0" layoutY="57.0" mnemonicParsing="false" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="81.0" AnchorPane.topAnchor="47.0">
+         <graphic>
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TableView layoutX="376.0" layoutY="135.0" maxHeight="800.0" maxWidth="500.0" minHeight="800.0" minWidth="500.0" prefHeight="800.0" prefWidth="500.0" style="-fx-pref-width: 360; -fx-pref-height: 720; -fx-background-color: #6639d4;">
+         <columns>
+            <TableColumn maxWidth="500.0" minWidth="500.0" prefWidth="500.0" text="Name" />
+         </columns>
+      </TableView>
+      <Button layoutX="1357.0" layoutY="371.0" mnemonicParsing="false" prefHeight="169.0" prefWidth="169.0" style="-fx-background-color: #8DF5EE; -fx-background-radius: 15px;" AnchorPane.rightAnchor="394.0" AnchorPane.topAnchor="371.0" />
+      <Text fill="#5e5b5b" layoutX="1338.0" layoutY="584.0" opacity="0.69" strokeType="OUTSIDE" strokeWidth="0.0" text="Press to start the game" wrappingWidth="207.03125" AnchorPane.rightAnchor="374.96875" AnchorPane.topAnchor="563.4970703125">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="118.0" fitWidth="96.0" layoutX="1400.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="424.125" AnchorPane.topAnchor="397.0">
+         <image>
+            <Image url="@../../icons/playButton.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="1199.0" layoutY="941.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: Wow it even works when the text is quite long and it wraps it :)))" wrappingWidth="525.64453125">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="53.0" fitWidth="53.0" layoutX="1138.0" layoutY="909.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/lightBulb.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="1319.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players: 2137" wrappingWidth="257.03125">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
