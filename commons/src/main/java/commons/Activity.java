@@ -40,7 +40,7 @@ public class Activity {
     /**
      * Basic constructor
      */
-    private Activity() {
+    public Activity() {
         // for object mappers
     }
 

@@ -3,10 +3,11 @@ package server.Question;
 import commons.Activity;
 import commons.Question;
 import org.springframework.stereotype.Service;
-import server.activity.ActivityRepository;
+import server.Activity.ActivityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -55,12 +56,12 @@ public class QuestionService {
       Activity activity;
       int randomId = random.nextInt(max);
       if (!activityIds.contains(randomId)) {
-        activityIds.add(randomId);
-        activity = activityRepository.getById((long) randomId);
-        activities.add(activity);
-
+        Optional<Activity> optionalActivity = activityRepository.findById((long) randomId);
+        if (optionalActivity.isEmpty()) {
+          continue;
+        }
+        activity = optionalActivity.get();
         //Determining the maximum PowerConsumption of the three activities, and therefore the correct answer
-        activities.add(activity);
         if (activity.getPowerConsumption() > maxConsumption){
           maxConsumption = activity.getPowerConsumption();
           correctActivityId = randomId;
@@ -68,10 +69,12 @@ public class QuestionService {
 
         //If the activity has the same PowerConsumption as the max, it gets discarded from the list,
         //as that would mean two correct answers
-        if (activity.getPowerConsumption() == maxConsumption){
-          activities.remove(activity);
-          activityIds.remove(randomId);
+        else if (activity.getPowerConsumption() == maxConsumption){
+          continue;
         }
+
+        activities.add(activity);
+        activityIds.add(randomId);
       }
     }
 

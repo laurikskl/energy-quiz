@@ -13,8 +13,15 @@ public abstract class Question {
    */
 
   public static abstract class ActivitiesQuestion extends Question {
-    private int correctActivityIndex;
+    protected int correctActivityIndex;
     protected List<Activity> activities;
+    public int getCorrectActivityIndex() {
+      return correctActivityIndex;
+    }
+
+    public List<Activity> getActivities() {
+      return activities;
+    }
   }
 
   public static abstract class EstimationQuestion extends Question{
@@ -23,13 +30,14 @@ public abstract class Question {
 
   @Getter
   public static class MultiChoice extends ActivitiesQuestion {
-    int correctActivityId;
     public MultiChoice(List<Activity> activities, int correctActivityId) {
       this.activities = activities;
-      this.correctActivityId = correctActivityId;
+      this.correctActivityIndex = correctActivityId;
     }
 
-
+    public int getCorrectActivityId() {
+      return correctActivityIndex;
+    }
   }
   /**
    * Question where the player must choose the correct amount of consumption in Wh out of 3
