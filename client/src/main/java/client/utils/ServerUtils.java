@@ -75,6 +75,20 @@ public class ServerUtils {
 
 
   /**
+   *
+   * @return A Multichoice question from MultiChoiceController
+   */
+  public Question.MultiChoice getMultiChoice() {
+    return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
+        .target(SERVER).path("api/questions/multichoice")
+        .request(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .get(new GenericType<Question.MultiChoice>() {
+        });
+  }
+
+
+  /**
    * This comment is a temporary fix for checkstyle.
    */
 

@@ -1,10 +1,9 @@
-package server.activity;
+package server.Activity;
 
 import commons.Activity;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import server.database.ActivityRepository;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class activityConfig {
+public class ActivityConfig {
 
     /**
      * Setting up the database. Reading all the JSON activities files

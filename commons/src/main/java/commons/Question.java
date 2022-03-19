@@ -13,13 +13,22 @@ public abstract class Question {
    * out of 3 available options.
    */
 
-
   @Getter
   public static class MultiChoice extends Question {
     private final List<Activity> activities;
+    private Activity correct;
 
-    public MultiChoice(List<Activity> activities, int consumptionWh) {
+    public MultiChoice(List<Activity> activities, Activity correct) {
       this.activities = activities;
+      this.correct = correct;
+    }
+
+    public List<Activity> getActivities() {
+      return activities;
+    }
+
+    public Activity getCorrect() {
+      return correct;
     }
   }
   /**
