@@ -2,14 +2,24 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import com.sun.scenario.effect.impl.prism.PrImage;
 import commons.Player;
 import commons.Question;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SPGameController {
+
+    @FXML
+    private Text text;
+
+    @FXML
+    private Text questionNumber;
 
     private ServerUtils server;
     private MainCtrl mainCtrl;
@@ -34,8 +44,14 @@ public class SPGameController {
         this.questions = new ArrayList<>();
     }
 
+    public SPGameController(){
+    }
+
     @FXML
-    public void initialize() {
+    public void initialize(String username) {
+
+        text.setText(username);
+        /**
         while(questions.size() < 20) {
             questions.add(server.getQuestion());
         }
@@ -45,12 +61,25 @@ public class SPGameController {
         if(score > server.getScore(player.getUserName())) {
             server.setPlayer(player.getUserName(), score);
         }
+         */
     }
 
     public void doAQuestion(Question q) {
         this.qCount++;
+        questionNumber.setText(qCount+"/20");
         //load the question in the frame
         //start a timer for the question
     }
 
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    public void setMainCtrl(MainCtrl mainCtrl) {
+        this.mainCtrl = mainCtrl;
+    }
+
+    public void cancel(ActionEvent actionEvent) {
+        Platform.exit();
+    }
 }

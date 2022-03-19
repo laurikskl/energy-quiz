@@ -61,12 +61,11 @@ public class SplashCtrl {
      * Is called after constructor (Initializable)
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
+     * @param mainCtrl
      */
     @FXML
-    public void initialize() {
-        //logoIMG = new ImageView();
+    public void initialize(MainCtrl mainCtrl) {
         logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
-        //howToPlayText = new TextField();
         this.invisibleHowToPlay();
     }
 
@@ -92,15 +91,15 @@ public class SplashCtrl {
      */
 
     public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+
+        //set the root to the new scene
         URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
-        this.mainCtrl.setSplash(new Scene(root));
-        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/enterNameSinglePlayer.css")).toExternalForm();
-        mainCtrl.getSplash().getStylesheets().add(sheet);
-        this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
-        EnterNameCtrl enterNameCtrl = new EnterNameCtrl(this.server, this);
-        enterNameCtrl.getSplashCtrl().mainCtrl.getPrimaryStage().show();
+        Scene newScene = new Scene(root);
+        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(newScene);
+        window.show();
+
     }
 
     /**
@@ -110,12 +109,14 @@ public class SplashCtrl {
      */
 
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
+
+        //set the root to the new scene
         URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
-        this.mainCtrl.setSplash(new Scene(root));
-        this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
-        EnterNameCtrl enterNameCtrl = new EnterNameCtrl(server, this);
-        enterNameCtrl.getSplashCtrl().mainCtrl.getPrimaryStage().show();
+        Scene newScene = new Scene(root);
+        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(newScene);
+        window.show();
+
     }
 }

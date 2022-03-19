@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EnterNameCtrl">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../main/enterNameSingleplayer.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EnterNameMultiPlayerCtrl">
    <children>
-      <TextField alignment="CENTER" layoutX="520.0" layoutY="379.0" prefHeight="200.0" prefWidth="900.0" promptText="Enter Name" style="-fx-background-color: c4c4c4;">
+      <TextField fx:id="userName" alignment="CENTER" layoutX="520.0" layoutY="379.0" prefHeight="200.0" prefWidth="900.0" promptText="Enter Name" style="-fx-background-color: c4c4c4;">
          <font>
             <Font name="Symbol" size="64.0" />
          </font>
@@ -20,7 +20,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </TextField>
-      <Button alignment="CENTER" layoutX="770.0" layoutY="652.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #7CCADE;" text="PLAY!" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="750.0">
+      <Button fx:id="button" alignment="CENTER" layoutX="770.0" layoutY="652.0" mnemonicParsing="false" onAction="#startGame" prefHeight="100.0" prefWidth="400.0" text="PLAY!" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="750.0">
          <font>
             <Font name="System Bold" size="45.0" />
          </font>
@@ -35,7 +35,7 @@
             <Image url="@../../entername/MaxThePlants.png" />
          </image>
       </ImageView>
-      <Button id="back-button" layoutX="194.0" layoutY="59.0" mnemonicParsing="false" onAction="#cancel" style="-fx-background-color: #f1f1f1;">
+      <Button id="back-button" layoutX="194.0" layoutY="59.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -44,5 +44,10 @@
             </ImageView>
          </graphic>
       </Button>
+      <Text fx:id="warningText" fill="RED" layoutX="807.0" layoutY="629.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="534.9999389648438">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
