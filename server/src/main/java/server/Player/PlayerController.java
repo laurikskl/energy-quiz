@@ -34,7 +34,7 @@ public class PlayerController {
     @PostMapping(path = "/setPlayer")
     public ResponseEntity<Player> setPlayer(@RequestBody Player player) {
         //check if player with name already in database, if so delete it
-        for(Player toComp : playerRepository.findAll()) {
+        for(Player toComp : this.getAll()) {
             if(toComp.getUserName().equals(player.getUserName())) {
                 playerRepository.deleteById(toComp.id);
             }

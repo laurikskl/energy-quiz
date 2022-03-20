@@ -1,23 +1,27 @@
 package client.scenes;
 
+import client.MyFXML;
+import client.MyModule;
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
+import com.google.inject.Injector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class SplashCtrl {
+import static com.google.inject.Guice.createInjector;
+
+public class SplashCtrl extends Controller{
 
     @FXML
     private ImageView logoIMG;
@@ -25,24 +29,20 @@ public class SplashCtrl {
     @FXML
     private TextField howToPlayText;
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-
-    /**
-     * @param server reference to an instance of ServerUtils
-     * @param mainCtrl reference to an instance of mainCtrl
-     */
     @Inject
     public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+        super(server, mainCtrl);
     }
+
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
+
 
     /**
      * Exits the application, called by quit button
      */
     public void cancel() {
-        mainCtrl.close();
+        this.getMainCtrl().close();
     }
 
     /**
@@ -74,29 +74,42 @@ public class SplashCtrl {
     /**
      * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
      * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
-     * @throws IOException
+     * @throws IOException when file not found or misread
      */
 
-    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
-        URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        this.mainCtrl.setPrimaryStage((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
-        this.mainCtrl.setSplash(new Scene(root));
-        this.mainCtrl.getPrimaryStage().setScene(this.mainCtrl.getSplash());
-        mainCtrl.getPrimaryStage().show();
+    public void mouseClickedSinglePlayer(ActionEvent actionEvent) throws IOException {
+        URL url = new File("client/src/main/resources/client/scenes/SPGameScreen.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Controller controller = new SPGameCtrl(this.getServer(), this.getMainCtrl());
+        loader.setController(controller);
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        this.getMainCtrl().setCtrl(controller);
+        this.getMainCtrl().getPrimaryStage().setScene(scene);
+        this.getMainCtrl().getPrimaryStage().show();
     }
 
+/*
+    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+        URL url = new File("client/src/main/resources/client/scenes/SPGameScreen.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        this.mainCtrl.getPrimaryStage().setScene(scene);
+        this.mainCtrl.getPrimaryStage().show();
+        client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml
+    }
+*/
     /**
      *Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
      * @param actionEvent - the mouse clicked on the MULTIPLAYER button
-     * @throws IOException
+     * @throws IOException when file not found or misread
      */
 
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
         URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
-        this.mainCtrl.getPrimaryStage().setScene(scene);
-        mainCtrl.getPrimaryStage().show();
+        this.getMainCtrl().getPrimaryStage().setScene(scene);
+        this.getMainCtrl().getPrimaryStage().show();
     }
 }

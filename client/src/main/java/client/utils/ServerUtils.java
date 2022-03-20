@@ -41,7 +41,7 @@ public class ServerUtils {
    * Temporary comment for checkstyle.
    */
 
-  private static final String SERVER = "http://localhost:8080/";;
+  private static final String SERVER = "http://localhost:8080/";
   private static List<Player> players;
 
 
@@ -105,7 +105,7 @@ public class ServerUtils {
    * @return the score associated with the name of the player
    */
 
-  public Integer getScore(String name) {
+  public Player getPlayer(String name) {
     //If list of players hasn't been generated yet, retrieve it from PlayerController
     if(players == null) {
       players = ClientBuilder.newClient(new ClientConfig())
@@ -117,7 +117,7 @@ public class ServerUtils {
     }
     //try to find player by name and return score
     for(Player player : players) {
-      if(player.getUserName().equals(name)) return (int) player.getScore();
+      if(player.getUserName().equals(name)) return player;
     }
     //return null if not found
     return null;

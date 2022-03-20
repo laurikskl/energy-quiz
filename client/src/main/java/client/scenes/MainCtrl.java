@@ -32,18 +32,18 @@ import java.util.Objects;
 public class MainCtrl{
 
     private Stage primaryStage;
-    private SplashCtrl splashCtrl;
-    private Scene splash;
+    private Controller currentCtrl;
+    private Scene scene;
 
     /**
      * Acts as constructor
      * @param primaryStage the primary stage
-     * @param splashCtrl pair of SplashCtrl instance and root for fxml loader
+     * @param current pair of controller instance and root for fxml loader
      */
-    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl) {
+    public void initialize(Stage primaryStage, Pair<Controller, Parent> current) {
         this.primaryStage = primaryStage;
-        this.splashCtrl = splashCtrl.getKey();
-        this.splash = new Scene(splashCtrl.getValue());
+        this.currentCtrl = current.getKey();
+        this.scene = new Scene(current.getValue());
         showSplash();
         primaryStage.show();
     }
@@ -54,8 +54,8 @@ public class MainCtrl{
      */
     public void showSplash() {
         String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
-        splash.getStylesheets().add(sheet);
-        primaryStage.setScene(splash);
+        scene.getStylesheets().add(sheet);
+        primaryStage.setScene(scene);
     }
 
     /**
@@ -73,19 +73,19 @@ public class MainCtrl{
         return primaryStage;
     }
 
-    public SplashCtrl getSplashCtrl() {
-        return splashCtrl;
+    public Controller getSplashCtrl() {
+        return currentCtrl;
     }
 
-    public void setSplashCtrl(SplashCtrl splashCtrl) {
-        this.splashCtrl = splashCtrl;
+    public void setCtrl(Controller controller) {
+        this.currentCtrl = controller;
     }
 
-    public Scene getSplash() {
-        return splash;
+    public Scene getScene() {
+        return scene;
     }
 
-    public void setSplash(Scene splash) {
-        this.splash = splash;
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }

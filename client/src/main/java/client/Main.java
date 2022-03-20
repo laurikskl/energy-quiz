@@ -16,11 +16,12 @@
 
 package client;
 
+import client.scenes.Controller;
 import client.scenes.MainCtrl;
-import client.scenes.SplashCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -51,7 +52,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        var splash = FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml");
+        var splash = FXML.load(Controller.class, "client", "scenes", "splash.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, splash);
     }
