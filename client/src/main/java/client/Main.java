@@ -16,6 +16,7 @@
 
 package client;
 
+import client.scenes.How2PlayCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.SplashCtrl;
 import com.google.inject.Injector;
@@ -52,7 +53,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var splash = FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml");
+        var how2Play = FXML.load(How2PlayCtrl.class, "client", "scenes", "How2Play.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, splash);
+        mainCtrl.initialize(primaryStage, splash, how2Play);
     }
 }

@@ -10,6 +10,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
+
 public class How2PlayCtrl {
 
     @FXML
@@ -40,12 +42,12 @@ public class How2PlayCtrl {
      */
     @FXML
     public void initialize() {
-        backButtonImg.setImage(new Image("client/src/main/resources/icons/back.png"));
+//        backButtonImg.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/back.png").toExternalForm())));
 
-        for (Tab tab : tabPane.getTabs()) {
-            ImageView tmpImgView = new ImageView(new Image("client/src/main/resources/icons/back.png"));
-            tab.setGraphic(tmpImgView);
-        }
+//        for (Tab tab : tabPane.getTabs()) {
+//            ImageView tmpImgView = new ImageView(new Image("client/src/main/resources/icons/back.png"));
+//            tab.setGraphic(tmpImgView);
+//        }
     }
 
     /**

@@ -102,15 +102,11 @@ public class SplashCtrl {
 
     /**
      * Changes the scene to the HowToPlay Scene.
-     * @param actionEvent - the mouse clicked on the MULTIPLAYER button
+     * @param actionEvent - the mouse clicked on the How To Play button
      * @throws IOException
      */
-
     public void mouseClickedHow2Play(ActionEvent actionEvent) throws IOException {
-        URL url = new File("client/src/main/resources/client/scenes/How2Play.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        this.mainCtrl.getPrimaryStage().setScene(scene);
+        mainCtrl.showHow2Play();
         mainCtrl.getPrimaryStage().show();
     }
 }

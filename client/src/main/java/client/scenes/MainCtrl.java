@@ -32,18 +32,26 @@ import java.util.Objects;
 public class MainCtrl{
 
     private Stage primaryStage;
+
     private SplashCtrl splashCtrl;
+    private How2PlayCtrl how2PlayCtrl;
+
     private Scene splash;
+    private Scene how2Play;
 
     /**
      * Acts as constructor
      * @param primaryStage the primary stage
      * @param splashCtrl pair of SplashCtrl instance and root for fxml loader
      */
-    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl) {
+    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl, Pair<How2PlayCtrl, Parent> how2PlayCtrl) {
         this.primaryStage = primaryStage;
         this.splashCtrl = splashCtrl.getKey();
         this.splash = new Scene(splashCtrl.getValue());
+
+        this.how2PlayCtrl = how2PlayCtrl.getKey();
+        this.how2Play = new Scene(how2PlayCtrl.getValue());
+
         showSplash();
         primaryStage.show();
     }
@@ -56,6 +64,16 @@ public class MainCtrl{
         String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
         splash.getStylesheets().add(sheet);
         primaryStage.setScene(splash);
+    }
+
+    /**
+     * Sets the current stage's scene to the How2Play screen and adds the css to it
+     * Should probably set the path to be non-relative but that's a problem for later
+     */
+    public void showHow2Play() {
+//        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
+//        splash.getStylesheets().add(sheet);
+        primaryStage.setScene(how2Play);
     }
 
     /**
