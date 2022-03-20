@@ -38,7 +38,7 @@ class GameTest {
         activities.add(activity2);
         activities.add(activity3);
 
-        question = new Question.MultiChoice(activities, 25);
+        question = new Question.MultiChoice(activities, activity1);
 
         questions.add(question);
 

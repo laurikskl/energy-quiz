@@ -87,6 +87,14 @@ public class ServerUtils {
         });
   }
 
+  public List<Player> getLeaderboard(){
+    return(List<Player>) ClientBuilder.newClient(new ClientConfig())
+        .target(SERVER).path("api/leaderboard")
+        .request(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .get(new GenericType<List<Player>>() {
+        });
+  }
 
   /**
    * This comment is a temporary fix for checkstyle.
