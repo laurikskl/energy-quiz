@@ -34,7 +34,7 @@
             <Image url="@../../main/Logo.png" />
          </image>
       </ImageView>
-      <Button id="howToPlayButton" contentDisplay="CENTER" layoutX="1630.0" layoutY="829.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" onMouseEntered="#showHowToPlay" onMouseExited="#invisibleHowToPlay" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 100; -fx-label-padding: -12;" text="?" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="171.0" AnchorPane.rightAnchor="210.0">
+      <Button id="howToPlayButton" contentDisplay="CENTER" layoutX="1630.0" layoutY="829.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#mouseClickedHow2Play" onMouseEntered="#showHowToPlay" onMouseExited="#invisibleHowToPlay" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 100; -fx-label-padding: -12;" text="?" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="171.0" AnchorPane.rightAnchor="210.0">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
