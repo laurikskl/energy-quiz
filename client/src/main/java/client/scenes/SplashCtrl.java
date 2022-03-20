@@ -72,6 +72,7 @@ public class SplashCtrl {
     public void initialize(MainCtrl mainCtrl) {
         logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
         this.invisibleHowToPlay();
+        System.out.println("RONALDOSIII");
     }
 
 
