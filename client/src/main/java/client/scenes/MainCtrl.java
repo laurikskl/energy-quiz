@@ -16,18 +16,13 @@
 
 package client.scenes;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 /**
  * Temporary comment for checkstyle.
  */
 
-/**
- * This comment is a temporary fix for checkstyle.
- */
-import java.util.Objects;
+import java.io.File;
 
 public class MainCtrl{
 
@@ -36,54 +31,74 @@ public class MainCtrl{
     private Scene splash;
 
     /**
-     * Acts as constructor
-     * @param primaryStage the primary stage
-     * @param splashCtrl pair of SplashCtrl instance and root for fxml loader
-     */
-    public void initialize(Stage primaryStage, Pair<SplashCtrl, Parent> splashCtrl) {
-        this.primaryStage = primaryStage;
-        this.splashCtrl = splashCtrl.getKey();
-        this.splash = new Scene(splashCtrl.getValue());
-        showSplash();
-        primaryStage.show();
-    }
-
-    /**
      * Sets the current stage's scene to the splash screen and adds the css to it
      * Should probably set the path to be non-relative but that's a problem for later
      */
+
     public void showSplash() {
-        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
+        String sheet = new File("client/src/main/resources/main/splash.css").toURI().toString();
         splash.getStylesheets().add(sheet);
         primaryStage.setScene(splash);
     }
 
+
     /**
      * Closes the primary stage to quit the application
      */
+
     public void close() {
         primaryStage.close();
     }
+
+
+    /**
+     * @param stage the primary stage
+     */
 
     public void setPrimaryStage(Stage stage){
         this.primaryStage = stage;
     }
 
+
+    /**
+     * @return the primary stage
+     */
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+
+
+    /**
+     * @return controller for splash scene
+     */
 
     public SplashCtrl getSplashCtrl() {
         return splashCtrl;
     }
 
+
+    /**
+     * @param splashCtrl controller for splash scene
+     */
+
     public void setSplashCtrl(SplashCtrl splashCtrl) {
         this.splashCtrl = splashCtrl;
     }
 
+
+    /**
+     * @return the splash scene
+     */
+
     public Scene getSplash() {
         return splash;
     }
+
+
+    /**
+     * @param splash the splash scene
+     */
 
     public void setSplash(Scene splash) {
         this.splash = splash;

@@ -1,20 +1,18 @@
-package server.activity;
+package server.Activity;
 
 import commons.Activity;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import server.database.ActivityRepository;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 @Configuration
-public class activityConfig {
+public class ActivityConfig {
 
     /**
      * Setting up the database. Reading all the JSON activities files
@@ -39,8 +37,10 @@ public class activityConfig {
                     String ending = fileName.substring(fileName.length() - 4);
 
                     if (ending.equals("json")) {
+                        //Get the content of the file to String
+                        String jsonFileToString = Files.readString(Path.of(f.getPath()));
                         //Read the activity from the current json file
-                        Activity activity = Activity.JSONActivityReader(new Scanner(f));
+                        Activity activity = Activity.JSONActivityReader(jsonFileToString);
                         //Add the path for the image
                         String path = file.toString() + "\\" + beginning;
                         if (Files.exists(Path.of(path + "jpg"))) {
