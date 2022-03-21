@@ -3,127 +3,65 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
-import javafx.application.Platform;
-import javafx.scene.text.Text;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+
+/**
+ * Tests for SPGameController class
+ */
 
 class SPGameControllerTest {
 
     @Mock
     private ServerUtils server;
 
-    @Mock
-    private MainCtrl mainCtrl;
 
-    @Mock
-    private Question question;
-
-    @Mock
-    private Text textMock;
-
-    private SPGameCtrl SPG1;
+    private SPGameController s1;
+    private Player p1;
 
 
     /**
-     * Start javafx application
-     */
-
-    @BeforeAll
-    static void start() {
-        Platform.startup(() ->{});
-    }
-
-
-    /**
-     * Description of setup is in each section
+     * Setup before each test
+     * Mock of ServerUtils and Text are created
+     * p1 and s1 are created
+     * s1 is initialized with p1 and the server mock
      */
 
     @BeforeEach
-    void setUp() {
-        //creating mocks
-        question = mock(Question.class);
+    void setup() {
         server = mock(ServerUtils.class);
-        mainCtrl = mock(MainCtrl.class);
-        textMock = mock(Text.class);
-
-        Player p1 = new Player("Max", 800);
-        SPG1 = new SPGameCtrl(server, mainCtrl);
-
-        //setting text-fields to mocks to prevent nullpointerexceptions
-        SPG1.setQuestionCounter(textMock);
-        SPG1.setScoreTracker(textMock);
-        SPG1.setTimer(textMock);
-
-        //setting behaviour of methods of server mock
-        //return player from database
-        when(server.getPlayer(p1.getUserName())).thenReturn(p1);
-        //return mock question from server when requested
-        when(server.getQuestion()).thenReturn(question);
+        p1 = new Player("Max", 9000);
+        s1 = new SPGameController();
+        s1.initialize(p1, server);
     }
 
 
     /**
-     * Makes sure constructor successfully creates an object
+     * Testing if all fields are properly set
      */
 
     @Test
-    void constructorNullTest() {
-        assertNotNull(SPG1);
+    void initialize() {
+        assertEquals(p1, s1.getPlayer());
+        assertEquals(server, s1.getServer());
+        assertEquals(0, s1.getqCount());
+        assertEquals(0, s1.getScore());
+        assertEquals(new ArrayList<Question>(), s1.getQuestions());
     }
 
 
     /**
-     * Makes sure all fields are properly set in constructor
-     */
-    @Test
-    void constructorFieldsTest() {
-        assertEquals(0, SPG1.getqCount());
-        assertEquals(0, SPG1.getScore());
-        assertNotNull(SPG1.getQuestions());
-        assertEquals(0, SPG1.getQuestions().size());
-    }
-
-
-    /**
-     * Testing initialize when the database shouldn't be updated (lower score than in database)
-     */
-
-    @Test
-    void initializeLowerScore() {
-        SPG1.initialize();
-        assertEquals(20, SPG1.getQuestions().size());
-        verify(server, times(0)).setPlayer("Max", 9000);
-    }
-
-
-    /**
-     * Testing initialize when the database should be updated (higher score than in database)
-     */
-
-    @Test
-    void initializeHigherScore() {
-        SPG1.setScore(9000);
-        SPG1.initialize();
-        verify(server, times(1)).setPlayer("Max", 9000);
-    }
-
-
-    /**
-     * I'll add to this method once doAQuestion is complete
+     * This method doesn't do a lot yet so this will be tested later
      */
 
     @Test
     void doAQuestion() {
     }
 
-    /**
-     * Not sure if we have to test getters and setters
-      */
 }

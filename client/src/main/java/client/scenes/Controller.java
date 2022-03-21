@@ -26,7 +26,7 @@ public abstract class Controller {
     }
 
     public void close() {
-        if(this instanceof SPGameCtrl) Platform.exit();
+        Platform.exit();
     }
 
 }

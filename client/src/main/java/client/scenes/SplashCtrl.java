@@ -42,6 +42,7 @@ public class SplashCtrl {
     }
 
     public SplashCtrl(){
+        this.server = new ServerUtils();
     }
 
     public ServerUtils getServer() {
@@ -104,7 +105,10 @@ public class SplashCtrl {
 
         //set the root to the new scene
         URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        EnterNameSinglePlayerCtrl ctrl = loader.getController();
+        ctrl.setServerUtils(server);
         Scene newScene = new Scene(root);
         Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
@@ -129,5 +133,9 @@ public class SplashCtrl {
         window.setScene(newScene);
         window.show();
 
+    }
+
+    public void setServer(ServerUtils server) {
+        this.server = server;
     }
 }

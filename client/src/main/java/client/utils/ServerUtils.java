@@ -33,16 +33,18 @@ import java.util.List;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
- * This comment is a temporary fix for checkstyle.
+ * This class is for communication between client and server
  */
 
 public class ServerUtils {
+
   /**
-   * Temporary comment for checkstyle.
+   * SERVER is the location we host our server
+   * players is the list of all players in the database
    */
 
   private static final String SERVER = "http://localhost:8080/";
-  private static List<Player> players;
+  private List<Player> players;
 
 
   /**
@@ -75,9 +77,9 @@ public class ServerUtils {
 
 
   /**
-   *
    * @return A Multichoice question from MultiChoiceController
    */
+
   public Question.MultiChoice getMultiChoice() {
     return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
         .target(SERVER).path("api/questions/multichoice")
@@ -87,6 +89,11 @@ public class ServerUtils {
         });
   }
 
+
+  /**
+   * @return the leaderboard
+   */
+
   public List<Player> getLeaderboard(){
     return(List<Player>) ClientBuilder.newClient(new ClientConfig())
         .target(SERVER).path("api/leaderboard")
@@ -95,6 +102,7 @@ public class ServerUtils {
         .get(new GenericType<List<Player>>() {
         });
   }
+
 
   /**
    * This comment is a temporary fix for checkstyle.
@@ -128,21 +136,28 @@ public class ServerUtils {
    */
 
   public Player getPlayer(String name) {
-    //If list of players hasn't been generated yet, retrieve it from PlayerController
-    if(players == null) {
-      players = ClientBuilder.newClient(new ClientConfig())
-              .target(SERVER).path("player").
-              request(APPLICATION_JSON)
-              .accept(APPLICATION_JSON).
-              get(new GenericType<List<Player>>() {
-              });
-    }
+    //update list of players
+    players = getAllPlayers();
     //try to find player by name and return score
     for(Player player : players) {
       if(player.getUserName().equals(name)) return player;
     }
     //return null if not found
     return null;
+  }
+
+
+  /**
+   * @return a list of all players
+   */
+
+  public List<Player> getAllPlayers() {
+    return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("player").
+            request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON).
+            get(new GenericType<List<Player>>() {
+            });
   }
 
 
@@ -159,4 +174,5 @@ public class ServerUtils {
             .accept(APPLICATION_JSON)
             .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
   }
+
 }

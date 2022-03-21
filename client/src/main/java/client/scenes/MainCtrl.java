@@ -26,9 +26,11 @@ import java.io.File;
 
 public class MainCtrl{
 
+
     private Stage primaryStage;
     private SplashCtrl splashCtrl;
     private Scene splash;
+
 
     /**
      * Sets the current stage's scene to the splash screen and adds the css to it
