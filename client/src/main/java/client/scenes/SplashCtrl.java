@@ -31,7 +31,7 @@ public class SplashCtrl {
     private MainCtrl mainCtrl;
 
     /**
-     * @param server reference to an instance of ServerUtils
+     * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
 
@@ -41,7 +41,7 @@ public class SplashCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    public SplashCtrl(){
+    public SplashCtrl() {
     }
 
     public ServerUtils getServer() {
@@ -65,6 +65,7 @@ public class SplashCtrl {
      * Is called automatically after constructor
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
+     *
      * @param mainCtrl
      */
 
@@ -96,6 +97,7 @@ public class SplashCtrl {
 
     /**
      * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
+     *
      * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
      * @throws IOException when file is not found
      */
@@ -106,7 +108,7 @@ public class SplashCtrl {
         URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
         window.show();
 
@@ -114,7 +116,8 @@ public class SplashCtrl {
 
 
     /**
-     *Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
+     * Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
+     *
      * @param actionEvent - the mouse clicked on the MULTIPLAYER button
      * @throws IOException when file is not found
      */
@@ -125,9 +128,26 @@ public class SplashCtrl {
         URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
         window.show();
 
+    }
+
+    /**
+     * Changes the scene with the Leaderboard screen when pressing the LEADERBOARD button
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void mouseClickedLeaderboard(ActionEvent actionEvent) throws IOException {
+        //set the room to the new scene
+        System.out.println("WJEBUJE SIE NA CHATE CI!");
+        URL url = new File("client/src/main/resources/client/scenes/LeaderboardScreen.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene newScene = new Scene(root);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(newScene);
+        window.show();
     }
 }
