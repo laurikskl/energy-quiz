@@ -21,15 +21,9 @@ import client.scenes.MainCtrl;
 import client.scenes.SplashCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import static com.google.inject.Guice.createInjector;
 
