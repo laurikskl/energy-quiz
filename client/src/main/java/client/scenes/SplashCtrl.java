@@ -73,7 +73,7 @@ public class SplashCtrl {
     public void initialize(MainCtrl mainCtrl) {
         logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
         this.invisibleHowToPlay();
-        System.out.println("RONALDOSIII");
+        //System.out.println("RONALDOSIII");
     }
 
 
@@ -142,7 +142,6 @@ public class SplashCtrl {
      */
     public void mouseClickedLeaderboard(ActionEvent actionEvent) throws IOException {
         //set the room to the new scene
-        System.out.println("WJEBUJE SIE NA CHATE CI!");
         URL url = new File("client/src/main/resources/client/scenes/LeaderboardScreen.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene newScene = new Scene(root);
