@@ -1,7 +1,23 @@
 @font-face{
     font-family: spartan;
-    src: url('client/src/main/resources/fonts/spartan.ttf');
+    src: url('/fonts/spartan.ttf');
 }
 :root{
     font-family: spartan;
+}
+
+.anchor-pane{
+    -fx-background-color: #f1f1f1;
+}
+
+.title{
+    -fx-background-color: #6639D4;
+}
+
+.back-button{
+    -fx-background-color: #f1f1f1;
+}
+
+.tab-pane{
+    -fx-background-color: #7CCADE;
 }
