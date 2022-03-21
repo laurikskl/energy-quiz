@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/")
 public class SomeController {
 
-  @GetMapping("/")
-  @ResponseBody
-  public String index() {
-    return "Hello world!";
-  }
+    @GetMapping("/")
+    @ResponseBody
+    public String index() {
+        return "Hello world!";
+    }
 }

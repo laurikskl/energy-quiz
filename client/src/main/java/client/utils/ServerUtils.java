@@ -37,126 +37,126 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
  */
 
 public class ServerUtils {
-  /**
-   * Temporary comment for checkstyle.
-   */
+    /**
+     * Temporary comment for checkstyle.
+     */
 
-  private static final String SERVER = "http://localhost:8080/";;
-  private static List<Player> players;
+    private static final String SERVER = "http://localhost:8080/";
+    ;
+    private static List<Player> players;
 
 
-  /**
-   * This comment is a temporary fix for checkstyle.
-   */
+    /**
+     * This comment is a temporary fix for checkstyle.
+     */
 
-  public void getQuotesTheHardWay() throws IOException {
-    var url = new URL("http://localhost:8080/api/quotes");
-    var is = url.openConnection().getInputStream();
-    var br = new BufferedReader(new InputStreamReader(is));
-    String line;
-    while ((line = br.readLine()) != null) {
-      System.out.println(line);
+    public void getQuotesTheHardWay() throws IOException {
+        var url = new URL("http://localhost:8080/api/quotes");
+        var is = url.openConnection().getInputStream();
+        var br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
     }
-  }
 
 
-  /**
-   * This comment is a temporary fix for checkstyle.
-   */
+    /**
+     * This comment is a temporary fix for checkstyle.
+     */
 
-  public List<Quote> getQuotes() {
-    return ClientBuilder.newClient(new ClientConfig()) //
-        .target(SERVER).path("api/quotes") //
-        .request(APPLICATION_JSON) //
-        .accept(APPLICATION_JSON) //
-        .get(new GenericType<List<Quote>>() {
-        });
-  }
-
-
-  /**
-   *
-   * @return A Multichoice question from MultiChoiceController
-   */
-  public Question.MultiChoice getMultiChoice() {
-    return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
-        .target(SERVER).path("api/questions/multichoice")
-        .request(APPLICATION_JSON)
-        .accept(APPLICATION_JSON)
-        .get(new GenericType<Question.MultiChoice>() {
-        });
-  }
-
-  public List<Player> getLeaderboard(){
-    return(List<Player>) ClientBuilder.newClient(new ClientConfig())
-        .target(SERVER).path("api/leaderboard")
-        .request(APPLICATION_JSON)
-        .accept(APPLICATION_JSON)
-        .get(new GenericType<List<Player>>() {
-        });
-  }
-
-  /**
-   * This comment is a temporary fix for checkstyle.
-   */
-
-  public Quote addQuote(Quote quote) {
-    return ClientBuilder.newClient(new ClientConfig()) //
-        .target(SERVER).path("api/quotes") //
-        .request(APPLICATION_JSON) //
-        .accept(APPLICATION_JSON) //
-        .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
-  }
-
-
-  /**
-   * @return a question from the server by making a request to the path defined
-   */
-
-  public Question getQuestion() {
-    return ClientBuilder.newClient(new ClientConfig())
-            .target(SERVER).path("api/questions")
-            .request(APPLICATION_JSON)
-            .accept(APPLICATION_JSON)
-            .get(Question.class);
-  }
-
-
-  /**
-   * @param name the name of a player
-   * @return the score associated with the name of the player
-   */
-
-  public Integer getScore(String name) {
-    //If list of players hasn't been generated yet, retrieve it from PlayerController
-    if(players == null) {
-      players = ClientBuilder.newClient(new ClientConfig())
-              .target(SERVER).path("player").
-              request(APPLICATION_JSON)
-              .accept(APPLICATION_JSON).
-              get(new GenericType<List<Player>>() {
-              });
+    public List<Quote> getQuotes() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/quotes") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Quote>>() {
+                });
     }
-    //try to find player by name and return score
-    for(Player player : players) {
-      if(player.getUserName().equals(name)) return (int) player.getScore();
+
+
+    /**
+     * @return A Multichoice question from MultiChoiceController
+     */
+    public Question.MultiChoice getMultiChoice() {
+        return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/questions/multichoice")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<Question.MultiChoice>() {
+                });
     }
-    //return null if not found
-    return null;
-  }
+
+    public List<Player> getLeaderboard() {
+        return (List<Player>) ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/leaderboard")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<List<Player>>() {
+                });
+    }
+
+    /**
+     * This comment is a temporary fix for checkstyle.
+     */
+
+    public Quote addQuote(Quote quote) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/quotes") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+    }
 
 
-  /**
-   * @param name the name of a player
-   * @param score the score associated with the name of the player
-   * @return the player sent to the server
-   */
+    /**
+     * @return a question from the server by making a request to the path defined
+     */
 
-  public Player setPlayer(String name, int score) {
-    return ClientBuilder.newClient(new ClientConfig())
-            .target(SERVER).path("player/setPlayer")
-            .request(APPLICATION_JSON)
-            .accept(APPLICATION_JSON)
-            .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
-  }
+    public Question getQuestion() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/questions")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Question.class);
+    }
+
+
+    /**
+     * @param name the name of a player
+     * @return the score associated with the name of the player
+     */
+
+    public Integer getScore(String name) {
+        //If list of players hasn't been generated yet, retrieve it from PlayerController
+        if (players == null) {
+            players = ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("player").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    get(new GenericType<List<Player>>() {
+                    });
+        }
+        //try to find player by name and return score
+        for (Player player : players) {
+            if (player.getUserName().equals(name)) return (int) player.getScore();
+        }
+        //return null if not found
+        return null;
+    }
+
+
+    /**
+     * @param name  the name of a player
+     * @param score the score associated with the name of the player
+     * @return the player sent to the server
+     */
+
+    public Player setPlayer(String name, int score) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("player/setPlayer")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
+    }
 }

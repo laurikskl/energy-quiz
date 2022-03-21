@@ -50,6 +50,7 @@ public class EnterNameSinglePlayerCtrl {
 
     /**
      * Constructor for the controller.
+     *
      * @param serverUtils
      * @param mainCtrl
      */
@@ -62,7 +63,7 @@ public class EnterNameSinglePlayerCtrl {
     /**
      * Default constructor.
      */
-    public EnterNameSinglePlayerCtrl(){
+    public EnterNameSinglePlayerCtrl() {
     }
 
     /**
@@ -87,6 +88,7 @@ public class EnterNameSinglePlayerCtrl {
 
     /**
      * Method that changes the screen to the SP.
+     *
      * @param actionEvent - pressing the play button triggers this function.
      * @throws IOException
      */
@@ -96,9 +98,9 @@ public class EnterNameSinglePlayerCtrl {
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
-        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
-        else{
+        else {
             URL url = new File("client/src/main/resources/client/scenes/SPGameScreen.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
@@ -108,7 +110,7 @@ public class EnterNameSinglePlayerCtrl {
 
 
             Scene newScene = new Scene(root);
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(newScene);
             window.show();
         }
@@ -117,6 +119,7 @@ public class EnterNameSinglePlayerCtrl {
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
+     *
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException
      */
@@ -127,7 +130,7 @@ public class EnterNameSinglePlayerCtrl {
         Parent root = FXMLLoader.load(url);
 
         Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
         window.show();
     }
