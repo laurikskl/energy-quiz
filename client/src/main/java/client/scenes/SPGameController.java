@@ -29,7 +29,7 @@ public class SPGameController {
 
 
     /**
-     * @param server reference to an instance of ServerUtils
+     * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
 
@@ -43,7 +43,7 @@ public class SPGameController {
         this.questions = new ArrayList<>();
     }
 
-    public SPGameController(){
+    public SPGameController() {
     }
 
     @FXML
@@ -52,21 +52,21 @@ public class SPGameController {
         text.setText(username);
         //commented this part temporarily to make the client work
         /**
-        while(questions.size() < 20) {
-            questions.add(server.getQuestion());
-        }
-        for(Question q : questions) {
-           this.doAQuestion(q);
-        }
-        if(score > server.getScore(player.getUserName())) {
-            server.setPlayer(player.getUserName(), score);
-        }
+         while(questions.size() < 20) {
+         questions.add(server.getQuestion());
+         }
+         for(Question q : questions) {
+         this.doAQuestion(q);
+         }
+         if(score > server.getScore(player.getUserName())) {
+         server.setPlayer(player.getUserName(), score);
+         }
          */
     }
 
     public void doAQuestion(Question q) {
         this.qCount++;
-        questionNumber.setText(qCount+"/20");
+        questionNumber.setText(qCount + "/20");
         //load the question in the frame
         //start a timer for the question
     }
@@ -81,6 +81,7 @@ public class SPGameController {
 
     /**
      * Exists the application when pressing the back button.
+     *
      * @param actionEvent - pressing the back button triggers this function.
      */
     public void cancel(ActionEvent actionEvent) {

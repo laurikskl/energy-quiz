@@ -121,7 +121,6 @@ public class SplashCtrl {
      * @param actionEvent - the mouse clicked on the MULTIPLAYER button
      * @throws IOException when file is not found
      */
-
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
 
         //set the root to the new scene
