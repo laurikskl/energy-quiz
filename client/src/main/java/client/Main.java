@@ -16,14 +16,17 @@
 
 package client;
 
-import client.scenes.Controller;
-import client.scenes.MainCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -52,8 +55,13 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        var splash = FXML.load(Controller.class, "client", "scenes", "splash.fxml");
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, splash);
+        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+
+        Scene scene = new Scene(root);
+
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
     }
 }
