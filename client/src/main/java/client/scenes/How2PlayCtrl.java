@@ -41,7 +41,7 @@ public class How2PlayCtrl {
      * Sets the image of backButtonImg and the images in the tabs in tabPane
      */
     @FXML
-    public void initialize(MainCtrl mainCtrl) {
+    private void initialize() {
 //        backButtonImg.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/back.png").toExternalForm())));
 
 //        for (Tab tab : tabPane.getTabs()) {
