@@ -13,20 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package client;
 
+import client.scenes.MainCtrl;
 import client.scenes.SplashCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 
-import client.scenes.MainCtrl;
-
+/**
+ * The configuration for JavaFX.
+ */
 public class MyModule implements Module {
 
-    @Override
-    public void configure(Binder binder) {
-        binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(SplashCtrl.class).in(Scopes.SINGLETON);
-    }
+  @Override
+  public void configure(Binder binder) {
+    binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
+    binder.bind(SplashCtrl.class).in(Scopes.SINGLETON);
+  }
 }

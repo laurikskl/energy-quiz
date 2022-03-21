@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package server.Activity;
 
 import commons.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+/**
+ * Repository for activities.
+ */
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 }

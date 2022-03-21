@@ -3,4 +3,8 @@ package server.Player;
 import commons.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PlayerRepository extends JpaRepository<Player, Long> { }
+/**
+ * Repository for players.
+ */
+public interface PlayerRepository extends JpaRepository<Player, Long> {
+}

@@ -27,10 +27,6 @@ import javax.persistence.Id;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 /**
- * Temporary comment for checkstyle.
- */
-
-/**
  * This comment is a temporary fix for checkstyle.
  */
 

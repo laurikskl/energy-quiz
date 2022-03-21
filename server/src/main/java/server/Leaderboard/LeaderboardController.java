@@ -7,18 +7,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * API Controller for the leaderboard.
+ */
+
 @RestController
 @RequestMapping("api")
 public class LeaderboardController {
 
   private final LeaderboardService leaderboardService;
 
-  public LeaderboardController(LeaderboardService leaderboardService){
+  public LeaderboardController(LeaderboardService leaderboardService) {
     this.leaderboardService = leaderboardService;
   }
 
   @GetMapping("/leaderboard")
-  public List<Player> getLeaderboard(){
+  public List<Player> getLeaderboard() {
     List<Player> top15players = leaderboardService.getTopPlayers();
     return top15players;
   }

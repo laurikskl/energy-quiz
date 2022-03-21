@@ -23,6 +23,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for the leaderboard scene.
+ */
+
 public class LeaderboardCtrl {
 
   private final ServerUtils server;
@@ -39,7 +43,7 @@ public class LeaderboardCtrl {
 
 
   @Inject
-  public LeaderboardCtrl(ServerUtils server){
+  public LeaderboardCtrl(ServerUtils server) {
     this.server = server;
   }
 
@@ -51,9 +55,9 @@ public class LeaderboardCtrl {
     List<Player> leaderboardPlayers = server.getLeaderboard();
     List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
-    for(int i = 1; i < 16 ; i++){
-      String score = Long.toString(leaderboardPlayers.get(i-1).getScore());
-      String userName = leaderboardPlayers.get(i-1).getUserName();
+    for (int i = 1; i < 16; i++) {
+      String score = Long.toString(leaderboardPlayers.get(i - 1).getScore());
+      String userName = leaderboardPlayers.get(i - 1).getUserName();
       String place = Integer.toString(i);
 
       PlayerForTable playerWithPlace = new PlayerForTable(score, userName, place);
@@ -69,9 +73,10 @@ public class LeaderboardCtrl {
   }
 
   /**
-   * goes back to the splash screen
-   * @param actionEvent is when the back button is clicked
-   * @throws IOException
+   * goes back to the splash screen.
+   *
+   * @param actionEvent is when the back button is clicked.
+   * @throws IOException an exception is thrown when something goes wrong
    */
   public void back(ActionEvent actionEvent) throws IOException {
 
@@ -80,15 +85,16 @@ public class LeaderboardCtrl {
     Parent root = FXMLLoader.load(url);
 
     Scene newScene = new Scene(root);
-    Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     window.setScene(newScene);
     window.show();
   }
   /**
    * Might add a refresh button later on.
    */
-//  public void refresh() {
-//
+
+  public void refresh() {
+
 //    List<Player> leaderboardPlayers = server.getLeaderboard();
 //    List<PlayerForTable> leaderboardTable = new ArrayList<>();
 //
@@ -104,5 +110,5 @@ public class LeaderboardCtrl {
 //
 //    data = FXCollections.observableList(leaderboardTable);
 //    table.setItems(data);
-//  }
+  }
 }

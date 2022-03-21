@@ -3,12 +3,14 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
-//import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Controller for the MultiChoice questionframe.
+ */
 public class MultiChoiceCtrl {
 
   @FXML
@@ -30,7 +32,11 @@ public class MultiChoiceCtrl {
   private final MainCtrl mainCtrl;
   private final Question.MultiChoice multiChoice;
 
-
+  /**
+   * Injector.
+   * @param server the serverutils
+   * @param mainCtrl the main Controller for all scenes
+   */
   @Inject
   public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
     this.server = server;
@@ -41,7 +47,7 @@ public class MultiChoiceCtrl {
   /**
    * This should be called when this question frame is called from the game controller,
    * when using initialize, it will load all the question frames when the application
-   * is started, that could cause problems in the future
+   * is started, that could cause problems in the future.
    */
   @FXML
   public void onOpen() {
@@ -79,6 +85,6 @@ public class MultiChoiceCtrl {
 //    wrong2.setStyle("-fx-background-color: #FF0000; ");
 //  }
 
-  }
+}
 
 

@@ -29,10 +29,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 /**
- * Temporary comment for checkstyle.
- */
-
-/**
  * This comment is a temporary fix for checkstyle.
  */
 

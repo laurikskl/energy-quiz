@@ -5,38 +5,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-height: 800; -fx-pref-width: 1200; -fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" style="-fx-pref-height: 800; -fx-pref-width: 1200; -fx-background-color: #f1f1f1;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane layoutX="74.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0" style="-fx-pref-height: 600; -fx-pref-width: 450; -fx-background-color: #7CCADE; -fx-background-radius: 20;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="100.0">
+        <AnchorPane layoutX="74.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0"
+                    style="-fx-pref-height: 600; -fx-pref-width: 450; -fx-background-color: #7CCADE; -fx-background-radius: 20;"
+                    AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="700.0"
+                    AnchorPane.topAnchor="100.0">
             <children>
-                <ImageView id="image" fitHeight="300.0" fitWidth="400.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="image" fitHeight="300.0" fitWidth="400.0" layoutX="50.0" layoutY="50.0"
+                           pickOnBounds="true" preserveRatio="true"/>
                 <Text layoutX="195.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Activity">
                     <font>
-                        <Font name="System Bold" size="30.0" />
+                        <Font name="System Bold" size="30.0"/>
                     </font>
                 </Text>
             </children>
         </AnchorPane>
-        <Text layoutX="604.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How much energy does it take?" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+        <Text layoutX="604.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="How much energy does it take?" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
             <font>
-                <Font name="System Bold" size="40.0" />
+                <Font name="System Bold" size="40.0"/>
             </font>
         </Text>
-      <TextField layoutX="734.0" layoutY="374.0" prefHeight="53.0" prefWidth="176.0" promptText="Enter a number" style="-fx-background-color: #d5d5d5; -fx-background-radius: 20; -fx-pref-height: 50; -fx-pref-width: 150;" AnchorPane.rightAnchor="316.0">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </TextField>
-      <Text fill="#6639d4" layoutX="780.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your guess:">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="904.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kWh">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Text>
+        <TextField layoutX="734.0" layoutY="374.0" prefHeight="53.0" prefWidth="176.0" promptText="Enter a number"
+                   style="-fx-background-color: #d5d5d5; -fx-background-radius: 20; -fx-pref-height: 50; -fx-pref-width: 150;"
+                   AnchorPane.rightAnchor="316.0">
+            <font>
+                <Font name="System Bold" size="17.0"/>
+            </font>
+        </TextField>
+        <Text fill="#6639d4" layoutX="780.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your guess:">
+            <font>
+                <Font name="System Bold" size="25.0"/>
+            </font>
+        </Text>
+        <Text layoutX="904.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kWh">
+            <font>
+                <Font name="System Bold" size="16.0"/>
+            </font>
+        </Text>
     </children>
 </AnchorPane>

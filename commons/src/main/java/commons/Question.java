@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ * Abstract class for all 4 question types.
+ */
 public abstract class Question {
 
   /**
@@ -15,6 +18,7 @@ public abstract class Question {
   public static abstract class ActivitiesQuestion extends Question {
     protected int correctActivityIndex;
     protected List<Activity> activities;
+
     public int getCorrectActivityIndex() {
       return correctActivityIndex;
     }
@@ -24,10 +28,16 @@ public abstract class Question {
     }
   }
 
-  public static abstract class EstimationQuestion extends Question{
+  /**
+   * I don't know what this is.
+   */
+  public static abstract class EstimationQuestion extends Question {
     protected Activity activity;
   }
 
+  /**
+   * Previously the mostNRGquestion.
+   */
   @Getter
   public static class MultiChoice extends ActivitiesQuestion {
     public MultiChoice(List<Activity> activities, int correctActivityId) {
@@ -39,6 +49,7 @@ public abstract class Question {
       return correctActivityIndex;
     }
   }
+
   /**
    * Question where the player must choose the correct amount of consumption in Wh out of 3
    * different options for a given activity.
@@ -48,10 +59,12 @@ public abstract class Question {
   @Getter
   public static class ChoiceEstimation extends EstimationQuestion {
     private List<Integer> consumptionsWh;
+
     public ChoiceEstimation(Activity activity, List<Integer> consumptionsWh) {
       this.activity = activity;
     }
   }
+
   /**
    * Question where the player get an activity like "Taking a shower (50l water)" and must
    * select an activity that consumes an equivalent amount of energy out of 3 options.
@@ -61,15 +74,16 @@ public abstract class Question {
   @Getter
   public static class Matching extends ActivitiesQuestion {
     private Activity toMatchActivity;
+
     public Matching(Activity toMatchActivity, List<Activity> activities) {
       this.activities = activities;
     }
   }
+
   /**
    * Question where the player must enter how much energy an activity consumes in an open
-   * field
+   * field.
    */
-
 
   @Getter
   public static class AccurateEstimation extends EstimationQuestion {

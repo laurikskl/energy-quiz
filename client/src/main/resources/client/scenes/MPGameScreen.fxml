@@ -12,139 +12,173 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" stylesheets="@../../stylesheets/mp-game-screen.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
+            prefWidth="1920.0" style="-fx-background-color: f1f1f1;" stylesheets="@../../stylesheets/mp-game-screen.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox alignment="CENTER" layoutX="1747.0" layoutY="534.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 450; -fx-pref-width: 100; -fx-background-color: #6639D4; -fx-background-radius: 20;" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="80.0">
+        <VBox alignment="CENTER" layoutX="1747.0" layoutY="534.0" prefHeight="200.0" prefWidth="100.0"
+              style="-fx-pref-height: 450; -fx-pref-width: 100; -fx-background-color: #6639D4; -fx-background-radius: 20;"
+              AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="80.0">
             <children>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                        style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="20.0"/>
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../emoticons/trophy.png" />
-                            </image></ImageView>
-                    </graphic>
-                </Button>
-                <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../emoticons/smile.png" />
-                            </image></ImageView>
-                    </graphic>
-                </Button>
-                <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../emoticons/sad.png" />
-                            </image></ImageView>
-                    </graphic>
-                </Button>
-                <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../emoticons/kiss.png" />
-                            </image></ImageView>
-                    </graphic>
-                </Button>
-                <Button alignment="CENTER" mnemonicParsing="false" prefWidth="77.0" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                    <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../emoticons/dead.png" />
+                                <Image url="@../../emoticons/trophy.png"/>
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
                     <VBox.margin>
-                        <Insets bottom="20.0" top="10.0" />
+                        <Insets top="10.0"/>
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../emoticons/laugh.png" />
-                            </image></ImageView>
+                                <Image url="@../../emoticons/smile.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                    <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../emoticons/sad.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                    <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../emoticons/kiss.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button alignment="CENTER" mnemonicParsing="false" prefWidth="77.0"
+                        style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                    <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../emoticons/dead.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button alignment="CENTER" mnemonicParsing="false"
+                        style="-fx-pref-width: 60; -fx-pref-height: 60; -fx-background-color: #6639D4; -fx-background-radius: 90;">
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="10.0"/>
+                    </VBox.margin>
+                    <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../emoticons/laugh.png"/>
+                            </image>
+                        </ImageView>
                     </graphic>
                 </Button>
             </children>
         </VBox>
-        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6639d4" height="80.0" layoutX="74.0" layoutY="179.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="400.0" AnchorPane.bottomAnchor="820.0" AnchorPane.leftAnchor="60.0" />
-        <Text fill="#f1f1f1" layoutX="209.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scores" textAlignment="CENTER">
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6639d4" height="80.0" layoutX="74.0" layoutY="179.0"
+                   stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="400.0" AnchorPane.bottomAnchor="820.0"
+                   AnchorPane.leftAnchor="60.0"/>
+        <Text fill="#f1f1f1" layoutX="209.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scores"
+              textAlignment="CENTER">
             <font>
-                <Font name="System Bold" size="36.0" />
+                <Font name="System Bold" size="36.0"/>
             </font>
         </Text>
-        <Button id="back-button" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" style="-fx-background-color: #f1f1f1;">
-         <graphic>
+        <Button id="back-button" layoutX="81.0" layoutY="47.0" mnemonicParsing="false"
+                style="-fx-background-color: #f1f1f1;">
+            <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/back.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
-        <TableView layoutX="98.0" layoutY="239.0" prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 360; -fx-pref-height: 720;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="80.0">
+                    <image>
+                        <Image url="@../../icons/back.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <TableView layoutX="98.0" layoutY="239.0" prefHeight="200.0" prefWidth="200.0"
+                   style="-fx-pref-width: 360; -fx-pref-height: 720;" AnchorPane.bottomAnchor="100.0"
+                   AnchorPane.leftAnchor="80.0">
             <columns>
-                <TableColumn prefWidth="240.0" text="Name" />
-                <TableColumn prefWidth="120.0" text="Score" />
+                <TableColumn prefWidth="240.0" text="Name"/>
+                <TableColumn prefWidth="120.0" text="Score"/>
             </columns>
         </TableView>
-        <Button id="bomb-joker" layoutX="501.0" layoutY="27.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" styleClass="joker-button" AnchorPane.topAnchor="30.0">
+        <Button id="bomb-joker" layoutX="501.0" layoutY="27.0" mnemonicParsing="false"
+                style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;"
+                styleClass="joker-button" AnchorPane.topAnchor="30.0">
             <padding>
-                <Insets right="30.0" />
+                <Insets right="30.0"/>
             </padding>
             <graphic>
                 <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="12.0">
                     <image>
-                        <Image url="@../../icons/bomb.png" />
+                        <Image url="@../../icons/bomb.png"/>
                     </image>
                 </ImageView>
             </graphic>
         </Button>
-        <Button id="timer-joker" layoutX="662.0" layoutY="30.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" styleClass="joker-button" AnchorPane.topAnchor="30.0">
+        <Button id="timer-joker" layoutX="662.0" layoutY="30.0" mnemonicParsing="false"
+                style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;"
+                styleClass="joker-button" AnchorPane.topAnchor="30.0">
             <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/clock.png" />
+                        <Image url="@../../icons/clock.png"/>
                     </image>
                 </ImageView>
-            </graphic></Button>
-        <Button id="points-joker" layoutX="824.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;" styleClass="joker-button" textFill="#f1f1f1" AnchorPane.topAnchor="30.0">
+            </graphic>
+        </Button>
+        <Button id="points-joker" layoutX="824.0" layoutY="34.0" mnemonicParsing="false"
+                style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 120; -fx-pref-width: 120;"
+                styleClass="joker-button" textFill="#f1f1f1" AnchorPane.topAnchor="30.0">
             <font>
-                <Font size="36.0" />
+                <Font size="36.0"/>
             </font>
             <graphic>
                 <Text fill="#f1f1f1" strokeType="OUTSIDE" strokeWidth="0.0" text="X2">
                     <font>
-                        <Font name="System Bold" size="36.0" />
+                        <Font name="System Bold" size="36.0"/>
                     </font>
                 </Text>
             </graphic>
         </Button>
-        <PieChart id="timer" layoutX="1702.0" layoutY="21.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
-        <Text fill="#6639d4" layoutX="1742.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20" AnchorPane.rightAnchor="100.0">
+        <PieChart id="timer" layoutX="1702.0" layoutY="21.0" startAngle="-90.0"
+                  style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;"
+                  AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0"/>
+        <Text fill="#6639d4" layoutX="1742.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20"
+              AnchorPane.rightAnchor="100.0">
             <font>
-                <Font name="System Bold" size="36.0" />
+                <Font name="System Bold" size="36.0"/>
             </font>
         </Text>
-      <ImageView id="emoji-viewer" fitHeight="120.0" fitWidth="120.0" layoutX="1731.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="70.0" />
-      <AnchorPane layoutX="511.0" layoutY="185.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-pref-height: 800; -fx-pref-width: 1200;" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="220.0" />
+        <ImageView id="emoji-viewer" fitHeight="120.0" fitWidth="120.0" layoutX="1731.0" layoutY="339.0"
+                   pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="70.0"/>
+        <AnchorPane layoutX="511.0" layoutY="185.0" prefHeight="800.0" prefWidth="1200.0"
+                    style="-fx-pref-height: 800; -fx-pref-width: 1200;" AnchorPane.bottomAnchor="100.0"
+                    AnchorPane.rightAnchor="220.0"/>
     </children>
 </AnchorPane>

@@ -5,23 +5,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * API Controller for activities.
+ */
+
 @RestController
 @RequestMapping("/api/activities")
 public class ActivityController {
 
-    private final ActivityService activityService;
+  private final ActivityService activityService;
 
-    public ActivityController(ActivityService actitivityService) {
-        this.activityService = actitivityService;
-    }
+  public ActivityController(ActivityService actitivityService) {
+    this.activityService = actitivityService;
+  }
 
-    /**
-     * Return random activity
-     *
-     * @return A random activity
-     */
-    @GetMapping("/getRandomActivity")
-    public Activity getRandomActivity() {
-        return activityService.getRandomActivity();
-    }
+  /**
+   * Return random activity.
+   *
+   * @return A random activity.
+   */
+  @GetMapping("/getRandomActivity")
+  public Activity getRandomActivity() {
+    return activityService.getRandomActivity();
+  }
 }

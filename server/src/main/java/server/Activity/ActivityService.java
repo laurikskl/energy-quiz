@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
 
+/**
+ * Service layer for activities where the logic is.
+ */
+
 @RestController
 @RequestMapping("/api/activities")
 public class ActivityService {
@@ -14,10 +18,10 @@ public class ActivityService {
   private final ActivityRepository repository;
 
   /**
-   * Constructor that injects random and repository
+   * Constructor that injects random and repository.
    *
-   * @param random
-   * @param repository
+   * @param random Random class
+   * @param repository The activity repository
    */
   public ActivityService(Random random, ActivityRepository repository) {
     this.random = random;
@@ -25,9 +29,9 @@ public class ActivityService {
   }
 
   /**
-   * Return random activity
+   * Generates a random activity from the database.
    *
-   * @return
+   * @return returns a random activity.
    */
 
   public Activity getRandomActivity() {

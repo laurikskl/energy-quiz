@@ -41,7 +41,8 @@ public class ServerUtils {
    * Temporary comment for checkstyle.
    */
 
-  private static final String SERVER = "http://localhost:8080/";;
+  private static final String SERVER = "http://localhost:8080/";
+
   private static List<Player> players;
 
 
@@ -74,8 +75,9 @@ public class ServerUtils {
   }
 
 
+
   /**
-   *
+   * multiChoice getter.
    * @return A Multichoice question from MultiChoiceController
    */
   public Question.MultiChoice getMultiChoice() {
@@ -87,8 +89,12 @@ public class ServerUtils {
         });
   }
 
-  public List<Player> getLeaderboard(){
-    return(List<Player>) ClientBuilder.newClient(new ClientConfig())
+  /**
+   * Gets the leaderboard from the server.
+   * @return A list of the top 15 players
+   */
+  public List<Player> getLeaderboard() {
+    return (List<Player>) ClientBuilder.newClient(new ClientConfig())
         .target(SERVER).path("api/leaderboard")
         .request(APPLICATION_JSON)
         .accept(APPLICATION_JSON)
@@ -110,36 +116,40 @@ public class ServerUtils {
 
 
   /**
+   * gets a question from the server.
    * @return a question from the server by making a request to the path defined
    */
 
   public Question getQuestion() {
     return ClientBuilder.newClient(new ClientConfig())
-            .target(SERVER).path("api/questions")
-            .request(APPLICATION_JSON)
-            .accept(APPLICATION_JSON)
-            .get(Question.class);
+        .target(SERVER).path("api/questions")
+        .request(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .get(Question.class);
   }
 
 
   /**
+   * Gets the score of a player from the server.
    * @param name the name of a player
    * @return the score associated with the name of the player
    */
 
   public Integer getScore(String name) {
     //If list of players hasn't been generated yet, retrieve it from PlayerController
-    if(players == null) {
+    if (players == null) {
       players = ClientBuilder.newClient(new ClientConfig())
-              .target(SERVER).path("player").
-              request(APPLICATION_JSON)
-              .accept(APPLICATION_JSON).
-              get(new GenericType<List<Player>>() {
-              });
+          .target(SERVER).path("player").
+          request(APPLICATION_JSON)
+          .accept(APPLICATION_JSON).
+          get(new GenericType<List<Player>>() {
+          });
     }
     //try to find player by name and return score
-    for(Player player : players) {
-      if(player.getUserName().equals(name)) return (int) player.getScore();
+    for (Player player : players) {
+      if (player.getUserName().equals(name)) {
+        return (int) player.getScore();
+      }
     }
     //return null if not found
     return null;
@@ -147,16 +157,17 @@ public class ServerUtils {
 
 
   /**
-   * @param name the name of a player
+   * Sets a player.
+   * @param name  the name of a player
    * @param score the score associated with the name of the player
    * @return the player sent to the server
    */
 
   public Player setPlayer(String name, int score) {
     return ClientBuilder.newClient(new ClientConfig())
-            .target(SERVER).path("player/setPlayer")
-            .request(APPLICATION_JSON)
-            .accept(APPLICATION_JSON)
-            .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
+        .target(SERVER).path("player/setPlayer")
+        .request(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
   }
 }

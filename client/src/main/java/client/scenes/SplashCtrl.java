@@ -21,113 +21,120 @@ import java.util.Objects;
 
 public class SplashCtrl {
 
-    @FXML
-    private ImageView logoIMG;
+  @FXML
+  private ImageView logoIMG;
 
-    @FXML
-    private TextField howToPlayText;
+  @FXML
+  private TextField howToPlayText;
 
-    private ServerUtils server;
-    private MainCtrl mainCtrl;
+  private ServerUtils server;
+  private MainCtrl mainCtrl;
 
-    /**
-     * @param server reference to an instance of ServerUtils
-     * @param mainCtrl reference to an instance of mainCtrl
-     */
+  /**
+   * @param server   reference to an instance of ServerUtils
+   * @param mainCtrl reference to an instance of mainCtrl
+   */
 
-    @Inject
-    public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = new ServerUtils();
-        this.mainCtrl = mainCtrl;
-    }
+  @Inject
+  public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    this.server = new ServerUtils();
+    this.mainCtrl = mainCtrl;
+  }
 
-    public SplashCtrl(){
-    }
+  public SplashCtrl() {
+  }
 
-    public ServerUtils getServer() {
-        return server;
-    }
+  public ServerUtils getServer() {
+    return server;
+  }
 
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
-    }
+  public MainCtrl getMainCtrl() {
+    return mainCtrl;
+  }
 
-    /**
-     * Exits the application, called by quit button
-     */
+  /**
+   * Exits the application, called by quit button
+   */
 
-    public void cancel() {
-        Platform.exit();
-    }
-
-
-    /**
-     * Is called automatically after constructor
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     * @param mainCtrl
-     */
-
-    @FXML
-    public void initialize(MainCtrl mainCtrl) {
-        logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
-        this.invisibleHowToPlay();
-        System.out.println("RONALDOSIII");
-    }
+  public void cancel() {
+    Platform.exit();
+  }
 
 
-    /**
-     * Makes the how to play text visible (on hovering how2play button)
-     */
+  /**
+   * Is called automatically after constructor
+   * Sets the image of the ImageView in the splash screen to the logo
+   * Should probably set the path to be non-relative but that's a problem for later
+   *
+   * @param mainCtrl
+   */
 
-    public void showHowToPlay() {
-        howToPlayText.setVisible(true);
-    }
-
-
-    /**
-     * Makes the how to play text invisible (on exiting how2play button and startup)
-     */
-
-    public void invisibleHowToPlay() {
-        howToPlayText.setVisible(false);
-    }
-
-
-    /**
-     * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
-     * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
-     * @throws IOException when file is not found
-     */
-
-    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
-
-        //set the root to the new scene
-        URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
-
-    }
+  @FXML
+  public void initialize(MainCtrl mainCtrl) {
+    logoIMG.setImage(new Image(
+        Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png"))
+            .toExternalForm()));
+    this.invisibleHowToPlay();
+    System.out.println("RONALDOSIII");
+  }
 
 
-    /**
-     *Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
-     * @param actionEvent - the mouse clicked on the MULTIPLAYER button
-     * @throws IOException when file is not found
-     */
+  /**
+   * Makes the how to play text visible (on hovering how2play button)
+   */
 
-    public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
+  public void showHowToPlay() {
+    howToPlayText.setVisible(true);
+  }
 
-        //set the root to the new scene
-        URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
 
-    }
+  /**
+   * Makes the how to play text invisible (on exiting how2play button and startup)
+   */
+
+  public void invisibleHowToPlay() {
+    howToPlayText.setVisible(false);
+  }
+
+
+  /**
+   * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
+   *
+   * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
+   * @throws IOException when file is not found
+   */
+
+  public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+
+    //set the root to the new scene
+    URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI()
+        .toURL();
+    Parent root = FXMLLoader.load(url);
+    Scene newScene = new Scene(root);
+    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    window.setScene(newScene);
+    window.show();
+
+  }
+
+
+  /**
+   * Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
+   *
+   * @param actionEvent - the mouse clicked on the MULTIPLAYER button
+   * @throws IOException when file is not found
+   */
+
+  public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
+
+    //set the root to the new scene
+    URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI()
+        .toURL();
+    Parent root = FXMLLoader.load(url);
+    Scene newScene = new Scene(root);
+    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    window.setScene(newScene);
+    window.show();
+
+  }
 }

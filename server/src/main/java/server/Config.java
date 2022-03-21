@@ -16,13 +16,10 @@
 
 package server;
 
-import java.util.Random;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-/**
- * Temporary comment for checkstyle.
- */
 
+import java.util.Random;
 /**
  * This comment is a temporary fix for checkstyle.
  */
