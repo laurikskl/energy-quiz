@@ -16,8 +16,10 @@
 
 package client.scenes;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 /**
  * Temporary comment for checkstyle.
  */
@@ -67,7 +69,7 @@ public class MainCtrl{
      * Sets the current stage's scene to the How2Play screen and adds the css to it
      */
     public void showHow2Play() {
-        String sheet = Objects.requireNonNull(getClass().getResource("/stylesheets/How2Play.css")).toExternalForm();
+        String sheet = "/stylesheets/How2Play.css";
         how2Play.getStylesheets().add(sheet);
         primaryStage.setScene(how2Play);
     }
