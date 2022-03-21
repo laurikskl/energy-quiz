@@ -18,13 +18,10 @@ package client.scenes;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-/**
- * Temporary comment for checkstyle.
- */
 
 import java.io.File;
 
-public class MainCtrl{
+public class MainCtrl {
 
     private Stage primaryStage;
     private SplashCtrl splashCtrl;
@@ -50,16 +47,6 @@ public class MainCtrl{
         primaryStage.close();
     }
 
-
-    /**
-     * @param stage the primary stage
-     */
-
-    public void setPrimaryStage(Stage stage){
-        this.primaryStage = stage;
-    }
-
-
     /**
      * @return the primary stage
      */
@@ -68,6 +55,13 @@ public class MainCtrl{
         return primaryStage;
     }
 
+    /**
+     * @param stage the primary stage
+     */
+
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+    }
 
     /**
      * @return controller for splash scene

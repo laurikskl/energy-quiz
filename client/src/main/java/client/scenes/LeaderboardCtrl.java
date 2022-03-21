@@ -25,68 +25,78 @@ import java.util.List;
 
 public class LeaderboardCtrl {
 
-  private final ServerUtils server;
-  private ObservableList<PlayerForTable> data;
+    private ServerUtils server;
 
-  @FXML
-  private TableView<PlayerForTable> table;
-  @FXML
-  private TableColumn<PlayerForTable, String> colPlace;
-  @FXML
-  private TableColumn<PlayerForTable, String> colName;
-  @FXML
-  private TableColumn<PlayerForTable, String> colScore;
+    private ObservableList<PlayerForTable> data;
 
+    @FXML
+    private TableView<PlayerForTable> table;
+    @FXML
+    private TableColumn<PlayerForTable, String> colPlace;
+    @FXML
+    private TableColumn<PlayerForTable, String> colName;
+    @FXML
+    private TableColumn<PlayerForTable, String> colScore;
 
-  @Inject
-  public LeaderboardCtrl(ServerUtils server){
-    this.server = server;
-  }
-
-  /**
-   * Converts the top 15 players to String form and adds them to the table.
-   */
-  @FXML
-  public void initialize() {
-    List<Player> leaderboardPlayers = server.getLeaderboard();
-    List<PlayerForTable> leaderboardTable = new ArrayList<>();
-
-    for(int i = 1; i < 16 ; i++){
-      String score = Long.toString(leaderboardPlayers.get(i-1).getScore());
-      String userName = leaderboardPlayers.get(i-1).getUserName();
-      String place = Integer.toString(i);
-
-      PlayerForTable playerWithPlace = new PlayerForTable(score, userName, place);
-      leaderboardTable.add(playerWithPlace);
+    @Inject
+    public LeaderboardCtrl(ServerUtils server) {
+        this.server = server;
     }
 
-    data = FXCollections.observableList(leaderboardTable);
-    table.setItems(data);
+    /**
+     * Empty constructor for changing scenes
+     */
+    public LeaderboardCtrl() {
+    }
 
-    colPlace.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().place));
-    colName.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
-    colScore.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().score));
-  }
+    /**
+     * Initializes the server
+     * Converts the top 15 players to String form and adds them to the table.
+     */
+    @FXML
+    public void initialize(ServerUtils server) {
+        this.server = server;
 
-  /**
-   * goes back to the splash screen
-   * @param actionEvent is when the back button is clicked
-   * @throws IOException
-   */
-  public void back(ActionEvent actionEvent) throws IOException {
+        List<Player> leaderboardPlayers = server.getLeaderboard();
+        List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
-    //sets the scene back to the main screen
-    URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-    Parent root = FXMLLoader.load(url);
+        for (int i = 1; i < 16; i++) {
+            String score = Long.toString(leaderboardPlayers.get(i - 1).getScore());
+            String userName = leaderboardPlayers.get(i - 1).getUserName();
+            String place = Integer.toString(i);
 
-    Scene newScene = new Scene(root);
-    Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-    window.setScene(newScene);
-    window.show();
-  }
-  /**
-   * Might add a refresh button later on.
-   */
+            PlayerForTable playerWithPlace = new PlayerForTable(score, userName, place);
+            leaderboardTable.add(playerWithPlace);
+        }
+
+        data = FXCollections.observableList(leaderboardTable);
+        table.setItems(data);
+
+        colPlace.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().place));
+        colName.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
+        colScore.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().score));
+    }
+
+    /**
+     * goes back to the splash screen
+     *
+     * @param actionEvent is when the back button is clicked
+     * @throws IOException
+     */
+    public void back(ActionEvent actionEvent) throws IOException {
+
+        //sets the scene back to the main screen
+        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+
+        Scene newScene = new Scene(root);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(newScene);
+        window.show();
+    }
+    /**
+     * Might add a refresh button later on.
+     */
 //  public void refresh() {
 //
 //    List<Player> leaderboardPlayers = server.getLeaderboard();

@@ -50,6 +50,7 @@ public class EnterNameMultiPlayerCtrl {
 
     /**
      * Constructor for the controller.
+     *
      * @param serverUtils
      * @param mainCtrl
      */
@@ -62,7 +63,7 @@ public class EnterNameMultiPlayerCtrl {
     /**
      * Default constructor.
      */
-    public EnterNameMultiPlayerCtrl(){
+    public EnterNameMultiPlayerCtrl() {
     }
 
     /**
@@ -91,6 +92,7 @@ public class EnterNameMultiPlayerCtrl {
 
     /**
      * Method that changes the screen to the SP.
+     *
      * @param actionEvent - pressing the play button triggers this function.
      * @throws IOException
      */
@@ -99,14 +101,14 @@ public class EnterNameMultiPlayerCtrl {
 
         usernameString = userName.getText();
 
-        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
-        else{
+        else {
             URL url = new File("client/src/main/resources/client/scenes/MPGameScreen.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
 
             Scene newScene = new Scene(root);
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(newScene);
             window.show();
         }
@@ -115,6 +117,7 @@ public class EnterNameMultiPlayerCtrl {
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
+     *
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException
      */
@@ -125,7 +128,7 @@ public class EnterNameMultiPlayerCtrl {
         Parent root = FXMLLoader.load(url);
 
         Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
         window.show();
     }
