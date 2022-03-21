@@ -14,7 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -38,19 +37,6 @@ public class LobbyScreenCtrl {
     private Text hintText;
 
     /**
-     * Constructor for the controller
-     *
-     * @param serverUtils
-     * @param mainCtrl
-     */
-    @Inject
-
-    public LobbyScreenCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
-        this.serverUtils = serverUtils;
-        this.mainCtrl = mainCtrl;
-    }
-
-    /**
      * Empty constructor
      */
     public LobbyScreenCtrl() {
@@ -60,7 +46,9 @@ public class LobbyScreenCtrl {
      * Initializing the colName values
      */
     @FXML
-    public void initialize() {
+    public void initialize(ServerUtils serverUtils, MainCtrl mainCtrl) {
+        this.serverUtils = serverUtils;
+        this.mainCtrl = mainCtrl;
         //TODO: Fetch the players currently in the waiting room and insert them into the table
         //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
 

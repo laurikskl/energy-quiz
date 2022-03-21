@@ -99,6 +99,12 @@ public class EnterNameMultiPlayerCtrl {
             URL url = new File("client/src/main/resources/client/scenes/LobbyScreen.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
 
+            FXMLLoader loader = new FXMLLoader(url);
+            LobbyScreenCtrl ctrl = new LobbyScreenCtrl();
+            loader.setController(ctrl);
+            //Pane rooot = loader.load();
+            ctrl.initialize(serverUtils, mainCtrl);
+
             Scene newScene = new Scene(root);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(newScene);
