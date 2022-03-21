@@ -8,35 +8,35 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-height: 800; -fx-pref-width: 1200; -fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-height: 800; -fx-pref-width: 1200; -fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MultiChoiceCtrl">
    <children>
       <HBox layoutY="309.0" prefHeight="450.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
          <children>
-            <Button id="answer1" ellipsisString="" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; -fx-alignment: center;" text="ANSWER1" textAlignment="CENTER">
+            <Button fx:id="answer1" onAction="#handleButtonPress" ellipsisString="" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; -fx-alignment: center;" text="ANSWER1" textAlignment="CENTER">
                <HBox.margin>
                   <Insets right="60.0" />
                </HBox.margin>
                <graphic>
-                  <ImageView id="image1" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
+                  <ImageView fx:id="image1" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
                </graphic>
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
-            <Button id="answer2" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER2">
+            <Button fx:id="answer2" onAction="#handleButtonPress" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER2">
                <HBox.margin>
                   <Insets right="60.0" />
                </HBox.margin>
                <graphic>
-                  <ImageView id="image2" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
+                  <ImageView fx:id="image2" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
                </graphic>
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Button>
-            <Button id="answer3" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER3">
+            <Button fx:id="answer3" onAction="#handleButtonPress" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER3">
                <graphic>
-                  <ImageView id="answer3" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
+                  <ImageView fx:id="image3" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
                </graphic>
                <font>
                   <Font name="System Bold" size="25.0" />
