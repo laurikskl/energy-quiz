@@ -68,11 +68,10 @@ public class MainCtrl{
 
     /**
      * Sets the current stage's scene to the How2Play screen and adds the css to it
-     * Should probably set the path to be non-relative but that's a problem for later
      */
     public void showHow2Play() {
-//        String sheet = Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/splash.css")).toExternalForm();
-//        splash.getStylesheets().add(sheet);
+        String sheet = Objects.requireNonNull(getClass().getResource("/stylesheets/How2Play.css")).toExternalForm();
+        how2Play.getStylesheets().add(sheet);
         primaryStage.setScene(how2Play);
     }
 
