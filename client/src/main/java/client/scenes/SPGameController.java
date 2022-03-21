@@ -76,11 +76,12 @@ public class SPGameController {
         this.score = 0;
         this.questions = new ArrayList<>();
         //if statement to make tests work
-        if(name != null && scoreCount != null && questionNumber != null) {
-            name.setText(player.getUserName());
-            scoreCount.setText("Score: 0");
-            questionNumber.setText("0/20");
+        if(name == null || scoreCount == null || questionNumber == null) {
+            throw new IllegalStateException("One or more FXML fields are null");
         }
+        name.setText(player.getUserName());
+        scoreCount.setText("Score: 0");
+        questionNumber.setText("0/20");
         /*
         //generate 20 questions
         while(questions.size() < 20) {
@@ -167,6 +168,33 @@ public class SPGameController {
 
     public int getScore() {
         return score;
+    }
+
+
+    /**
+     * @return the Text element of the scoreCount
+     */
+
+    public Text getScoreCount() {
+        return scoreCount;
+    }
+
+
+    /**
+     * @return the Text element of the name
+     */
+
+    public Text getName() {
+        return name;
+    }
+
+
+    /**
+     * @return the Text element of the questionNumber
+     */
+
+    public Text getQuestionNumber() {
+        return questionNumber;
     }
 
 
