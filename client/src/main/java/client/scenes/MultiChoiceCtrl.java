@@ -35,11 +35,20 @@ public class MultiChoiceCtrl extends Controller {
     }
 
     /**
+     * Is called after constructor (Initializable)
+     * Sets the image of the ImageView in the splash screen to the logo
+     * Should probably set the path to be non-relative but that's a problem for later
+     */
+    @FXML
+    private void initialize() {
+
+    }
+
+    /**
      * This should be called when this question frame is called from the game controller,
      * when using initialize, it will load all the question frames when the application
      * is started, that could cause problems in the future
      */
-    @FXML
     public void onOpen() {
         image1.setImage(new Image(multiChoice.getActivities().get(0).getImagePath()));
         image2.setImage(new Image(multiChoice.getActivities().get(1).getImagePath()));

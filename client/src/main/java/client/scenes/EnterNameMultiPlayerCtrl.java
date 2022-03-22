@@ -5,39 +5,23 @@ import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
 
 public class EnterNameMultiPlayerCtrl extends Controller {
 
-    String usernameString;
-
     @FXML
-    private Button button;
-    @FXML
-    private ImageView backIMG;
-    @FXML
-    private Button back;
+    private Button backButton;
     @FXML
     private TextField userName;
     @FXML
-    private AnchorPane root;
-    @FXML
     private Text warningText;
+
+    String usernameString;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -54,10 +38,8 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * Should probably set the path to be non-relative but that's a problem for later
      */
     @FXML
-    public void initialize() {
-        backIMG = new ImageView();
-        backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
-        back = new Button("", backIMG);
+    private void initialize() {
+        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
     }
 
     /**

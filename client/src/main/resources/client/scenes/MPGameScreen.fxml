@@ -92,7 +92,7 @@
                 <Font name="System Bold" size="36.0" />
             </font>
         </Text>
-        <Button id="back-button" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" style="-fx-background-color: #f1f1f1;">
+        <Button id="back-button" fx:id="backButton" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" style="-fx-background-color: #f1f1f1;">
          <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
