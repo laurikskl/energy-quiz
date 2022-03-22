@@ -24,29 +24,21 @@ import java.util.Objects;
 
 public class EnterNameMultiPlayerCtrl {
 
+    String usernameString;
     @FXML
     private Button button;
-
     @FXML
     private ImageView backIMG;
-
     @FXML
     private Button back;
-
     @FXML
     private TextField userName;
-
     @FXML
     private AnchorPane root;
-
     @FXML
     private Text warningText;
-
-
     private ServerUtils serverUtils;
     private MainCtrl mainCtrl;
-
-    String usernameString;
 
     /**
      * Constructor for the controller.
@@ -91,7 +83,7 @@ public class EnterNameMultiPlayerCtrl {
     }
 
     /**
-     * Method that changes the screen to the SP.
+     * Method that changes the screen to the Lobby.
      *
      * @param actionEvent - pressing the play button triggers this function.
      * @throws IOException
@@ -104,8 +96,14 @@ public class EnterNameMultiPlayerCtrl {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            URL url = new File("client/src/main/resources/client/scenes/MPGameScreen.fxml").toURI().toURL();
+            URL url = new File("client/src/main/resources/client/scenes/LobbyScreen.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
+
+            FXMLLoader loader = new FXMLLoader(url);
+            LobbyScreenCtrl ctrl = new LobbyScreenCtrl();
+            loader.setController(ctrl);
+            //Pane rooot = loader.load();
+            ctrl.initialize(serverUtils, mainCtrl);
 
             Scene newScene = new Scene(root);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

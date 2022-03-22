@@ -26,13 +26,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
-/**
- * Temporary comment for checkstyle.
- */
-
-/**
- * This comment is a temporary fix for checkstyle.
- */
 
 public class AddQuoteCtrl {
 
