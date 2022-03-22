@@ -33,7 +33,7 @@ import java.util.List;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
- * This comment is a temporary fix for checkstyle.
+ * This class is for communication between client and server
  */
 
 public class ServerUtils {
@@ -42,7 +42,7 @@ public class ServerUtils {
      */
 
     private static final String SERVER = "http://localhost:8080/";
-    ;
+
     private static List<Player> players;
 
 
@@ -115,10 +115,35 @@ public class ServerUtils {
 
     public Question getQuestion() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/questions")
+                .target(SERVER).path("api/questions/next")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
+    }
+
+
+    /**
+     * @param name the name of a player
+     * @return the score associated with the name of the player
+     */
+
+    public Player getPlayer(String name) {
+        //update list of players
+        players = getAllPlayers();
+        //try to find player by name and return it
+        for (Player player : players) {
+            if (player.getUserName().equals(name)) return player;
+        }
+        return null;
+    }
+
+    public List<Player> getAllPlayers() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("player").
+                request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON).
+                get(new GenericType<List<Player>>() {
+                });
     }
 
 

@@ -19,7 +19,7 @@
             <Font name="System Bold" size="48.0" />
          </font>
       </Button>
-      <Button layoutX="1108.0" layoutY="598.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" onAction="#mouseClickedLeaderboard" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="LEADERBOARD" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="515.0">
+      <Button layoutX="1108.0" layoutY="598.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="LEADERBOARD" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="515.0">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
