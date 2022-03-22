@@ -50,8 +50,7 @@ class SPGameCtrlTest {
         p1 = new Player("Max", 9000);
         s1 = new SPGameCtrl(server, mainCtrl);
         try{
-            s1.setPlayer(p1);
-            s1.initialize();
+            s1.startGame(p1);
         } catch(IllegalStateException ignored) {
         }
     }
@@ -64,17 +63,6 @@ class SPGameCtrlTest {
     void constructor() {
         assertNotNull(s1);
     }
-
-
-    /**
-     * Testing if all fields are properly set
-     */
-
-    @Test
-    void initialize() {
-        assertThrows(IllegalStateException.class, ()-> s1.initialize());
-    }
-
 
     /**
      * This method doesn't do a lot yet so this will be tested later
@@ -212,19 +200,6 @@ class SPGameCtrlTest {
         s1.setScore(59009);
         assertEquals(59009, s1.getScore());
     }
-
-
-    /**
-     * Testing setter for server
-     */
-
-    @Test
-    void setServer() {
-        ServerUtils s2 = mock(ServerUtils.class);
-        s1.setServer(s2);
-        assertEquals(s2, s1.getServer());
-    }
-
 
     /**
      * Testing setter for scoreCount
