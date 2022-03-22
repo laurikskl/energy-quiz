@@ -25,7 +25,7 @@ import javafx.util.Pair;
  * Temporary comment for checkstyle.
  */
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainCtrl{
@@ -38,8 +38,6 @@ public class MainCtrl{
     //Scenes
     private List<Scene> scenes;
 
-    private Player player;
-
 
     /**
      * Acts as constructor
@@ -49,10 +47,19 @@ public class MainCtrl{
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
         this.primaryStage = primaryStage;
 
-        for (Pair<Controller, Parent> pair : scenes) {
-            this.controllers.add(scenes.get(0).getKey());
-            this.scenes.add(new Scene(scenes.get(0).getValue()));
+        this.controllers = new ArrayList<>();
+        this.scenes = new ArrayList<>();
+
+        for (int i = 0; i < scenes.size(); i++) {
+            this.controllers.add(scenes.get(i).getKey());
+            this.scenes.add(new Scene(scenes.get(i).getValue()));
         }
+
+        //add css
+        this.scenes.get(0).getStylesheets().add("stylesheets/splash.css");
+        this.scenes.get(1).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
+        this.scenes.get(2).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
+        this.scenes.get(6).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
 
         showSplash();
     }
@@ -119,15 +126,8 @@ public class MainCtrl{
      * Sets the PlayerObj
      * @param player PlayerObj representing this player
      */
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    /**
-     * Gets the PlayerObj
-     */
-    public Player getPlayer() {
-        return this.player;
+    public void startSPGame(Player player) {
+        ((SPGameCtrl) this.controllers.get(4)).startGame(player);
     }
 
     /**

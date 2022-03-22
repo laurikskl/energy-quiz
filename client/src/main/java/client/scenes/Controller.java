@@ -1,10 +1,7 @@
 
 package client.scenes;
-
-import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.application.Platform;
 
 public class Controller {
 

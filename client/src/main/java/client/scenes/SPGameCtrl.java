@@ -6,16 +6,11 @@ import commons.Player;
 import commons.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +32,15 @@ public class SPGameCtrl extends Controller{
      */
 
     @FXML
+    private Button backButton;
+    @FXML
     private Text scoreCount;
-
     @FXML
     private Text name;
-
     @FXML
     private Text questionNumber;
 
-    private ServerUtils server;
+    private Player player;
     private int qCount;
     private List<Question> questions;
     private int score;
@@ -68,7 +63,12 @@ public class SPGameCtrl extends Controller{
      * does the cleanup after the game
      */
     @FXML
-    public void initialize() {
+    private void initialize() {
+        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
+    }
+
+    public void startGame(Player player) {
+        this.player = player;
         this.qCount = 0;
         this.score = 0;
         this.questions = new ArrayList<>();
@@ -78,9 +78,10 @@ public class SPGameCtrl extends Controller{
             throw new IllegalStateException("One or more FXML fields are null");
         }
 
-        name.setText(this.mainCtrl.getPlayer().getUserName());
+        name.setText(player.getUserName());
         scoreCount.setText("Score: 0");
         questionNumber.setText("0/20");
+
         /*
         //generate 20 questions
         while(questions.size() < 20) {
