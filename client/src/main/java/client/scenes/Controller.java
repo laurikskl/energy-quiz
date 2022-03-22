@@ -1,3 +1,4 @@
+
 package client.scenes;
 
 import client.scenes.MainCtrl;
@@ -17,7 +18,7 @@ public class Controller {
      */
     @Inject
     public Controller(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = new ServerUtils();
+        this.server = server;
         this.mainCtrl = mainCtrl;
     }
 

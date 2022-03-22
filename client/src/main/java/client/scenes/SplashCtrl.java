@@ -81,7 +81,10 @@ public class SplashCtrl extends Controller {
 
         //set the root to the new scene
         URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+        EnterNameSinglePlayerCtrl ctrl = loader.getController();
+        ctrl.setServerUtils(server);
         Scene newScene = new Scene(root);
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
@@ -108,19 +111,7 @@ public class SplashCtrl extends Controller {
 
     }
 
-    /**
-     * Changes the scene with the Leaderboard screen when pressing the LEADERBOARD button
-     *
-     * @param actionEvent
-     * @throws IOException
-     */
-    public void mouseClickedLeaderboard(ActionEvent actionEvent) throws IOException {
-        //set the room to the new scene
-        URL url = new File("client/src/main/resources/client/scenes/LeaderboardScreen.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
+    public void setServer(ServerUtils server) {
+        this.server = server;
     }
 }

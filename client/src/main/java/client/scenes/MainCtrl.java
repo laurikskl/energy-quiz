@@ -29,6 +29,7 @@ import java.util.List;
 
 public class MainCtrl{
 
+
     private Stage primaryStage;
 
     //Controllers
@@ -36,6 +37,7 @@ public class MainCtrl{
 
     //Scenes
     private List<Scene> scenes;
+
 
     /**
      * Acts as constructor

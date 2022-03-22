@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -91,9 +92,22 @@ public class EnterNameSinglePlayerCtrl extends Controller {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
 
-            SPGameCtrl spGameCtrl = loader.getController();
-            spGameCtrl.initialize(usernameString); //here we initialize the SP screen with the name the user has provided in the top center
+            //fetch player from database, if it doesn't exist store a new player with score 0
+            Player player;
+            try{
+                player = serverUtils.getPlayer(usernameString);
+                if(player == null) {
+                    player = new Player(usernameString, 0);
+                    serverUtils.setPlayer(usernameString, 0);
+                }
+            }
+            catch (Exception e) { //this should only happen when the server is null
+                System.out.println("WARNING SERVER IS NOT ACTIVE");
+                player = new Player(usernameString, 0);
+            }
 
+            SPGameController spGameController = loader.getController();
+            spGameController.initialize(player, serverUtils);
 
             Scene newScene = new Scene(root);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -119,5 +133,9 @@ public class EnterNameSinglePlayerCtrl extends Controller {
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
         window.show();
+    }
+
+    public void setServerUtils(ServerUtils serverUtils) {
+        this.serverUtils = serverUtils;
     }
 }
