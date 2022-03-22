@@ -20,7 +20,10 @@ import static org.mockito.Mockito.mock;
  * Tests for SPGameController class
  */
 
-class SPGameControllerTest {
+class SPGameCtrlTest {
+
+    @Mock
+    private MainCtrl mainCtrl;
 
     @Mock
     private ServerUtils server;
@@ -28,7 +31,7 @@ class SPGameControllerTest {
     @Mock
     private Text text;
 
-    private SPGameController s1;
+    private SPGameCtrl s1;
     private Player p1;
 
 
@@ -43,10 +46,12 @@ class SPGameControllerTest {
     void setup() {
         text = mock(Text.class);
         server = mock(ServerUtils.class);
+        mainCtrl = mock(MainCtrl.class);
         p1 = new Player("Max", 9000);
-        s1 = new SPGameController();
+        s1 = new SPGameCtrl(server, mainCtrl);
         try{
-            s1.initialize(p1, server);
+            s1.setPlayer(p1);
+            s1.initialize();
         } catch(IllegalStateException ignored) {
         }
     }
@@ -67,7 +72,7 @@ class SPGameControllerTest {
 
     @Test
     void initialize() {
-        assertThrows(IllegalStateException.class, ()-> s1.initialize(p1, server));
+        assertThrows(IllegalStateException.class, ()-> s1.initialize());
     }
 
 

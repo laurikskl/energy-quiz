@@ -16,6 +16,7 @@
 
 package client.scenes;
 
+import commons.Player;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,7 +30,6 @@ import java.util.List;
 
 public class MainCtrl{
 
-
     private Stage primaryStage;
 
     //Controllers
@@ -37,6 +37,8 @@ public class MainCtrl{
 
     //Scenes
     private List<Scene> scenes;
+
+    private Player player;
 
 
     /**
@@ -67,7 +69,6 @@ public class MainCtrl{
     /**
      * Sets primaryStage's scene to the splash screen
      */
-
     public void showSplash() {
         showScene(this.scenes.get(0));
     }
@@ -75,7 +76,6 @@ public class MainCtrl{
     /**
      * Sets primaryStage's scene to the EnterNameSinglePlayer screen
      */
-
     public void showEnterNameSinglePlayer() {
         showScene(this.scenes.get(1));
     }
@@ -83,7 +83,6 @@ public class MainCtrl{
     /**
      * Sets primaryStage's scene to the EnterNameMultiplayer screen
      */
-
     public void showEnterNameMultiPlayer() {
         showScene(this.scenes.get(2));
     }
@@ -91,7 +90,6 @@ public class MainCtrl{
     /**
      * Sets primaryStage's scene to the Leaderboard screen
      */
-
     public void showLeaderboard() {
         showScene(this.scenes.get(3));
     }
@@ -99,7 +97,6 @@ public class MainCtrl{
     /**
      * Sets primaryStage's scene to the SPGame screen
      */
-
     public void showSPGame() {
         showScene(this.scenes.get(4));
     }
@@ -107,15 +104,35 @@ public class MainCtrl{
     /**
      * Sets primaryStage's scene to the Lobby screen
      */
-
     public void showLobbyScreen() {
         showScene(this.scenes.get(5));
     }
 
     /**
+     * Sets primaryStage's scene to the MPGame screen
+     */
+    public void showMPGame() {
+        showScene(this.scenes.get(6));
+    }
+
+    /**
+     * Sets the PlayerObj
+     * @param player PlayerObj representing this player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /**
+     * Gets the PlayerObj
+     */
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    /**
      * Closes the primary stage to quit the application
      */
-
     public void close() {
         primaryStage.close();
     }
@@ -123,7 +140,6 @@ public class MainCtrl{
     /**
      * @return the primary stage
      */
-
     public Stage getPrimaryStage() {
         return primaryStage;
     }

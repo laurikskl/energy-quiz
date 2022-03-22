@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ public class SplashCtrl extends Controller {
      * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
-
+    @Inject
     public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
     }
@@ -47,7 +48,7 @@ public class SplashCtrl extends Controller {
 
     @FXML
     private void initialize() {
-        logoIMG.setImage(new Image("/main/main/Logo.png"));
+        logoIMG.setImage(new Image("/main/Logo.png"));
         this.invisibleHowToPlay();
     }
 
@@ -78,18 +79,7 @@ public class SplashCtrl extends Controller {
      */
 
     public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
-
-        //set the root to the new scene
-        URL url = new File("client/src/main/resources/client/scenes/EnterNameSinglePlayer.fxml").toURI().toURL();
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = loader.load();
-        EnterNameSinglePlayerCtrl ctrl = loader.getController();
-        ctrl.setServerUtils(server);
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
-
+        this.mainCtrl.showEnterNameSinglePlayer();
     }
 
 
@@ -100,15 +90,7 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
-
-        //set the root to the new scene
-        URL url = new File("client/src/main/resources/client/scenes/EnterNameMultiPlayer.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
-
+        mainCtrl.showEnterNameMultiPlayer();
     }
 
     public void setServer(ServerUtils server) {

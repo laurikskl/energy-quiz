@@ -25,6 +25,7 @@ import java.util.Objects;
 public class EnterNameMultiPlayerCtrl extends Controller {
 
     String usernameString;
+
     @FXML
     private Button button;
     @FXML
@@ -80,7 +81,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            super.mainCtrl.showLobbyScreen();
+            this.mainCtrl.showLobbyScreen();
         }
 
     }
@@ -92,14 +93,6 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-
-        //sets the scene back to the main screen
-        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
+        this.mainCtrl.showSplash();
     }
 }

@@ -65,13 +65,7 @@ public class LobbyScreenCtrl extends Controller {
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        //sets the scene back to the main screen
-        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
+        this.mainCtrl.showSplash();
     }
 
     /**

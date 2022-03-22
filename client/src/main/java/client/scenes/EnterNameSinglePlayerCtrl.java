@@ -88,31 +88,21 @@ public class EnterNameSinglePlayerCtrl extends Controller {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            URL url = new File("client/src/main/resources/client/scenes/SPGameScreen.fxml").toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent root = loader.load();
-
             //fetch player from database, if it doesn't exist store a new player with score 0
             Player player;
-            try{
-                player = serverUtils.getPlayer(usernameString);
-                if(player == null) {
+            try {
+                player = this.server.getPlayer(usernameString);
+                if (player == null) {
                     player = new Player(usernameString, 0);
-                    serverUtils.setPlayer(usernameString, 0);
+                    this.server.setPlayer(usernameString, 0);
                 }
-            }
-            catch (Exception e) { //this should only happen when the server is null
+            } catch (Exception e) { //this should only happen when the server is null
                 System.out.println("WARNING SERVER IS NOT ACTIVE");
                 player = new Player(usernameString, 0);
             }
 
-            SPGameController spGameController = loader.getController();
-            spGameController.initialize(player, serverUtils);
-
-            Scene newScene = new Scene(root);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(newScene);
-            window.show();
+            this.mainCtrl.setPlayer(player);
+            this.mainCtrl.showSPGame();
         }
 
     }
@@ -124,18 +114,6 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-
-        //sets the scene back to the main screen
-        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
-    }
-
-    public void setServerUtils(ServerUtils serverUtils) {
-        this.serverUtils = serverUtils;
+        this.mainCtrl.showSplash();
     }
 }
