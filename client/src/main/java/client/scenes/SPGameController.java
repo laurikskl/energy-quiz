@@ -111,7 +111,7 @@ public class SPGameController {
 
     public void doAQuestion(Question q) {
         this.qCount++;
-        questionNumber.setText(qCount+"/20");
+        questionNumber.setText(qCount + "/20");
         //load the question in the frame
         //start a timer for the question
     }

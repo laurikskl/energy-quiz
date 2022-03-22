@@ -48,9 +48,10 @@ public class Main extends Application {
     /**
      * Run to start the client
      * launch() calls start method
+     *
      * @param args arguments for main method
      * @throws URISyntaxException can throw this exception
-     * @throws IOException can throw this exception
+     * @throws IOException        can throw this exception
      */
 
     public static void main(String[] args) throws URISyntaxException, IOException {
@@ -62,6 +63,7 @@ public class Main extends Application {
      * This method is called by launch() in main
      * Creates and instance of the splash and main controller
      * Initializes the main controller with the primary stage and the splash controller
+     *
      * @param primaryStage the main stage we will be displaying our scenes in
      * @throws IOException can throw this exception
      */
