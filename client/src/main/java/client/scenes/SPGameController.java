@@ -89,12 +89,7 @@ public class SPGameController {
         }
         //iterate over all questions
         for(Question q : questions) {
-            try {
-                this.doAQuestion(q);
-            } catch (IOException e) {
-                System.out.println("WhatRequiresMoreNRGScreen.fxml not found in that location");
-                e.printStackTrace();
-            }
+            this.doAQuestion(q);
         }
         //overwrite high-score if the current score is higher
         if(score > getServer().getPlayer(player.getUserName()).getScore()) {

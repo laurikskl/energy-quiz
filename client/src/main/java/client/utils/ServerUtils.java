@@ -115,7 +115,7 @@ public class ServerUtils {
 
     public Question getQuestion() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/questions")
+                .target(SERVER).path("api/questions/next")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
