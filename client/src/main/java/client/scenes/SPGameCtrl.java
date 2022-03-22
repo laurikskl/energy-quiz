@@ -119,6 +119,12 @@ public class SPGameCtrl extends Controller{
         this.mainCtrl.showSplash();
     }
 
+    /**
+     * @return PlayerObj
+     */
+    public Player getPlayer() {
+        return this.player;
+    }
 
     /**
      * @return current question number
@@ -160,6 +166,13 @@ public class SPGameCtrl extends Controller{
      */
     public Text getQuestionNumber() {
         return questionNumber;
+    }
+
+    /**
+     * @param player PlayerObj
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
