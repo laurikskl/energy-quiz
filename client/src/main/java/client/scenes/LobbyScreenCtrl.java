@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Player;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,11 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-public class LobbyScreenCtrl {
-
-    private ServerUtils serverUtils;
-    private MainCtrl mainCtrl;
-    private ObservableList<Player> data;
+public class LobbyScreenCtrl extends Controller {
 
     @FXML
     private TableView<Player> table;
@@ -36,19 +33,22 @@ public class LobbyScreenCtrl {
     @FXML
     private Text hintText;
 
+    private ObservableList<Player> data;
+
     /**
-     * Empty constructor
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
      */
-    public LobbyScreenCtrl() {
+    @Inject
+    public LobbyScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(server, mainCtrl);
     }
 
     /**
      * Initializing the colName values
      */
     @FXML
-    public void initialize(ServerUtils serverUtils, MainCtrl mainCtrl) {
-        this.serverUtils = serverUtils;
-        this.mainCtrl = mainCtrl;
+    public void initialize() {;
         //TODO: Fetch the players currently in the waiting room and insert them into the table
         //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
 

@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,9 +16,8 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 
-public class SplashCtrl {
+public class SplashCtrl extends Controller {
 
     @FXML
     private ImageView logoIMG;
@@ -27,53 +25,30 @@ public class SplashCtrl {
     @FXML
     private TextField howToPlayText;
 
-    private ServerUtils server;
-    private MainCtrl mainCtrl;
-
     /**
      * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
 
-    @Inject
     public SplashCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = new ServerUtils();
-        this.mainCtrl = mainCtrl;
+        super(server, mainCtrl);
     }
-
-    public SplashCtrl() {
-    }
-
-    public ServerUtils getServer() {
-        return server;
-    }
-
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
-    }
-
-    /**
-     * Exits the application, called by quit button
-     */
 
     public void cancel() {
         Platform.exit();
     }
-
 
     /**
      * Is called automatically after constructor
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
      *
-     * @param mainCtrl
      */
 
     @FXML
-    public void initialize(MainCtrl mainCtrl) {
-        logoIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/Logo.png")).toExternalForm()));
+    private void initialize() {
+        logoIMG.setImage(new Image("/main/main/Logo.png"));
         this.invisibleHowToPlay();
-        //System.out.println("RONALDOSIII");
     }
 
 

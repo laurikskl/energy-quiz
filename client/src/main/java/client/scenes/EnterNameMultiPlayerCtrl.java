@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class EnterNameMultiPlayerCtrl {
+public class EnterNameMultiPlayerCtrl extends Controller {
 
     String usernameString;
     @FXML
@@ -37,25 +37,14 @@ public class EnterNameMultiPlayerCtrl {
     private AnchorPane root;
     @FXML
     private Text warningText;
-    private ServerUtils serverUtils;
-    private MainCtrl mainCtrl;
 
     /**
-     * Constructor for the controller.
-     *
-     * @param serverUtils
-     * @param mainCtrl
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
      */
     @Inject
-    public EnterNameMultiPlayerCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
-        this.serverUtils = serverUtils;
-        this.mainCtrl = mainCtrl;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public EnterNameMultiPlayerCtrl() {
+    public EnterNameMultiPlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(server, mainCtrl);
     }
 
     /**
@@ -64,8 +53,7 @@ public class EnterNameMultiPlayerCtrl {
      * Should probably set the path to be non-relative but that's a problem for later
      */
     @FXML
-    public void initialize(MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public void initialize() {
         backIMG = new ImageView();
         backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
         back = new Button("", backIMG);
@@ -76,10 +64,6 @@ public class EnterNameMultiPlayerCtrl {
      */
     public void cancel() {
         Platform.exit();
-    }
-
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
     }
 
     /**
@@ -96,19 +80,7 @@ public class EnterNameMultiPlayerCtrl {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            URL url = new File("client/src/main/resources/client/scenes/LobbyScreen.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
-
-            FXMLLoader loader = new FXMLLoader(url);
-            LobbyScreenCtrl ctrl = new LobbyScreenCtrl();
-            loader.setController(ctrl);
-            //Pane rooot = loader.load();
-            ctrl.initialize(serverUtils, mainCtrl);
-
-            Scene newScene = new Scene(root);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(newScene);
-            window.show();
+            super.mainCtrl.showLobbyScreen();
         }
 
     }

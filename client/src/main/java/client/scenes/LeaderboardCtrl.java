@@ -23,11 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderboardCtrl {
-
-    private ServerUtils server;
-
-    private ObservableList<PlayerForTable> data;
+public class LeaderboardCtrl extends Controller {
 
     @FXML
     private TableView<PlayerForTable> table;
@@ -38,15 +34,15 @@ public class LeaderboardCtrl {
     @FXML
     private TableColumn<PlayerForTable, String> colScore;
 
-    @Inject
-    public LeaderboardCtrl(ServerUtils server) {
-        this.server = server;
-    }
+    private ObservableList<PlayerForTable> data;
 
     /**
-     * Empty constructor for changing scenes
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
      */
-    public LeaderboardCtrl() {
+    @Inject
+    public LeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(server, mainCtrl);
     }
 
     /**
@@ -54,9 +50,7 @@ public class LeaderboardCtrl {
      * Converts the top 15 players to String form and adds them to the table.
      */
     @FXML
-    public void initialize(ServerUtils server) {
-        this.server = server;
-
+    public void initialize() {
         List<Player> leaderboardPlayers = server.getLeaderboard();
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
 

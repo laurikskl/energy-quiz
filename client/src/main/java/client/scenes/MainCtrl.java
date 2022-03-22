@@ -16,28 +16,99 @@
 
 package client.scenes;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+/**
+ * Temporary comment for checkstyle.
+ */
 
 import java.io.File;
+import java.util.List;
 
-public class MainCtrl {
+public class MainCtrl{
 
     private Stage primaryStage;
-    private SplashCtrl splashCtrl;
-    private Scene splash;
+
+    //Controllers
+    private List<Controller> controllers;
+
+    //Scenes
+    private List<Scene> scenes;
 
     /**
-     * Sets the current stage's scene to the splash screen and adds the css to it
-     * Should probably set the path to be non-relative but that's a problem for later
+     * Acts as constructor
+     * @param primaryStage the primary stage
+     * @param scenes List of pairs of Controller instances and roots for fxml loader
+     */
+    public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
+        this.primaryStage = primaryStage;
+
+        for (Pair<Controller, Parent> pair : scenes) {
+            this.controllers.add(scenes.get(0).getKey());
+            this.scenes.add(new Scene(scenes.get(0).getValue()));
+        }
+
+        showSplash();
+    }
+
+    /**
+     * Internal helper method to show a scene
+     * @param scene Scene to show
+     */
+    private void showScene(Scene scene) {
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * Sets primaryStage's scene to the splash screen
      */
 
     public void showSplash() {
-        String sheet = new File("client/src/main/resources/main/splash.css").toURI().toString();
-        splash.getStylesheets().add(sheet);
-        primaryStage.setScene(splash);
+        showScene(this.scenes.get(0));
     }
 
+    /**
+     * Sets primaryStage's scene to the EnterNameSinglePlayer screen
+     */
+
+    public void showEnterNameSinglePlayer() {
+        showScene(this.scenes.get(1));
+    }
+
+    /**
+     * Sets primaryStage's scene to the EnterNameMultiplayer screen
+     */
+
+    public void showEnterNameMultiPlayer() {
+        showScene(this.scenes.get(2));
+    }
+
+    /**
+     * Sets primaryStage's scene to the Leaderboard screen
+     */
+
+    public void showLeaderboard() {
+        showScene(this.scenes.get(3));
+    }
+
+    /**
+     * Sets primaryStage's scene to the SPGame screen
+     */
+
+    public void showSPGame() {
+        showScene(this.scenes.get(4));
+    }
+
+    /**
+     * Sets primaryStage's scene to the Lobby screen
+     */
+
+    public void showLobbyScreen() {
+        showScene(this.scenes.get(5));
+    }
 
     /**
      * Closes the primary stage to quit the application
@@ -53,48 +124,5 @@ public class MainCtrl {
 
     public Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    /**
-     * @param stage the primary stage
-     */
-
-    public void setPrimaryStage(Stage stage) {
-        this.primaryStage = stage;
-    }
-
-    /**
-     * @return controller for splash scene
-     */
-
-    public SplashCtrl getSplashCtrl() {
-        return splashCtrl;
-    }
-
-
-    /**
-     * @param splashCtrl controller for splash scene
-     */
-
-    public void setSplashCtrl(SplashCtrl splashCtrl) {
-        this.splashCtrl = splashCtrl;
-    }
-
-
-    /**
-     * @return the splash scene
-     */
-
-    public Scene getSplash() {
-        return splash;
-    }
-
-
-    /**
-     * @param splash the splash scene
-     */
-
-    public void setSplash(Scene splash) {
-        this.splash = splash;
     }
 }

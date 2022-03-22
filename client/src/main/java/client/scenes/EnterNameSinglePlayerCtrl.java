@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class EnterNameSinglePlayerCtrl {
+public class EnterNameSinglePlayerCtrl extends Controller {
 
     @FXML
     private Button button;
@@ -42,28 +42,15 @@ public class EnterNameSinglePlayerCtrl {
     @FXML
     private Text warningText;
 
-
-    private ServerUtils serverUtils;
-    private MainCtrl mainCtrl;
-
     String usernameString;
 
     /**
-     * Constructor for the controller.
-     *
-     * @param serverUtils
-     * @param mainCtrl
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
      */
     @Inject
-    public EnterNameSinglePlayerCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
-        this.serverUtils = serverUtils;
-        this.mainCtrl = mainCtrl;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public EnterNameSinglePlayerCtrl() {
+    public EnterNameSinglePlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(server, mainCtrl);
     }
 
     /**
@@ -72,8 +59,7 @@ public class EnterNameSinglePlayerCtrl {
      * Should probably set the path to be non-relative but that's a problem for later
      */
     @FXML
-    public void initialize(MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public void initialize() {
         backIMG = new ImageView();
         backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
         back = new Button("", backIMG);
@@ -105,8 +91,8 @@ public class EnterNameSinglePlayerCtrl {
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
 
-            SPGameController spGameController = loader.getController();
-            spGameController.initialize(usernameString); //here we initialize the SP screen with the name the user has provided in the top center
+            SPGameCtrl spGameCtrl = loader.getController();
+            spGameCtrl.initialize(usernameString); //here we initialize the SP screen with the name the user has provided in the top center
 
 
             Scene newScene = new Scene(root);

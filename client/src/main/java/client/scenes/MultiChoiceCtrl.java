@@ -8,11 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class MultiChoiceCtrl {
-
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final Question.MultiChoice multiChoice;
+public class MultiChoiceCtrl extends Controller {
     @FXML
     private Button answer1;
     @FXML
@@ -26,11 +22,15 @@ public class MultiChoiceCtrl {
     @FXML
     private ImageView image3;
 
+    private final Question.MultiChoice multiChoice;
 
+    /**
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
+     */
     @Inject
     public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+        super(server, mainCtrl);
         this.multiChoice = server.getMultiChoice();
     }
 
