@@ -80,6 +80,7 @@ public class Main extends Application {
         scenes.add(FXML.load(LobbyScreenCtrl.class, "client", "scenes", "LobbyScreen.fxml"));
         scenes.add(FXML.load(MPGameCtrl.class, "client", "scenes", "MPGameScreen.fxml"));
         scenes.add(FXML.load(How2PlayCtrl.class, "client", "scenes", "How2Play.fxml"));
+        scenes.add(FXML.load(AdminCtrl.class, "client", "scenes", "Admin.fxml"));
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, scenes);
