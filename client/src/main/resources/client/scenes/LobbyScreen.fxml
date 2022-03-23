@@ -13,7 +13,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LobbyScreenCtrl">
    <children>
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6539d4" height="763.0" layoutX="380.0" layoutY="109.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="587.0" AnchorPane.bottomAnchor="208.20000000000005" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="108.79999999999995" />
-      <Button id="back-button" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="191.0" AnchorPane.topAnchor="65.0">
+      <Button id="back-button" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="191.0" AnchorPane.topAnchor="65.0">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>

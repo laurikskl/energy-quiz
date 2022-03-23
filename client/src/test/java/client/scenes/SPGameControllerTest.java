@@ -20,10 +20,7 @@ import static org.mockito.Mockito.mock;
  * Tests for SPGameController class
  */
 
-class SPGameCtrlTest {
-
-    @Mock
-    private MainCtrl mainCtrl;
+class SPGameControllerTest {
 
     @Mock
     private ServerUtils server;
@@ -31,7 +28,7 @@ class SPGameCtrlTest {
     @Mock
     private Text text;
 
-    private SPGameCtrl s1;
+    private SPGameController s1;
     private Player p1;
 
 
@@ -46,11 +43,10 @@ class SPGameCtrlTest {
     void setup() {
         text = mock(Text.class);
         server = mock(ServerUtils.class);
-        mainCtrl = mock(MainCtrl.class);
         p1 = new Player("Max", 9000);
-        s1 = new SPGameCtrl(server, mainCtrl);
+        s1 = new SPGameController();
         try{
-            s1.startGame(p1);
+            s1.initialize(p1, server);
         } catch(IllegalStateException ignored) {
         }
     }
@@ -63,6 +59,17 @@ class SPGameCtrlTest {
     void constructor() {
         assertNotNull(s1);
     }
+
+
+    /**
+     * Testing if all fields are properly set
+     */
+
+    @Test
+    void initialize() {
+        assertThrows(IllegalStateException.class, ()-> s1.initialize(p1, server));
+    }
+
 
     /**
      * This method doesn't do a lot yet so this will be tested later
@@ -200,6 +207,19 @@ class SPGameCtrlTest {
         s1.setScore(59009);
         assertEquals(59009, s1.getScore());
     }
+
+
+    /**
+     * Testing setter for server
+     */
+
+    @Test
+    void setServer() {
+        ServerUtils s2 = mock(ServerUtils.class);
+        s1.setServer(s2);
+        assertEquals(s2, s1.getServer());
+    }
+
 
     /**
      * Testing setter for scoreCount

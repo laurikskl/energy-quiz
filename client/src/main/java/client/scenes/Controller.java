@@ -1,18 +1,16 @@
-
 package client.scenes;
+
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
+import javafx.application.Platform;
 
-public class Controller {
+import javax.inject.Inject;
 
-    //Fields
-    protected ServerUtils server;
-    protected MainCtrl mainCtrl;
+public abstract class Controller {
 
-    /**
-     * @param server   reference to an instance of ServerUtils
-     * @param mainCtrl reference to an instance of mainCtrl
-     */
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
+
+
     @Inject
     public Controller(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
@@ -26,4 +24,9 @@ public class Controller {
     public MainCtrl getMainCtrl() {
         return mainCtrl;
     }
+
+    public void close() {
+        Platform.exit();
+    }
+
 }

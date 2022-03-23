@@ -5,33 +5,57 @@ import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
 
-public class EnterNameMultiPlayerCtrl extends Controller {
+public class EnterNameMultiPlayerCtrl {
 
+    String usernameString;
     @FXML
-    private ImageView iconMP;
+    private Button button;
     @FXML
-    private Button backButton;
+    private ImageView backIMG;
+    @FXML
+    private Button back;
     @FXML
     private TextField userName;
     @FXML
+    private AnchorPane root;
+    @FXML
     private Text warningText;
-
-    String usernameString;
+    private ServerUtils serverUtils;
+    private MainCtrl mainCtrl;
 
     /**
-     * @param server   reference to an instance of ServerUtils
-     * @param mainCtrl reference to an instance of mainCtrl
+     * Constructor for the controller.
+     *
+     * @param serverUtils
+     * @param mainCtrl
      */
     @Inject
-    public EnterNameMultiPlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(server, mainCtrl);
+    public EnterNameMultiPlayerCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
+        this.serverUtils = serverUtils;
+        this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Default constructor.
+     */
+    public EnterNameMultiPlayerCtrl() {
     }
 
     /**
@@ -40,9 +64,11 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * Should probably set the path to be non-relative but that's a problem for later
      */
     @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
-        this.iconMP.setImage(new Image("entername/MaxThePlants.png"));
+    public void initialize(MainCtrl mainCtrl) {
+        this.mainCtrl = mainCtrl;
+        backIMG = new ImageView();
+        backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
+        back = new Button("", backIMG);
     }
 
     /**
@@ -50,6 +76,10 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      */
     public void cancel() {
         Platform.exit();
+    }
+
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
     }
 
     /**
@@ -66,7 +96,19 @@ public class EnterNameMultiPlayerCtrl extends Controller {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            this.mainCtrl.showLobbyScreen();
+            URL url = new File("client/src/main/resources/client/scenes/LobbyScreen.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+
+            FXMLLoader loader = new FXMLLoader(url);
+            LobbyScreenCtrl ctrl = new LobbyScreenCtrl();
+            loader.setController(ctrl);
+            //Pane rooot = loader.load();
+            ctrl.initialize(serverUtils, mainCtrl);
+
+            Scene newScene = new Scene(root);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.setScene(newScene);
+            window.show();
         }
 
     }
@@ -78,6 +120,14 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showSplash();
+
+        //sets the scene back to the main screen
+        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+
+        Scene newScene = new Scene(root);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(newScene);
+        window.show();
     }
 }
