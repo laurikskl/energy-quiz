@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 
 import java.util.List;
 
-public class How2PlayCtrl {
+public class How2PlayCtrl extends Controller{
 
     @FXML
     private Button backButton;
@@ -20,17 +20,13 @@ public class How2PlayCtrl {
     @FXML
     private TabPane tabPane;
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-
     /**
      * @param server reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
     @Inject
     public How2PlayCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+        super(server, mainCtrl);
     }
 
     /**

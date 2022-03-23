@@ -60,6 +60,7 @@ public class MainCtrl{
         this.scenes.get(1).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
         this.scenes.get(2).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
         this.scenes.get(6).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
+        this.scenes.get(7).getStylesheets().add("stylesheets/how2Play.css");
 
         showSplash();
     }
@@ -120,6 +121,13 @@ public class MainCtrl{
      */
     public void showMPGame() {
         showScene(this.scenes.get(6));
+    }
+
+    /**
+     * Sets primaryStage's scene to the How2Play screen
+     */
+    public void showHow2Play() {
+        showScene(this.scenes.get(7));
     }
 
     /**
