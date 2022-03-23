@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * This is a controller for the Player class
+ * This is a controller for the Player class.
  */
 
 @RestController
@@ -18,16 +18,15 @@ public class PlayerController {
      * playerService is an instance of the playerService
      * playerRepository is an instance of the playerService
      */
-
     private final PlayerService playerService;
     private final PlayerRepository playerRepository;
 
 
     /**
+     * This is the constructor for the PlayerController.
      * @param playerService an instance of the playerService
      * @param playerRepository an instance of the playerService
      */
-
     public PlayerController(PlayerService playerService, PlayerRepository playerRepository) {
         this.playerService = playerService;
         this.playerRepository = playerRepository;
@@ -35,9 +34,9 @@ public class PlayerController {
 
 
     /**
+     * This method returns all players that exist in the database.
      * @return all players in the database
      */
-
     @GetMapping(path = { "", "/" })
     public List<Player> getAll(){
         return playerService.getPlayers();
@@ -45,10 +44,10 @@ public class PlayerController {
 
 
     /**
+     * This method return a specific player by its ID.
      * @param id the id of the player
-     * @return the player with the given id
+     * @return the player with the given ID
      */
-
     @GetMapping("/{id}")
     public ResponseEntity<Player> getById(@PathVariable("id") long id) {
         if (id<0 || !playerRepository.existsById(id)) {
@@ -59,10 +58,11 @@ public class PlayerController {
 
 
     /**
+     * This method sends a player to the database.
+     * This method will be used when you update the score of a player - it deletes the current player and stores it as a new entity with the actual score.
      * @param player the player to be added or updated
      * @return the response entity from setting the player
      */
-
     @PostMapping(path = "/setPlayer")
     public ResponseEntity<Player> setPlayer(@RequestBody Player player) {
         Player test = player;
@@ -77,12 +77,27 @@ public class PlayerController {
         return ResponseEntity.ok(player);
     }
 
+    /**
+    @PostMapping(path = "/setPlayer1")
+    public ResponseEntity<Player> setPlayer1(@RequestBody Player player, int newScore) {
+
+        if (playerService.updateScore(player, newScore)){
+            player.setScore(newScore);
+            return ResponseEntity.ok(player);
+        }
+        else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    */
 
     /**
+     * This method is called to add a new entity of player in the database.
+     * It checks if the username of the player is null/empty or if it already exists in the database. If it does, the method returns 400 BAD REQUEST as an answer.
+     * Else, it puts the player in the database.
      * @param player the player to add
-     * @returnthe response entity from adding the player
+     * @return the response entity from adding the player
      */
-
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Player> add(@RequestBody Player player) {
 
@@ -112,7 +127,8 @@ public class PlayerController {
 
 
     /**
-     * @param id deletes a player by this id
+     * This method deletes a player from the database given by the ID.
+     * @param id deletes a player by this ID
      * @return response entity of deleting the player
      */
     @DeleteMapping(path = "/{id}")
@@ -127,6 +143,7 @@ public class PlayerController {
 
 
     /**
+     * This method checks if a String is null and is used when posting a player to see if the username is not null/empty.
      * @param s a string
      * @return returns true if s is null or empty
      */
