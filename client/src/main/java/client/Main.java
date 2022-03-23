@@ -16,17 +16,17 @@
 
 package client;
 
+import client.scenes.*;
+
 import com.google.inject.Injector;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.ArrayList;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -70,14 +70,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        ArrayList<Pair<Controller, Parent>> scenes = new ArrayList<>();
 
-        Scene scene = new Scene(root);
+        scenes.add(FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml"));
+        scenes.add(FXML.load(EnterNameSinglePlayerCtrl.class, "client", "scenes", "EnterNameSinglePlayer.fxml"));
+        scenes.add(FXML.load(EnterNameMultiPlayerCtrl.class, "client", "scenes", "EnterNameMultiPlayer.fxml"));
+        scenes.add(FXML.load(LeaderboardCtrl.class, "client", "scenes", "LeaderboardScreen.fxml"));
+        scenes.add(FXML.load(SPGameCtrl.class, "client", "scenes", "SPGameScreen.fxml"));
+        scenes.add(FXML.load(LobbyScreenCtrl.class, "client", "scenes", "LobbyScreen.fxml"));
+        scenes.add(FXML.load(MPGameCtrl.class, "client", "scenes", "MPGameScreen.fxml"));
 
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl.initialize(primaryStage, scenes);
     }
 
 }
