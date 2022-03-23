@@ -74,7 +74,7 @@ public class EnterNameMultiPlayerCtrl {
     public void initialize(MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         backIMG = new ImageView();
-        backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
+        backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/icons/back.png")).toExternalForm()));
         back = new Button("", backIMG);
     }
 

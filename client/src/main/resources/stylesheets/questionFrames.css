@@ -1,0 +1,7 @@
+.answer-button{
+    -fx-background-color: #7CCADE;
+}
+
+.answer-button:hover{
+    -fx-background-color: #8DF5EE;
+}
