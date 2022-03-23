@@ -4,8 +4,11 @@ import commons.Activity;
 import commons.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.Activity.ActivityController;
+import server.Activity.ActivityService;
 
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +31,8 @@ class QuestionServiceTest {
 
     @BeforeEach
     void setup() {
-        q1 = new QuestionService(new TestActivityRepository());
+        TestActivityRepository t1 = new TestActivityRepository();
+        q1 = new QuestionService(t1, new ActivityController(new ActivityService(new Random(), t1)));
     }
 
 
@@ -39,7 +43,6 @@ class QuestionServiceTest {
     @Test
     void constructorTest() {
         assertNotNull(q1);
-        assertTrue(q1 instanceof QuestionService);
     }
 
 
@@ -50,7 +53,7 @@ class QuestionServiceTest {
     @Test
     void getQuestions() {
         List<Question> questions = q1.getQuestions();
-        assertTrue(questions != null);
+        assertNotNull(questions);
         assertEquals(20, questions.size());
     }
 
@@ -133,27 +136,6 @@ class QuestionServiceTest {
             }
         }
         assertEquals(mostNRG.getCorrect(), max);
-    }
-
-
-    /**
-     * Test whether getRandomActivity only returns the activities in the database
-     * or in this case returned by TestActivityRepository.
-     */
-
-    @Test
-    void getRandomActivity() {
-        //The only possible activities you can get from TestActivityRepository
-        Activity a1 = new Activity("showering", 2000, "wikipedia.com");
-        Activity a2 = new Activity("watching tv", 1000, "wikipedia.com");
-        Activity a3 = new Activity("coding", 1500, "wikipedia.com");
-        Activity a4 = new Activity("using e-bike", 2000, "wikipedia.com");
-
-        Activity random = q1.getRandomActivity();
-        assertNotNull(random);
-        if(!random.equals(a1) && !random.equals(a2) && !random.equals(a3) && !random.equals(a4)) {
-            fail("No random activity was generated");
-        }
     }
 
 }

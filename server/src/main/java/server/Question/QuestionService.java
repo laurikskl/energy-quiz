@@ -2,7 +2,9 @@ package server.Question;
 
 import commons.Activity;
 import commons.Question;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.Activity.ActivityController;
 import server.Activity.ActivityRepository;
 
 import java.util.*;
@@ -23,6 +25,7 @@ public class QuestionService {
 
   private final ActivityRepository activityRepository;
   private final Random random = new Random();
+  private final ActivityController activityController;
 
 
   /**
@@ -30,8 +33,10 @@ public class QuestionService {
    * @param activityRepository - the repository where we get our activities from
    */
 
-  public QuestionService(ActivityRepository activityRepository) {
+  @Autowired
+  public QuestionService(ActivityRepository activityRepository, ActivityController activityController) {
     this.activityRepository = activityRepository;
+    this.activityController = activityController;
   }
 
 
@@ -73,22 +78,14 @@ public class QuestionService {
   public Question.Matching getRandomMatching() {
 
     List<Activity> activities = new ArrayList<>(); //the list of activities
-    Activity activity = null; //the activity to match (index 0)
-    Activity match = null; //the matching activity (index 1)
+    Activity activity = activityController.getRandomActivity();
 
-    //getting an activity
-    while(activity == null) {
-      long randomId = random.nextInt((int) activityRepository.count());
-      Optional<Activity> activityOptional = activityRepository.findById(randomId);
-      if(activityOptional.isPresent()) {
-        activity = activityOptional.get();
-      }
-    }
+    Activity match = null; //the matching activity (index 1)
 
     //putting the activity at index 0
     activities.add(activity);
 
-    //finding an activity with around equal consumption by sorting it and finding the neighbour in the list
+    //finding an activity with around equal consumption by sorting activities and finding the neighbour in the list
     while(match == null) {
       List<Activity> all = activityRepository.findAll();
       Collections.sort(all);
@@ -109,7 +106,7 @@ public class QuestionService {
       long randomId = random.nextInt((int) activityRepository.count());
       Activity toAdd = null;
       while(toAdd == null) {
-        Activity potential = getRandomActivity();
+        Activity potential = activityController.getRandomActivity();
         if(potential != null && potential.getPowerConsumption() != activity.getPowerConsumption()) {
           toAdd = potential;
         }
@@ -126,7 +123,7 @@ public class QuestionService {
    */
 
   public Question.ChoiceEstimation getRandomChoiceEstimation() {
-    Activity activity = getRandomActivity(); //the activity to estimate the consumption of
+    Activity activity = activityController.getRandomActivity();
 
     //adding the correct answer at index 0
     long correct = activity.getPowerConsumption();
@@ -153,56 +150,16 @@ public class QuestionService {
 
   public Question.MostNRGQuestion getRandomMostNRG() {
     List<Activity> activities = new ArrayList<>();
-    int max = (int) activityRepository.count();
-    List<Integer> activityIds = new ArrayList<>();
-    Activity correct = null;
-    long maxConsumption = 0;
-
-    // Adding 3 random activities to a list, while also checking that they are different
-    while (activityIds.size() < 3) {
-      Activity activity;
-      int randomId = random.nextInt(max);
-      if (!activityIds.contains(randomId)) {
-        Optional<Activity> optionalActivity = activityRepository.findById((long) randomId);
-        if (optionalActivity.isEmpty()) {
-          continue;
-        }
-        activity = optionalActivity.get();
-        //Determining the maximum PowerConsumption of the three activities, and therefore the correct answer
-        if (activity.getPowerConsumption() > maxConsumption){
-          maxConsumption = activity.getPowerConsumption();
-          correct = activity;
-        }
-
-        //If the activity has the same PowerConsumption as the max, it gets discarded from the list,
-        //as that would mean two correct answers
-        else if (activity.getPowerConsumption() == maxConsumption){
-          continue;
-        }
-
-        activities.add(activity);
-        activityIds.add(randomId);
+    List<Long> consumptions = new ArrayList<>();
+    while (activities.size() < 3) {
+      Activity rand = activityController.getRandomActivity();
+      Long cons = rand.getPowerConsumption();
+      if(!consumptions.contains(cons)) {
+        consumptions.add(cons);
+        activities.add(rand);
       }
     }
-
-    return new Question.MostNRGQuestion(activities, correct);
+    Collections.sort(activities); //most energy will be in front
+    return new Question.MostNRGQuestion(activities, activities.get(0));
   }
-
-
-  /**
-   * @return a random activity from the database
-   */
-
-  public Activity getRandomActivity() {
-    Activity activity = null;
-    while(activity == null) {
-      long randomId = random.nextInt((int) activityRepository.count());
-      Optional<Activity> activityOptional = activityRepository.findById(randomId);
-      if(activityOptional.isPresent()) {
-        activity = activityOptional.get();
-      }
-    }
-    return activity;
-  }
-
 }
