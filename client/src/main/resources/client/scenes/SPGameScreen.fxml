@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPGameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPGameCtrl">
    <children>
-      <Text fill="#6639d4" layoutX="352.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE: 0" AnchorPane.leftAnchor="352.0" AnchorPane.rightAnchor="1398.0" AnchorPane.topAnchor="86.0">
+      <Text fx:id="scoreCount" fill="#6639d4" layoutX="352.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE: 0" AnchorPane.leftAnchor="352.0" AnchorPane.rightAnchor="1398.0" AnchorPane.topAnchor="86.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
@@ -19,7 +21,7 @@
          </font>
       </Text>
       <PieChart id="timer" layoutX="1564.0" layoutY="69.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" />
-      <Button id="back" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#cancel" style="-fx-background-color: #f1f1f1;">
+      <Button id="back" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -28,7 +30,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fx:id="text" fill="#6639d4" layoutX="920.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;name&gt;" textAlignment="CENTER">
+      <Text fx:id="name" fill="#6639d4" layoutX="920.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;name&gt;" textAlignment="CENTER">
          <font>
             <Font size="60.0" />
          </font>

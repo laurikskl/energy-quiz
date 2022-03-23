@@ -4,10 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
+
 public class PlayerTest {
 
     @Test
-    public void checkConstructor(){
+    public void checkConstructor() {
         Player player = new Player("Adda", 6969);
         assertEquals("Adda", player.userName);
         assertEquals(6969, player.score);
@@ -40,7 +41,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void toStringTest(){
+    public void toStringTest() {
         Player player = new Player("Adda", 6969);
         assertEquals(player.toString(), "Username: Adda" + "\n" +
                 "Highest score: 6969");
@@ -48,7 +49,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void equalsTest(){
+    public void equalsTest() {
         Player player1 = new Player("Adda", 6969);
         Player player2 = new Player("Adda", 6969);
         Player player3 = new Player("Demi", 0);

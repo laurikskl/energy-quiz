@@ -26,7 +26,7 @@ class GameTest {
      * Initializing a game with an id, a list of 2 players and a list of 1 question for the rest of the tests
      */
     @BeforeEach
-    public void initialize(){
+    public void initialize() {
         demi = new Player("xxdemixx", 666);
         adda = new Player("adduta", 0);
 

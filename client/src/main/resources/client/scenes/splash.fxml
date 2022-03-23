@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SplashCtrl" stylesheets="@../../main/splash.css">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../stylesheets/splash.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SplashCtrl">
    <children>
-      <Button layoutX="1108.0" layoutY="172.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" onAction="#mouseClickedSinglePlayer" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="SINGLEPLAYER" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="195.0" >
+      <Button layoutX="1108.0" layoutY="172.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" onAction="#mouseClickedSinglePlayer" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="SINGLEPLAYER" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="195.0">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
