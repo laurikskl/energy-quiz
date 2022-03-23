@@ -73,6 +73,7 @@ public class Main extends Application {
         ArrayList<Pair<Controller, Parent>> scenes = new ArrayList<>();
 
         scenes.add(FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml"));
+        System.out.println("reached here");
         scenes.add(FXML.load(EnterNameSinglePlayerCtrl.class, "client", "scenes", "EnterNameSinglePlayer.fxml"));
         scenes.add(FXML.load(EnterNameMultiPlayerCtrl.class, "client", "scenes", "EnterNameMultiPlayer.fxml"));
         scenes.add(FXML.load(LeaderboardCtrl.class, "client", "scenes", "LeaderboardScreen.fxml"));

@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +23,7 @@ import java.util.List;
  * Controller for single-player game screen
  */
 
-public class SPGameController {
+public class SPGameCtrl extends Controller {
 
     /**
      * scoreCount is a Text element containing the score
@@ -44,6 +45,7 @@ public class SPGameController {
     @FXML
     private Text questionNumber;
 
+    private MainCtrl mainCtrl;
     private ServerUtils server;
     private int qCount;
     private List<Question> questions;
@@ -52,54 +54,26 @@ public class SPGameController {
 
 
     /**
-     * empty constructor
+     * Zero argument constructor
      */
 
-    public SPGameController(){
+    public SPGameCtrl(){
+        super(null, null);
     }
 
 
     /**
-     * This method:
-     * sets up the fields
-     * generates questions and iterates over them
-     * does the cleanup after the game
-     * @param player the player of the game
-     * @param server an instance of ServerUtils
+     * empty constructor
+     * @param server ServerUtils instance
+     * @param mainCtrl MainCtrl instance
      */
 
-    @FXML
-    public void initialize(Player player, ServerUtils server) {
-        this.player = player;
-        this.server = server;
-        this.qCount = 0;
-        this.score = 0;
-        //if statement to make tests work
-        if(name == null || scoreCount == null || questionNumber == null) {
-            throw new IllegalStateException("One or more FXML fields are null");
-        }
-        name.setText(player.getUserName());
-        scoreCount.setText("Score: 0");
-        questionNumber.setText("0/20");
-        while(questions == null) {
-            try{
-                questions = server.getQuestions();
-            } catch (Exception e) {
-                System.out.println("something went wrong here");
-            }
-        }
-        Collections.shuffle(questions);
-        System.out.println(questions.toString());
-        /**
-        //iterate over all questions
-        for(Question q : questions) {
-            this.doAQuestion(q);
-        }
-        //overwrite high-score if the current score is higher
-        if(score > getServer().getPlayer(player.getUserName()).getScore()) {
-            getServer().setPlayer(player.getUserName(), score);
-        }*/
+    @Inject
+    public SPGameCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(server, mainCtrl);
     }
+
+
 
 
     /**
@@ -276,4 +250,42 @@ public class SPGameController {
         this.questionNumber = questionNumber;
     }
 
+    /**
+     * This method:
+     * sets up the fields
+     * generates questions and iterates over them
+     * does the cleanup after the game
+     * @param player the player of the game
+     */
+
+    public void startGame(Player player, ServerUtils server) {
+        this.server = server;
+        this.player = player;
+        this.qCount = 0;
+        this.score = 0;
+        //if statement to make tests work
+        if(name == null || scoreCount == null || questionNumber == null) {
+            throw new IllegalStateException("One or more FXML fields are null");
+        }
+        name.setText(player.getUserName());
+        scoreCount.setText("Score: 0");
+        questionNumber.setText("0/20");
+        while(questions == null) {
+            try{
+                questions = server.getQuestions();
+            } catch (Exception e) {
+                System.out.println("something went wrong here");
+            }
+        }
+        Collections.shuffle(questions);
+        /**
+         //iterate over all questions
+         for(Question q : questions) {
+         this.doAQuestion(q);
+         }
+         //overwrite high-score if the current score is higher
+         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
+         getServer().setPlayer(player.getUserName(), score);
+         }*/
+    }
 }

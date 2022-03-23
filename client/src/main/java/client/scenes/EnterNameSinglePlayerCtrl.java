@@ -57,10 +57,9 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * Method that changes the screen to the SP.
      *
      * @param actionEvent - pressing the play button triggers this function.
-     * @throws IOException
      */
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    public void startGame(ActionEvent actionEvent)  {
 
         usernameString = userName.getText();
 
@@ -81,7 +80,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
                 player = new Player(usernameString, 0);
             }
 
-            this.mainCtrl.startSPGame(player);
+            this.mainCtrl.startSPGame(player, server);
             this.mainCtrl.showSPGame();
         }
 
@@ -91,7 +90,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * Method that returns the application to the initial screen when the back button is pressed.
      *
      * @param actionEvent - pressing the back button triggers this function
-     * @throws IOException
+     * @throws IOException when files not found or misread
      */
     public void back(ActionEvent actionEvent) throws IOException {
         this.mainCtrl.showSplash();

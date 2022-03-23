@@ -49,7 +49,7 @@ class SPGameCtrlTest {
         p1 = new Player("Max", 9000);
         s1 = new SPGameCtrl(server, mainCtrl);
         try{
-            s1.startGame(p1);
+            s1.startGame(p1, server);
         } catch(IllegalStateException ignored) {
         }
     }
