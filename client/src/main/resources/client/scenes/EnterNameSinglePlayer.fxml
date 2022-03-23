@@ -33,7 +33,7 @@
             <Font size="52.0" />
          </font>
       </Text>
-      <ImageView fitHeight="270.0" fitWidth="230.0" layoutX="855.0" layoutY="109.0">
+      <ImageView fx:id="iconSP" fitHeight="270.0" fitWidth="230.0" layoutX="855.0" layoutY="109.0">
          <image>
             <Image url="@../../entername/MaxThePlant.png" />
          </image>

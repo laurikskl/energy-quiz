@@ -16,6 +16,8 @@ import java.io.IOException;
 public class EnterNameSinglePlayerCtrl extends Controller {
 
     @FXML
+    private ImageView iconSP;
+    @FXML
     private Button backButton;
     @FXML
     private TextField userName;
@@ -41,6 +43,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
     @FXML
     private void initialize() {
         this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
+        this.iconSP.setImage(new Image("entername/MaxThePlant.png"));
     }
 
     /**
