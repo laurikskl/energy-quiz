@@ -3,6 +3,7 @@ package server.Player;
 import commons.Player;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -76,20 +77,6 @@ public class PlayerController {
         playerRepository.save(player);
         return ResponseEntity.ok(player);
     }
-
-    /**
-    @PostMapping(path = "/setPlayer1")
-    public ResponseEntity<Player> setPlayer1(@RequestBody Player player, int newScore) {
-
-        if (playerService.updateScore(player, newScore)){
-            player.setScore(newScore);
-            return ResponseEntity.ok(player);
-        }
-        else{
-            return ResponseEntity.badRequest().build();
-        }
-    }
-    */
 
     /**
      * This method is called to add a new entity of player in the database.
