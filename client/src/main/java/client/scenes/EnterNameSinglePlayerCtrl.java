@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,6 +51,7 @@ public class EnterNameSinglePlayerCtrl {
 
     /**
      * Constructor for the controller.
+     *
      * @param serverUtils
      * @param mainCtrl
      */
@@ -62,7 +64,7 @@ public class EnterNameSinglePlayerCtrl {
     /**
      * Default constructor.
      */
-    public EnterNameSinglePlayerCtrl(){
+    public EnterNameSinglePlayerCtrl() {
     }
 
     /**
@@ -71,7 +73,8 @@ public class EnterNameSinglePlayerCtrl {
      * Should probably set the path to be non-relative but that's a problem for later
      */
     @FXML
-    public void initialize(MainCtrl mainCtrl) {
+    public void initialize(ServerUtils serverUtils) {
+        this.serverUtils = serverUtils;
         this.mainCtrl = mainCtrl;
         backIMG = new ImageView();
         backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
@@ -87,6 +90,7 @@ public class EnterNameSinglePlayerCtrl {
 
     /**
      * Method that changes the screen to the SP.
+     *
      * @param actionEvent - pressing the play button triggers this function.
      * @throws IOException
      */
@@ -96,19 +100,32 @@ public class EnterNameSinglePlayerCtrl {
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
-        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
-        else{
+        else {
             URL url = new File("client/src/main/resources/client/scenes/SPGameScreen.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
 
-            SPGameController spGameController = loader.getController();
-            spGameController.initialize(usernameString); //here we initialize the SP screen with the name the user has provided in the top center
+            //fetch player from database, if it doesn't exist store a new player with score 0
+            Player player;
+            try{
+                player = serverUtils.getPlayer(usernameString);
+                if(player == null) {
+                    player = new Player(usernameString, 0);
+                    serverUtils.setPlayer(usernameString, 0);
+                }
+            }
+            catch (Exception e) { //this should only happen when the server is null
+                System.out.println("WARNING SERVER IS NOT ACTIVE");
+                player = new Player(usernameString, 0);
+            }
 
+            SPGameController spGameController = loader.getController();
+            spGameController.initialize(player, serverUtils);
 
             Scene newScene = new Scene(root);
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(newScene);
             window.show();
         }
@@ -117,6 +134,7 @@ public class EnterNameSinglePlayerCtrl {
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
+     *
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException
      */
@@ -127,8 +145,12 @@ public class EnterNameSinglePlayerCtrl {
         Parent root = FXMLLoader.load(url);
 
         Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(newScene);
         window.show();
+    }
+
+    public void setServerUtils(ServerUtils serverUtils) {
+        this.serverUtils = serverUtils;
     }
 }

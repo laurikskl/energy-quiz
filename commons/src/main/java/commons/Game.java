@@ -11,11 +11,12 @@ public class Game {
 
     /**
      * Create a Game Object
-     * @param id - an id used to differentiate between games when running multiple ones concurrently
-     * @param players - the users participating in the game
+     *
+     * @param id        - an id used to differentiate between games when running multiple ones concurrently
+     * @param players   - the users participating in the game
      * @param questions - the list of questions used in the current game
      */
-    public Game (long id, ArrayList<Player> players, ArrayList<Question> questions){
+    public Game(long id, ArrayList<Player> players, ArrayList<Question> questions) {
         this.id = id;
         this.players = players;
         this.questions = questions;
@@ -30,6 +31,7 @@ public class Game {
 
     /**
      * Getter for the id
+     *
      * @return id
      */
     public long getId() {
@@ -38,6 +40,7 @@ public class Game {
 
     /**
      * Getter for round
+     *
      * @return round
      */
     public int getRound() {
@@ -46,6 +49,7 @@ public class Game {
 
     /**
      * Setter for round
+     *
      * @param round
      */
     public void setRound(int round) {
@@ -54,6 +58,7 @@ public class Game {
 
     /**
      * Getter for players
+     *
      * @return players
      */
     public ArrayList<Player> getPlayers() {
@@ -62,6 +67,7 @@ public class Game {
 
     /**
      * Setter for player
+     *
      * @param players
      */
     public void setPlayers(ArrayList<Player> players) {
@@ -70,6 +76,7 @@ public class Game {
 
     /**
      * Getter for the questions
+     *
      * @return questions
      */
     public ArrayList<Question> getQuestions() {
