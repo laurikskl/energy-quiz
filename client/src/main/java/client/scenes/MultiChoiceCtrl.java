@@ -5,10 +5,14 @@ import com.google.inject.Inject;
 import commons.Question;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class MultiChoiceCtrl extends Controller {
+public class MultiChoiceCtrl {
+
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
+    private final Question q;
+
     @FXML
     private Button answer1;
     @FXML
@@ -22,26 +26,12 @@ public class MultiChoiceCtrl extends Controller {
     @FXML
     private ImageView image3;
 
-    private final Question.MultiChoice multiChoice;
 
-    /**
-     * @param server   reference to an instance of ServerUtils
-     * @param mainCtrl reference to an instance of mainCtrl
-     */
     @Inject
-    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(server, mainCtrl);
-        this.multiChoice = server.getMultiChoice();
-    }
-
-    /**
-     * Is called after constructor (Initializable)
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     */
-    @FXML
-    private void initialize() {
-
+    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl, Question q) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
+        this.q = q;
     }
 
     /**
@@ -49,6 +39,8 @@ public class MultiChoiceCtrl extends Controller {
      * when using initialize, it will load all the question frames when the application
      * is started, that could cause problems in the future
      */
+    /**
+    @FXML
     public void onOpen() {
         image1.setImage(new Image(multiChoice.getActivities().get(0).getImagePath()));
         image2.setImage(new Image(multiChoice.getActivities().get(1).getImagePath()));
@@ -56,7 +48,7 @@ public class MultiChoiceCtrl extends Controller {
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
         answer3.setText(multiChoice.getActivities().get(2).getName());
-    }
+    }*/
 
 //  /**
 //   * Paints the buttons, the wrong answers are painted red and the correct one is painted

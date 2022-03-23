@@ -88,4 +88,13 @@ public class SplashCtrl extends Controller {
     public void setServer(ServerUtils server) {
         this.server = server;
     }
+
+    /**
+     * Changes the scene to the HowToPlay Scene.
+     * @param actionEvent - the mouse clicked on the How To Play button
+     * @throws IOException
+     */
+    public void mouseClickedHow2Play(ActionEvent actionEvent) throws IOException {
+        mainCtrl.showHow2Play();
+    }
 }

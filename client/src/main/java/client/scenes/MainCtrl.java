@@ -16,6 +16,7 @@
 
 package client.scenes;
 
+import client.utils.ServerUtils;
 import commons.Player;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +26,8 @@ import javafx.util.Pair;
  * Temporary comment for checkstyle.
  */
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class MainCtrl{
      * @param primaryStage the primary stage
      * @param scenes List of pairs of Controller instances and roots for fxml loader
      */
-    public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
+    public void initialize (Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
         this.primaryStage = primaryStage;
 
         this.controllers = new ArrayList<>();
@@ -56,10 +59,15 @@ public class MainCtrl{
         }
 
         //add css
-        this.scenes.get(0).getStylesheets().add("stylesheets/splash.css");
-        this.scenes.get(1).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
-        this.scenes.get(2).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
-        this.scenes.get(6).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
+        try {
+            this.scenes.get(0).getStylesheets().add(new File("client/src/main/resources/stylesheets/splash.css").toURI().toURL().toExternalForm());
+            this.scenes.get(1).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(2).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         showSplash();
     }
@@ -123,11 +131,18 @@ public class MainCtrl{
     }
 
     /**
+     * Sets primaryStage's scene to the How2Play screen
+     */
+    public void showHow2Play() {
+        showScene(this.scenes.get(7));
+    }
+
+    /**
      * Sets the PlayerObj
      * @param player PlayerObj representing this player
      */
-    public void startSPGame(Player player) {
-        ((SPGameCtrl) this.controllers.get(4)).startGame(player);
+    public void startSPGame(Player player, ServerUtils server) {
+        ((SPGameCtrl) this.controllers.get(4)).startGame(player, server);
     }
 
     /**

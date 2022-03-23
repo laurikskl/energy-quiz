@@ -47,8 +47,10 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
  */
 
 public class ServerUtils {
+
     /**
-     * Temporary comment for checkstyle.
+     * SERVER is the location of the server
+     * players is the list of players for a game
      */
 
     private static final String SERVER = "http://localhost:8080/";
@@ -86,16 +88,8 @@ public class ServerUtils {
 
 
     /**
-     * @return A Multichoice question from MultiChoiceController
+     * @return the leaderboard from the server
      */
-    public Question.MultiChoice getMultiChoice() {
-        return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/questions/multichoice")
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .get(new GenericType<Question.MultiChoice>() {
-                });
-    }
 
     public List<Player> getLeaderboard() {
         return (List<Player>) ClientBuilder.newClient(new ClientConfig())
@@ -105,6 +99,7 @@ public class ServerUtils {
                 .get(new GenericType<List<Player>>() {
                 });
     }
+
 
     /**
      * This comment is a temporary fix for checkstyle.
@@ -120,15 +115,16 @@ public class ServerUtils {
 
 
     /**
-     * @return a question from the server by making a request to the path defined
+     * @return 20 questions from the server by making a request to the path defined
      */
 
-    public Question getQuestion() {
+    public List<Question> getQuestions() {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/questions/next")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .get(Question.class);
+                .get(new GenericType<List<Question>>() {
+                });
     }
 
 
@@ -146,6 +142,11 @@ public class ServerUtils {
         }
         return null;
     }
+
+
+    /**
+     * @return return the list of al players in the database
+     */
 
     public List<Player> getAllPlayers() {
         return ClientBuilder.newClient(new ClientConfig())

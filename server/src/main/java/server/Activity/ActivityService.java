@@ -4,6 +4,7 @@ import commons.Activity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -16,8 +17,8 @@ public class ActivityService {
     /**
      * Constructor that injects random and repository
      *
-     * @param random
-     * @param repository
+     * @param random random instance
+     * @param repository activity repository
      */
     public ActivityService(Random random, ActivityRepository repository) {
         this.random = random;
@@ -27,13 +28,18 @@ public class ActivityService {
     /**
      * Return random activity
      *
-     * @return
+     * @return a random activity
      */
 
     public Activity getRandomActivity() {
-        //Get a random number that is smaller than number of elements in repository
-        var randomId = random.nextInt((int) repository.count());
-        //Return random activity
-        return repository.getById((long) randomId);
+        Activity activity = null;
+        while(activity == null) {
+            long randomId = random.nextInt((int) repository.count());
+            Optional<Activity> activityOptional = repository.findById(randomId);
+            if(activityOptional.isPresent()) {
+                activity = activityOptional.get();
+            }
+        }
+        return activity;
     }
 }

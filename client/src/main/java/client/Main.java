@@ -73,12 +73,14 @@ public class Main extends Application {
         ArrayList<Pair<Controller, Parent>> scenes = new ArrayList<>();
 
         scenes.add(FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml"));
+        System.out.println("reached here");
         scenes.add(FXML.load(EnterNameSinglePlayerCtrl.class, "client", "scenes", "EnterNameSinglePlayer.fxml"));
         scenes.add(FXML.load(EnterNameMultiPlayerCtrl.class, "client", "scenes", "EnterNameMultiPlayer.fxml"));
         scenes.add(FXML.load(LeaderboardCtrl.class, "client", "scenes", "LeaderboardScreen.fxml"));
         scenes.add(FXML.load(SPGameCtrl.class, "client", "scenes", "SPGameScreen.fxml"));
         scenes.add(FXML.load(LobbyScreenCtrl.class, "client", "scenes", "LobbyScreen.fxml"));
         scenes.add(FXML.load(MPGameCtrl.class, "client", "scenes", "MPGameScreen.fxml"));
+        scenes.add(FXML.load(How2PlayCtrl.class, "client", "scenes", "How2Play.fxml"));
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, scenes);
