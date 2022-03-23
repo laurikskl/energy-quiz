@@ -5,14 +5,14 @@ import com.google.inject.Inject;
 import commons.Question;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MultiChoiceCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private final Question.MultiChoice multiChoice;
+    private final Question q;
+
     @FXML
     private Button answer1;
     @FXML
@@ -28,10 +28,10 @@ public class MultiChoiceCtrl {
 
 
     @Inject
-    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl, Question q) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        this.multiChoice = server.getMultiChoice();
+        this.q = q;
     }
 
     /**
@@ -39,6 +39,7 @@ public class MultiChoiceCtrl {
      * when using initialize, it will load all the question frames when the application
      * is started, that could cause problems in the future
      */
+    /**
     @FXML
     public void onOpen() {
         image1.setImage(new Image(multiChoice.getActivities().get(0).getImagePath()));
@@ -47,7 +48,7 @@ public class MultiChoiceCtrl {
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
         answer3.setText(multiChoice.getActivities().get(2).getName());
-    }
+    }*/
 
 //  /**
 //   * Paints the buttons, the wrong answers are painted red and the correct one is painted

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -96,7 +95,7 @@ class SPGameControllerTest {
 
     @Test
     void getQuestions() {
-        assertEquals(new ArrayList<Question>(), s1.getQuestions());
+        assertNull(s1.getQuestions());
     }
 
 
@@ -179,7 +178,7 @@ class SPGameControllerTest {
         Activity a1 = new Activity();
         Activity a2 = new Activity();
         List<Activity> acs = Arrays.asList(a1, a2);
-        Question q = new Question.Matching(a1, acs);
+        Question q = new Question.Matching(acs);
         List<Question> qs = List.of(q);
         s1.setQuestions(qs);
         assertEquals(qs, s1.getQuestions());

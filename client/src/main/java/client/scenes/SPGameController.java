@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -74,7 +74,6 @@ public class SPGameController {
         this.server = server;
         this.qCount = 0;
         this.score = 0;
-        this.questions = new ArrayList<>();
         //if statement to make tests work
         if(name == null || scoreCount == null || questionNumber == null) {
             throw new IllegalStateException("One or more FXML fields are null");
@@ -82,11 +81,16 @@ public class SPGameController {
         name.setText(player.getUserName());
         scoreCount.setText("Score: 0");
         questionNumber.setText("0/20");
-        /*
-        //generate 20 questions
-        while(questions.size() < 20) {
-            questions.add(getServer().getQuestion());
+        while(questions == null) {
+            try{
+                questions = server.getQuestions();
+            } catch (Exception e) {
+                System.out.println("something went wrong here");
+            }
         }
+        Collections.shuffle(questions);
+        System.out.println(questions.toString());
+        /**
         //iterate over all questions
         for(Question q : questions) {
             this.doAQuestion(q);
@@ -94,8 +98,7 @@ public class SPGameController {
         //overwrite high-score if the current score is higher
         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
             getServer().setPlayer(player.getUserName(), score);
-        }
-         */
+        }*/
     }
 
 

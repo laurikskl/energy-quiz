@@ -8,6 +8,7 @@ import server.Player.PlayerService;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 public class PlayerControllerTest {
@@ -21,8 +22,15 @@ public class PlayerControllerTest {
     @BeforeEach
     public void setup() {
         repo = new TestPlayerRepository();
+        playerService = new PlayerService(repo);
         sut = new PlayerController(playerService, repo);
     }
+
+    @Test
+    public void constructor() {
+        assertNotNull(sut);
+    }
+
 
     @Test
     public void cannotAddNullPlayerWithNullUsername() {
