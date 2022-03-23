@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +49,7 @@ class SPGameCtrlTest {
         p1 = new Player("Max", 9000);
         s1 = new SPGameCtrl(server, mainCtrl);
         try{
-            s1.startGame(p1);
+            s1.startGame(p1, server);
         } catch(IllegalStateException ignored) {
         }
     }
@@ -89,7 +88,7 @@ class SPGameCtrlTest {
 
     @Test
     void getQuestions() {
-        assertEquals(new ArrayList<Question>(), s1.getQuestions());
+        assertNull(s1.getQuestions());
     }
 
 
@@ -172,7 +171,7 @@ class SPGameCtrlTest {
         Activity a1 = new Activity();
         Activity a2 = new Activity();
         List<Activity> acs = Arrays.asList(a1, a2);
-        Question q = new Question.Matching(a1, acs);
+        Question q = new Question.Matching(acs);
         List<Question> qs = List.of(q);
         s1.setQuestions(qs);
         assertEquals(qs, s1.getQuestions());
