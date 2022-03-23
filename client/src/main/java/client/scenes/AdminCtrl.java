@@ -2,10 +2,20 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.IOException;
 
 public class AdminCtrl extends Controller{
+
+    @FXML
+    private Button backButton;
+    @FXML
+    private ImageView backImg;
 
     //Search
     @FXML
@@ -82,7 +92,16 @@ public class AdminCtrl extends Controller{
 
     @FXML
     private void initialize() {
+        this.backImg.setImage(new Image("icons/back.png"));
         this.searchByChoiceBox.getItems().addAll("ID", "Name", "Consumption", "Source");
     }
 
+    /**
+     * Go back to the Splash screen
+     * @param actionEvent - the mouse clicked on the Back button
+     * @throws IOException
+     */
+    public void back(ActionEvent actionEvent) throws IOException {
+        mainCtrl.showSplash();
+    }
 }
