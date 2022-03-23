@@ -13,8 +13,6 @@ import java.io.IOException;
 public class AdminCtrl extends Controller{
 
     @FXML
-    private Button backButton;
-    @FXML
     private ImageView backImg;
 
     //Search
@@ -53,7 +51,7 @@ public class AdminCtrl extends Controller{
     @FXML
     private Label editStatusLabel;
 
-    //Add
+    //Add By hand
     @FXML
     private TextField addNameField;
     @FXML
@@ -68,6 +66,18 @@ public class AdminCtrl extends Controller{
     private Button addSubmitButton;
     @FXML
     private Label addStatusLabel;
+
+    //Add From Activity Bank
+    @FXML
+    private TextField ABPathField;
+    @FXML
+    private Button ABPathBrowseButton;
+    @FXML
+    private CheckBox ABOverrideCB;
+    @FXML
+    private Button ABSubmitButton;
+    @FXML
+    private Label ABStatusLabel;
 
     //Remove
     @FXML
