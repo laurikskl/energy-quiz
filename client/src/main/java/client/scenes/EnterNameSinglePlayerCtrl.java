@@ -25,29 +25,21 @@ import java.util.Objects;
 
 public class EnterNameSinglePlayerCtrl {
 
+    String usernameString;
     @FXML
     private Button button;
-
     @FXML
     private AnchorPane root;
-
     @FXML
     private ImageView backIMG;
-
     @FXML
     private Button back;
-
     @FXML
     private TextField userName;
-
     @FXML
     private Text warningText;
-
-
     private ServerUtils serverUtils;
     private MainCtrl mainCtrl;
-
-    String usernameString;
 
     /**
      * Constructor for the controller.
@@ -109,20 +101,19 @@ public class EnterNameSinglePlayerCtrl {
 
             //fetch player from database, if it doesn't exist store a new player with score 0
             Player player;
-            try{
+            try {
                 player = serverUtils.getPlayer(usernameString);
-                if(player == null) {
+                if (player == null) {
                     player = new Player(usernameString, 0);
                     serverUtils.setPlayer(usernameString, 0);
                 }
-            }
-            catch (Exception e) { //this should only happen when the server is null
+            } catch (Exception e) { //this should only happen when the server is null
                 System.out.println("WARNING SERVER IS NOT ACTIVE");
                 player = new Player(usernameString, 0);
             }
 
             SPGameController spGameController = loader.getController();
-            spGameController.initialize(player, serverUtils);
+            spGameController.initialize(player, serverUtils, mainCtrl);
 
             Scene newScene = new Scene(root);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

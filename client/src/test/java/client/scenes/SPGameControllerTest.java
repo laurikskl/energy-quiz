@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,9 @@ class SPGameControllerTest {
 
     @Mock
     private ServerUtils server;
+
+    @Mock
+    private MainCtrl mainCtrl;
 
     @Mock
     private Text text;
@@ -43,11 +47,12 @@ class SPGameControllerTest {
     void setup() {
         text = mock(Text.class);
         server = mock(ServerUtils.class);
+        mainCtrl = mock(MainCtrl.class);
         p1 = new Player("Max", 9000);
         s1 = new SPGameController();
-        try{
-            s1.initialize(p1, server);
-        } catch(IllegalStateException ignored) {
+        try {
+            s1.initialize(p1, server, mainCtrl);
+        } catch (IllegalStateException | IOException ignored) {
         }
     }
 
@@ -67,7 +72,7 @@ class SPGameControllerTest {
 
     @Test
     void initialize() {
-        assertThrows(IllegalStateException.class, ()-> s1.initialize(p1, server));
+        assertThrows(IllegalStateException.class, () -> s1.initialize(p1, server, mainCtrl));
     }
 
 

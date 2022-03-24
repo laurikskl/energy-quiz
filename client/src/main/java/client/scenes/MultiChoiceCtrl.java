@@ -8,11 +8,14 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.awt.event.ActionEvent;
+import java.io.File;
+
 public class MultiChoiceCtrl {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final Question.MultiChoice multiChoice;
+    private ServerUtils server;
+    private MainCtrl mainCtrl;
+    private Question.MultiChoice multiChoice;
     @FXML
     private Button answer1;
     @FXML
@@ -26,12 +29,41 @@ public class MultiChoiceCtrl {
     @FXML
     private ImageView image3;
 
+    public MultiChoiceCtrl() {
+    }
 
     @Inject
-    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl, Question.MultiChoice multiChoice) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        this.multiChoice = server.getMultiChoice();
+        this.multiChoice = multiChoice;
+    }
+
+    /**
+     * Set how the screen is looking:
+     * - Insert text into questions
+     * - Set the correct images
+     *
+     * @param server
+     * @param mainCtrl
+     * @param multiChoice
+     */
+    @FXML
+    public void initialize(ServerUtils server, MainCtrl mainCtrl, Question.MultiChoice multiChoice) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
+        this.multiChoice = multiChoice;
+        String path1 = multiChoice.getActivities().get(0).getImagePath();
+        String path2 = multiChoice.getActivities().get(1).getImagePath();
+        String path3 = multiChoice.getActivities().get(2).getImagePath();
+
+        image1.setImage(new Image(new File(path1).toURI().toString()));
+        image2.setImage(new Image(new File(path2).toURI().toString()));
+        image3.setImage(new Image(new File(path3).toURI().toString()));
+
+        answer1.setText(multiChoice.getActivities().get(0).getName());
+        answer2.setText(multiChoice.getActivities().get(1).getName());
+        answer3.setText(multiChoice.getActivities().get(2).getName());
     }
 
     /**
@@ -39,17 +71,15 @@ public class MultiChoiceCtrl {
      * when using initialize, it will load all the question frames when the application
      * is started, that could cause problems in the future
      */
+//    @FXML
+//    public void onOpen() {
+//
+//    }
     @FXML
-    public void onOpen() {
-        image1.setImage(new Image(multiChoice.getActivities().get(0).getImagePath()));
-        image2.setImage(new Image(multiChoice.getActivities().get(1).getImagePath()));
-        image3.setImage(new Image(multiChoice.getActivities().get(2).getImagePath()));
-        answer1.setText(multiChoice.getActivities().get(0).getName());
-        answer2.setText(multiChoice.getActivities().get(1).getName());
-        answer3.setText(multiChoice.getActivities().get(2).getName());
+    public void handleButtonPress(ActionEvent actionEvent) {
     }
 
-//  /**
+    //  /**
 //   * Paints the buttons, the wrong answers are painted red and the correct one is painted
 //   * green. Also has the logic ready to check if the correct one is clicked, first we
 //   * need to know how this information is going to be retrieved by the gameController
