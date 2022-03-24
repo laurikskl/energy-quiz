@@ -125,7 +125,7 @@ public class SPGameController {
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MultiChoice.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/questionFrames/MultiChoiceScreen.fxml";
+            String pathToFxml = "client/src/main/resources/client/scenes/MultiChoiceScreen.fxml";
             URL url = new File(pathToFxml).toURI().toURL();
             FXMLLoader fxmlLoader = new FXMLLoader(url);
             Parent root = fxmlLoader.load();
@@ -136,7 +136,7 @@ public class SPGameController {
 
             questionFrame.setCenter(scene.getRoot());
         } else if (q.getClass().equals(Question.EstimationQuestion.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/questionFrames/ChoiceEstimation.fxml";
+            String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
             URL url = new File(pathToFxml).toURI().toURL();
             FXMLLoader fxmlLoader = new FXMLLoader(url);
             Parent root = fxmlLoader.load();
@@ -148,7 +148,7 @@ public class SPGameController {
 
             questionFrame.setCenter(scene.getRoot());
         } else if (q.getClass().equals(Question.Matching.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/questionFrames/Matching.fxml";
+            String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
             URL url = new File(pathToFxml).toURI().toURL();
             FXMLLoader fxmlLoader = new FXMLLoader(url);
             Parent root = fxmlLoader.load();
@@ -160,7 +160,7 @@ public class SPGameController {
 
             questionFrame.setCenter(scene.getRoot());
         } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/questionFrames/AccurateEstimation.fxml";
+            String pathToFxml = "client/src/main/resources/client/scenes/AccurateEstimation.fxml";
             URL url = new File(pathToFxml).toURI().toURL();
             FXMLLoader fxmlLoader = new FXMLLoader(url);
             Parent root = fxmlLoader.load();

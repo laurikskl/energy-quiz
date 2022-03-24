@@ -29,9 +29,19 @@ public class MultiChoiceCtrl {
     @FXML
     private ImageView image3;
 
+    /**
+     * Empty constructor
+     */
     public MultiChoiceCtrl() {
     }
 
+    /**
+     * Constructor with server, mainCtrl and multiChoice question
+     *
+     * @param server
+     * @param mainCtrl
+     * @param multiChoice
+     */
     @Inject
     public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl, Question.MultiChoice multiChoice) {
         this.server = server;
@@ -75,36 +85,37 @@ public class MultiChoiceCtrl {
 //    public void onOpen() {
 //
 //    }
+//    @FXML
+//    public void handleButtonPress(ActionEvent actionEvent) {
+//    }
+
+    /**
+     * Paints the buttons, the wrong answers are painted red and the correct one is painted
+     * green. Also has the logic ready to check if the correct one is clicked, first we
+     * need to know how this information is going to be retrieved by the gameController
+     *
+     * @param actionEvent the Button that was clicked
+     **/
     @FXML
     public void handleButtonPress(ActionEvent actionEvent) {
+        Button correct = answer1;
+        Button wrong1 = answer2;
+        Button wrong2 = answer3;
+        int correctActivityIndex = multiChoice.getCorrectActivityIndex();
+        String correctActivityName = multiChoice.getActivities().get(correctActivityIndex).getName();
+        if (answer2.getText().equals(correctActivityName)) {
+            correct = answer2;
+            wrong1 = answer1;
+            wrong2 = answer3;
+        } else if (answer3.getText().equals(correctActivityName)) {
+            correct = answer3;
+            wrong1 = answer1;
+            wrong2 = answer2;
+        }
+        correct.setStyle("-fx-background-color: #00FF00; ");
+        wrong1.setStyle("-fx-background-color: #FF0000; ");
+        wrong2.setStyle("-fx-background-color: #FF0000; ");
     }
-
-    //  /**
-//   * Paints the buttons, the wrong answers are painted red and the correct one is painted
-//   * green. Also has the logic ready to check if the correct one is clicked, first we
-//   * need to know how this information is going to be retrieved by the gameController
-//   * @param actionEvent the Button that was clicked
-//  **/
-//  @FXML
-//  public void handleButtonPress(ActionEvent actionEvent) {
-//    Button correct = answer1;
-//    Button wrong1 = answer2;
-//    Button wrong2 = answer3;
-//    if(answer2.getText().equals(multiChoice.getCorrect().getName())){
-//      correct = answer2;
-//      wrong1 = answer1;
-//      wrong2 = answer3;
-//    }
-//    else if(answer3.getText().equals(multiChoice.getCorrect().getName())){
-//      correct = answer3;
-//      wrong1 = answer1;
-//      wrong2 = answer2;
-//    }
-//    correct.setStyle("-fx-background-color: #00FF00; ");
-//    wrong1.setStyle("-fx-background-color: #FF0000; ");
-//    wrong2.setStyle("-fx-background-color: #FF0000; ");
-//  }
-
 }
 
 
