@@ -1,12 +1,12 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.PlayerForTable;
-import javafx.collections.ObservableList;
+//import commons.PlayerForTable;
+//import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+//import javafx.scene.control.TableColumn;
+//import javafx.scene.control.TableView;
 
 import javax.inject.Inject;
 import java.io.IOException;
