@@ -72,15 +72,8 @@ public class LobbyCtrl extends Controller {
 
     @FXML
     private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
         colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
-        try {
-            this.backButton.setGraphic(new ImageView(new Image(new File("client/src/main/resources/icons/BackButton.png").toURI().toURL().toString())));
-            this.hintIMG.setImage(new Image(new File("client/src/main/resources/icons/lightBulb.png").toURI().toURL().toString()));
-            this.playIMG.setImage(new Image(new File("client/src/main/resources/icons/playButton.png").toURI().toURL().toString()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
         //TODO: Fetch the players currently in the waiting room and insert them into the table
         //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
 
