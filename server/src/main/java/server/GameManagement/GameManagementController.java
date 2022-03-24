@@ -1,10 +1,22 @@
 package server.GameManagement;
 
 import commons.Game;
-
+/**
+  * Starts new games.
+  * Gets games by their id.
+  * Uses logic from the GameService layer.
+  */
 public class GameManagementController {
 
+  /**
+    * The gameService layer where the logic is.
+    */
   private final GameManagementService gameManagementService;
+
+  /**
+   * Constructor where we inject the service layer into the controller
+   * @param gameManagementService - the service used
+   */
 
   public GameManagementController(GameManagementService gameManagementService){
     this.gameManagementService = gameManagementService;

@@ -7,12 +7,19 @@ import commons.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-
+  /**
+    * Logic behind the methods needed for gameController.
+    */
 public class GameManagementService {
 
   public List<Game> games;
   public long generateId;
 
+  /**
+    *  Constructor for the gameService class that starts a new arrayList with games
+    *  and for this launch of the server, starts to count IDs for the games up 
+    *  from 0.
+    */
   public GameManagementService(List<Game> games) {
     this.games = new ArrayList<>();
     this.generateId = 0;
