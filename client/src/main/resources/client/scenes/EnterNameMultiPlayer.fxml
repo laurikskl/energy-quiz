@@ -35,14 +35,14 @@
       </Text>
       <ImageView fx:id="iconMP" fitHeight="277.0" fitWidth="465.0" layoutX="720.0" layoutY="92.0">
          <image>
-            <Image url="@../../entername/MaxThePlants.png" />
+            <Image url="@/entername/MaxThePlants.png" />
          </image>
       </ImageView>
-      <Button id="back-button" fx:id="backButton" layoutX="194.0" layoutY="59.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
+      <Button id="back-button" fx:id="backButton" layoutX="194.0" layoutY="59.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/back.png" />
+                  <Image url="@/icons/back.png" />
                </image>
             </ImageView>
          </graphic>

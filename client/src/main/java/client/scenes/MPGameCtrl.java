@@ -2,15 +2,11 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.event.ActionEvent;
+
+import java.io.IOException;
 
 public class MPGameCtrl extends Controller{
-
-    @FXML
-    private Button backButton;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -21,8 +17,13 @@ public class MPGameCtrl extends Controller{
         super(server, mainCtrl);
     }
 
-    @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
+    /**
+     * Method that returns the application to the initial screen when the back button is pressed.
+     *
+     * @param actionEvent - pressing the back button triggers this function
+     * @throws IOException
+     */
+    public void back(ActionEvent actionEvent) throws IOException {
+        this.mainCtrl.showSplash();
     }
 }

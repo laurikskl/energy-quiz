@@ -10,27 +10,27 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPGameCtrl">
    <children>
-      <Text fx:id="scoreCount" fill="#6639d4" layoutX="352.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE: 0" AnchorPane.leftAnchor="352.0" AnchorPane.rightAnchor="1398.0" AnchorPane.topAnchor="86.0">
+      <Text fx:id="scoreCount" fill="#6639d4" layoutX="352.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE: 0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="120.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
-      <Text fx:id="questionNumber" fill="#6639d4" layoutX="1626.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/20">
+      <Text fx:id="questionNumber" fill="#6639d4" layoutX="1626.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/20" AnchorPane.rightAnchor="300.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
       <PieChart id="timer" layoutX="1564.0" layoutY="69.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" />
-      <Button id="back" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
+      <Button id="back" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/back.png" />
+                  <Image url="@/icons/back.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fx:id="name" fill="#6639d4" layoutX="920.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;name&gt;" textAlignment="CENTER">
+      <Text fx:id="name" fill="#6639d4" layoutX="920.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;name&gt;" textAlignment="CENTER" AnchorPane.topAnchor="100.0">
          <font>
             <Font size="60.0" />
          </font>

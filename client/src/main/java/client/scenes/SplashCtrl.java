@@ -6,14 +6,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import java.io.IOException;
 
 public class SplashCtrl extends Controller {
-
-    @FXML
-    private ImageView logoIMG;
 
     @FXML
     private TextField howToPlayText;
@@ -40,7 +35,6 @@ public class SplashCtrl extends Controller {
 
     @FXML
     private void initialize() {
-        logoIMG.setImage(new Image("/main/Logo.png"));
         this.invisibleHowToPlay();
     }
 

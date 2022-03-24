@@ -6,19 +6,12 @@ import commons.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class EnterNameSinglePlayerCtrl extends Controller {
 
-    @FXML
-    private ImageView iconSP;
-    @FXML
-    private Button backButton;
     @FXML
     private TextField userName;
     @FXML
@@ -35,16 +28,6 @@ public class EnterNameSinglePlayerCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    /**
-     * Is called after constructor (Initializable)
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     */
-    @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
-        this.iconSP.setImage(new Image("entername/MaxThePlant.png"));
-    }
 
     /**
      * Exits the application, called by quit button
