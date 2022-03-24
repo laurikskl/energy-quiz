@@ -8,8 +8,8 @@ public class ScoreSystem {
      * @param time spent on a question
      * @return
      */
-    public static Long calculateScore(Long time) {
-        return (100 - time) * 100;
+    public static int calculateScore(Long time) {
+        return (int) ((100 - time) * 10);
     }
 
     /**
@@ -19,7 +19,7 @@ public class ScoreSystem {
      * @param distance to correct answer
      * @return
      */
-    public static Long calculateScore(Long time, Long distance) {
-        return (100 - time) * 100 - distance * 10;
+    public static int calculateScore(Long time, Long distance) {
+        return (int) ((100 - time) * 10 - distance * 10);
     }
 }

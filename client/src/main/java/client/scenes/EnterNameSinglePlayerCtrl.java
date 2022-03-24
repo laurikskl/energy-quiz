@@ -87,7 +87,7 @@ public class EnterNameSinglePlayerCtrl {
      * @throws IOException
      */
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    public void startGame(ActionEvent actionEvent) throws IOException, InterruptedException {
 
         usernameString = userName.getText();
 
@@ -114,6 +114,7 @@ public class EnterNameSinglePlayerCtrl {
 
             SPGameController spGameController = loader.getController();
             spGameController.initialize(player, serverUtils, mainCtrl);
+
 
             Scene newScene = new Scene(root);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

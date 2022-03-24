@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
-import commons.ScoreSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,7 +75,7 @@ public class SPGameController {
      */
 
     @FXML
-    public synchronized void initialize(Player player, ServerUtils server, MainCtrl mainCtrl) throws IOException {
+    public void initialize(Player player, ServerUtils server, MainCtrl mainCtrl) throws IOException, InterruptedException {
         this.player = player;
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -89,30 +88,23 @@ public class SPGameController {
         }
         name.setText(player.getUserName());
         scoreCount.setText("Score: 0");
-        questionNumber.setText("0/20");
+        questionNumber.setText("1/20");
 
         questions.add(getServer().getQuestion());
-        Question q = questions.get(0);
-        doAQuestion(q);
-
-        System.out.println(score);
-
-//        doAQuestion(q);
-//        System.out.println(score);
-        /*
+        doAQuestion(questions.get(0));
+/*
         //generate 20 questions
-        while(questions.size() < 20) {
+        while (questions.size() < 20) {
             questions.add(getServer().getQuestion());
         }
         //iterate over all questions
-        for(Question q : questions) {
+        for (Question q : questions) {
             this.doAQuestion(q);
         }
         //overwrite high-score if the current score is higher
-        if(score > getServer().getPlayer(player.getUserName()).getScore()) {
+        if (score > getServer().getPlayer(player.getUserName()).getScore()) {
             getServer().setPlayer(player.getUserName(), score);
-        }
-         */
+        }*/
     }
 
 
@@ -124,23 +116,21 @@ public class SPGameController {
      *
      * @param q the current question
      */
-    public synchronized void doAQuestion(Question q) throws IOException {
+    public void doAQuestion(Question q) throws IOException, InterruptedException {
         //Increment and display question counter
-        qCount++;
-        questionNumber.setText(qCount + "/20");
+        System.out.println("Question GO!");
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MultiChoice.class)) {
             doMultiChoice((Question.MultiChoice) q);
-        } else if (q.getClass().equals(Question.EstimationQuestion.class)) {
-            doEstimationQuestion((Question.EstimationQuestion) q);
+        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
         } else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
         } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
             doAccurateEstimation((Question.AccurateEstimation) q);
         }
 
-        scoreCount.setText(String.valueOf(score));
     }
 
     /**
@@ -150,26 +140,26 @@ public class SPGameController {
      * @param q current multiChoice question
      * @throws IOException
      */
-    public synchronized void doMultiChoice(Question.MultiChoice q) throws IOException {
+    public void doMultiChoice(Question.MultiChoice q) throws IOException, InterruptedException {
         MultiChoiceCtrl controller;
         Long time = -1L;
-        synchronized (this) {
-            String pathToFxml = "client/src/main/resources/client/scenes/MultiChoiceScreen.fxml";
-            URL url = new File(pathToFxml).toURI().toURL();
-            FXMLLoader fxmlLoader = new FXMLLoader(url);
-            Parent root = fxmlLoader.load();
 
-            controller = fxmlLoader.<MultiChoiceCtrl>getController();
-            controller.initialize(server, mainCtrl, (Question.MultiChoice) q);
-            Scene scene = new Scene(root);
+        String pathToFxml = "client/src/main/resources/client/scenes/MultiChoiceScreen.fxml";
+        URL url = new File(pathToFxml).toURI().toURL();
+        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        Parent root = fxmlLoader.load();
 
-            questionFrame.setCenter(scene.getRoot());
-        }
-        System.out.println(controller.getIsCorrect());
-        if (controller.getIsCorrect()) {
-            time = controller.getTime();
-            score += ScoreSystem.calculateScore(time);
-        }
+        controller = fxmlLoader.<MultiChoiceCtrl>getController();
+        controller.initialize(server, mainCtrl, (Question.MultiChoice) q, this);
+        Scene scene = new Scene(root);
+
+        questionFrame.setCenter(scene.getRoot());
+//
+//        System.out.println(controller.getIsCorrect());
+//        if (controller.getIsCorrect() == 1) {
+//            time = controller.getTime();
+//            score += ScoreSystem.calculateScore(time);
+//        }
     }
 
     /**
@@ -179,7 +169,7 @@ public class SPGameController {
      * @param q current Estimation question
      * @throws IOException
      */
-    public void doEstimationQuestion(Question.EstimationQuestion q) throws IOException {
+    public void doChoiceEstimationQuestion(Question.EstimationQuestion q) throws IOException {
         Long time = -1L;
 
         String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
@@ -388,5 +378,10 @@ public class SPGameController {
      */
     public void setServer(ServerUtils server) {
         this.server = server;
+    }
+
+    public void refresh() {
+        scoreCount.setText(String.valueOf(score));
+        questionNumber.setText(String.valueOf(qCount) + "/20");
     }
 }

@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Question;
+import commons.ScoreSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,8 +19,9 @@ public class MultiChoiceCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Question.MultiChoice multiChoice;
+    private SPGameController parentCtrl;
 
-    private boolean isCorrect;
+    private int isCorrect;
     private Instant instant;
     private Long start;
     private Long finish;
@@ -69,12 +71,13 @@ public class MultiChoiceCtrl {
      * @param multiChoice
      */
     @FXML
-    public void initialize(ServerUtils server, MainCtrl mainCtrl, Question.MultiChoice multiChoice) {
+    public void initialize(ServerUtils server, MainCtrl mainCtrl, Question.MultiChoice multiChoice, SPGameController parentCtrl) throws InterruptedException {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.multiChoice = multiChoice;
-        //Set the isCorrect to false
-        this.isCorrect = false;
+        this.parentCtrl = parentCtrl;
+        //Set the isCorrect to -1 meaning there was no answer
+        this.isCorrect = -1;
         //Obtaining current state of clock
         this.instant = Instant.now();
         //Current time in second from some ancient date
@@ -94,19 +97,6 @@ public class MultiChoiceCtrl {
         answer2.setText(multiChoice.getActivities().get(1).getName());
         answer3.setText(multiChoice.getActivities().get(2).getName());
     }
-
-    /**
-     * This should be called when this question frame is called from the game controller,
-     * when using initialize, it will load all the question frames when the application
-     * is started, that could cause problems in the future
-     */
-//    @FXML
-//    public void onOpen() {
-//
-//    }
-//    @FXML
-//    public void handleButtonPress(ActionEvent actionEvent) {
-//    }
 
     /**
      * Loops over activities and finds which one is the correct one
@@ -160,7 +150,7 @@ public class MultiChoiceCtrl {
      *
      * @return
      */
-    public boolean getIsCorrect() {
+    public int getIsCorrect() {
         return isCorrect;
     }
 
@@ -171,13 +161,17 @@ public class MultiChoiceCtrl {
      *
      * @param actionEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) {
-        if (answer1.getText().equals(correctActivityName)) {
-            isCorrect = true;
-        }
+    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
+        if (answer1.getText().equals(correctActivityName)) {
+            isCorrect = 1;
+            handleCorrect();
+        } else {
+            isCorrect = 0;
+        }
         showCorrect();
+        updateCounter();
     }
 
     /**
@@ -187,13 +181,18 @@ public class MultiChoiceCtrl {
      *
      * @param actionEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) {
-        if (answer2.getText().equals(correctActivityName)) {
-            isCorrect = true;
-        }
+    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
+        if (answer2.getText().equals(correctActivityName)) {
+            isCorrect = 1;
+            handleCorrect();
+        } else {
+            isCorrect = 0;
+        }
+
         showCorrect();
+        updateCounter();
     }
 
     /**
@@ -203,13 +202,29 @@ public class MultiChoiceCtrl {
      *
      * @param actionEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) {
-        if (answer3.getText().equals(correctActivityName)) {
-            isCorrect = true;
-        }
+    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
+        if (answer3.getText().equals(correctActivityName)) {
+            isCorrect = 1;
+            handleCorrect();
+        } else {
+            isCorrect = 0;
+        }
+
         showCorrect();
+        updateCounter();
+    }
+
+    public void handleCorrect() throws InterruptedException {
+        int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.setScore(parentCtrl.getScore() + addScore);
+        parentCtrl.refresh();
+    }
+
+    public void updateCounter() {
+        parentCtrl.setqCount(parentCtrl.getqCount() + 1);
+        parentCtrl.refresh();
     }
 }
 

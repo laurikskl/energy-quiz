@@ -52,7 +52,7 @@ class SPGameControllerTest {
         s1 = new SPGameController();
         try {
             s1.initialize(p1, server, mainCtrl);
-        } catch (IllegalStateException | IOException ignored) {
+        } catch (IllegalStateException | IOException | InterruptedException ignored) {
         }
     }
 
