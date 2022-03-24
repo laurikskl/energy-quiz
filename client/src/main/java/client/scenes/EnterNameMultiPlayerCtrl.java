@@ -15,10 +15,6 @@ import java.io.IOException;
 public class EnterNameMultiPlayerCtrl extends Controller {
 
     @FXML
-    private ImageView iconMP;
-    @FXML
-    private Button backButton;
-    @FXML
     private TextField userName;
     @FXML
     private Text warningText;

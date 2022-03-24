@@ -13,16 +13,16 @@ import java.io.IOException;
 
 public class LeaderboardCtrl extends Controller {
 
-    @FXML
-    private TableView<PlayerForTable> table;
-    @FXML
-    private TableColumn<PlayerForTable, String> colPlace;
-    @FXML
-    private TableColumn<PlayerForTable, String> colName;
-    @FXML
-    private TableColumn<PlayerForTable, String> colScore;
-
-    private ObservableList<PlayerForTable> data;
+//    @FXML
+//    private TableView<PlayerForTable> table;
+//    @FXML
+//    private TableColumn<PlayerForTable, String> colPlace;
+//    @FXML
+//    private TableColumn<PlayerForTable, String> colName;
+//    @FXML
+//    private TableColumn<PlayerForTable, String> colScore;
+//
+//    private ObservableList<PlayerForTable> data;
 
     /**
      * @param server   reference to an instance of ServerUtils

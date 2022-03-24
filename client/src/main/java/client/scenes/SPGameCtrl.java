@@ -32,8 +32,6 @@ public class SPGameCtrl extends Controller{
      */
 
     @FXML
-    private Button backButton;
-    @FXML
     private Text scoreCount;
     @FXML
     private Text name;

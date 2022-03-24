@@ -12,19 +12,6 @@ import java.io.IOException;
 
 public class MPGameCtrl extends Controller{
 
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button smileEmote;
-    @FXML
-    private Button sadEmote;
-    @FXML
-    private Button kissEmote;
-    @FXML
-    private Button deadEmote;
-    @FXML
-    private Button laughEmote;
-
     /**
      * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl

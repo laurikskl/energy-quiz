@@ -15,19 +15,19 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class LobbyScreenCtrl extends Controller {
-
-    @FXML
-    private Button backButton;
-    @FXML
-    private TableView<Player> table;
-    @FXML
-    private TableColumn<Player, String> colName;
-    @FXML
-    private Text playersText;
-    @FXML
-    private Text hintText;
-
-    private ObservableList<Player> data;
+//
+//    @FXML
+//    private Button backButton;
+//    @FXML
+//    private TableView<Player> table;
+//    @FXML
+//    private TableColumn<Player, String> colName;
+//    @FXML
+//    private Text playersText;
+//    @FXML
+//    private Text hintText;
+//
+//    private ObservableList<Player> data;
 
     /**
      * @param server   reference to an instance of ServerUtils

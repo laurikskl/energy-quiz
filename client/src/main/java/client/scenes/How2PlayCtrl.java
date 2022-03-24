@@ -14,8 +14,6 @@ import java.util.List;
 
 public class How2PlayCtrl extends Controller{
 
-    @FXML
-    private Button backButton;
 
     @FXML
     private TabPane tabPane;

@@ -13,9 +13,6 @@ import java.io.IOException;
 public class SplashCtrl extends Controller {
 
     @FXML
-    private ImageView logoIMG;
-
-    @FXML
     private TextField howToPlayText;
 
     /**
