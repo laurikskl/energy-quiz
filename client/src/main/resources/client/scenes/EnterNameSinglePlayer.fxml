@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../main/enterNameSingleplayer.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EnterNameSinglePlayerCtrl">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EnterNameSinglePlayerCtrl">
    <children>
       <TextField fx:id="userName" alignment="CENTER" layoutX="520.0" layoutY="379.0" prefHeight="200.0" prefWidth="900.0" promptText="Enter Name" style="-fx-background-color: c4c4c4; -fx-background-radius: 20;">
          <font>
@@ -33,12 +33,12 @@
             <Font name="System Bold" size="52.0" />
          </font>
       </Text>
-      <ImageView fitHeight="270.0" fitWidth="230.0" layoutX="855.0" layoutY="109.0">
+      <ImageView fx:id="iconSP" fitHeight="270.0" fitWidth="230.0" layoutX="855.0" layoutY="109.0">
          <image>
             <Image url="@../../entername/MaxThePlant.png" />
          </image>
       </ImageView>
-      <Button id="back" fx:id="button" layoutX="187.0" layoutY="56.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
+      <Button id="back" fx:id="backButton" layoutX="187.0" layoutY="56.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
