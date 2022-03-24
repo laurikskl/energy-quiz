@@ -13,11 +13,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.Timer;
 
 /**
  * Controller for single-player game screen
@@ -52,6 +54,15 @@ public class SPGameCtrl extends Controller {
     private Player player;
     private int score;
 
+    /**
+     * For the countdown clock.
+     */
+    @FXML
+    private Text counterTimer;
+
+    private Timer timer;
+    int seconds;
+
 
     /**
      * Zero argument constructor
@@ -72,6 +83,22 @@ public class SPGameCtrl extends Controller {
         super(server, mainCtrl);
     }
 
+    public void initialize(){
+        seconds = 14;
+        simpleTimer();
+        timer.start();
+    }
+
+    public void simpleTimer(){
+        timer = new Timer(1000, new ActionListener(){
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                seconds--;
+                counterTimer.setText(seconds+"seconds");
+            }
+        });
+    }
+
 
 
 
@@ -81,10 +108,15 @@ public class SPGameCtrl extends Controller {
      */
 
     public void doAQuestion(Question q) {
+        timer.stop();
         this.qCount++;
         questionNumber.setText(qCount + "/20");
         //load the question in the frame
+
         //start a timer for the question
+        seconds = 10;
+        simpleTimer();
+        timer.start();
     }
 
 
