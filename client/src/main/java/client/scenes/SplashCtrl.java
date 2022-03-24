@@ -101,7 +101,7 @@ public class SplashCtrl extends Controller {
     /**
      * Changes the scene to the Admin Scene.
      * @param actionEvent - the mouse clicked on Admin button
-     * @throws IOException
+     * @throws IOException when file is not found
      */
     public void mouseClickedAdmin(ActionEvent actionEvent) throws IOException {
         mainCtrl.showAdmin();
