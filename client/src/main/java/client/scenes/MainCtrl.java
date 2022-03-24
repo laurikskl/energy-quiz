@@ -22,11 +22,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-/**
- * Temporary comment for checkstyle.
- */
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +116,20 @@ public class MainCtrl{
 
     /**
      * Sets primaryStage's scene to the Lobby screen
+     *
+     * @param players the players for a game
+     * @param player the player of the client
      */
-    public void showLobbyScreen() {
+    public void showLobbyScreen(List<Player> players, Player player) {
         showScene(this.scenes.get(5));
+
+        //set up the lobby with the list of players
+        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+        try {
+            ctrl.createLobby(players, player);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -22,12 +22,14 @@ import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+import javafx.util.Pair;
 import org.glassfish.jersey.client.ClientConfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.http.WebSocket;
 import java.util.List;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -115,6 +117,21 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .get(new GenericType<List<Question>>() {
                 });
+    }
+
+    /**
+     * Called when a player disconnects from a lobby
+     *
+     * @param socket the socket associated with the lobby
+     * @param player the player that disconnected
+     */
+
+    public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("player/disconnect")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
     }
 
 

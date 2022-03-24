@@ -63,7 +63,6 @@ public class SPGameCtrl extends Controller {
 
 
     /**
-     * empty constructor
      * @param server ServerUtils instance
      * @param mainCtrl MainCtrl instance
      */
