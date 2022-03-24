@@ -102,7 +102,7 @@ public class LobbyCtrl extends Controller {
         try {
             server.disconnected(null, player);
         } catch (Exception e) {
-            System.out.println("Tried to send disconnect message to null server");
+            //HTTP request not handled (properly)
         }
     }
 
