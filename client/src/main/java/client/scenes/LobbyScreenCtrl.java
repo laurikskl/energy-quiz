@@ -43,7 +43,6 @@ public class LobbyScreenCtrl extends Controller {
      */
     @FXML
     private void initialize() {;
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
 
         //TODO: Fetch the players currently in the waiting room and insert them into the table
         //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));

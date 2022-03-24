@@ -40,7 +40,6 @@ public class SplashCtrl extends Controller {
 
     @FXML
     private void initialize() {
-        logoIMG.setImage(new Image("/main/Logo.png"));
         this.invisibleHowToPlay();
     }
 

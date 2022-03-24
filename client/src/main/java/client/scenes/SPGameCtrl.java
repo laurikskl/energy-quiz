@@ -62,10 +62,6 @@ public class SPGameCtrl extends Controller{
      * generates questions and iterates over them
      * does the cleanup after the game
      */
-    @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
-    }
 
     public void startGame(Player player) {
         this.player = player;

@@ -35,16 +35,6 @@ public class EnterNameSinglePlayerCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    /**
-     * Is called after constructor (Initializable)
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     */
-    @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
-        this.iconSP.setImage(new Image("entername/MaxThePlant.png"));
-    }
 
     /**
      * Exits the application, called by quit button

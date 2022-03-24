@@ -17,8 +17,10 @@
 package client.scenes;
 
 import commons.Player;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 /**
@@ -59,7 +61,7 @@ public class MainCtrl{
         this.scenes.get(0).getStylesheets().add("stylesheets/splash.css");
         this.scenes.get(1).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
         this.scenes.get(2).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
-        this.scenes.get(6).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
+        this.scenes.get(6).getStylesheets().add("stylesheets/mp-game-screen.css");
         this.scenes.get(7).getStylesheets().add("stylesheets/how2Play.css");
 
         showSplash();
@@ -78,15 +80,13 @@ public class MainCtrl{
      * Sets primaryStage's scene to the splash screen
      */
     public void showSplash() {
-        showScene(this.scenes.get(0));
-    }
+        showScene(this.scenes.get(0));}
 
     /**
      * Sets primaryStage's scene to the EnterNameSinglePlayer screen
      */
     public void showEnterNameSinglePlayer() {
-        showScene(this.scenes.get(1));
-    }
+        showScene(this.scenes.get(1));}
 
     /**
      * Sets primaryStage's scene to the EnterNameMultiplayer screen
