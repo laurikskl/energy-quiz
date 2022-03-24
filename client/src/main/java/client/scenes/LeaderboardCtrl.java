@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 //import javafx.scene.control.TableColumn;
 //import javafx.scene.control.TableView;
-
 import javax.inject.Inject;
 import java.io.IOException;
 

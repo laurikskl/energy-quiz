@@ -22,7 +22,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
