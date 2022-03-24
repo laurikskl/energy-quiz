@@ -12,7 +12,7 @@
     <children>
         <HBox layoutY="309.0" prefHeight="450.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
             <children>
-                <Button fx:id="answer1" ellipsisString="" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; -fx-alignment: center;" text="ANSWER1" textAlignment="CENTER" wrapText="true">
+                <Button fx:id="answer1" ellipsisString="" mnemonicParsing="false" onAction="#handleButtonPress1" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; -fx-alignment: center;" text="ANSWER1" textAlignment="CENTER" wrapText="true">
                     <HBox.margin>
                         <Insets right="60.0" />
                     </HBox.margin>
@@ -23,7 +23,7 @@
                         <Font name="System Bold" size="25.0" />
                     </font>
                 </Button>
-                <Button fx:id="answer2" mnemonicParsing="false" onAction="#handleButtonPress" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER2" wrapText="true">
+                <Button fx:id="answer2" mnemonicParsing="false" onAction="#handleButtonPress2" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER2" wrapText="true">
                     <HBox.margin>
                         <Insets right="60.0" />
                     </HBox.margin>
@@ -34,7 +34,7 @@
                         <Font name="System Bold" size="25.0" />
                     </font>
                 </Button>
-                <Button fx:id="answer3" mnemonicParsing="false" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER3" wrapText="true">
+                <Button fx:id="answer3" mnemonicParsing="false" onAction="#handleButtonPress3" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER3" wrapText="true">
                     <graphic>
                         <ImageView fx:id="image3" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
                     </graphic>

@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
+import commons.ScoreSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,7 +76,7 @@ public class SPGameController {
      */
 
     @FXML
-    public void initialize(Player player, ServerUtils server, MainCtrl mainCtrl) throws IOException {
+    public synchronized void initialize(Player player, ServerUtils server, MainCtrl mainCtrl) throws IOException {
         this.player = player;
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -94,7 +95,10 @@ public class SPGameController {
         Question q = questions.get(0);
         doAQuestion(q);
 
-        System.out.println(q.getClass());
+        System.out.println(score);
+
+//        doAQuestion(q);
+//        System.out.println(score);
         /*
         //generate 20 questions
         while(questions.size() < 20) {
@@ -113,69 +117,148 @@ public class SPGameController {
 
 
     /**
-     * this method will take care of every individual question
+     * This method takes care of every individual question by
+     * running the concrete method for each type of question.
+     * This method also handles changing the score that is visible on the screen
+     * and question counter
      *
      * @param q the current question
      */
-
-    public void doAQuestion(Question q) throws IOException {
+    public synchronized void doAQuestion(Question q) throws IOException {
         //Increment and display question counter
-        this.qCount++;
+        qCount++;
         questionNumber.setText(qCount + "/20");
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MultiChoice.class)) {
+            doMultiChoice((Question.MultiChoice) q);
+        } else if (q.getClass().equals(Question.EstimationQuestion.class)) {
+            doEstimationQuestion((Question.EstimationQuestion) q);
+        } else if (q.getClass().equals(Question.Matching.class)) {
+            doMatching((Question.Matching) q);
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+            doAccurateEstimation((Question.AccurateEstimation) q);
+        }
+
+        scoreCount.setText(String.valueOf(score));
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param q current multiChoice question
+     * @throws IOException
+     */
+    public synchronized void doMultiChoice(Question.MultiChoice q) throws IOException {
+        MultiChoiceCtrl controller;
+        Long time = -1L;
+        synchronized (this) {
             String pathToFxml = "client/src/main/resources/client/scenes/MultiChoiceScreen.fxml";
             URL url = new File(pathToFxml).toURI().toURL();
             FXMLLoader fxmlLoader = new FXMLLoader(url);
             Parent root = fxmlLoader.load();
 
-            MultiChoiceCtrl controller = fxmlLoader.<MultiChoiceCtrl>getController();
+            controller = fxmlLoader.<MultiChoiceCtrl>getController();
             controller.initialize(server, mainCtrl, (Question.MultiChoice) q);
             Scene scene = new Scene(root);
 
             questionFrame.setCenter(scene.getRoot());
-        } else if (q.getClass().equals(Question.EstimationQuestion.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
-            URL url = new File(pathToFxml).toURI().toURL();
-            FXMLLoader fxmlLoader = new FXMLLoader(url);
-            Parent root = fxmlLoader.load();
-
-            //TODO: Create ChoiceEstimationCtrl
-//            ChoiceEstimationCtrl controller = fxmlLoader.<ChoiceEstimationCtrl>getController();
-//            controller.initialize(server, mainCtrl, (Question.EstimationQuestion) q);
-            Scene scene = new Scene(root);
-
-            questionFrame.setCenter(scene.getRoot());
-        } else if (q.getClass().equals(Question.Matching.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
-            URL url = new File(pathToFxml).toURI().toURL();
-            FXMLLoader fxmlLoader = new FXMLLoader(url);
-            Parent root = fxmlLoader.load();
-
-            //TODO: Create MatchingCtrl
-//            MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
-//            controller.initialize(server, mainCtrl, (Question.Matching) q);
-            Scene scene = new Scene(root);
-
-            questionFrame.setCenter(scene.getRoot());
-        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-            String pathToFxml = "client/src/main/resources/client/scenes/AccurateEstimation.fxml";
-            URL url = new File(pathToFxml).toURI().toURL();
-            FXMLLoader fxmlLoader = new FXMLLoader(url);
-            Parent root = fxmlLoader.load();
-
-            //TODO: Create AccurateEstimationCtrl
-//            AccurateEstimationCtrl controller = fxmlLoader.<AccurateEstimationCtrl>getController();
-//            controller.initialize(server, mainCtrl, (Question.AccurateEstimation) q);
-            Scene scene = new Scene(root);
-
-            questionFrame.setCenter(scene.getRoot());
         }
-
-        //start a timer for the question
+        System.out.println(controller.getIsCorrect());
+        if (controller.getIsCorrect()) {
+            time = controller.getTime();
+            score += ScoreSystem.calculateScore(time);
+        }
     }
 
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param q current Estimation question
+     * @throws IOException
+     */
+    public void doEstimationQuestion(Question.EstimationQuestion q) throws IOException {
+        Long time = -1L;
+
+        String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
+        URL url = new File(pathToFxml).toURI().toURL();
+        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        Parent root = fxmlLoader.load();
+
+        //TODO: Create ChoiceEstimationCtrl
+//        ChoiceEstimationCtrl controller = fxmlLoader.<ChoiceEstimationCtrl>getController();
+//        controller.initialize(server, mainCtrl, (Question.EstimationQuestion) q);
+        Scene scene = new Scene(root);
+
+        questionFrame.setCenter(scene.getRoot());
+
+//        if (controller.getIsCorrect()) {
+//            time = controller.getTime();
+//            score += ScoreSystem.calculateScore(time);
+//        }
+
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param q current Matching question
+     * @throws IOException
+     */
+    public void doMatching(Question.Matching q) throws IOException {
+        Long time = -1L;
+
+        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
+        URL url = new File(pathToFxml).toURI().toURL();
+        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        Parent root = fxmlLoader.load();
+
+        //TODO: Create MatchingCtrl
+//        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
+//        controller.initialize(server, mainCtrl, (Question.Matching) q);
+        Scene scene = new Scene(root);
+
+        questionFrame.setCenter(scene.getRoot());
+
+        //        if (controller.getIsCorrect()) {
+//            time = controller.getTime();
+//            score += ScoreSystem.calculateScore(time);
+//        }
+    }
+
+    /**
+     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param q current AccurateEstimation question
+     * @throws IOException
+     */
+    public void doAccurateEstimation(Question.AccurateEstimation q) throws IOException {
+        Long time = -1L;
+
+        String pathToFxml = "client/src/main/resources/client/scenes/AccurateEstimation.fxml";
+        URL url = new File(pathToFxml).toURI().toURL();
+        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        Parent root = fxmlLoader.load();
+
+        //TODO: Create AccurateEstimationCtrl
+//        AccurateEstimationCtrl controller = fxmlLoader.<AccurateEstimationCtrl>getController();
+//        controller.initialize(server, mainCtrl, (Question.AccurateEstimation) q);
+        Scene scene = new Scene(root);
+
+        questionFrame.setCenter(scene.getRoot());
+
+//        if (controller.isCorrect()) {
+//            time = controller.getTime();
+//            //Function that gets how close was someone to giving the correct answer
+//            //(implemented in AccurateEstimationCtrl)
+//            Long distance = controller.getDistToAnswer();
+//            score += ScoreSystem.calculateScore(time, distance);
+//        }
+    }
 
     /**
      * This method takes you back to the splash screen when the back button is pressed
@@ -183,7 +266,6 @@ public class SPGameController {
      * @param actionEvent click
      * @throws IOException when file not found or misread
      */
-
     public void back(ActionEvent actionEvent) throws IOException {
         //sets the scene back to the main screen
         URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
@@ -199,7 +281,6 @@ public class SPGameController {
     /**
      * @return current question number
      */
-
     public int getqCount() {
         return qCount;
     }
@@ -207,7 +288,6 @@ public class SPGameController {
     /**
      * @param qCount current question number
      */
-
     public void setqCount(int qCount) {
         this.qCount = qCount;
     }
@@ -215,7 +295,6 @@ public class SPGameController {
     /**
      * @return the list of questions
      */
-
     public List<Question> getQuestions() {
         return questions;
     }
@@ -223,7 +302,6 @@ public class SPGameController {
     /**
      * @param questions list of questions
      */
-
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
@@ -231,7 +309,6 @@ public class SPGameController {
     /**
      * @return player
      */
-
     public Player getPlayer() {
         return player;
     }
@@ -239,7 +316,6 @@ public class SPGameController {
     /**
      * @param player player of game
      */
-
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -247,7 +323,6 @@ public class SPGameController {
     /**
      * @return score of the player
      */
-
     public int getScore() {
         return score;
     }
@@ -255,7 +330,6 @@ public class SPGameController {
     /**
      * @param score score of player
      */
-
     public void setScore(int score) {
         this.score = score;
     }
@@ -263,7 +337,6 @@ public class SPGameController {
     /**
      * @return the Text element of the scoreCount
      */
-
     public Text getScoreCount() {
         return scoreCount;
     }
@@ -271,7 +344,6 @@ public class SPGameController {
     /**
      * @param scoreCount Text element for score
      */
-
     public void setScoreCount(Text scoreCount) {
         this.scoreCount = scoreCount;
     }
@@ -279,7 +351,6 @@ public class SPGameController {
     /**
      * @return the Text element of the name
      */
-
     public Text getName() {
         return name;
     }
@@ -287,7 +358,6 @@ public class SPGameController {
     /**
      * @param name Text element for name
      */
-
     public void setName(Text name) {
         this.name = name;
     }
@@ -295,7 +365,6 @@ public class SPGameController {
     /**
      * @return the Text element of the questionNumber
      */
-
     public Text getQuestionNumber() {
         return questionNumber;
     }
@@ -303,7 +372,6 @@ public class SPGameController {
     /**
      * @param questionNumber Text element for questionNumber
      */
-
     public void setQuestionNumber(Text questionNumber) {
         this.questionNumber = questionNumber;
     }
@@ -311,7 +379,6 @@ public class SPGameController {
     /**
      * @return instance of ServerUtils
      */
-
     public ServerUtils getServer() {
         return server;
     }
@@ -319,9 +386,7 @@ public class SPGameController {
     /**
      * @param server instance of ServerUtils
      */
-
     public void setServer(ServerUtils server) {
         this.server = server;
     }
-
 }
