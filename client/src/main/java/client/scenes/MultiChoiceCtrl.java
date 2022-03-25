@@ -216,16 +216,34 @@ public class MultiChoiceCtrl {
         updateCounter();
     }
 
+    /**
+     * Add score for the question and refresh the SPGameScreen (visible update question counter and score)
+     *
+     * @throws InterruptedException
+     */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
         parentCtrl.refresh();
     }
 
+    /**
+     * Method to update a question counter
+     */
     public void updateCounter() {
         parentCtrl.setqCount(parentCtrl.getqCount() + 1);
         parentCtrl.refresh();
     }
+
+    /**
+     * Disable all buttons
+     */
+    public void disableButtons() {
+        answer1.setDisable(false);
+        answer2.setDisable(false);
+        answer3.setDisable(false);
+    }
+
 }
 
 

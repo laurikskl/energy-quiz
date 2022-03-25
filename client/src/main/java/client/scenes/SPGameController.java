@@ -117,8 +117,8 @@ public class SPGameController {
      * @param q the current question
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
-        //Increment and display question counter
-        System.out.println("Question GO!");
+        //Question has been run
+        System.out.println("Question has started!");
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MultiChoice.class)) {
@@ -142,8 +142,6 @@ public class SPGameController {
      */
     public void doMultiChoice(Question.MultiChoice q) throws IOException, InterruptedException {
         MultiChoiceCtrl controller;
-        Long time = -1L;
-
         String pathToFxml = "client/src/main/resources/client/scenes/MultiChoiceScreen.fxml";
         URL url = new File(pathToFxml).toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -154,12 +152,6 @@ public class SPGameController {
         Scene scene = new Scene(root);
 
         questionFrame.setCenter(scene.getRoot());
-//
-//        System.out.println(controller.getIsCorrect());
-//        if (controller.getIsCorrect() == 1) {
-//            time = controller.getTime();
-//            score += ScoreSystem.calculateScore(time);
-//        }
     }
 
     /**
@@ -170,8 +162,6 @@ public class SPGameController {
      * @throws IOException
      */
     public void doChoiceEstimationQuestion(Question.EstimationQuestion q) throws IOException {
-        Long time = -1L;
-
         String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
         URL url = new File(pathToFxml).toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -183,12 +173,6 @@ public class SPGameController {
         Scene scene = new Scene(root);
 
         questionFrame.setCenter(scene.getRoot());
-
-//        if (controller.getIsCorrect()) {
-//            time = controller.getTime();
-//            score += ScoreSystem.calculateScore(time);
-//        }
-
     }
 
     /**
@@ -199,8 +183,6 @@ public class SPGameController {
      * @throws IOException
      */
     public void doMatching(Question.Matching q) throws IOException {
-        Long time = -1L;
-
         String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
         URL url = new File(pathToFxml).toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -212,11 +194,6 @@ public class SPGameController {
         Scene scene = new Scene(root);
 
         questionFrame.setCenter(scene.getRoot());
-
-        //        if (controller.getIsCorrect()) {
-//            time = controller.getTime();
-//            score += ScoreSystem.calculateScore(time);
-//        }
     }
 
     /**
@@ -227,8 +204,6 @@ public class SPGameController {
      * @throws IOException
      */
     public void doAccurateEstimation(Question.AccurateEstimation q) throws IOException {
-        Long time = -1L;
-
         String pathToFxml = "client/src/main/resources/client/scenes/AccurateEstimation.fxml";
         URL url = new File(pathToFxml).toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -240,14 +215,6 @@ public class SPGameController {
         Scene scene = new Scene(root);
 
         questionFrame.setCenter(scene.getRoot());
-
-//        if (controller.isCorrect()) {
-//            time = controller.getTime();
-//            //Function that gets how close was someone to giving the correct answer
-//            //(implemented in AccurateEstimationCtrl)
-//            Long distance = controller.getDistToAnswer();
-//            score += ScoreSystem.calculateScore(time, distance);
-//        }
     }
 
     /**
@@ -380,6 +347,9 @@ public class SPGameController {
         this.server = server;
     }
 
+    /**
+     * Update visible score and visible question counter
+     */
     public void refresh() {
         scoreCount.setText(String.valueOf(score));
         questionNumber.setText(String.valueOf(qCount) + "/20");
