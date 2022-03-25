@@ -122,9 +122,11 @@ public class MultiChoiceCtrl extends Controller {
             wrong2 = answer2;
         }
 
+        //change the color for the correct answer with green for 3 seconds
         final Button correct1 = correct;
         temporaryChangeButtonColorsCorrect(correct1);
 
+        //change the colors for the wrong answers with red for 3 seconds
         final Button wrong11 = wrong1;
         temporaryChangeButtonColorWrong(wrong11);
 
@@ -132,24 +134,32 @@ public class MultiChoiceCtrl extends Controller {
         temporaryChangeButtonColorWrong(wrong12);
     }
 
+    /**
+     * This method changes the color of the correct answer for 3 seconds.
+     * @param button - the answer to be changed
+     */
     public void temporaryChangeButtonColorsCorrect(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #00FF00; ");
+        button.setStyle(button.getStyle() + " -fx-background-color: #00FF00; "); //green
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
         pause.setOnFinished(event -> {
-            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; ");
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
         });
         pause.play();
     }
 
+    /**
+     * This method changes the color of the wrong answer for 3 seconds.
+     * @param button - the answer to be changed
+     */
     public void temporaryChangeButtonColorWrong(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #FF0000; ");
+        button.setStyle(button.getStyle() + " -fx-background-color: #FF0000; "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
         pause.setOnFinished(event -> {
-            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; ");
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
         });
         pause.play();
     }
@@ -190,17 +200,16 @@ public class MultiChoiceCtrl extends Controller {
             isCorrect = 0;
         }
 
-        parentCtrl.seconds = 11;
-        parentCtrl.simpleTimer();
-        parentCtrl.getTimer().restart();
-
+        //show which answer was the correct one (for 3 seconds)
         showCorrect();
+
+        //keep the same question while the correct answer shown
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
         pause.setOnFinished(event -> {
             try {
-                parentCtrl.startNewQuestion();
+                parentCtrl.startNewQuestion(); //move to the next question
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -227,10 +236,6 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
-
-        parentCtrl.seconds = 11;
-        parentCtrl.simpleTimer();
-        parentCtrl.getTimer().restart();
 
         showCorrect();
         PauseTransition pause = new PauseTransition(
@@ -265,10 +270,6 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
-
-        parentCtrl.seconds = 11;
-        parentCtrl.simpleTimer();
-        parentCtrl.getTimer().restart();
 
         showCorrect();
         PauseTransition pause = new PauseTransition(
