@@ -5,13 +5,16 @@ import com.google.inject.Inject;
 import commons.Activity;
 import commons.Question;
 import commons.ScoreSystem;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 
 public class MultiChoiceCtrl extends Controller {
@@ -46,7 +49,6 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param server
      * @param mainCtrl
-     * @param q
      */
     @Inject
     public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -120,9 +122,36 @@ public class MultiChoiceCtrl extends Controller {
             wrong2 = answer2;
         }
 
-        correct.setStyle(correct.getStyle() + " -fx-background-color: #00FF00; ");
-        wrong1.setStyle(wrong1.getStyle() + " -fx-background-color: #FF0000; ");
-        wrong2.setStyle(wrong2.getStyle() + " -fx-background-color: #FF0000; ");
+        final Button correct1 = correct;
+        temporaryChangeButtonColorsCorrect(correct1);
+
+        final Button wrong11 = wrong1;
+        temporaryChangeButtonColorWrong(wrong11);
+
+        final Button wrong12 = wrong2;
+        temporaryChangeButtonColorWrong(wrong12);
+    }
+
+    public void temporaryChangeButtonColorsCorrect(Button button){
+        button.setStyle(button.getStyle() + " -fx-background-color: #00FF00; ");
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; ");
+        });
+        pause.play();
+    }
+
+    public void temporaryChangeButtonColorWrong(Button button){
+        button.setStyle(button.getStyle() + " -fx-background-color: #FF0000; ");
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; ");
+        });
+        pause.play();
     }
 
 
@@ -151,7 +180,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctActivityName)) {
@@ -160,8 +189,26 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+
+        parentCtrl.seconds = 11;
+        parentCtrl.simpleTimer();
+        parentCtrl.getTimer().restart();
+
         showCorrect();
-        updateCounter();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.startNewQuestion();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
+
     }
 
     /**
@@ -171,7 +218,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctActivityName)) {
@@ -181,8 +228,25 @@ public class MultiChoiceCtrl extends Controller {
             isCorrect = 0;
         }
 
+        parentCtrl.seconds = 11;
+        parentCtrl.simpleTimer();
+        parentCtrl.getTimer().restart();
+
         showCorrect();
-        updateCounter();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.startNewQuestion();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
+
     }
 
     /**
@@ -192,7 +256,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctActivityName)) {
@@ -202,8 +266,25 @@ public class MultiChoiceCtrl extends Controller {
             isCorrect = 0;
         }
 
+        parentCtrl.seconds = 11;
+        parentCtrl.simpleTimer();
+        parentCtrl.getTimer().restart();
+
         showCorrect();
-        updateCounter();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.startNewQuestion();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
+
     }
 
     /**
@@ -214,14 +295,6 @@ public class MultiChoiceCtrl extends Controller {
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        parentCtrl.refresh();
-    }
-
-    /**
-     * Method to update a question counter
-     */
-    public void updateCounter() {
-        parentCtrl.setqCount(parentCtrl.getqCount() + 1);
         parentCtrl.refresh();
     }
 

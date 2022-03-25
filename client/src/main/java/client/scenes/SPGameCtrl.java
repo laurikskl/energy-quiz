@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,7 +86,7 @@ public class SPGameCtrl extends Controller {
         this.score = 0;
         this.questions = new ArrayList<>();
 
-        seconds = 14;
+        seconds = 10;
         simpleTimer();
         timer.start();
 
@@ -122,12 +123,27 @@ public class SPGameCtrl extends Controller {
         }*/
     }
 
+    /**
+     * This method gets called after the player pressed a button with an answer
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void startNewQuestion() throws IOException, InterruptedException {
+
+        //for now, I will make the application exit after the player has done 20 questions
+        if (this.getqCount()==20) Platform.exit();
+
+        doAQuestion(questions.get(this.getqCount()));
+        this.setqCount(qCount++);
+        refresh();
+    }
+
     public void simpleTimer() {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 seconds--;
-                counterTimer.setText(seconds + "seconds");
+                counterTimer.setText(seconds + " seconds");
             }
         });
     }
@@ -146,10 +162,7 @@ public class SPGameCtrl extends Controller {
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
         //Question has been run
-        timer.stop();
-        seconds = 10;
-        simpleTimer();
-        timer.start();
+
         this.qCount++;
         System.out.println("Question has started!");
 
@@ -175,7 +188,6 @@ public class SPGameCtrl extends Controller {
      */
     public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException, InterruptedException {
         this.mainCtrl.startMC(this, multiChoice);
-        ;
     }
 
     /**
@@ -371,5 +383,9 @@ public class SPGameCtrl extends Controller {
     public void refresh() {
         scoreCount.setText(String.valueOf(score));
         questionNumber.setText(String.valueOf(qCount) + "/20");
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 }
