@@ -14,12 +14,10 @@ public class ActivityService {
 
     /**
      * Constructor that injects random and repository
-     *
-     * @param random random instance
      * @param repository activity repository
      */
-    public ActivityService(Random random, ActivityRepository repository) {
-        this.random = random;
+    public ActivityService(ActivityRepository repository) {
+        this.random = new Random();
         this.repository = repository;
     }
 

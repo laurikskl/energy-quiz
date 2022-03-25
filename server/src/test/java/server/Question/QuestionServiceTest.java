@@ -32,7 +32,7 @@ class QuestionServiceTest {
     @BeforeEach
     void setup() {
         TestActivityRepository t1 = new TestActivityRepository();
-        q1 = new QuestionService(t1, new ActivityController(new ActivityService(new Random(), t1)));
+        q1 = new QuestionService(t1, new ActivityController(new ActivityService(t1)));
     }
 
 

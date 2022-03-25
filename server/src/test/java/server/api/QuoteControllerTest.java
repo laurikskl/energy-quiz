@@ -52,7 +52,7 @@ public class QuoteControllerTest {
     public void setup() {
         random = new MyRandom();
         repo = new TestQuoteRepository();
-        sut = new QuoteController(random, repo);
+        sut = new QuoteController(repo);
     }
 
     @Test

@@ -33,7 +33,7 @@ class QuestionControllerTest {
     void setUp() {
         TestActivityRepository t1 = new TestActivityRepository();
         q1 = new QuestionController(new QuestionService(
-                t1, new ActivityController(new ActivityService(new Random(), t1))));
+                t1, new ActivityController(new ActivityService(t1))));
     }
 
 

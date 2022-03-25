@@ -76,10 +76,11 @@ public class LobbyService {
   /**
    * Adds the lobby to the game management service list of active games.
    */
+
   @MessageMapping("/game/{id}/lobby/start")
   public void startLobby(String dest, String msg){
     Game toAdd = currentLobby;
-    service.addLobby(toAdd);
+    service.makeLobbyActive(toAdd);
     currentLobby = service.newLobby();
     refreshLobbyTable();
   }
