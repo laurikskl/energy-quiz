@@ -4,14 +4,12 @@ import commons.Activity;
 import commons.ActivitySearchRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.http.ResponseEntity;
 import server.Activity.ActivityController;
 import server.Activity.ActivityService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,7 +19,6 @@ class ActivityControllerTest {
     private ActivityService activityService;
     private ActivityController activityController;
 
-    private Random random;
     private List<Activity> activities;
 
     /**
@@ -29,8 +26,6 @@ class ActivityControllerTest {
      */
     @BeforeEach
     void initialize() {
-        this.random = new Random();
-        this.random.setSeed(1);
 
         this.activities = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
@@ -42,7 +37,7 @@ class ActivityControllerTest {
 
         this.repo = new TestActivityRepository();
         this.repo.saveAll(this.activities);
-        this.activityService = new ActivityService(this.random, this.repo);
+        this.activityService = new ActivityService(this.repo);
         this.activityController = new ActivityController(this.activityService);
     }
 

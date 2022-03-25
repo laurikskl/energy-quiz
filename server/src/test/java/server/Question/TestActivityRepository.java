@@ -25,10 +25,10 @@ public class TestActivityRepository implements ActivityRepository {
      * Activities are initialized and put into a list
      */
 
-    private final Activity a1 = new Activity("showering", 2000, "wikipedia.com");
-    private final Activity a2 = new Activity("watching tv", 1000, "wikipedia.com");
-    private final Activity a3 = new Activity("coding", 1500, "wikipedia.com");
-    private final Activity a4 = new Activity("using e-bike", 2000, "wikipedia.com");
+    private final Activity a1 = new Activity("showering", 2000l, "wikipedia.com");
+    private final Activity a2 = new Activity("watching tv", 1000l, "wikipedia.com");
+    private final Activity a3 = new Activity("coding", 1500l, "wikipedia.com");
+    private final Activity a4 = new Activity("using e-bike", 2000l, "wikipedia.com");
     private final List<Activity> activities = Arrays.asList(a1, a2, a3, a4);
 
 
