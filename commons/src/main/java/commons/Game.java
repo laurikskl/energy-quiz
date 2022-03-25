@@ -1,6 +1,7 @@
 package commons;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game {
 
@@ -81,5 +82,28 @@ public class Game {
      */
     public ArrayList<Question> getQuestions() {
         return questions;
+    }
+
+    /**
+     * Equals method.
+     * @param o an object
+     * @return boolean if equals
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Game game = (Game) o;
+        return id == game.id && round == game.round && Objects.equals(players, game.players) &&
+            Objects.equals(questions, game.questions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, round, players, questions);
     }
 }

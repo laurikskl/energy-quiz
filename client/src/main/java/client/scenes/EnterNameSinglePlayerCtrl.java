@@ -8,23 +8,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 public class EnterNameSinglePlayerCtrl extends Controller {
 
+
+    String usernameString;
     @FXML
-    private ImageView iconSP;
+    private Button button;
     @FXML
-    private Button backButton;
+    private AnchorPane root;
+    @FXML
+    private ImageView backIMG;
+    @FXML
+    private Button back;
     @FXML
     private TextField userName;
     @FXML
     private Text warningText;
-
-    String usernameString;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -35,16 +40,6 @@ public class EnterNameSinglePlayerCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    /**
-     * Is called after constructor (Initializable)
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     */
-    @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
-        this.iconSP.setImage(new Image("entername/MaxThePlant.png"));
-    }
 
     /**
      * Exits the application, called by quit button
@@ -57,11 +52,9 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * Method that changes the screen to the SP.
      *
      * @param actionEvent - pressing the play button triggers this function.
-     * @throws IOException
      */
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
-
+    public void startGame(ActionEvent actionEvent) throws IOException, InterruptedException {
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
@@ -72,6 +65,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
             Player player;
             try {
                 player = this.server.getPlayer(usernameString);
+
                 if (player == null) {
                     player = new Player(usernameString, 0);
                     this.server.setPlayer(usernameString, 0);
@@ -80,8 +74,9 @@ public class EnterNameSinglePlayerCtrl extends Controller {
                 System.out.println("WARNING SERVER IS NOT ACTIVE");
                 player = new Player(usernameString, 0);
             }
-
-            this.mainCtrl.startSPGame(player);
+//            super.getMainCtrl().startSPGame(player, server);
+//            super.getMainCtrl().showSPGame();
+            this.mainCtrl.startSPGame(player, server);
             this.mainCtrl.showSPGame();
         }
 
@@ -91,7 +86,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * Method that returns the application to the initial screen when the back button is pressed.
      *
      * @param actionEvent - pressing the back button triggers this function
-     * @throws IOException
+     * @throws IOException when files not found or misread
      */
     public void back(ActionEvent actionEvent) throws IOException {
         this.mainCtrl.showSplash();

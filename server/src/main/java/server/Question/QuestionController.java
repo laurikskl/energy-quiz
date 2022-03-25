@@ -7,27 +7,43 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+/**
+ * Handles HTTP requests to the path specified
+ * Gets 20 questions from QuestionService
+ */
+
 @RestController
 @RequestMapping(path = "api/questions")
 public class QuestionController {
 
-  private final QuestionService questionService;
+    /**
+     * The service containing the logic for generating questions
+     */
 
-  /**
-   * Constructor where we inject the service layer into the controller
-   * @param questionService - the service used
-   */
-  @Autowired
-  public QuestionController(QuestionService questionService){
-    this.questionService = questionService;
-  }
+    private final QuestionService questionService;
 
-  /**
-   * Method for getting the next question
-   */
-  @GetMapping(path = "next")
-  public ResponseEntity<Question> getRandomQuestion() {
-    return ResponseEntity.ok(questionService.getRandomQuestion());
-  }
+
+    /**
+     * Constructor where we inject the service layer into the controller
+     *
+     * @param questionService - the service used
+     */
+
+    @Autowired
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+
+    /**
+     * Method for getting 20 questions
+     */
+
+    @GetMapping(path = "/next")
+    public ResponseEntity<List<Question>> getRandomQuestions() {
+        return ResponseEntity.ok(questionService.getQuestions());
+    }
 
 }

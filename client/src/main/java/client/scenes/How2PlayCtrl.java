@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
@@ -14,8 +13,6 @@ import java.util.List;
 
 public class How2PlayCtrl extends Controller{
 
-    @FXML
-    private Button backButton;
 
     @FXML
     private TabPane tabPane;
@@ -35,9 +32,6 @@ public class How2PlayCtrl extends Controller{
      */
     @FXML
     private void initialize() {
-        ImageView img = new ImageView(new Image("/icons/BackButton.png"));
-        System.out.println(backButton.getLayoutX() + "/" + backButton.getLayoutY());
-        backButton.setGraphic(img);
 
         //load in all images from the how2Play folder, each in a different tab
         List<Tab> tabs = tabPane.getTabs();

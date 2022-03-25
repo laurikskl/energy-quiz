@@ -2,22 +2,18 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+
 import java.io.IOException;
+import java.util.List;
 
 public class EnterNameMultiPlayerCtrl extends Controller {
 
-    @FXML
-    private ImageView iconMP;
-    @FXML
-    private Button backButton;
     @FXML
     private TextField userName;
     @FXML
@@ -34,16 +30,6 @@ public class EnterNameMultiPlayerCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    /**
-     * Is called after constructor (Initializable)
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     */
-    @FXML
-    private void initialize() {
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
-        this.iconMP.setImage(new Image("entername/MaxThePlants.png"));
-    }
 
     /**
      * Exits the application, called by quit button
@@ -56,7 +42,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * Method that changes the screen to the Lobby.
      *
      * @param actionEvent - pressing the play button triggers this function.
-     * @throws IOException
+     * @throws IOException when reading files goes wrong
      */
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
@@ -66,16 +52,38 @@ public class EnterNameMultiPlayerCtrl extends Controller {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            this.mainCtrl.showLobbyScreen();
+            Player player;
+            try {
+                player = this.server.getPlayer(usernameString);
+                if (player == null) {
+                    player = new Player(usernameString, 0);
+                    this.server.setPlayer(usernameString, 0);
+                }
+            } catch (Exception e) { //this should only happen when the server is null
+                System.out.println("WARNING SERVER IS NOT ACTIVE");
+                player = new Player(usernameString, 0);
+            }
+            joinLobby(player);
+            this.mainCtrl.showLobbyScreen(List.of(player), player);
         }
 
+    }
+
+    /**
+     * gets the id of the current ongoing lobby and sends the player
+     * to the relevant destination.
+     * @param player The player who is typing in their name
+     */
+    public void joinLobby(Player player){
+        long id = server.getLobby();
+        server.send("/game/" + id + "/lobby/join", player);
     }
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
      *
      * @param actionEvent - pressing the back button triggers this function
-     * @throws IOException
+     * @throws IOException when reading files goes wrong
      */
     public void back(ActionEvent actionEvent) throws IOException {
         this.mainCtrl.showSplash();

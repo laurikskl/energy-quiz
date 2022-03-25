@@ -16,19 +16,21 @@
 
 package client.scenes;
 
+import client.utils.ServerUtils;
 import commons.Player;
+import commons.Question;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-/**
- * Temporary comment for checkstyle.
- */
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainCtrl{
+public class MainCtrl {
 
     private Stage primaryStage;
 
@@ -41,8 +43,9 @@ public class MainCtrl{
 
     /**
      * Acts as constructor
+     *
      * @param primaryStage the primary stage
-     * @param scenes List of pairs of Controller instances and roots for fxml loader
+     * @param scenes       List of pairs of Controller instances and roots for fxml loader
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
         this.primaryStage = primaryStage;
@@ -56,17 +59,22 @@ public class MainCtrl{
         }
 
         //add css
-        this.scenes.get(0).getStylesheets().add("stylesheets/splash.css");
-        this.scenes.get(1).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
-        this.scenes.get(2).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
-        this.scenes.get(6).getStylesheets().add("stylesheets/enterNameSingleplayer.css");
-        this.scenes.get(7).getStylesheets().add("stylesheets/how2Play.css");
+        try {
+            this.scenes.get(0).getStylesheets().add(new File("client/src/main/resources/stylesheets/splash.css").toURI().toURL().toExternalForm());
+            this.scenes.get(1).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(2).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
+            this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         showSplash();
     }
 
     /**
      * Internal helper method to show a scene
+     *
      * @param scene Scene to show
      */
     private void showScene(Scene scene) {
@@ -111,9 +119,20 @@ public class MainCtrl{
 
     /**
      * Sets primaryStage's scene to the Lobby screen
+     *
+     * @param players the players for a game
+     * @param player  the player of the client
      */
-    public void showLobbyScreen() {
+    public void showLobbyScreen(List<Player> players, Player player) {
         showScene(this.scenes.get(5));
+
+        //set up the lobby with the list of players
+        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+//        try {
+//            ctrl.createLobby(players, player);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
@@ -134,15 +153,25 @@ public class MainCtrl{
      * Sets primaryStage's scene to the Admin screen
      */
     public void showAdmin() {
-        showScene(this.scenes.get(8));
+        showScene(this.scenes.get(9));
     }
 
     /**
      * Sets the PlayerObj
+     *
      * @param player PlayerObj representing this player
      */
-    public void startSPGame(Player player) {
+    public void startSPGame(Player player, ServerUtils server) throws IOException, InterruptedException {
         ((SPGameCtrl) this.controllers.get(4)).startGame(player);
+    }
+
+
+    /**
+     * @param parentCtrl
+     */
+    public void startMC(Controller parentCtrl, Question multiChoice) {
+        ((MultiChoiceCtrl) this.controllers.get(8)).start(parentCtrl, multiChoice);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
     }
 
     /**

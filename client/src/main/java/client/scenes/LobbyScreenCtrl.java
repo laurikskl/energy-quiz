@@ -2,32 +2,32 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Player;
-import javafx.collections.ObservableList;
+//import commons.Player;
+//import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.TableColumn;
+//import javafx.scene.control.TableView;
+//import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
+//import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class LobbyScreenCtrl extends Controller {
-
-    @FXML
-    private Button backButton;
-    @FXML
-    private TableView<Player> table;
-    @FXML
-    private TableColumn<Player, String> colName;
-    @FXML
-    private Text playersText;
-    @FXML
-    private Text hintText;
-
-    private ObservableList<Player> data;
+//
+//    @FXML
+//    private Button backButton;
+//    @FXML
+//    private TableView<Player> table;
+//    @FXML
+//    private TableColumn<Player, String> colName;
+//    @FXML
+//    private Text playersText;
+//    @FXML
+//    private Text hintText;
+//
+//    private ObservableList<Player> data;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -43,7 +43,6 @@ public class LobbyScreenCtrl extends Controller {
      */
     @FXML
     private void initialize() {;
-        this.backButton.setGraphic(new ImageView(new Image("icons/BackButton.png")));
 
         //TODO: Fetch the players currently in the waiting room and insert them into the table
         //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));

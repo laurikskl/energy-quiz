@@ -1,28 +1,27 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.PlayerForTable;
-import javafx.collections.ObservableList;
+//import commons.PlayerForTable;
+//import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-
+//import javafx.scene.control.TableColumn;
+//import javafx.scene.control.TableView;
 import javax.inject.Inject;
 import java.io.IOException;
 
 public class LeaderboardCtrl extends Controller {
 
-    @FXML
-    private TableView<PlayerForTable> table;
-    @FXML
-    private TableColumn<PlayerForTable, String> colPlace;
-    @FXML
-    private TableColumn<PlayerForTable, String> colName;
-    @FXML
-    private TableColumn<PlayerForTable, String> colScore;
-
-    private ObservableList<PlayerForTable> data;
+//    @FXML
+//    private TableView<PlayerForTable> table;
+//    @FXML
+//    private TableColumn<PlayerForTable, String> colPlace;
+//    @FXML
+//    private TableColumn<PlayerForTable, String> colName;
+//    @FXML
+//    private TableColumn<PlayerForTable, String> colScore;
+//
+//    private ObservableList<PlayerForTable> data;
 
     /**
      * @param server   reference to an instance of ServerUtils

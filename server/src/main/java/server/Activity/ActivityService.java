@@ -7,6 +7,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -20,13 +21,11 @@ public class ActivityService {
 
     /**
      * Constructor that injects random and repository
-     *
-     * @param random
-     * @param repository
+     * @param repository activity repository
      */
     @Autowired
-    public ActivityService(Random random, ActivityRepository repository) {
-        this.random = random;
+    public ActivityService(ActivityRepository repository) {
+        this.random = new Random();
         this.repository = repository;
     }
 
@@ -37,10 +36,15 @@ public class ActivityService {
      */
 
     public Activity getRandomActivity() {
-        //Get a random number that is smaller than number of elements in repository
-        var randomId = random.nextInt((int) repository.count());
-        //Return random activity
-        return repository.getById((long) randomId);
+        Activity activity = null;
+        while(activity == null) {
+            long randomId = random.nextInt((int) repository.count());
+            Optional<Activity> activityOptional = repository.findById(randomId);
+            if(activityOptional.isPresent()) {
+                activity = activityOptional.get();
+            }
+        }
+        return activity;
     }
 
     /**

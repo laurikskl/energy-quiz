@@ -10,14 +10,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LobbyScreenCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LobbyCtrl">
    <children>
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6539d4" height="763.0" layoutX="380.0" layoutY="109.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="587.0" AnchorPane.bottomAnchor="208.20000000000005" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="108.79999999999995" />
-      <Button id="back-button" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="191.0" AnchorPane.topAnchor="65.0">
+      <Button id="back-button" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/back.png" />
+                  <Image url="@/icons/back.png" />
                </image>
             </ImageView>
          </graphic>
@@ -33,21 +33,21 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Text>
-      <ImageView fitHeight="118.0" fitWidth="96.0" layoutX="1331.0" layoutY="441.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="521.0" AnchorPane.rightAnchor="493.125">
+      <ImageView fx:id="playIMG" fitHeight="118.0" fitWidth="96.0" layoutX="1331.0" layoutY="441.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="521.0" AnchorPane.rightAnchor="493.125">
          <image>
-            <Image url="@../../icons/playButton.png" />
+            <Image url="@/icons/playButton.png" />
          </image>
       </ImageView>
-      <Text fx:id="hintText" layoutX="1122.0" layoutY="834.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: Wow it even works when the text is quite long and it wraps it :)))" wrappingWidth="525.64453125" AnchorPane.bottomAnchor="214.37890625">
+      <ImageView fx:id="hintIMG" fitHeight="53.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="230.88888931274414" AnchorPane.rightAnchor="806.0">
+         <image>
+            <Image url="@/icons/lightBulb.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="hintText" layoutX="1130.0" layoutY="831.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: Wow it even works when the text is quite long and it wraps it :)))" wrappingWidth="525.64453125" AnchorPane.bottomAnchor="217.37890625" AnchorPane.rightAnchor="264.35546875">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <ImageView fitHeight="53.0" fitWidth="53.0" layoutX="1061.0" layoutY="802.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="230.88888931274414" AnchorPane.rightAnchor="806.0">
-         <image>
-            <Image url="@../../icons/lightBulb.png" />
-         </image>
-      </ImageView>
       <Text fx:id="playersText" layoutX="1248.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players: 2137" wrappingWidth="257.03125" AnchorPane.bottomAnchor="705.9609375" AnchorPane.rightAnchor="414.96875">
          <font>
             <Font name="System Bold" size="40.0" />
