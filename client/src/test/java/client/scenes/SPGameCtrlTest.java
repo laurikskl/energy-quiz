@@ -89,7 +89,7 @@ class SPGameCtrlTest {
 
     @Test
     void getQuestions() {
-        assertNull(s1.getQuestions());
+        assertEquals(0, s1.getQuestions().size());
     }
 
 
