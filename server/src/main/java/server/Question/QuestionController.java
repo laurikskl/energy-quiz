@@ -18,31 +18,32 @@ import java.util.List;
 @RequestMapping(path = "api/questions")
 public class QuestionController {
 
-  /**
-   * The service containing the logic for generating questions
-   */
+    /**
+     * The service containing the logic for generating questions
+     */
 
-  private final QuestionService questionService;
-
-
-  /**
-   * Constructor where we inject the service layer into the controller
-   * @param questionService - the service used
-   */
-
-  @Autowired
-  public QuestionController(QuestionService questionService){
-    this.questionService = questionService;
-  }
+    private final QuestionService questionService;
 
 
-  /**
-   * Method for getting 20 questions
-   */
+    /**
+     * Constructor where we inject the service layer into the controller
+     *
+     * @param questionService - the service used
+     */
 
-  @GetMapping(path = "next")
-  public ResponseEntity<List<Question>> getRandomQuestions() {
-    return ResponseEntity.ok(questionService.getQuestions());
-  }
+    @Autowired
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+
+    /**
+     * Method for getting 20 questions
+     */
+
+    @GetMapping(path = "/next")
+    public ResponseEntity<List<Question>> getRandomQuestions() {
+        return ResponseEntity.ok(questionService.getQuestions());
+    }
 
 }

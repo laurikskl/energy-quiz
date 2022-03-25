@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,9 +49,9 @@ class SPGameCtrlTest {
         mainCtrl = mock(MainCtrl.class);
         p1 = new Player("Max", 9000);
         s1 = new SPGameCtrl(server, mainCtrl);
-        try{
-            s1.startGame(p1, server);
-        } catch(IllegalStateException ignored) {
+        try {
+            s1.startGame(p1);
+        } catch (IllegalStateException | IOException | InterruptedException ignored) {
         }
     }
 

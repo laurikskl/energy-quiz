@@ -1,7 +1,7 @@
 package commons;
 
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
@@ -13,12 +13,11 @@ import java.util.List;
  * Abstract question class containing sub-classes
  */
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY, property = "type") @JsonSubTypes({
-
-        @JsonSubTypes.Type(value = Question.MostNRGQuestion.class, name = "MostNRGQuestion"),
-        @JsonSubTypes.Type(value = Question.ChoiceEstimation.class, name = "ChoiceEstimation"),
-        @JsonSubTypes.Type(value = Question.Matching.class, name = "Matching")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @Type(value = Question.MostNRGQuestion.class, name = "MostNRGQuestion"),
+        @Type(value = Question.ChoiceEstimation.class, name = "ChoiceEstimation"),
+        @Type(value = Question.Matching.class, name = "Matching"),
 })
 public abstract class Question {
 
@@ -48,6 +47,13 @@ public abstract class Question {
         return correct;
     }
 
+    /**
+     * @param correct the correct Activity
+     */
+
+    public void setCorrect(Activity correct) {
+        this.correct = correct;
+    }
 
     /**
      * @return the list of activities
@@ -57,7 +63,6 @@ public abstract class Question {
         return activities;
     }
 
-
     /**
      * @param activities the list of activities
      */
@@ -66,21 +71,10 @@ public abstract class Question {
         this.activities = activities;
     }
 
-
-    /**
-     * @param correct the correct Activity
-     */
-
-    public void setCorrect(Activity correct) {
-        this.correct = correct;
-    }
-
-
     /**
      * Question where the player must choose the activity with the highest energyConsumption
      * out of 3 available options.
      */
-
     @Getter
     @JsonTypeName("MostNRGQuestion")
     public static class MostNRGQuestion extends Question {
@@ -97,14 +91,13 @@ public abstract class Question {
 
         /**
          * @param activities the list of activities for this question
-         * @param correct the correct answer (activity with most consumption)
+         * @param correct    the correct answer (activity with most consumption)
          */
 
         public MostNRGQuestion(List<Activity> activities, Activity correct) {
             super(activities);
             setCorrect(correct);
         }
-
     }
 
 
@@ -135,7 +128,7 @@ public abstract class Question {
 
 
         /**
-         * @param activities the list of activities for this question
+         * @param activities   the list of activities for this question
          * @param consumptions the list of answers for this questions where the correct one is at index 0
          */
 
