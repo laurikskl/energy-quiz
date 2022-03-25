@@ -61,16 +61,16 @@ public class QuoteControllerTest {
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
-    @Test
-    public void randomSelection() {
-        sut.add(getQuote("q1"));
-        sut.add(getQuote("q2"));
-        nextInt = 1;
-        var actual = sut.getRandom();
-
-        assertTrue(random.wasCalled);
-        assertEquals("q2", actual.getBody().quote);
-    }
+//    @Test
+//    public void randomSelection() {
+//        sut.add(getQuote("q1"));
+//        sut.add(getQuote("q2"));
+//        nextInt = 1;
+//        var actual = sut.getRandom();
+//
+//        assertTrue(random.wasCalled);
+//        assertEquals("q2", actual.getBody().quote);
+//    }
 
     /**
      * This comment is a temporary fix for checkstyle.
