@@ -246,4 +246,14 @@ public class ServerUtils {
     public void send(String destination, Object o){
         session.send(destination, o);
     }
+
+    public long getLobby() {
+        return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("api/lobby/getid")
+            .request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .get(new GenericType <Long>() {
+            });
+    }
+
 }

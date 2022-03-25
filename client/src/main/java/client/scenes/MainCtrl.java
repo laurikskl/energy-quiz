@@ -23,7 +23,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,11 +121,11 @@ public class MainCtrl{
 
         //set up the lobby with the list of players
         LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
-        try {
-            ctrl.createLobby(players, player);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ctrl.createLobby(players, player);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

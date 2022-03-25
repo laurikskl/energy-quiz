@@ -35,7 +35,7 @@ public class GameManagementController {
    * starts a new game.
    * @return A new game
    */
-  public Game startGame(){
-    return gameManagementService.startLobby();
+  public Game newLobby(){
+    return gameManagementService.newLobby();
   }
 }

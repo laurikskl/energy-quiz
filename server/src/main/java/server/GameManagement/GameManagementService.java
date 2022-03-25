@@ -3,6 +3,7 @@ package server.GameManagement;
 import commons.Game;
 import commons.Player;
 import commons.Question;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
   /**
     * Logic behind the methods needed for gameController.
     */
+
+  @Service
 public class GameManagementService {
 
   public List<Game> games;
@@ -41,7 +44,7 @@ public class GameManagementService {
     }
 
     if(game == null){
-      game = startLobby();
+      game = newLobby();
     }
 
     return game;
@@ -51,12 +54,20 @@ public class GameManagementService {
    * Starts a new game with a unique id.
    * @return fresh game with unique id and empty players and questions lists
    */
-  public Game startLobby(){
+  public Game newLobby(){
     ArrayList<Player> players = new ArrayList<>();
     ArrayList<Question> questions = new ArrayList<>();
     Game newGame = new Game(generateId, players, questions);
     generateId++;
     games.add(newGame);
     return newGame;
+  }
+
+    /**
+     * Adds the lobby to the list of games.
+     * @param lobbyToAdd The lobby that just got started
+     */
+  public void addLobby(Game lobbyToAdd){
+    games.add(lobbyToAdd);
   }
 }
