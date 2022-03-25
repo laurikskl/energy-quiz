@@ -7,7 +7,6 @@ import server.Activity.ActivityController;
 import server.Activity.ActivityService;
 
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -33,7 +32,7 @@ class QuestionControllerTest {
     void setUp() {
         TestActivityRepository t1 = new TestActivityRepository();
         q1 = new QuestionController(new QuestionService(
-                t1, new ActivityController(new ActivityService(new Random(), t1))));
+                t1, new ActivityController(new ActivityService(t1))));
     }
 
 

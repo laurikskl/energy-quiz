@@ -42,8 +42,8 @@ public class QuoteController {
   private final Random random;
   private final QuoteRepository repo;
 
-  public QuoteController(Random random, QuoteRepository repo) {
-    this.random = random;
+  public QuoteController(QuoteRepository repo) {
+    this.random = new Random();
     this.repo = repo;
   }
 

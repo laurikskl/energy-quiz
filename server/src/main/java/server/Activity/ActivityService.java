@@ -1,14 +1,12 @@
 package server.Activity;
 
 import commons.Activity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Random;
 
-@RestController
-@RequestMapping("/api/activities")
+@Service
 public class ActivityService {
 
     private final Random random;
@@ -16,12 +14,10 @@ public class ActivityService {
 
     /**
      * Constructor that injects random and repository
-     *
-     * @param random random instance
      * @param repository activity repository
      */
-    public ActivityService(Random random, ActivityRepository repository) {
-        this.random = random;
+    public ActivityService(ActivityRepository repository) {
+        this.random = new Random();
         this.repository = repository;
     }
 
