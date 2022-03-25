@@ -2,17 +2,22 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Activity;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class AdminCtrl extends Controller{
 
@@ -21,13 +26,21 @@ public class AdminCtrl extends Controller{
 
     //Search
     @FXML
-    private ChoiceBox<String> searchByChoiceBox;
+    private TextField searchNameField;
     @FXML
-    private TextField searchField;
+    private TextField searchConsumptionMinField;
+    @FXML
+    private TextField searchConsumptionMaxField;
+    @FXML
+    private TextField searchSourceField;
+    @FXML
+    private TextField searchImageField;
     @FXML
     private Button searchButton;
     @FXML
     private Button searchShowAllButton;
+    @FXML
+    private Label searchStatusLabel;
 
     //Edit
     @FXML
@@ -93,11 +106,12 @@ public class AdminCtrl extends Controller{
 
     //Table
     @FXML
-    private TableView tableView;
+    private TableView<Activity> tableView;
 
     //Fields
     private FileChooser fileChooser;
     private DirectoryChooser directoryChooser;
+    private KeyCodeCombination copyKeyCode;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -108,12 +122,45 @@ public class AdminCtrl extends Controller{
         super(server, mainCtrl);
         this.fileChooser = new FileChooser();
         this.directoryChooser = new DirectoryChooser();
+        this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
     @FXML
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
-        this.searchByChoiceBox.getItems().addAll("ID", "Name", "Consumption", "Source");
+
+        //Restrict TextField content to numbers
+        this.searchConsumptionMinField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    searchConsumptionMinField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        //Restrict TextField content to numbers
+        this.searchConsumptionMaxField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    searchConsumptionMaxField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        //Set up columns to automatically take in the correct attributes if an Activity gets added to the table as an item.
+        List<TableColumn<Activity, ?>> columns = this.tableView.getColumns();
+        columns.get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
+        columns.get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
+        columns.get(2).setCellValueFactory(new PropertyValueFactory<>("powerConsumption"));
+        columns.get(3).setCellValueFactory(new PropertyValueFactory<>("source"));
+        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("imagePath"));
+
+        //Enable cell selection
+        this.tableView.getSelectionModel().setCellSelectionEnabled(true);
     }
 
     /**
@@ -123,6 +170,43 @@ public class AdminCtrl extends Controller{
      */
     public void back(ActionEvent actionEvent) throws IOException {
         mainCtrl.showSplash();
+    }
+
+    public void tableViewKeyEvent(KeyEvent keyEvent) {
+        if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
+
+            ObservableList<TablePosition> selectedCells = this.tableView.getSelectionModel().getSelectedCells();
+
+            if (selectedCells.size() != 0) {
+                //Get TablePosition of selected cell
+                TablePosition tablePosition = selectedCells.get(0);
+
+                //Get value in selected cell as a String
+                String value = "" + tableView.getColumns()
+                        .get(tablePosition.getColumn())
+                        .getCellObservableValue(tablePosition.getRow())
+                        .getValue();
+
+                //Convert the value of the cell to a form that can be added to the clipboard
+                final ClipboardContent content = new ClipboardContent();
+                content.putString(value);
+
+                //Copy to clipboard
+                Clipboard.getSystemClipboard().setContent(content);
+
+                //End the Key event
+                keyEvent.consume();
+            }
+        }
+    }
+
+    /**
+     * Helper method to display activities in tableView
+     * @param activities activities to show in the table
+     */
+    public void loadTable(List<Activity> activities) {
+        this.tableView.getItems().clear();
+        this.tableView.getItems().addAll(activities);
     }
 
     /**
@@ -154,19 +238,39 @@ public class AdminCtrl extends Controller{
      * @param actionEvent - the mouse clicked on searchButton
      */
     public void search(ActionEvent actionEvent) {
-        System.out.println(this.searchByChoiceBox.getValue());
-        switch (this.searchByChoiceBox.getValue()){
-            case "ID":
-                break;
-            case "Name":
-                break;
-            case "Consumption":
-                break;
-            case "Source":
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + this.searchByChoiceBox.getValue());
+        this.searchStatusLabel.setText("Retrieving...");
+
+        String minConsumption = this.searchConsumptionMinField.getText();
+        String maxConsumption = this.searchConsumptionMaxField.getText();
+
+        Long minConsumptionLong;
+        Long maxConsumptionLong;
+
+        //Parse minConsumption to Long
+        if (minConsumption.equals("")) {
+            minConsumptionLong = null;
         }
+        else {
+            minConsumptionLong = Long.parseLong(minConsumption);
+        }
+
+        //Parse maxConsumption to Long
+        if (maxConsumption.equals("")) {
+            maxConsumptionLong = null;
+        }
+        else {
+            maxConsumptionLong = Long.parseLong(maxConsumption);
+        }
+
+        List<Activity> activities = server.getActivitiesByExample(
+                this.searchNameField.getText(),
+                minConsumptionLong,
+                maxConsumptionLong,
+                this.searchSourceField.getText(),
+                this.searchImageField.getText()
+        );
+        this.loadTable(activities);
+        this.searchStatusLabel.setText("Activities found: " + activities.size());
     }
 
     /**
@@ -174,7 +278,12 @@ public class AdminCtrl extends Controller{
      * @param actionEvent - the mouse clicked on searchButton
      */
     public void showAll(ActionEvent actionEvent) {
+        this.searchStatusLabel.setText("Retrieving...");
 
+        List<Activity> activities = server.getAllActivities();
+        this.loadTable(activities);
+
+        this.searchStatusLabel.setText("Activities found: " + activities.size());
     }
 
     /**
