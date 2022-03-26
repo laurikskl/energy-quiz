@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 
 import java.io.*;
 import java.util.ArrayList;
