@@ -16,9 +16,7 @@
 
 package client.utils;
 
-import commons.Player;
-import commons.Question;
-import commons.Quote;
+import commons.*;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -254,6 +252,26 @@ public class ServerUtils {
             .accept(APPLICATION_JSON)
             .get(new GenericType <Long>() {
             });
+    }
+
+
+    public List<Activity> getAllActivities() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/activities/getAll").
+                request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON).
+                get(new GenericType<List<Activity>>() {
+                });
+    }
+
+    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
+
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/activities/getByName")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
     }
 
 }

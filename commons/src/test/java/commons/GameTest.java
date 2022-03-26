@@ -30,9 +30,9 @@ class GameTest {
         demi = new Player("xxdemixx", 666);
         adda = new Player("adduta", 0);
 
-        activity1 = new Activity("Cycling", 420, "randomURL1", "activities/00/tesla.jpg");
-        activity2 = new Activity("Cycling", 420, "randomURL2", "activities/01/tesla.jpg");
-        activity3 = new Activity("Cycling", 69, "randomURL2", "activities/01/tesla.jpg");
+        activity1 = new Activity("Cycling", 420l, "randomURL1", "activities/00/tesla.jpg");
+        activity2 = new Activity("Cycling", 420l, "randomURL2", "activities/01/tesla.jpg");
+        activity3 = new Activity("Cycling", 69l, "randomURL2", "activities/01/tesla.jpg");
 
         activities.add(activity1);
         activities.add(activity2);
