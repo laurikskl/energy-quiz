@@ -17,7 +17,6 @@
 package client;
 
 import client.scenes.*;
-
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -41,8 +40,8 @@ public class Main extends Application {
      * FXML is an instance of a custom FXML class
      */
 
-  private static final Injector INJECTOR = createInjector(new MyModule());
-  private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
 
     /**
@@ -80,6 +79,8 @@ public class Main extends Application {
         scenes.add(FXML.load(LobbyCtrl.class, "client", "scenes", "LobbyScreen.fxml"));
         scenes.add(FXML.load(MPGameCtrl.class, "client", "scenes", "MPGameScreen.fxml"));
         scenes.add(FXML.load(How2PlayCtrl.class, "client", "scenes", "How2Play.fxml"));
+        scenes.add(FXML.load(MultiChoiceCtrl.class, "client", "scenes", "MultiChoiceScreen.fxml"));
+        scenes.add(FXML.load(AdminCtrl.class, "client", "scenes", "Admin.fxml"));
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, scenes);

@@ -62,9 +62,20 @@ public class EnterNameMultiPlayerCtrl extends Controller {
             } catch (Exception e) { //this should only happen when the server is null
                 player = new Player(usernameString, 0);
             }
+            joinLobby(player);
             this.mainCtrl.showLobbyScreen(List.of(player), player);
         }
 
+    }
+
+    /**
+     * gets the id of the current ongoing lobby and sends the player
+     * to the relevant destination.
+     * @param player The player who is typing in their name
+     */
+    public void joinLobby(Player player){
+        long id = server.getLobby();
+        server.send("/game/" + id + "/lobby/join", player);
     }
 
     /**

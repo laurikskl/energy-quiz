@@ -6,18 +6,30 @@ import commons.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 public class EnterNameSinglePlayerCtrl extends Controller {
 
+
+    String usernameString;
+    @FXML
+    private Button button;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private ImageView backIMG;
+    @FXML
+    private Button back;
     @FXML
     private TextField userName;
     @FXML
     private Text warningText;
-
-    String usernameString;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -42,8 +54,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * @param actionEvent - pressing the play button triggers this function.
      */
     @FXML
-    public void startGame(ActionEvent actionEvent)  {
-
+    public void startGame(ActionEvent actionEvent) throws IOException, InterruptedException {
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
@@ -54,6 +65,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
             Player player;
             try {
                 player = this.server.getPlayer(usernameString);
+
                 if (player == null) {
                     player = new Player(usernameString, 0);
                     this.server.setPlayer(usernameString, 0);
@@ -61,7 +73,8 @@ public class EnterNameSinglePlayerCtrl extends Controller {
             } catch (Exception e) { //this should only happen when the server is null
                 player = new Player(usernameString, 0);
             }
-
+//            super.getMainCtrl().startSPGame(player, server);
+//            super.getMainCtrl().showSPGame();
             this.mainCtrl.startSPGame(player, server);
             this.mainCtrl.showSPGame();
         }

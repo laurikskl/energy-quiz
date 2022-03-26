@@ -140,12 +140,21 @@ public class LobbyCtrl extends Controller {
      */
 
     public void back(ActionEvent actionEvent) throws IOException {
+        leaveLobby();
         this.mainCtrl.showSplash();
         try {
             server.disconnected(null, player);
         } catch (Exception e) {
             //HTTP request not handled (properly)
         }
+    }
+
+    /**
+     * Removes the player from the lobby.
+     */
+    public void leaveLobby(){
+        long id = server.getLobby();
+        server.send("/game/" + id + "/lobby/leave", player);
     }
 
 
@@ -158,6 +167,9 @@ public class LobbyCtrl extends Controller {
      */
 
     public void startGame(ActionEvent actionEvent) throws IOException {
+        long id = server.getLobby();
+        String startGame = "Game started";
+        server.send("/game/" + id + "/lobby/start", startGame);
         this.mainCtrl.showMPGame();
 
         // TODO: Start a session, forward other players to the game, fetch questions.
@@ -166,13 +178,22 @@ public class LobbyCtrl extends Controller {
 
 
     /**
+     * Gets an updated list from the server
      * @param players resets the table containing player names
      */
 
-    public void resetTable(List<Player> players) {
+    @MessageMapping("/topic/game/{id}/table")
+    public void resetTable(String dest, List<Player> players) throws IOException {
         this.players = players;
         table.getItems().setAll(players);
+        resetHint();
+        resetPlayerAmount(players);
     }
+
+//    public void createTable(List<Player> players){
+//        this.players = players;
+//        table.getItems().setAll(players);
+//    }
 
 
     /**
@@ -220,10 +241,10 @@ public class LobbyCtrl extends Controller {
      * @param players the players in this lobby
      */
 
-    public void createLobby(List<Player> players, Player player) throws IOException {
-        resetTable(players);
-        resetHint();
-        resetPlayerAmount(players);
-    }
+//    public void createLobby(List<Player> players, Player player) throws IOException {
+//        createTable(players);
+//        resetHint();
+//        resetPlayerAmount(players);
+//    }
 
 }
