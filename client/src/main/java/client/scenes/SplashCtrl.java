@@ -91,4 +91,13 @@ public class SplashCtrl extends Controller {
     public void mouseClickedHow2Play(ActionEvent actionEvent) throws IOException {
         mainCtrl.showHow2Play();
     }
+
+    /**
+     * Changes the scene to the Admin Scene.
+     * @param actionEvent - the mouse clicked on Admin button
+     * @throws IOException when file is not found
+     */
+    public void mouseClickedAdmin(ActionEvent actionEvent) throws IOException {
+        mainCtrl.showAdmin();
+    }
 }

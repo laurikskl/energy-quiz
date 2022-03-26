@@ -19,8 +19,8 @@ public class ActivityTest {
      */
     @BeforeEach
     public void initialize() {
-        activity = new Activity("Cycling", 420, "randomURL1", "activities/00/tesla.jpg");
-        activityChanged = new Activity("Cycling", 420, "randomURL2", "activities/01/tesla.jpg");
+        activity = new Activity("Cycling", 420L, "randomURL1", "activities/00/tesla.jpg");
+        activityChanged = new Activity("Cycling", 420L, "randomURL2", "activities/01/tesla.jpg");
         json1 = "{\n" +
                 "    \"title\" : \"Using a blender for one hour\",\n" +
                 "    \"consumption_in_wh\" : 400,\n" +
@@ -47,7 +47,7 @@ public class ActivityTest {
      */
     @Test
     public void getIdTest1() {
-        assertEquals(0, activity.getId());
+        assertEquals(null, activity.getId());
     }
 
     /**
@@ -87,8 +87,8 @@ public class ActivityTest {
      */
     @Test
     public void setIdTest() {
-        activityChanged.setId(2);
-        assertEquals(2, activityChanged.getId());
+        activityChanged.setId(2L);
+        assertEquals(2L, activityChanged.getId());
     }
 
     /**
@@ -105,7 +105,7 @@ public class ActivityTest {
      */
     @Test
     public void setPowerConsumptionTest() {
-        activityChanged.setPowerConsumption(666);
+        activityChanged.setPowerConsumption(666L);
         assertEquals(666, activityChanged.getPowerConsumption());
     }
 
@@ -145,8 +145,8 @@ public class ActivityTest {
      */
     @Test
     public void equalsTest() {
-        Activity activitySame = new Activity("Cycling", 420, "randomURL1", "activities/00/tesla.jpg");
-        Activity activityDiff = new Activity("Biking", 420, "randomURL", "activities/00/tesla.jpg");
+        Activity activitySame = new Activity("Cycling", 420L, "randomURL1", "activities/00/tesla.jpg");
+        Activity activityDiff = new Activity("Biking", 420L, "randomURL", "activities/00/tesla.jpg");
         assertTrue(activity.equals(activitySame));
         assertTrue(activitySame.equals(activity));
         assertFalse(activity.equals(activityDiff));
@@ -158,7 +158,7 @@ public class ActivityTest {
      */
     @Test
     void hashEqualTest() {
-        Activity activitySame = new Activity("Cycling", 420, "randomURL1", "activities/00/tesla.jpg");
+        Activity activitySame = new Activity("Cycling", 420L, "randomURL1", "activities/00/tesla.jpg");
         assertEquals(activity.hashCode(), activitySame.hashCode());
     }
 
@@ -167,7 +167,7 @@ public class ActivityTest {
      */
     @Test
     void hashDifferentTest() {
-        Activity activityDiff = new Activity("Biking", 420, "randomURL", "activities/00/tesla.jpg");
+        Activity activityDiff = new Activity("Biking", 420L, "randomURL", "activities/00/tesla.jpg");
         assertNotEquals(activity.hashCode(), activityDiff.hashCode());
     }
 
@@ -176,7 +176,7 @@ public class ActivityTest {
      */
     @Test
     public void toStringTest() {
-        assertEquals("Activity{id=" + 0 + ", name='Cycling', powerConsumption=" + 420
+        assertEquals("Activity{id=" + null + ", name='Cycling', powerConsumption=" + 420
                         + ", source='randomURL1', imagePath='activities/00/tesla.jpg'" + '}'
                 , activity.toString());
     }

@@ -150,6 +150,13 @@ public class MainCtrl {
     }
 
     /**
+     * Sets primaryStage's scene to the Admin screen
+     */
+    public void showAdmin() {
+        showScene(this.scenes.get(9));
+    }
+
+    /**
      * Sets the PlayerObj
      *
      * @param player PlayerObj representing this player
