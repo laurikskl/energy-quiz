@@ -291,7 +291,7 @@ public class SPGameCtrl extends Controller {
             try{
                 questions = server.getQuestions();
             } catch (Exception e) {
-                System.out.println("something went wrong here");
+                //server didn't send over questions
             }
         }
         Collections.shuffle(questions);

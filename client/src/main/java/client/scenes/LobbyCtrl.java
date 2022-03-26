@@ -6,15 +6,20 @@ import commons.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import javafx.util.Callback;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +35,8 @@ public class LobbyCtrl extends Controller {
      */
 
     @FXML
+    private AnchorPane anchor;
+    @FXML
     private ImageView playIMG;
     @FXML
     private ImageView hintIMG;
@@ -43,6 +50,8 @@ public class LobbyCtrl extends Controller {
     private Text playersText;
     @FXML
     private Text hintText;
+    @FXML
+    private Text pressToStart;
 
     /**
      * players is the list of players in the lobby
@@ -68,15 +77,58 @@ public class LobbyCtrl extends Controller {
      */
 
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
         colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
+        hintIMG.setImage(new Image(new File("client/src/main/resources/icons/lightBulb.png").toURI().toURL().toString()));
 
-        //TODO: Fetch the players currently in the waiting room and insert them into the table
-        //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
+        //setting font everywhere
+        Font font = Font.loadFont(new FileInputStream("client/src/main/resources/fonts/Spartan-Bold.ttf"), 25);
+        colName.setCellFactory(getCustomCellFactory(font)); //setting font for table
+        for(Node node : anchor.getChildren()) {
+            if(node instanceof Text) {
+                ((Text) node).setFont(font);
+            }
+        }
+        hintText.setFont(font);
+        playersText.setStyle("-fx-font-size: 35px;-fx-alignment: CENTER;");
+        hintText.setStyle("-fx-font-size: 20px");
+        pressToStart.setStyle("-fx-alignment: CENTER;-fx-font-size: 20px");
 
-        //TODO: Update the number of players currently in the waiting room
+        //disable horizontal scrolling for table
+        table.addEventFilter(ScrollEvent.ANY, event -> {
+            if (event.getDeltaX() != 0) {
+                event.consume();
+            }
+        });
+    }
 
-        //TODO: Add a hint
+
+    /**
+     * Sets the tables font by black magic
+     *
+     * @param font The font to be used
+     * @return No idea pls help
+     */
+
+    private Callback<TableColumn<Player, String>, TableCell<Player, String>> getCustomCellFactory(Font font) {
+        //credit to https://tousu.in/?qa=738424/
+        return new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
+
+            @Override
+            public TableCell<Player, String> call(TableColumn<Player, String> param) {
+                TableCell<Player, String> cell = new TableCell<Player, String>() {
+                    @Override
+                    public void updateItem(final String item, boolean empty) {
+                        if (item != null) {
+                            setText(item);
+                        }
+                    }
+                };
+                cell.setFont(font);
+                cell.setStyle("-fx-font-size: 40px");
+                return cell;
+            }
+        };
     }
 
 

@@ -60,7 +60,6 @@ public class EnterNameMultiPlayerCtrl extends Controller {
                     this.server.setPlayer(usernameString, 0);
                 }
             } catch (Exception e) { //this should only happen when the server is null
-                System.out.println("WARNING SERVER IS NOT ACTIVE");
                 player = new Player(usernameString, 0);
             }
             this.mainCtrl.showLobbyScreen(List.of(player), player);
