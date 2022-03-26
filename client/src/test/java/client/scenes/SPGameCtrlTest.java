@@ -172,7 +172,7 @@ class SPGameCtrlTest {
         Activity a1 = new Activity();
         Activity a2 = new Activity();
         List<Activity> acs = Arrays.asList(a1, a2);
-        Question q = new Question.Matching(acs);
+        Question q = new Question.Matching(acs, null);
         List<Question> qs = List.of(q);
         s1.setQuestions(qs);
         assertEquals(qs, s1.getQuestions());

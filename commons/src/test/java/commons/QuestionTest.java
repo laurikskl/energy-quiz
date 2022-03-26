@@ -43,8 +43,8 @@ public class QuestionTest {
         a3 = new Activity("Writing tests", 900, "github.com");
         a4 = new Activity("Lamp", 800, "github.com");
         activityList = Arrays.asList(a1, a2, a3, a4);
-        mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1);
-        matching = new Question.Matching(activityList);
+        mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1, null);
+        matching = new Question.Matching(activityList, null);
         choiceEstimation = new Question.ChoiceEstimation(Arrays.asList(a1), Arrays.asList(1200L, 900L, 1100L));
     }
 

@@ -160,11 +160,23 @@ public class MainCtrl {
 
 
     /**
+     * Load the MultipleChoice question frame
      * @param parentCtrl
+     * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) {
         ((MultiChoiceCtrl) this.controllers.get(8)).start(parentCtrl, multiChoice);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+    }
+
+    /**
+     * Load the ChoiceEstimation question frame
+     * @param parentCtrl
+     * @param choiceEstimation
+     */
+    public void startCE(Controller parentCtrl, Question choiceEstimation) {
+        ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
     }
 
     /**
