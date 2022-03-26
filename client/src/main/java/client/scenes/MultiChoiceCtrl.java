@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -209,6 +210,8 @@ public class MultiChoiceCtrl extends Controller {
         );
         pause.setOnFinished(event -> {
             try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
                 parentCtrl.startNewQuestion(); //move to the next question
             } catch (IOException e) {
                 e.printStackTrace();
@@ -243,6 +246,8 @@ public class MultiChoiceCtrl extends Controller {
         );
         pause.setOnFinished(event -> {
             try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
                 parentCtrl.startNewQuestion();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -277,6 +282,8 @@ public class MultiChoiceCtrl extends Controller {
         );
         pause.setOnFinished(event -> {
             try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
                 parentCtrl.startNewQuestion();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -296,7 +303,6 @@ public class MultiChoiceCtrl extends Controller {
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        parentCtrl.refresh();
     }
 
     /**

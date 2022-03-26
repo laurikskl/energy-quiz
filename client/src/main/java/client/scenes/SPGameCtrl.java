@@ -86,11 +86,6 @@ public class SPGameCtrl extends Controller {
         this.score = 0;
         this.questions = new ArrayList<>();
 
-        //starts the timer
-        resetSeconds();
-        simpleTimer();
-        timer.start();
-
         //if statement to make tests work
         if (name == null || scoreCount == null || questionNumber == null) {
             throw new IllegalStateException("One or more FXML fields are null");
@@ -122,11 +117,11 @@ public class SPGameCtrl extends Controller {
     public void startNewQuestion() throws IOException, InterruptedException {
 
         //for now, I will make the application exit after the player has done 20 questions
-        if (this.getqCount()==20) Platform.exit();
-
+        if (this.getqCount()==20) {
+            this.mainCtrl.showEndGame();
+        }
         doAQuestion(questions.get(this.getqCount()));
-        this.setqCount(qCount++);
-        refresh();
+
     }
 
     /**
@@ -135,6 +130,9 @@ public class SPGameCtrl extends Controller {
      * to move on to the next question.
      */
     public void simpleTimer() {
+
+        resetSeconds();
+
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -143,6 +141,9 @@ public class SPGameCtrl extends Controller {
 
                 //if more than 15 seconds passed, move on to the next question
                 if (seconds<0){
+
+                    timer.stop();
+
                     try {
                         startNewQuestion();
                         return;
@@ -155,13 +156,16 @@ public class SPGameCtrl extends Controller {
                 counterTimer.setText(seconds + " seconds");
             }
         });
+
+        timer.start();
+
     }
 
     /**
      * This method resets the seconds.
      */
     public void resetSeconds(){
-        this.seconds = 15;
+        this.seconds = 16;
     }
 
     public BorderPane getQuestionFrame() {
@@ -177,10 +181,12 @@ public class SPGameCtrl extends Controller {
      * @param q the current question
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
-        //Question has been run
 
+        //Question has been run
         this.qCount++;
         System.out.println("Question has started!");
+        simpleTimer();
+        questionNumber.setText(qCount+"/20");
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
@@ -396,13 +402,10 @@ public class SPGameCtrl extends Controller {
     /**
      * Update visible score and visible question counter.
      */
-    public void refresh() {
-        resetSeconds();
-        simpleTimer();
-        timer.start();
+    public void refresh(){
 
         scoreCount.setText(String.valueOf(score));
-        questionNumber.setText(String.valueOf(qCount) + "/20");
+        //questionNumber.setText(qCount + "/20");
     }
 
     /**
