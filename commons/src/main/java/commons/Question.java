@@ -27,6 +27,7 @@ public abstract class Question {
      */
 
     private List<Activity> activities;
+    private List<Long> consumptions;
     private Activity correct;
 
 
@@ -34,8 +35,9 @@ public abstract class Question {
      * @param activities the list of activities used in a question
      */
 
-    public Question(List<Activity> activities) {
+    public Question(List<Activity> activities, List<Long> consumptions) {
         this.activities = activities;
+        this.consumptions = consumptions;
     }
 
 
@@ -64,6 +66,14 @@ public abstract class Question {
     }
 
     /**
+     *
+     * @return the list of consumptions
+     */
+    public List<Long> getConsumptions() {
+        return consumptions;
+    }
+
+    /**
      * @param activities the list of activities
      */
 
@@ -84,7 +94,7 @@ public abstract class Question {
          */
 
         public MostNRGQuestion() {
-            super(null);
+            super(null, null);
             //for object mapper
         }
 
@@ -94,8 +104,8 @@ public abstract class Question {
          * @param correct    the correct answer (activity with most consumption)
          */
 
-        public MostNRGQuestion(List<Activity> activities, Activity correct) {
-            super(activities);
+        public MostNRGQuestion(List<Activity> activities, Activity correct, List<Long> consumptions) {
+            super(activities, consumptions);
             setCorrect(correct);
         }
     }
@@ -111,39 +121,22 @@ public abstract class Question {
     public static class ChoiceEstimation extends Question {
 
         /**
-         * The list of answers where the correct answer is at index 0
-         */
-
-        private List<Long> consumptions;
-
-
-        /**
          * Zero-parameter constructor
          */
 
         public ChoiceEstimation() {
-            super(null);
+            super(null, null);
             //for object mapper
         }
 
 
         /**
          * @param activities   the list of activities for this question
-         * @param consumptions the list of answers for this questions where the correct one is at index 0
+         * @param consumptions the list of answers for this question where the correct one is at index 0
          */
 
         public ChoiceEstimation(List<Activity> activities, List<Long> consumptions) {
-            super(activities);
-            this.consumptions = consumptions;
-        }
-
-
-        /**
-         * @return the list of consumptions with the correct answer at index 0
-         */
-
-        public List<Long> getConsumptions() {
-            return consumptions;
+            super(activities, consumptions);
         }
 
     }
@@ -165,7 +158,7 @@ public abstract class Question {
          */
 
         public Matching() {
-            super(null);
+            super(null, null);
             //for object mapper
         }
 
@@ -174,8 +167,8 @@ public abstract class Question {
          * @param activities the list of activities for this question
          */
 
-        public Matching(List<Activity> activities) {
-            super(activities);
+        public Matching(List<Activity> activities, List<Long> consumptions) {
+            super(activities, consumptions);
             setCorrect(activities.get(1));
         }
 

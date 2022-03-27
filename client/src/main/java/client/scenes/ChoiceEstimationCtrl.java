@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Activity;
 import commons.Question;
 import commons.ScoreSystem;
 import javafx.event.ActionEvent;
@@ -15,24 +14,22 @@ import java.time.Instant;
 import java.util.Collections;
 
 /**
- * This class handles the multiChoice question type, by:
+ * This class handles the choiceEstimation question type, by:
  * - displaying the correlated question frame when a question of this type is generated
- * - setting the information of the UI to the one generated in the question (3 buttons each displaying an activity with an image)
+ * - setting the information of the UI to the one generated in the question (activity with image + answers)
  * - handling the user input (the user pressing one of the 3 buttons)
  * - updating the score accordingly
  */
-public class MultiChoiceCtrl extends Controller {
+public class ChoiceEstimationCtrl extends Controller{
 
-    private ServerUtils server;
-    private MainCtrl mainCtrl;
-    private Question multiChoice;
+    private Question choiceEstimation;
     private SPGameCtrl parentCtrl;
-
-    private int isCorrect;
+    private boolean isCorrect;
     private Instant instant;
     private Long start;
     private Long finish;
-    private String correctActivityName;
+    private Long correctAnswer;
+    private String correctText;
 
     @FXML
     private Button answer1;
@@ -41,83 +38,76 @@ public class MultiChoiceCtrl extends Controller {
     @FXML
     private Button answer3;
     @FXML
-    private ImageView image1;
+    private ImageView image;
     @FXML
-    private ImageView image2;
-    @FXML
-    private ImageView image3;
+    private Button activityButton;
 
     /**
-     * Constructor with server, mainCtrl and multiChoice question
-     *
-     * @param server
-     * @param mainCtrl
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
      */
     @Inject
-    public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public ChoiceEstimationCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
     }
 
-    public void start(Controller parentCtrl, Question multiChoice) {
+    /**
+     * Method for starting the question, setting all the UI and starting the timer
+     * @param parentCtrl controller for the Singleplayer game
+     * @param choiceEstimation question
+     */
+    public void start(Controller parentCtrl, Question choiceEstimation) {
         this.parentCtrl = (SPGameCtrl) parentCtrl;
-        //Set the isCorrect to -1 meaning there was no answer
-        this.isCorrect = -1;
+        //Set the isCorrect to false meaning there was no answer
+        this.isCorrect = false;
         //Obtaining current state of clock
         this.instant = Instant.now();
         //Current time in second from some ancient date
         this.start = instant.getEpochSecond();
         //Set Question
-        this.multiChoice = multiChoice;
-        //Finds the correct answer and inserts its name in the correctActivityName field
-        setCorrectAnswer();
+        this.choiceEstimation = choiceEstimation;
 
-        //Shuffling the answers so the first one is not always right, then setting the text and images
-        Collections.shuffle(multiChoice.getActivities());
-        String path1 = multiChoice.getActivities().get(0).getImagePath();
-        String path2 = multiChoice.getActivities().get(1).getImagePath();
-        String path3 = multiChoice.getActivities().get(2).getImagePath();
+        //Set the correct answer
+        correctAnswer = choiceEstimation.getActivities().get(0).getPowerConsumption();
+        correctText = String.valueOf(correctAnswer);
+        //Set the activity, image and buttons
+        String path = choiceEstimation.getActivities().get(0).getImagePath();
+        image.setImage(new Image(new File(path).toURI().toString()));
+        activityButton.setText(choiceEstimation.getActivities().get(0).getName());
+        setButtons();
 
-        image1.setImage(new Image(new File(path1).toURI().toString()));
-        image2.setImage(new Image(new File(path2).toURI().toString()));
-        image3.setImage(new Image(new File(path3).toURI().toString()));
-
-        answer1.setText(multiChoice.getActivities().get(0).getName());
-        answer2.setText(multiChoice.getActivities().get(1).getName());
-        answer3.setText(multiChoice.getActivities().get(2).getName());
-
-        //Setting the colour of buttons when the question is initialized, so they don't stay the same colour after a question
-        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
     }
 
     /**
-     * Loops over activities and finds which one is the correct one
+     * Method for setting the buttons in a randomized way
      */
-    public void setCorrectAnswer() {
-        Long correctActivityIndex = multiChoice.getCorrect().getId();
-        String correctActivityName = "";
-        for (Activity act : multiChoice.getActivities()) {
-            if (act.getId() == correctActivityIndex)
-                correctActivityName = act.getName();
-        }
-        this.correctActivityName = correctActivityName;
+    public void setButtons(){
+        Collections.shuffle(choiceEstimation.getConsumptions());
+
+        answer1.setText(String.valueOf(choiceEstimation.getConsumptions().get(0)));
+        answer2.setText(String.valueOf(choiceEstimation.getConsumptions().get(1)));
+        answer3.setText(String.valueOf(choiceEstimation.getConsumptions().get(2)));
+
+        //Set the style of the buttons when setting the answers, so they don't stay the same from question to question
+        answer1.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100;");
+        answer2.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100;");
+        answer3.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100;");
     }
 
     /**
-     * Paints the buttons, the wrong answers are painted red and the correct one is painted
-     * green
-     **/
+     * Method for changing the buttons' colours to show which answer was correct
+     */
     public void showCorrect() {
         Button correct = answer1;
         Button wrong1 = answer2;
         Button wrong2 = answer3;
 
-        if (answer2.getText().equals(correctActivityName)) {
+        if (answer2.getText().equals(correctText)) {
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
-        } else if (answer3.getText().equals(correctActivityName)) {
+        }
+        else if (answer3.getText().equals(correctText)) {
             correct = answer3;
             wrong1 = answer1;
             wrong2 = answer2;
@@ -128,9 +118,8 @@ public class MultiChoiceCtrl extends Controller {
         wrong2.setStyle(wrong2.getStyle() + " -fx-background-color: #ff4f75; ");
     }
 
-
     /**
-     * Getter for the time spend on a question
+     * Getter for the time spent on a question
      *
      * @return
      */
@@ -143,7 +132,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @return
      */
-    public int getIsCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 
@@ -157,11 +146,11 @@ public class MultiChoiceCtrl extends Controller {
     public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
-        if (answer1.getText().equals(correctActivityName)) {
-            isCorrect = 1;
+        if (answer1.getText().equals(correctText)) {
+            isCorrect = true;
             handleCorrect();
         } else {
-            isCorrect = 0;
+            isCorrect = false;
         }
         showCorrect();
         updateCounter();
@@ -177,11 +166,11 @@ public class MultiChoiceCtrl extends Controller {
     public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
-        if (answer2.getText().equals(correctActivityName)) {
-            isCorrect = 1;
+        if (answer2.getText().equals(correctText)) {
+            isCorrect = true;
             handleCorrect();
         } else {
-            isCorrect = 0;
+            isCorrect = false;
         }
 
         showCorrect();
@@ -198,11 +187,11 @@ public class MultiChoiceCtrl extends Controller {
     public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
-        if (answer3.getText().equals(correctActivityName)) {
-            isCorrect = 1;
+        if (answer3.getText().equals(correctText)) {
+            isCorrect = true;
             handleCorrect();
         } else {
-            isCorrect = 0;
+            isCorrect = false;
         }
 
         showCorrect();
@@ -210,8 +199,9 @@ public class MultiChoiceCtrl extends Controller {
     }
 
     /**
-     * Add score for the question and refresh the SPGameScreen (visible update question counter and score)
-     *
+     * When the correct answer is pressed, the score for the question is calculated
+     * and added to the score on the screen
+     * 
      * @throws InterruptedException
      */
     public void handleCorrect() throws InterruptedException {
@@ -237,6 +227,10 @@ public class MultiChoiceCtrl extends Controller {
         answer3.setDisable(false);
     }
 
+
+
+
+
+
+
 }
-
-

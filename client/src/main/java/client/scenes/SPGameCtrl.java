@@ -175,28 +175,17 @@ public class SPGameCtrl extends Controller {
      */
     public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException, InterruptedException {
         this.mainCtrl.startMC(this, multiChoice);
-        ;
     }
 
     /**
      * This method inserts the frame, gets time and correctness of the answer from the controller
      * Then it adds points to score accordingly, using ScoreSystem
      *
-     * @param q current Estimation question
+     * @param choiceEstimation current Estimation question
      * @throws IOException
      */
-    public void doChoiceEstimationQuestion(Question.ChoiceEstimation q) throws IOException {
-        String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
-        URL url = new File(pathToFxml).toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-
-        //TODO: Create ChoiceEstimationCtrl
-//        ChoiceEstimationCtrl controller = fxmlLoader.<ChoiceEstimationCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.EstimationQuestion) q);
-        Scene scene = new Scene(root);
-
-        questionFrame.setCenter(scene.getRoot());
+    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException, InterruptedException {
+        this.mainCtrl.startCE(this, choiceEstimation);
     }
 
     /**

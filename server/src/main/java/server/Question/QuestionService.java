@@ -62,8 +62,7 @@ public class QuestionService {
      */
 
     public Question getRandomQuestion() {
-//        int randomType = random.nextInt(3);
-        int randomType = 0;
+        int randomType = random.nextInt(2);
         switch (randomType) {
             case 0:
                 return getRandomMostNRG();
@@ -119,7 +118,7 @@ public class QuestionService {
             activities.add(toAdd);
         }
 
-        return new Question.Matching(activities);
+        return new Question.Matching(activities, null);
     }
 
 
@@ -165,6 +164,6 @@ public class QuestionService {
             }
         }
         Collections.sort(activities); //most energy will be in front
-        return new Question.MostNRGQuestion(activities, activities.get(0));
+        return new Question.MostNRGQuestion(activities, activities.get(0), null);
     }
 }
