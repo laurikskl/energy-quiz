@@ -14,8 +14,14 @@ import java.io.File;
 import java.time.Instant;
 import java.util.Collections;
 
+/**
+ * This class handles the multiChoice question type, by:
+ * - displaying the correlated question frame when a question of this type is generated
+ * - setting the information of the UI to the one generated in the question (3 buttons each displaying an activity with an image)
+ * - handling the user input (the user pressing one of the 3 buttons)
+ * - updating the score accordingly
+ */
 public class MultiChoiceCtrl extends Controller {
-
 
     private ServerUtils server;
     private MainCtrl mainCtrl;
@@ -51,16 +57,6 @@ public class MultiChoiceCtrl extends Controller {
     public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
     }
-
-//    /**
-//     * Set how the screen is looking:
-//     * - Insert text into questions
-//     * - Set the correct images
-//     */
-//    @FXML
-//    private void initialize() {
-//
-//    }
 
     public void start(Controller parentCtrl, Question multiChoice) {
         this.parentCtrl = (SPGameCtrl) parentCtrl;

@@ -13,7 +13,13 @@ import java.io.File;
 import java.time.Instant;
 import java.util.Collections;
 
-
+/**
+ * This class handles the choiceEstimation question type, by:
+ * - displaying the correlated question frame when a question of this type is generated
+ * - setting the information of the UI to the one generated in the question (activity with image + answers)
+ * - handling the user input (the user pressing one of the 3 buttons)
+ * - updating the score accordingly
+ */
 public class ChoiceEstimationCtrl extends Controller{
 
     private Question choiceEstimation;
@@ -73,7 +79,7 @@ public class ChoiceEstimationCtrl extends Controller{
     }
 
     /**
-     * Method for setting the buttons in a randomized way -  probably not the most efficient but works
+     * Method for setting the buttons in a randomized way
      */
     public void setButtons(){
         Collections.shuffle(choiceEstimation.getConsumptions());
@@ -113,7 +119,7 @@ public class ChoiceEstimationCtrl extends Controller{
     }
 
     /**
-     * Getter for the time spend on a question
+     * Getter for the time spent on a question
      *
      * @return
      */
@@ -192,6 +198,12 @@ public class ChoiceEstimationCtrl extends Controller{
         updateCounter();
     }
 
+    /**
+     * When the correct answer is pressed, the score for the question is calculated
+     * and added to the score on the screen
+     * 
+     * @throws InterruptedException
+     */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
