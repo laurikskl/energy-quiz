@@ -35,7 +35,7 @@ public class Activity implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    public Long id;
 
     @Column
     public String name;
@@ -64,8 +64,7 @@ public class Activity implements Comparable {
      * @param source source of info
      * @param imagePath path to image
      */
-
-    public Activity(String name, long powerConsumption, String source, String imagePath) {
+    public Activity(String name, Long powerConsumption, String source, String imagePath) {
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
@@ -80,8 +79,7 @@ public class Activity implements Comparable {
      * @param powerConsumption consumption of activity in wh
      * @param source source of info
      */
-
-    public Activity(String name, long powerConsumption, String source) {
+    public Activity(String name, Long powerConsumption, String source) {
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
@@ -98,7 +96,7 @@ public class Activity implements Comparable {
     public static Activity JSONActivityReader(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         String name = jsonObject.getString("title");
-        long powerConsumption = jsonObject.getLong("consumption_in_wh");
+        Long powerConsumption = jsonObject.getLong("consumption_in_wh");
         String source = jsonObject.getString("source");
 
         return new Activity(name, powerConsumption, source);
@@ -110,7 +108,7 @@ public class Activity implements Comparable {
      *
      * @return id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -120,7 +118,7 @@ public class Activity implements Comparable {
      *
      * @param id
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -151,7 +149,7 @@ public class Activity implements Comparable {
      *
      * @return powerConsumption
      */
-    public long getPowerConsumption() {
+    public Long getPowerConsumption() {
         return powerConsumption;
     }
 
@@ -161,7 +159,7 @@ public class Activity implements Comparable {
      *
      * @param powerConsumption of activity
      */
-    public void setPowerConsumption(long powerConsumption) {
+    public void setPowerConsumption(Long powerConsumption) {
         this.powerConsumption = powerConsumption;
     }
 
