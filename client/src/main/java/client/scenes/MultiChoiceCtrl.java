@@ -16,9 +16,16 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Collections;
 
+/**
+ * This class handles the multiChoice question type, by:
+ * - displaying the correlated question frame when a question of this type is generated
+ * - setting the information of the UI to the one generated in the question (3 buttons each displaying an activity with an image)
+ * - handling the user input (the user pressing one of the 3 buttons)
+ * - updating the score accordingly
+ */
 public class MultiChoiceCtrl extends Controller {
-
 
     private ServerUtils server;
     private MainCtrl mainCtrl;
@@ -55,16 +62,6 @@ public class MultiChoiceCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    /**
-     * Set how the screen is looking:
-     * - Insert text into questions
-     * - Set the correct images
-     */
-    @FXML
-    private void initialize() {
-
-    }
-
     public void start(Controller parentCtrl, Question multiChoice) {
         this.parentCtrl = (SPGameCtrl) parentCtrl;
         //Set the isCorrect to -1 meaning there was no answer
@@ -77,6 +74,9 @@ public class MultiChoiceCtrl extends Controller {
         this.multiChoice = multiChoice;
         //Finds the correct answer and inserts its name in the correctActivityName field
         setCorrectAnswer();
+
+        //Shuffling the answers so the first one is not always right, then setting the text and images
+        Collections.shuffle(multiChoice.getActivities());
         String path1 = multiChoice.getActivities().get(0).getImagePath();
         String path2 = multiChoice.getActivities().get(1).getImagePath();
         String path3 = multiChoice.getActivities().get(2).getImagePath();
@@ -88,6 +88,11 @@ public class MultiChoiceCtrl extends Controller {
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
         answer3.setText(multiChoice.getActivities().get(2).getName());
+
+        //Setting the colour of buttons when the question is initialized, so they don't stay the same colour after a question
+        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
     }
 
     /**
@@ -132,6 +137,9 @@ public class MultiChoiceCtrl extends Controller {
 
         final Button wrong12 = wrong2;
         temporaryChangeButtonColorWrong(wrong12);
+        correct.setStyle(correct.getStyle() + " -fx-background-color: #45ff9c; ");
+        wrong1.setStyle(wrong1.getStyle() + " -fx-background-color: #ff4f75; ");
+        wrong2.setStyle(wrong2.getStyle() + " -fx-background-color: #ff4f75; ");
     }
 
     /**

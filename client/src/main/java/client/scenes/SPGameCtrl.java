@@ -215,21 +215,11 @@ public class SPGameCtrl extends Controller {
      * This method inserts the frame, gets time and correctness of the answer from the controller
      * Then it adds points to score accordingly, using ScoreSystem
      *
-     * @param q current Estimation question
+     * @param choiceEstimation current Estimation question
      * @throws IOException
      */
-    public void doChoiceEstimationQuestion(Question.ChoiceEstimation q) throws IOException {
-        String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
-        URL url = new File(pathToFxml).toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-
-        //TODO: Create ChoiceEstimationCtrl
-//        ChoiceEstimationCtrl controller = fxmlLoader.<ChoiceEstimationCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.EstimationQuestion) q);
-        Scene scene = new Scene(root);
-
-        questionFrame.setCenter(scene.getRoot());
+    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException, InterruptedException {
+        this.mainCtrl.startCE(this, choiceEstimation);
     }
 
     /**
@@ -396,6 +386,33 @@ public class SPGameCtrl extends Controller {
      */
     public void setServer(ServerUtils server) {
         this.server = server;
+        this.player = player;
+        this.qCount = 0;
+        this.score = 0;
+        //if statement to make tests work
+        if(name == null || scoreCount == null || questionNumber == null) {
+            throw new IllegalStateException("One or more FXML fields are null");
+        }
+        name.setText(player.getUserName());
+        scoreCount.setText("Score: 0");
+        questionNumber.setText("0/20");
+        while(questions == null) {
+            try{
+                questions = server.getQuestions();
+            } catch (Exception e) {
+                //server didn't send over questions
+            }
+        }
+        Collections.shuffle(questions);
+        /**
+         //iterate over all questions
+         for(Question q : questions) {
+         this.doAQuestion(q);
+         }
+         //overwrite high-score if the current score is higher
+         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
+         getServer().setPlayer(player.getUserName(), score);
+         }*/
     }
 
     /**
