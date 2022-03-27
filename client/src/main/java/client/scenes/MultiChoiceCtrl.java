@@ -137,9 +137,6 @@ public class MultiChoiceCtrl extends Controller {
 
         final Button wrong12 = wrong2;
         temporaryChangeButtonColorWrong(wrong12);
-        correct.setStyle(correct.getStyle() + " -fx-background-color: #45ff9c; ");
-        wrong1.setStyle(wrong1.getStyle() + " -fx-background-color: #ff4f75; ");
-        wrong2.setStyle(wrong2.getStyle() + " -fx-background-color: #ff4f75; ");
     }
 
     /**
@@ -147,7 +144,7 @@ public class MultiChoiceCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorsCorrect(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #00FF00; "); //green
+        button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
@@ -162,7 +159,7 @@ public class MultiChoiceCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorWrong(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #FF0000; "); //red
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );

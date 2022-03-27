@@ -4,12 +4,16 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
 import commons.ScoreSystem;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+
 import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Collections;
 
@@ -153,7 +157,23 @@ public class ChoiceEstimationCtrl extends Controller{
             isCorrect = false;
         }
         showCorrect();
-        updateCounter();
+
+        //keep the same question while the correct answer shown
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
+                parentCtrl.startNewQuestion(); //move to the next question
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
     }
 
     /**
@@ -174,7 +194,23 @@ public class ChoiceEstimationCtrl extends Controller{
         }
 
         showCorrect();
-        updateCounter();
+
+        //keep the same question while the correct answer shown
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
+                parentCtrl.startNewQuestion(); //move to the next question
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
     }
 
     /**
@@ -195,7 +231,23 @@ public class ChoiceEstimationCtrl extends Controller{
         }
 
         showCorrect();
-        updateCounter();
+
+        //keep the same question while the correct answer shown
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
+                parentCtrl.startNewQuestion(); //move to the next question
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
     }
 
     /**
@@ -207,16 +259,17 @@ public class ChoiceEstimationCtrl extends Controller{
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        parentCtrl.refresh();
     }
 
     /**
      * Method to update a question counter
      */
+    /*
     public void updateCounter() {
         parentCtrl.setqCount(parentCtrl.getqCount() + 1);
         parentCtrl.refresh();
     }
+     */
 
     /**
      * Disable all buttons

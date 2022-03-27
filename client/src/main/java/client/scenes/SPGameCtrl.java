@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,7 +118,7 @@ public class SPGameCtrl extends Controller {
 
         //for now, I will make the application exit after the player has done 20 questions
         if (this.getqCount()==20) {
-            this.mainCtrl.showEndGame();
+            Platform.exit();
         }
         doAQuestion(questions.get(this.getqCount()));
 
