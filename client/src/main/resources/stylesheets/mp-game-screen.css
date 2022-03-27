@@ -1,6 +1,6 @@
 @font-face{
     font-family: spartan;
-    src: url('client/src/main/resources/fonts/spartan.ttf');
+    src: url('/../fonts/spartan.ttf');
 }
 :root{
     font-family: spartan;

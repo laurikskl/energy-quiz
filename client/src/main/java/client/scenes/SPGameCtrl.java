@@ -352,6 +352,33 @@ public class SPGameCtrl extends Controller {
      */
     public void setServer(ServerUtils server) {
         this.server = server;
+        this.player = player;
+        this.qCount = 0;
+        this.score = 0;
+        //if statement to make tests work
+        if(name == null || scoreCount == null || questionNumber == null) {
+            throw new IllegalStateException("One or more FXML fields are null");
+        }
+        name.setText(player.getUserName());
+        scoreCount.setText("Score: 0");
+        questionNumber.setText("0/20");
+        while(questions == null) {
+            try{
+                questions = server.getQuestions();
+            } catch (Exception e) {
+                //server didn't send over questions
+            }
+        }
+        Collections.shuffle(questions);
+        /**
+         //iterate over all questions
+         for(Question q : questions) {
+         this.doAQuestion(q);
+         }
+         //overwrite high-score if the current score is higher
+         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
+         getServer().setPlayer(player.getUserName(), score);
+         }*/
     }
 
     /**
