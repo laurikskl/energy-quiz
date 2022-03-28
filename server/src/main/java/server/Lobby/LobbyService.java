@@ -11,6 +11,8 @@ import server.GameManagement.GameManagementService;
 
 import java.util.List;
 
+import static commons.Game.Type.LOBBYUPDATE;
+
 /**
  * Logic for the lobby.
  */
@@ -53,8 +55,8 @@ public class LobbyService {
    */
   public void refreshLobbyTable(){
     long id = currentLobby.getId();
-    List<Player> players = currentLobby.getPlayers();
-    //simpMessagingTemplate.convertAndSend("/topic/game/" + id, players );
+    currentLobby.type = LOBBYUPDATE;
+    simpMessagingTemplate.convertAndSend("/topic/game/" + id, currentLobby );
   }
 
   /**
