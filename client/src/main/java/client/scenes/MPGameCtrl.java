@@ -23,6 +23,6 @@ public class MPGameCtrl extends Controller{
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 }

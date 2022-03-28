@@ -1,5 +1,6 @@
 package server.Lobby;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ public class LobbyController {
    * Instantiates and injects the lobby service.
    * @param lobbyService the service.
    */
+  @Autowired
   public LobbyController(LobbyService lobbyService) {
     this.lobbyService = lobbyService;
   }

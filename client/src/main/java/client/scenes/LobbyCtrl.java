@@ -142,9 +142,9 @@ public class LobbyCtrl extends Controller {
 
     public void back(ActionEvent actionEvent) throws IOException {
         leaveLobby();
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
         try {
-            server.disconnected(null, player);
+            //getServer().disconnected(null, player);
         } catch (Exception e) {
             //HTTP request not handled (properly)
         }
@@ -154,8 +154,8 @@ public class LobbyCtrl extends Controller {
      * Removes the player from the lobby.
      */
     public void leaveLobby(){
-        long id = server.getLobby();
-        server.send("/game/" + id + "/lobby/leave", player);
+        //long id = getServer().getLobby();
+        //getServer().send("/game/" + id + "/lobby/leave", player);
     }
 
 
@@ -168,10 +168,10 @@ public class LobbyCtrl extends Controller {
      */
 
     public void startGame(ActionEvent actionEvent) throws IOException {
-        long id = server.getLobby();
+        //long id = getServer().getLobby();
         String startGame = "Game started";
-        server.send("/game/" + id + "/lobby/start", startGame);
-        this.mainCtrl.showMPGame();
+        //getServer().send("/game/" + id + "/lobby/start", startGame);
+        getMainCtrl().showMPGame();
 
         // TODO: Start a session, forward other players to the game, fetch questions.
 
@@ -191,10 +191,15 @@ public class LobbyCtrl extends Controller {
         resetPlayerAmount(players);
     }
 
-//    public void createTable(List<Player> players){
-//        this.players = players;
-//        table.getItems().setAll(players);
-//    }
+    /**
+     * Set up the table for players
+     *
+     * @param players the list of players in the lobby
+     */
+    public void createTable(List<Player> players){
+        this.players = players;
+        table.getItems().setAll(players);
+    }
 
 
     /**
@@ -242,10 +247,10 @@ public class LobbyCtrl extends Controller {
      * @param players the players in this lobby
      */
 
-//    public void createLobby(List<Player> players, Player player) throws IOException {
-//        createTable(players);
-//        resetHint();
-//        resetPlayerAmount(players);
-//    }
+    public void createLobby(List<Player> players, Player player) throws IOException {
+        createTable(players);
+        resetHint();
+        resetPlayerAmount(players);
+    }
 
 }
