@@ -131,6 +131,9 @@ public class AdminCtrl extends Controller{
         this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
+    /**
+     * Initialize nodes in the scene just after the constructor has been called.
+     */
     @FXML
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
@@ -169,10 +172,6 @@ public class AdminCtrl extends Controller{
         this.tableView.getSelectionModel().setCellSelectionEnabled(true);
     }
 
-    public Button getRestartButton() {
-        return restartButton;
-    }
-
     /**
      * Go back to the Splash screen
      * @param actionEvent - the mouse clicked on the Back button
@@ -182,7 +181,12 @@ public class AdminCtrl extends Controller{
         getMainCtrl().showSplash();
     }
 
-    public void mouseClickedRestart(ActionEvent actionEvent) throws IOException, InterruptedException {
+    /**
+     * Restart the server and show if it succeeded or not.
+     *
+     * @param actionEvent - the mouse clicked on the Restart Server button
+     */
+    public void mouseClickedRestart(ActionEvent actionEvent) {
         if (this.server.restart()) {
             this.restartStatusLabel.setText("Restarted");
         }
@@ -191,6 +195,9 @@ public class AdminCtrl extends Controller{
         }
     }
 
+    /** Copy the contents of the selected cell in string format if the table is selected and ctrl+c is pressed.
+     * @param keyEvent Key combination
+     */
     public void tableViewKeyEvent(KeyEvent keyEvent) {
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
