@@ -27,22 +27,4 @@ public class ActivityController {
         return activityService.getRandomActivity();
     }
 
-    /**
-     * get all activities
-     * @return all activities
-     */
-    @GetMapping("/getAll")
-    public List<Activity> getAll() {
-        return activityService.getAll();
-    }
-
-
-    /**
-     * @param activitySearchRequest
-     * @return list of activities that match given parameters
-     */
-    @PostMapping("/getByName")
-    public ResponseEntity<List<Activity>> getActivitiesByExample(@RequestBody ActivitySearchRequest activitySearchRequest) {
-        return ResponseEntity.ok(activityService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource(), activitySearchRequest.getImagePath()));
-    }
 }

@@ -6,6 +6,7 @@ import commons.Activity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -23,6 +24,12 @@ public class AdminCtrl extends Controller{
 
     @FXML
     private ImageView backImg;
+
+    //Restart
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Label restartStatusLabel;
 
     //Search
     @FXML
@@ -163,6 +170,10 @@ public class AdminCtrl extends Controller{
         this.tableView.getSelectionModel().setCellSelectionEnabled(true);
     }
 
+    public Button getRestartButton() {
+        return restartButton;
+    }
+
     /**
      * Go back to the Splash screen
      * @param actionEvent - the mouse clicked on the Back button
@@ -170,6 +181,15 @@ public class AdminCtrl extends Controller{
      */
     public void back(ActionEvent actionEvent) throws IOException {
         getMainCtrl().showSplash();
+    }
+
+    public void mouseClickedRestart(ActionEvent actionEvent) throws IOException, InterruptedException {
+        if (this.server.restart()) {
+            this.restartStatusLabel.setText("Restarted");
+        }
+        else {
+            this.restartStatusLabel.setText("Restart Failed");
+        }
     }
 
     public void tableViewKeyEvent(KeyEvent keyEvent) {
@@ -262,7 +282,7 @@ public class AdminCtrl extends Controller{
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
-        List<Activity> activities = getServer().getActivitiesByExample(
+        List<Activity> activities = this.server.getActivitiesByExample(
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
@@ -280,7 +300,7 @@ public class AdminCtrl extends Controller{
     public void showAll(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
-        List<Activity> activities = getServer().getAllActivities();
+        List<Activity> activities = this.server.getAllActivities();
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());

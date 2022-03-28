@@ -7,8 +7,8 @@ import javax.inject.Inject;
 
 public abstract class Controller {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    protected final ServerUtils server;
+    protected final MainCtrl mainCtrl;
 
 
     @Inject

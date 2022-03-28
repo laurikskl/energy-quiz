@@ -5,19 +5,19 @@ import commons.ActivitySearchRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import server.Activity.ActivityController;
-import server.Activity.ActivityService;
+import server.Admin.AdminController;
+import server.Admin.AdminService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ActivityControllerTest {
+class AdminControllerTest {
 
     private TestActivityRepository repo;
-    private ActivityService activityService;
-    private ActivityController activityController;
+    private AdminService adminService;
+    private AdminController adminController;
 
     private List<Activity> activities;
 
@@ -37,12 +37,25 @@ class ActivityControllerTest {
 
         this.repo = new TestActivityRepository();
         this.repo.saveAll(this.activities);
-        this.activityService = new ActivityService(this.repo);
-        this.activityController = new ActivityController(this.activityService);
+        this.adminService = new AdminService(this.repo);
+        this.adminController = new AdminController(this.adminService);
     }
 
-    //A random method isn't really testable, so I'm leaving it empty
+    /**
+     * Test getAll
+     */
     @Test
-    void getRandomActivity() {
+    void getAll() {
+        assertEquals(this.adminController.getAll(), this.activities);
+    }
+
+    /**
+     * Test getActivitiesByExample
+     */
+    @Test
+    void getActivitiesByExample() {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest("name0", 0l, 0l, "source0", "imagePath0");
+
+        assertEquals(this.adminController.getActivitiesByExample(activitySearchRequest), ResponseEntity.ok(List.of(this.activities.get(0))));
     }
 }
