@@ -6,6 +6,7 @@ import commons.Activity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -27,6 +28,8 @@ public class AdminCtrl extends Controller{
     //Restart
     @FXML
     private Button restartButton;
+    @FXML
+    private Label restartStatusLabel;
 
     //Search
     @FXML
@@ -167,6 +170,10 @@ public class AdminCtrl extends Controller{
         this.tableView.getSelectionModel().setCellSelectionEnabled(true);
     }
 
+    public Button getRestartButton() {
+        return restartButton;
+    }
+
     /**
      * Go back to the Splash screen
      * @param actionEvent - the mouse clicked on the Back button
@@ -176,8 +183,13 @@ public class AdminCtrl extends Controller{
         getMainCtrl().showSplash();
     }
 
-    public void mouseClickedRestart(ActionEvent actionEvent) throws IOException {
-        this.server.restart();
+    public void mouseClickedRestart(ActionEvent actionEvent) throws IOException, InterruptedException {
+        if (this.server.restart()) {
+            this.restartStatusLabel.setText("Restarted");
+        }
+        else {
+            this.restartStatusLabel.setText("Restart Failed");
+        }
     }
 
     public void tableViewKeyEvent(KeyEvent keyEvent) {

@@ -266,12 +266,18 @@ public class ServerUtils {
     }
 
     public Boolean restart() {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/admin/restart").
-                request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON).
-                get(new GenericType<Boolean>() {
-                });
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/restart").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    get(new GenericType<Boolean>() {
+                    });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
