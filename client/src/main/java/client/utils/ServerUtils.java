@@ -16,9 +16,7 @@
 
 package client.utils;
 
-import commons.Player;
-import commons.Question;
-import commons.Quote;
+import commons.*;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -37,8 +35,10 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
  */
 
 public class ServerUtils {
+
     /**
-     * Temporary comment for checkstyle.
+     * SERVER is the location of the server
+     * players is the list of players for a game
      */
 
     private static final String SERVER = "http://localhost:8080/";
@@ -76,16 +76,8 @@ public class ServerUtils {
 
 
     /**
-     * @return A Multichoice question from MultiChoiceController
+     * @return the leaderboard from the server
      */
-    public Question.MultiChoice getMultiChoice() {
-        return (Question.MultiChoice) ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/questions/multichoice")
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .get(new GenericType<Question.MultiChoice>() {
-                });
-    }
 
     public List<Player> getLeaderboard() {
         return (List<Player>) ClientBuilder.newClient(new ClientConfig())
@@ -95,6 +87,7 @@ public class ServerUtils {
                 .get(new GenericType<List<Player>>() {
                 });
     }
+
 
     /**
      * This comment is a temporary fix for checkstyle.
@@ -110,17 +103,34 @@ public class ServerUtils {
 
 
     /**
-     * @return a question from the server by making a request to the path defined
+     * @return 20 questions from the server by making a request to the path defined
      */
 
-    public Question getQuestion() {
+    public List<Question> getQuestions() {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/questions/next")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .get(Question.class);
+                .get(new GenericType<List<Question>>() {
+                });
     }
 
+    /**
+     * Called when a player disconnects from a lobby
+     *
+     * @param socket the socket associated with the lobby
+     * @param player the player that disconnected
+     */
+
+    /**
+    public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("player/disconnect")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
+    }
+    */
 
     /**
      * @param name the name of a player
@@ -136,6 +146,11 @@ public class ServerUtils {
         }
         return null;
     }
+
+
+    /**
+     * @return return the list of al players in the database
+     */
 
     public List<Player> getAllPlayers() {
         return ClientBuilder.newClient(new ClientConfig())
@@ -184,4 +199,71 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
     }
+
+    /**
+    public <T> void registerForMessages(String destination,Class<T> type, Consumer<T> consumer){
+        session.subscribe(destination, new StompFrameHandler() {
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return type;
+            }
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((T) payload);
+            }
+        });
+    }
+
+    private StompSession session = connect("ws://localhost:8080/websocket");
+
+    private StompSession connect(String url){
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter((new MappingJackson2MessageConverter()));
+        try {
+            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+        } catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+            } catch(ExecutionException e) {
+                throw new RuntimeException(e);
+        }
+        throw new IllegalStateException();
+    }
+
+    public void send(String destination, Object o){
+        session.send(destination, o);
+    }
+
+    public long getLobby() {
+        return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("api/lobby/getid")
+            .request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .get(new GenericType <Long>() {
+            });
+    }
+
+     */
+
+    public List<Activity> getAllActivities() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/activities/getAll").
+                request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON).
+                get(new GenericType<List<Activity>>() {
+                });
+    }
+
+    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
+
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/activities/getByName")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
+    }
+
+
 }

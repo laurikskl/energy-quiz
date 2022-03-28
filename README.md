@@ -17,15 +17,15 @@ group members. Add your own name (do not add the names for others!) to the secti
 | ![Lauri Kesküll](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4943/avatar.png?&width=96&size=96) | Lauri Kesküll | L.Keskull@student.tudelft.nl |
 | ![Alexandra Carutasu](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4756/avatar.png?width=96&size=50) | Alexandra Carutasu | A.Carutasu@student.tudelft.nl |
 
-<!-- Instructions (remove once assignment has been completed -->
-<!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
-<!-- - Mention your *student* email address -->
-<!-- - Preferably add a recognizable photo, otherwise add your GitLab photo -->
-<!-- - (please make sure the photos have the same size) --> 
-
 ## How to run it
 
 You should download the game. You should have a stable internet connection in order for the game to work properly.
+
+In order for the game to work you should also download the folder containing the activities in the following way:
+
+1. Go to https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/tree/main/activities.
+2. Press the download icon and then under "download this directory" press the zip button.
+3. Unzip the file and put the activities folder in the project folder called repository-template by default.
 
 ## How to contribute to it
 

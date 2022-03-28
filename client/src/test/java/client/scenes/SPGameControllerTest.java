@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +20,10 @@ import static org.mockito.Mockito.mock;
  * Tests for SPGameController class
  */
 
-class SPGameControllerTest {
+class SPGameCtrlTest {
+
+    @Mock
+    private MainCtrl mainCtrl;
 
     @Mock
     private ServerUtils server;
@@ -28,7 +31,7 @@ class SPGameControllerTest {
     @Mock
     private Text text;
 
-    private SPGameController s1;
+    private SPGameCtrl s1;
     private Player p1;
 
 
@@ -43,11 +46,12 @@ class SPGameControllerTest {
     void setup() {
         text = mock(Text.class);
         server = mock(ServerUtils.class);
+        mainCtrl = mock(MainCtrl.class);
         p1 = new Player("Max", 9000);
-        s1 = new SPGameController();
-        try{
-            s1.initialize(p1, server);
-        } catch(IllegalStateException ignored) {
+        s1 = new SPGameCtrl(server, mainCtrl);
+        try {
+            s1.startGame(p1);
+        } catch (IllegalStateException | IOException | InterruptedException ignored) {
         }
     }
 
@@ -59,17 +63,6 @@ class SPGameControllerTest {
     void constructor() {
         assertNotNull(s1);
     }
-
-
-    /**
-     * Testing if all fields are properly set
-     */
-
-    @Test
-    void initialize() {
-        assertThrows(IllegalStateException.class, ()-> s1.initialize(p1, server));
-    }
-
 
     /**
      * This method doesn't do a lot yet so this will be tested later
@@ -96,7 +89,7 @@ class SPGameControllerTest {
 
     @Test
     void getQuestions() {
-        assertEquals(new ArrayList<Question>(), s1.getQuestions());
+        assertEquals(0, s1.getQuestions().size());
     }
 
 
@@ -179,7 +172,7 @@ class SPGameControllerTest {
         Activity a1 = new Activity();
         Activity a2 = new Activity();
         List<Activity> acs = Arrays.asList(a1, a2);
-        Question q = new Question.Matching(a1, acs);
+        Question q = new Question.Matching(acs, null);
         List<Question> qs = List.of(q);
         s1.setQuestions(qs);
         assertEquals(qs, s1.getQuestions());
@@ -207,19 +200,6 @@ class SPGameControllerTest {
         s1.setScore(59009);
         assertEquals(59009, s1.getScore());
     }
-
-
-    /**
-     * Testing setter for server
-     */
-
-    @Test
-    void setServer() {
-        ServerUtils s2 = mock(ServerUtils.class);
-        s1.setServer(s2);
-        assertEquals(s2, s1.getServer());
-    }
-
 
     /**
      * Testing setter for scoreCount

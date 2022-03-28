@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../main/splash.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SplashCtrl">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SplashCtrl">
    <children>
       <Button layoutX="1108.0" layoutY="172.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="500.0" mnemonicParsing="false" onAction="#mouseClickedSinglePlayer" prefHeight="120.0" prefWidth="500.0" style="-fx-background-radius: 15px;" styleClass="mainButton" text="SINGLEPLAYER" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="195.0">
          <font>
@@ -31,10 +31,10 @@
       </Button>
       <ImageView fx:id="logoIMG" fitHeight="600.0" fitWidth="600.0" layoutX="68.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 100;" AnchorPane.bottomAnchor="380.0" AnchorPane.leftAnchor="300.0">
          <image>
-            <Image url="@../../main/Logo.png" />
+            <Image url="@/main/Logo.png" />
          </image>
       </ImageView>
-      <Button id="howToPlayButton" contentDisplay="CENTER" layoutX="1630.0" layoutY="829.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" onMouseEntered="#showHowToPlay" onMouseExited="#invisibleHowToPlay" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 100; -fx-label-padding: -12;" text="?" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="171.0" AnchorPane.rightAnchor="210.0">
+      <Button id="howToPlayButton" contentDisplay="CENTER" layoutX="1630.0" layoutY="829.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#mouseClickedHow2Play" onMouseEntered="#showHowToPlay" onMouseExited="#invisibleHowToPlay" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 100; -fx-label-padding: -12;" text="?" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="171.0" AnchorPane.rightAnchor="210.0">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
@@ -44,5 +44,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </TextField>
+      <Button layoutX="300.0" layoutY="823.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="57.0" minWidth="99.0" mnemonicParsing="false" onAction="#mouseClickedAdmin" prefHeight="90.0" prefWidth="214.0" style="-fx-background-radius: 15px;" text="Admin">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

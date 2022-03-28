@@ -21,12 +21,21 @@ import org.json.JSONObject;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Activity class
+ */
+
 @Entity
 @Table
-public class Activity {
+public class Activity implements Comparable {
+
+    /**
+     * All fields for activities
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    public Long id;
 
     @Column
     public String name;
@@ -37,40 +46,45 @@ public class Activity {
     @Column
     public String imagePath;
 
+
     /**
      * Basic constructor
      */
+
     public Activity() {
         // for object mappers
     }
 
+
     /**
      * Constructor with name, powerConsumption, source and imagePath
      *
-     * @param name
-     * @param powerConsumption
-     * @param source
-     * @param imagePath
+     * @param name title of activity
+     * @param powerConsumption consumption of activity in wh
+     * @param source source of info
+     * @param imagePath path to image
      */
-    public Activity(String name, long powerConsumption, String source, String imagePath) {
+    public Activity(String name, Long powerConsumption, String source, String imagePath) {
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
         this.imagePath = imagePath;
     }
 
+
     /**
      * Constructor with name, power consupmtion and source
      *
-     * @param name
-     * @param powerConsumption
-     * @param source
+     * @param name title of activity
+     * @param powerConsumption consumption of activity in wh
+     * @param source source of info
      */
-    public Activity(String name, long powerConsumption, String source) {
+    public Activity(String name, Long powerConsumption, String source) {
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
     }
+
 
     /**
      * JSON reader creating an Activity object from a JSON string
@@ -78,32 +92,36 @@ public class Activity {
      * @param jsonString
      * @return Activity from a JSON
      */
+
     public static Activity JSONActivityReader(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         String name = jsonObject.getString("title");
-        long powerConsumption = jsonObject.getLong("consumption_in_wh");
+        Long powerConsumption = jsonObject.getLong("consumption_in_wh");
         String source = jsonObject.getString("source");
 
         return new Activity(name, powerConsumption, source);
     }
+
 
     /**
      * Getter for Id
      *
      * @return id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
+
 
     /**
      * Setter for id
      *
      * @param id
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
 
     /**
      * Getter for name
@@ -114,32 +132,37 @@ public class Activity {
         return name;
     }
 
+
     /**
      * Setter for the name
      *
-     * @param name
+     * @param name of activity
      */
+
     public void setName(String name) {
         this.name = name;
     }
+
 
     /**
      * Getter for powerConsumption
      *
      * @return powerConsumption
      */
-    public long getPowerConsumption() {
+    public Long getPowerConsumption() {
         return powerConsumption;
     }
+
 
     /**
      * Setter for the powerConsumption
      *
-     * @param powerConsumption
+     * @param powerConsumption of activity
      */
-    public void setPowerConsumption(long powerConsumption) {
+    public void setPowerConsumption(Long powerConsumption) {
         this.powerConsumption = powerConsumption;
     }
+
 
     /**
      * Getter for the source
@@ -150,14 +173,16 @@ public class Activity {
         return source;
     }
 
+
     /**
      * Setter for the source
      *
-     * @param source
+     * @param source of activity
      */
     public void setSource(String source) {
         this.source = source;
     }
+
 
     /**
      * Getter fot the image path
@@ -168,21 +193,24 @@ public class Activity {
         return imagePath;
     }
 
+
     /**
      * Setter for the image path
      *
-     * @param imagePath
+     * @param imagePath path of image
      */
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
+
     /**
      * Equals method comparing all fields except id of the activity class
      *
-     * @param o
+     * @param o other object
      * @return If the fields match the activities are treated as equal and the method returns true
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -194,21 +222,25 @@ public class Activity {
                 && Objects.equals(imagePath, activity.imagePath);
     }
 
+
     /**
      * Hash method creating hash from name, powerConsumption, source and image path
      *
-     * @return
+     * @return hashcode of Activity
      */
+
     @Override
     public int hashCode() {
         return Objects.hash(name, powerConsumption, source, imagePath);
     }
+
 
     /**
      * To string method listing all parameters of activity
      *
      * @return stringified activity
      */
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -219,4 +251,27 @@ public class Activity {
                 ", imagePath='" + imagePath + '\'' +
                 '}';
     }
+
+
+    /**
+     * Basic compare method based on energy consumption
+     *
+     * @param o other object
+     * @return  0 if consumption is equal to that of o,
+     *          1 if consumption is lower than of o,
+     *          -1 if consumption is higher than of o
+     */
+
+    @Override
+    public int compareTo(Object o) {
+        Activity that = (Activity) o;
+        if(that.getPowerConsumption() == this.getPowerConsumption()) {
+            return 0;
+        }
+        if(getPowerConsumption() < that.getPowerConsumption()) {
+            return 1;
+        }
+        return -1;
+    }
+
 }

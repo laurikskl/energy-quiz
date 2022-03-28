@@ -17,16 +17,12 @@
 package server.api;
 
 import commons.Quote;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import server.database.QuoteRepository;
+
 import java.util.List;
 import java.util.Random;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import server.database.QuoteRepository;
 /**
  * Temporary comment for checkstyle.
  */
@@ -42,8 +38,8 @@ public class QuoteController {
   private final Random random;
   private final QuoteRepository repo;
 
-  public QuoteController(Random random, QuoteRepository repo) {
-    this.random = random;
+  public QuoteController(QuoteRepository repo) {
+    this.random = new Random();
     this.repo = repo;
   }
 
@@ -76,8 +72,8 @@ public class QuoteController {
   public ResponseEntity<Quote> add(@RequestBody Quote quote) {
 
     if (quote.person == null || isNullOrEmpty(quote.person.firstName)
-        || isNullOrEmpty(quote.person.lastName)
-        || isNullOrEmpty(quote.quote)) {
+            || isNullOrEmpty(quote.person.lastName)
+            || isNullOrEmpty(quote.quote)) {
       return ResponseEntity.badRequest().build();
     }
 

@@ -16,17 +16,16 @@
 
 package client;
 
+import client.scenes.*;
 import com.google.inject.Injector;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.ArrayList;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -41,8 +40,8 @@ public class Main extends Application {
      * FXML is an instance of a custom FXML class
      */
 
-  private static final Injector INJECTOR = createInjector(new MyModule());
-  private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
 
     /**
@@ -70,14 +69,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        ArrayList<Pair<Controller, Parent>> scenes = new ArrayList<>();
 
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
+        scenes.add(FXML.load(SplashCtrl.class, "client", "scenes", "splash.fxml"));
+        scenes.add(FXML.load(EnterNameSinglePlayerCtrl.class, "client", "scenes", "EnterNameSinglePlayer.fxml"));
+        scenes.add(FXML.load(EnterNameMultiPlayerCtrl.class, "client", "scenes", "EnterNameMultiPlayer.fxml"));
+        scenes.add(FXML.load(LeaderboardCtrl.class, "client", "scenes", "LeaderboardScreen.fxml"));
+        scenes.add(FXML.load(SPGameCtrl.class, "client", "scenes", "SPGameScreen.fxml"));
+        scenes.add(FXML.load(LobbyCtrl.class, "client", "scenes", "LobbyScreen.fxml"));
+        scenes.add(FXML.load(MPGameCtrl.class, "client", "scenes", "MPGameScreen.fxml"));
+        scenes.add(FXML.load(How2PlayCtrl.class, "client", "scenes", "How2Play.fxml"));
+        scenes.add(FXML.load(MultiChoiceCtrl.class, "client", "scenes", "MultiChoiceScreen.fxml"));
+        scenes.add(FXML.load(ChoiceEstimationCtrl.class, "client", "scenes", "ChoiceEstimation.fxml"));
+        scenes.add(FXML.load(AdminCtrl.class, "client", "scenes", "Admin.fxml"));
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl.initialize(primaryStage, scenes);
     }
 
 }

@@ -16,6 +16,7 @@
 
 package client;
 
+import client.scenes.Controller;
 import com.google.inject.Injector;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -48,13 +49,13 @@ public class MyFXML {
      * This comment is a temporary fix for checkstyle.
      */
 
-    public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
+    public <T extends Controller> Pair<Controller, Parent> load(Class<T> c, String... parts) {
         try {
             var loader =
                     new FXMLLoader(getLocation(parts), null, null, new MyFactory(), StandardCharsets.UTF_8);
             Parent parent = loader.load();
             T ctrl = loader.getController();
-            return new Pair<>(ctrl, parent);
+            return new Pair<Controller, Parent>(ctrl, parent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

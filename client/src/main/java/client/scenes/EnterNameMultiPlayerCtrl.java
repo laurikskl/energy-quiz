@@ -2,74 +2,34 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
+import java.util.List;
 
-public class EnterNameMultiPlayerCtrl {
+public class EnterNameMultiPlayerCtrl extends Controller {
 
-    String usernameString;
-    @FXML
-    private Button button;
-    @FXML
-    private ImageView backIMG;
-    @FXML
-    private Button back;
     @FXML
     private TextField userName;
     @FXML
-    private AnchorPane root;
-    @FXML
     private Text warningText;
-    private ServerUtils serverUtils;
-    private MainCtrl mainCtrl;
+
+    String usernameString;
 
     /**
-     * Constructor for the controller.
-     *
-     * @param serverUtils
-     * @param mainCtrl
+     * @param server   reference to an instance of ServerUtils
+     * @param mainCtrl reference to an instance of mainCtrl
      */
     @Inject
-    public EnterNameMultiPlayerCtrl(ServerUtils serverUtils, MainCtrl mainCtrl) {
-        this.serverUtils = serverUtils;
-        this.mainCtrl = mainCtrl;
+    public EnterNameMultiPlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(server, mainCtrl);
     }
 
-    /**
-     * Default constructor.
-     */
-    public EnterNameMultiPlayerCtrl() {
-    }
-
-    /**
-     * Is called after constructor (Initializable)
-     * Sets the image of the ImageView in the splash screen to the logo
-     * Should probably set the path to be non-relative but that's a problem for later
-     */
-    @FXML
-    public void initialize(MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
-        backIMG = new ImageView();
-        backIMG.setImage(new Image(Objects.requireNonNull(getClass().getResource("../../../../resources/main/main/BackButton.png")).toExternalForm()));
-        back = new Button("", backIMG);
-    }
 
     /**
      * Exits the application, called by quit button
@@ -78,15 +38,11 @@ public class EnterNameMultiPlayerCtrl {
         Platform.exit();
     }
 
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
-    }
-
     /**
      * Method that changes the screen to the Lobby.
      *
      * @param actionEvent - pressing the play button triggers this function.
-     * @throws IOException
+     * @throws IOException when reading files goes wrong
      */
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
@@ -96,38 +52,41 @@ public class EnterNameMultiPlayerCtrl {
         if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
 
         else {
-            URL url = new File("client/src/main/resources/client/scenes/LobbyScreen.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
-
-            FXMLLoader loader = new FXMLLoader(url);
-            LobbyScreenCtrl ctrl = new LobbyScreenCtrl();
-            loader.setController(ctrl);
-            //Pane rooot = loader.load();
-            ctrl.initialize(serverUtils, mainCtrl);
-
-            Scene newScene = new Scene(root);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(newScene);
-            window.show();
+            Player player;
+            try {
+                player = getServer().getPlayer(usernameString);
+                if (player == null) {
+                    player = new Player(usernameString, 0);
+                    getServer().setPlayer(usernameString, 0);
+                }
+            } catch (Exception e) { //this should only happen when the server is null
+                player = new Player(usernameString, 0);
+            }
+            //joinLobby(player);
+            LobbyCtrl ctrl = (LobbyCtrl) getMainCtrl().getControllers().get(5);
+            ctrl.createLobby(List.of(player), player);
+            getMainCtrl().showLobbyScreen(List.of(player), player);
         }
 
+    }
+
+    /**
+     * gets the id of the current ongoing lobby and sends the player
+     * to the relevant destination.
+     * @param player The player who is typing in their name
+     */
+    public void joinLobby(Player player){
+        //long id = getServer().getLobby();
+        //getServer().send("/game/" + id + "/lobby/join", player);
     }
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
      *
      * @param actionEvent - pressing the back button triggers this function
-     * @throws IOException
+     * @throws IOException when reading files goes wrong
      */
     public void back(ActionEvent actionEvent) throws IOException {
-
-        //sets the scene back to the main screen
-        URL url = new File("client/src/main/resources/client/scenes/splash.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-
-        Scene newScene = new Scene(root);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
+        getMainCtrl().showSplash();
     }
 }
