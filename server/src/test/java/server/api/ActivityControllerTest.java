@@ -1,17 +1,13 @@
 package server.api;
 
 import commons.Activity;
-import commons.ActivitySearchRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
 import server.Activity.ActivityController;
 import server.Activity.ActivityService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ActivityControllerTest {
 
