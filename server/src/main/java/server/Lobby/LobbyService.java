@@ -4,6 +4,7 @@ import commons.Game;
 import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
@@ -18,7 +19,7 @@ import java.util.List;
 public class LobbyService {
   public Game currentLobby;
   private final GameManagementService service;
-  //private final SimpMessagingTemplate simpMessagingTemplate;
+  private final SimpMessagingTemplate simpMessagingTemplate;
 
   /**
    * Constructor that initializes a gameManagementService and a new lobby.
@@ -28,11 +29,11 @@ public class LobbyService {
 
 
   @Autowired
-  public LobbyService(GameManagementService service
-                      /*SimpMessagingTemplate simpMessagingTemplate*/) {
+  public LobbyService(GameManagementService service,
+                      SimpMessagingTemplate simpMessagingTemplate) {
     this.service = service;
     currentLobby = service.newLobby();
-    /*this.simpMessagingTemplate = simpMessagingTemplate;*/
+    this.simpMessagingTemplate = simpMessagingTemplate;
   }
 
   /**
@@ -53,7 +54,7 @@ public class LobbyService {
   public void refreshLobbyTable(){
     long id = currentLobby.getId();
     List<Player> players = currentLobby.getPlayers();
-    //simpMessagingTemplate.convertAndSend("/topic/game/" + id + "/table", players );
+    //simpMessagingTemplate.convertAndSend("/topic/game/" + id, players );
   }
 
   /**

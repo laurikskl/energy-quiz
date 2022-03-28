@@ -17,6 +17,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Game;
 import commons.Player;
 import commons.Question;
 import javafx.scene.Parent;
@@ -24,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,9 +39,34 @@ public class MainCtrl {
     //Controllers
     private List<Controller> controllers;
 
+    /**
+     * Controller and scenes indexes.
+     * 0 - Splash
+     * 1 - EnterNameSinglePlayer
+     * 2 - EnterNameMultiPlayer
+     * 3 - Leaderboard
+     * 4 - SPGame
+     * 5 - Lobby
+     * 6 - MPGame
+     * 7 - How2Play
+     * 8 - MultiChoice
+     * 9 - ChoiceEstimation
+     * 10 - Admin
+     */
+
     //Scenes
     private List<Scene> scenes;
 
+    private ServerUtils server;
+
+    /**
+     * Injects server utils.
+     * @param server the server utils
+     */
+    @Inject
+    public MainCtrl(ServerUtils server) {
+        this.server = server;
+    }
 
     /**
      * Acts as constructor
@@ -49,11 +76,11 @@ public class MainCtrl {
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
         this.primaryStage = primaryStage;
-
+        this.server = server;
         this.controllers = new ArrayList<>();
         this.scenes = new ArrayList<>();
 
-        for (int i = 0; i < scenes.size(); i++) {
+        for (int i = 1; i < scenes.size(); i++) {
             this.controllers.add(scenes.get(i).getKey());
             this.scenes.add(new Scene(scenes.get(i).getValue()));
         }
@@ -72,6 +99,31 @@ public class MainCtrl {
         }
 
         showSplash();
+    }
+
+    /**
+     * gets the id of the current ongoing lobby and sends the player
+     * to the relevant destination.
+     * @param player The player who is typing in their name
+     */
+    public void makeConnection(Player player){
+        long id = server.getLobby();
+        server.send("/game/" + id + "/lobby/join", player);
+
+        // Choose what action to take, depending on type of message
+        server.registerForMessages("/game/"+id, Game.class, game -> {
+            switch(game.type){
+                case LOBBYUPDATE:
+                    LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+                    try {
+                        ctrl.createTable(game.getPlayers());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        });
+
     }
 
     /**
@@ -123,18 +175,17 @@ public class MainCtrl {
      * Sets primaryStage's scene to the Lobby screen
      *
      * @param players the players for a game
-     * @param player  the player of the client
      */
-    public void showLobbyScreen(List<Player> players, Player player) {
+    public void showLobbyScreen(List<Player> players) {
         showScene(this.scenes.get(5));
 
         //set up the lobby with the list of players
         LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
-//        try {
-//            ctrl.createLobby(players, player);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            ctrl.createLobby(players);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

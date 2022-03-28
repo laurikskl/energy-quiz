@@ -18,7 +18,6 @@ public class EnterNameMultiPlayerCtrl extends Controller {
     private TextField userName;
     @FXML
     private Text warningText;
-
     String usernameString;
 
     /**
@@ -62,22 +61,12 @@ public class EnterNameMultiPlayerCtrl extends Controller {
             } catch (Exception e) { //this should only happen when the server is null
                 player = new Player(usernameString, 0);
             }
-            //joinLobby(player);
+            getMainCtrl().makeConnection(player);
             LobbyCtrl ctrl = (LobbyCtrl) getMainCtrl().getControllers().get(5);
-            ctrl.createLobby(List.of(player), player);
-            getMainCtrl().showLobbyScreen(List.of(player), player);
+            ctrl.createLobby(List.of(player));
+            getMainCtrl().showLobbyScreen(List.of(player));
         }
 
-    }
-
-    /**
-     * gets the id of the current ongoing lobby and sends the player
-     * to the relevant destination.
-     * @param player The player who is typing in their name
-     */
-    public void joinLobby(Player player){
-        //long id = getServer().getLobby();
-        //getServer().send("/game/" + id + "/lobby/join", player);
     }
 
     /**

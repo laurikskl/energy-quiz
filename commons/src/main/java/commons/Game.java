@@ -9,6 +9,7 @@ public class Game {
     private int round;
     private ArrayList<Player> players;
     private ArrayList<Question> questions;
+    public Type type;
 
     /**
      * Create a Game Object
@@ -22,6 +23,10 @@ public class Game {
         this.players = players;
         this.questions = questions;
         this.round = 0;
+    }
+
+    public enum Type {
+        LOBBYUPDATE
     }
 
     /**
