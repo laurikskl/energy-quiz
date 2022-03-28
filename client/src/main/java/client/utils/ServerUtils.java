@@ -265,5 +265,14 @@ public class ServerUtils {
                 .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
     }
 
+    public Boolean restart() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/restart").
+                request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON).
+                get(new GenericType<Boolean>() {
+                });
+    }
+
 
 }

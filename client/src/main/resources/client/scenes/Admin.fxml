@@ -45,6 +45,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminCtrl">
    <children>
@@ -175,6 +176,11 @@
                </image>
             </ImageView>
          </graphic>
+      </Button>
+      <Button fx:id="restartButton" layoutX="1516.0" layoutY="85.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="57.0" minWidth="99.0" mnemonicParsing="false" onAction="#mouseClickedRestart" prefHeight="71.0" prefWidth="167.0" style="-fx-background-radius: 15px;" text="Restart Server">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
       </Button>
    </children>
 </AnchorPane>

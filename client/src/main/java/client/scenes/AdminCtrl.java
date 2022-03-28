@@ -24,6 +24,10 @@ public class AdminCtrl extends Controller{
     @FXML
     private ImageView backImg;
 
+    //Restart
+    @FXML
+    private Button restartButton;
+
     //Search
     @FXML
     private TextField searchNameField;
@@ -172,6 +176,10 @@ public class AdminCtrl extends Controller{
         getMainCtrl().showSplash();
     }
 
+    public void mouseClickedRestart(ActionEvent actionEvent) throws IOException {
+        this.server.restart();
+    }
+
     public void tableViewKeyEvent(KeyEvent keyEvent) {
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
@@ -262,7 +270,7 @@ public class AdminCtrl extends Controller{
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
-        List<Activity> activities = getServer().getActivitiesByExample(
+        List<Activity> activities = this.server.getActivitiesByExample(
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
@@ -280,7 +288,7 @@ public class AdminCtrl extends Controller{
     public void showAll(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
-        List<Activity> activities = getServer().getAllActivities();
+        List<Activity> activities = this.server.getAllActivities();
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());

@@ -2,9 +2,11 @@ package server.Admin;
 
 import commons.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import server.Main;
 import server.database.ActivityRepository;
 
 import java.util.List;
@@ -17,7 +19,6 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 @Service
 public class AdminService {
 
-    private final Random random;
     private final ActivityRepository repository;
 
     /**
@@ -26,7 +27,6 @@ public class AdminService {
      */
     @Autowired
     public AdminService(ActivityRepository repository) {
-        this.random = new Random();
         this.repository = repository;
     }
 
@@ -74,4 +74,5 @@ public class AdminService {
 
         return activities;
     }
+
 }

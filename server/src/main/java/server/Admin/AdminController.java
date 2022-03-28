@@ -4,6 +4,7 @@ import commons.Activity;
 import commons.ActivitySearchRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.Main;
 
 import java.util.List;
 
@@ -33,5 +34,14 @@ public class AdminController {
     @PostMapping("/getByExample")
     public ResponseEntity<List<Activity>> getActivitiesByExample(@RequestBody ActivitySearchRequest activitySearchRequest) {
         return ResponseEntity.ok(adminService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource(), activitySearchRequest.getImagePath()));
+    }
+
+    /**
+     * Restart the server
+     * @return true if restarting, false otherwise
+     */
+    @GetMapping("/restart")
+    public Boolean restart() {
+        return Main.restart();
     }
 }
