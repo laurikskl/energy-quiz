@@ -248,7 +248,7 @@ public class ServerUtils {
 
     public List<Activity> getAllActivities() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getAll").
+                .target(SERVER).path("api/admin/getAll").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
                 get(new GenericType<List<Activity>>() {
@@ -259,7 +259,7 @@ public class ServerUtils {
         ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
 
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getByName")
+                .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});

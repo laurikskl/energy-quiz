@@ -1,4 +1,4 @@
-package server.Activity;
+package server.Admin;
 
 import commons.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 
 @Service
-public class ActivityService {
+public class AdminService {
 
     private final Random random;
     private final ActivityRepository repository;
@@ -25,27 +25,9 @@ public class ActivityService {
      * @param repository activity repository
      */
     @Autowired
-    public ActivityService(ActivityRepository repository) {
+    public AdminService(ActivityRepository repository) {
         this.random = new Random();
         this.repository = repository;
-    }
-
-    /**
-     * Return random activity
-     *
-     * @return random Activity
-     */
-
-    public Activity getRandomActivity() {
-        Activity activity = null;
-        while(activity == null) {
-            long randomId = random.nextInt((int) repository.count());
-            Optional<Activity> activityOptional = repository.findById(randomId);
-            if(activityOptional.isPresent()) {
-                activity = activityOptional.get();
-            }
-        }
-        return activity;
     }
 
     /**
