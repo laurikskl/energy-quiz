@@ -46,7 +46,7 @@ public class How2PlayCtrl extends Controller{
      * @param actionEvent
      */
     public void goBack(ActionEvent actionEvent) {
-        mainCtrl.showSplash();
-        mainCtrl.getPrimaryStage().show();
+        getMainCtrl().showSplash();
+        getMainCtrl().getPrimaryStage().show();
     }
 }

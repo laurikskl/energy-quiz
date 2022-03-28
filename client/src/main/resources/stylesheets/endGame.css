@@ -1,11 +1,11 @@
 #root{
     font-family: spartan;
 }
-#play {
+#playAgain {
     -fx-background-color: #7ccade;
 }
 
-#play:hover {
+#playAgain:hover {
     -fx-background-color: #6639d4;
     -fx-text-fill: #f1f1f1
 }

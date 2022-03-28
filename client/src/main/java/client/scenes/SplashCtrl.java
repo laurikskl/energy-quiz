@@ -65,7 +65,7 @@ public class SplashCtrl extends Controller {
      */
 
     public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showEnterNameSinglePlayer();
+        getMainCtrl().showEnterNameSinglePlayer();
     }
 
 
@@ -76,12 +76,9 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
     public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
-        mainCtrl.showEnterNameMultiPlayer();
+        getMainCtrl().showEnterNameMultiPlayer();
     }
 
-    public void setServer(ServerUtils server) {
-        this.server = server;
-    }
 
     /**
      * Changes the scene to the HowToPlay Scene.
@@ -89,7 +86,7 @@ public class SplashCtrl extends Controller {
      * @throws IOException
      */
     public void mouseClickedHow2Play(ActionEvent actionEvent) throws IOException {
-        mainCtrl.showHow2Play();
+        getMainCtrl().showHow2Play();
     }
 
     /**
@@ -98,6 +95,6 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
     public void mouseClickedAdmin(ActionEvent actionEvent) throws IOException {
-        mainCtrl.showAdmin();
+        getMainCtrl().showAdmin();
     }
 }

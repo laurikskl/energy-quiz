@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,10 +86,6 @@ public class SPGameCtrl extends Controller {
         this.score = 0;
         this.questions = new ArrayList<>();
 
-        seconds = 14;
-        simpleTimer();
-        timer.start();
-
         //if statement to make tests work
         if (name == null || scoreCount == null || questionNumber == null) {
             throw new IllegalStateException("One or more FXML fields are null");
@@ -99,7 +96,7 @@ public class SPGameCtrl extends Controller {
 
         while (questions.isEmpty()) { //Maybe questions.isEmpty()?
             try {
-                questions = this.server.getQuestions();
+                questions = getServer().getQuestions();
             } catch (Exception e) {
                 System.out.println("something went wrong here");
             }
@@ -107,29 +104,68 @@ public class SPGameCtrl extends Controller {
         Collections.shuffle(questions);
 
         doAQuestion(questions.get(0));
-/*
-        //generate 20 questions
-        while (questions.size() < 20) {
-            questions.add(getServer().getQuestion());
-        }
-        //iterate over all questions
-        for (Question q : questions) {
-            this.doAQuestion(q);
-        }
-        //overwrite high-score if the current score is higher
-        if (score > getServer().getPlayer(player.getUserName()).getScore()) {
-            getServer().setPlayer(player.getUserName(), score);
-        }*/
+
     }
 
+    /**
+     * This method gets called everytime the game moves on to the next question.
+     * That is, either when the player has answered by pressing a button,
+     * or when the timer of 15 seconds per question runs out.
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void startNewQuestion() throws IOException, InterruptedException {
+
+        //for now, I will make the application exit after the player has done 20 questions
+        if (this.getqCount()==20) {
+            Platform.exit();
+        }
+        doAQuestion(questions.get(this.getqCount()));
+
+    }
+
+    /**
+     * This method resets the text for the countdown timer every second.
+     * If the timer hit 0 seconds and the player has not answered, it calls the method
+     * to move on to the next question.
+     */
     public void simpleTimer() {
+
+        resetSeconds();
+
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
+
                 seconds--;
-                counterTimer.setText(seconds + "seconds");
+
+                //if more than 15 seconds passed, move on to the next question
+                if (seconds<0){
+
+                    timer.stop();
+
+                    try {
+                        startNewQuestion();
+                        return;
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                counterTimer.setText(seconds + " seconds");
             }
         });
+
+        timer.start();
+
+    }
+
+    /**
+     * This method resets the seconds.
+     */
+    public void resetSeconds(){
+        this.seconds = 16;
     }
 
     public BorderPane getQuestionFrame() {
@@ -145,13 +181,12 @@ public class SPGameCtrl extends Controller {
      * @param q the current question
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
+
         //Question has been run
-        timer.stop();
-        seconds = 10;
-        simpleTimer();
-        timer.start();
         this.qCount++;
         System.out.println("Question has started!");
+        simpleTimer();
+        questionNumber.setText(qCount+"/20");
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
@@ -161,6 +196,7 @@ public class SPGameCtrl extends Controller {
         } else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
         }
+        refresh();
 //        else if (q.getClass().equals(Question.AccurateEstimation.class)) {
 //            doAccurateEstimation((Question.AccurateEstimation) q);
 //        }
@@ -174,29 +210,18 @@ public class SPGameCtrl extends Controller {
      * @throws IOException
      */
     public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException, InterruptedException {
-        this.mainCtrl.startMC(this, multiChoice);
-        ;
+        getMainCtrl().startMC(this, multiChoice);
     }
 
     /**
      * This method inserts the frame, gets time and correctness of the answer from the controller
      * Then it adds points to score accordingly, using ScoreSystem
      *
-     * @param q current Estimation question
+     * @param choiceEstimation current Estimation question
      * @throws IOException
      */
-    public void doChoiceEstimationQuestion(Question.ChoiceEstimation q) throws IOException {
-        String pathToFxml = "client/src/main/resources/client/scenes/ChoiceEstimation.fxml";
-        URL url = new File(pathToFxml).toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-
-        //TODO: Create ChoiceEstimationCtrl
-//        ChoiceEstimationCtrl controller = fxmlLoader.<ChoiceEstimationCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.EstimationQuestion) q);
-        Scene scene = new Scene(root);
-
-        questionFrame.setCenter(scene.getRoot());
+    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException, InterruptedException {
+        getMainCtrl().startCE(this, choiceEstimation);
     }
 
     /**
@@ -249,7 +274,7 @@ public class SPGameCtrl extends Controller {
      */
     public void back(ActionEvent actionEvent) throws IOException {
         //sets the scene back to the main screen
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 
 
@@ -351,25 +376,55 @@ public class SPGameCtrl extends Controller {
         this.questionNumber = questionNumber;
     }
 
-    /**
-     * Getter for server
-     */
-    public ServerUtils getServer() {
-        return server;
-    }
 
     /**
      * @param server instance of ServerUtils
      */
     public void setServer(ServerUtils server) {
-        this.server = server;
+
+        this.player = player;
+        this.qCount = 0;
+        this.score = 0;
+        //if statement to make tests work
+        if(name == null || scoreCount == null || questionNumber == null) {
+            throw new IllegalStateException("One or more FXML fields are null");
+        }
+        name.setText(player.getUserName());
+        scoreCount.setText("0");
+        questionNumber.setText("0/20");
+        while(questions == null) {
+            try{
+                questions = server.getQuestions();
+            } catch (Exception e) {
+                //server didn't send over questions
+            }
+        }
+        Collections.shuffle(questions);
+        /**
+         //iterate over all questions
+         for(Question q : questions) {
+         this.doAQuestion(q);
+         }
+         //overwrite high-score if the current score is higher
+         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
+         getServer().setPlayer(player.getUserName(), score);
+         }*/
     }
 
     /**
-     * Update visible score and visible question counter
+     * Update visible score and visible question counter.
      */
-    public void refresh() {
+    public void refresh(){
+
         scoreCount.setText(String.valueOf(score));
-        questionNumber.setText(String.valueOf(qCount) + "/20");
+        //questionNumber.setText(qCount + "/20");
+    }
+
+    /**
+     * This method returns the timer.
+     * @return timer
+     */
+    public Timer getTimer() {
+        return timer;
     }
 }

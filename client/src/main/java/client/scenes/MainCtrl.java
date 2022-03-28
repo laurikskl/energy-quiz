@@ -63,8 +63,10 @@ public class MainCtrl {
             this.scenes.get(0).getStylesheets().add(new File("client/src/main/resources/stylesheets/splash.css").toURI().toURL().toExternalForm());
             this.scenes.get(1).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
             this.scenes.get(2).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(5).getStylesheets().add(new File("client/src/main/resources/stylesheets/lobby.css").toURI().toURL().toExternalForm());
             this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
             this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
+            this.scenes.get(8).getStylesheets().add(new File("stylesheets/endGame.css").toURI().toURL().toExternalForm());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -149,11 +151,15 @@ public class MainCtrl {
         showScene(this.scenes.get(7));
     }
 
+    public void showEndGame(){
+        showScene(this.scenes.get(8));
+    }
+
     /**
      * Sets primaryStage's scene to the Admin screen
      */
     public void showAdmin() {
-        showScene(this.scenes.get(9));
+        showScene(this.scenes.get(10));
     }
 
     /**
@@ -167,11 +173,23 @@ public class MainCtrl {
 
 
     /**
+     * Load the MultipleChoice question frame
      * @param parentCtrl
+     * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) {
         ((MultiChoiceCtrl) this.controllers.get(8)).start(parentCtrl, multiChoice);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+    }
+
+    /**
+     * Load the ChoiceEstimation question frame
+     * @param parentCtrl
+     * @param choiceEstimation
+     */
+    public void startCE(Controller parentCtrl, Question choiceEstimation) {
+        ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
     }
 
     /**
@@ -186,5 +204,12 @@ public class MainCtrl {
      */
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    /**
+     * @return list of controllers
+     */
+    public List<Controller> getControllers() {
+        return controllers;
     }
 }

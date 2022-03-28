@@ -169,7 +169,7 @@ public class AdminCtrl extends Controller{
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 
     public void tableViewKeyEvent(KeyEvent keyEvent) {
@@ -220,7 +220,7 @@ public class AdminCtrl extends Controller{
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
-        return this.fileChooser.showOpenDialog(this.mainCtrl.getPrimaryStage()).getAbsolutePath();
+        return this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
     }
 
     /**
@@ -230,7 +230,7 @@ public class AdminCtrl extends Controller{
     private String choosePath() {
         this.directoryChooser.setTitle("Select Activities Folder");
 
-        return this.directoryChooser.showDialog(this.mainCtrl.getPrimaryStage()).getAbsolutePath();
+        return this.directoryChooser.showDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
     }
 
     /**
@@ -262,7 +262,7 @@ public class AdminCtrl extends Controller{
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
-        List<Activity> activities = server.getActivitiesByExample(
+        List<Activity> activities = getServer().getActivitiesByExample(
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
@@ -280,7 +280,7 @@ public class AdminCtrl extends Controller{
     public void showAll(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
-        List<Activity> activities = server.getAllActivities();
+        List<Activity> activities = getServer().getAllActivities();
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());

@@ -5,17 +5,27 @@ import com.google.inject.Inject;
 import commons.Activity;
 import commons.Question;
 import commons.ScoreSystem;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
+import java.util.Collections;
 
+/**
+ * This class handles the multiChoice question type, by:
+ * - displaying the correlated question frame when a question of this type is generated
+ * - setting the information of the UI to the one generated in the question (3 buttons each displaying an activity with an image)
+ * - handling the user input (the user pressing one of the 3 buttons)
+ * - updating the score accordingly
+ */
 public class MultiChoiceCtrl extends Controller {
-
 
     private ServerUtils server;
     private MainCtrl mainCtrl;
@@ -46,21 +56,10 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param server
      * @param mainCtrl
-     * @param q
      */
     @Inject
     public MultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
-    }
-
-    /**
-     * Set how the screen is looking:
-     * - Insert text into questions
-     * - Set the correct images
-     */
-    @FXML
-    private void initialize() {
-
     }
 
     public void start(Controller parentCtrl, Question multiChoice) {
@@ -75,6 +74,9 @@ public class MultiChoiceCtrl extends Controller {
         this.multiChoice = multiChoice;
         //Finds the correct answer and inserts its name in the correctActivityName field
         setCorrectAnswer();
+
+        //Shuffling the answers so the first one is not always right, then setting the text and images
+        Collections.shuffle(multiChoice.getActivities());
         String path1 = multiChoice.getActivities().get(0).getImagePath();
         String path2 = multiChoice.getActivities().get(1).getImagePath();
         String path3 = multiChoice.getActivities().get(2).getImagePath();
@@ -86,6 +88,11 @@ public class MultiChoiceCtrl extends Controller {
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
         answer3.setText(multiChoice.getActivities().get(2).getName());
+
+        //Setting the colour of buttons when the question is initialized, so they don't stay the same colour after a question
+        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
     }
 
     /**
@@ -120,9 +127,46 @@ public class MultiChoiceCtrl extends Controller {
             wrong2 = answer2;
         }
 
-        correct.setStyle(correct.getStyle() + " -fx-background-color: #00FF00; ");
-        wrong1.setStyle(wrong1.getStyle() + " -fx-background-color: #FF0000; ");
-        wrong2.setStyle(wrong2.getStyle() + " -fx-background-color: #FF0000; ");
+        //change the color for the correct answer with green for 3 seconds
+        final Button correct1 = correct;
+        temporaryChangeButtonColorsCorrect(correct1);
+
+        //change the colors for the wrong answers with red for 3 seconds
+        final Button wrong11 = wrong1;
+        temporaryChangeButtonColorWrong(wrong11);
+
+        final Button wrong12 = wrong2;
+        temporaryChangeButtonColorWrong(wrong12);
+    }
+
+    /**
+     * This method changes the color of the correct answer for 3 seconds.
+     * @param button - the answer to be changed
+     */
+    public void temporaryChangeButtonColorsCorrect(Button button){
+        button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
+        });
+        pause.play();
+    }
+
+    /**
+     * This method changes the color of the wrong answer for 3 seconds.
+     * @param button - the answer to be changed
+     */
+    public void temporaryChangeButtonColorWrong(Button button){
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
+        });
+        pause.play();
     }
 
 
@@ -151,7 +195,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctActivityName)) {
@@ -160,8 +204,27 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+
+        //show which answer was the correct one (for 3 seconds)
         showCorrect();
-        updateCounter();
+
+        //keep the same question while the correct answer shown
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
+                parentCtrl.startNewQuestion(); //move to the next question
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
+
     }
 
     /**
@@ -171,7 +234,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctActivityName)) {
@@ -182,7 +245,22 @@ public class MultiChoiceCtrl extends Controller {
         }
 
         showCorrect();
-        updateCounter();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
+                parentCtrl.startNewQuestion();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
+
     }
 
     /**
@@ -192,7 +270,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctActivityName)) {
@@ -203,7 +281,22 @@ public class MultiChoiceCtrl extends Controller {
         }
 
         showCorrect();
-        updateCounter();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            try {
+                parentCtrl.getTimer().stop();
+                parentCtrl.refresh();
+                parentCtrl.startNewQuestion();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        pause.play();
+
     }
 
     /**
@@ -214,15 +307,6 @@ public class MultiChoiceCtrl extends Controller {
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        parentCtrl.refresh();
-    }
-
-    /**
-     * Method to update a question counter
-     */
-    public void updateCounter() {
-        parentCtrl.setqCount(parentCtrl.getqCount() + 1);
-        parentCtrl.refresh();
     }
 
     /**

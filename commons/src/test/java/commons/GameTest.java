@@ -38,7 +38,7 @@ class GameTest {
         activities.add(activity2);
         activities.add(activity3);
 
-        question = new Question.MostNRGQuestion(activities, activity1);
+        question = new Question.MostNRGQuestion(activities, activity1, null);
 
         questions.add(question);
 

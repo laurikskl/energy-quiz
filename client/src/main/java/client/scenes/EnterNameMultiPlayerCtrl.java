@@ -54,17 +54,18 @@ public class EnterNameMultiPlayerCtrl extends Controller {
         else {
             Player player;
             try {
-                player = this.server.getPlayer(usernameString);
+                player = getServer().getPlayer(usernameString);
                 if (player == null) {
                     player = new Player(usernameString, 0);
-                    this.server.setPlayer(usernameString, 0);
+                    getServer().setPlayer(usernameString, 0);
                 }
             } catch (Exception e) { //this should only happen when the server is null
-                System.out.println("WARNING SERVER IS NOT ACTIVE");
                 player = new Player(usernameString, 0);
             }
-            joinLobby(player);
-            this.mainCtrl.showLobbyScreen(List.of(player), player);
+            //joinLobby(player);
+            LobbyCtrl ctrl = (LobbyCtrl) getMainCtrl().getControllers().get(5);
+            ctrl.createLobby(List.of(player), player);
+            getMainCtrl().showLobbyScreen(List.of(player), player);
         }
 
     }
@@ -75,8 +76,8 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param player The player who is typing in their name
      */
     public void joinLobby(Player player){
-        long id = server.getLobby();
-        server.send("/game/" + id + "/lobby/join", player);
+        //long id = getServer().getLobby();
+        //getServer().send("/game/" + id + "/lobby/join", player);
     }
 
     /**
@@ -86,6 +87,6 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @throws IOException when reading files goes wrong
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 }
