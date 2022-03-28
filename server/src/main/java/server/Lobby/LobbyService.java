@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
 
-import java.util.List;
-
 import static commons.Game.Type.LOBBYUPDATE;
 
 /**
@@ -44,6 +42,7 @@ public class LobbyService {
    * @param dest the destination in the message mapping
    * @param p the player that joined
    */
+
   @MessageMapping("/game/{id}/lobby/join")
   public void onJoin(String dest, Player p){
     currentLobby.getPlayers().add(p);

@@ -20,6 +20,7 @@ import client.utils.ServerUtils;
 import commons.Game;
 import commons.Player;
 import commons.Question;
+import commons.Screen;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,6 +32,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static commons.Screen.ENTERNAME;
+import static commons.Screen.LOBBY;
 
 public class MainCtrl {
 
@@ -59,6 +63,9 @@ public class MainCtrl {
 
     private ServerUtils server;
 
+    // Current scene as an enum
+    private Screen current;
+
     /**
      * Injects server utils.
      * @param server the server utils
@@ -76,11 +83,10 @@ public class MainCtrl {
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
         this.primaryStage = primaryStage;
-        this.server = server;
         this.controllers = new ArrayList<>();
         this.scenes = new ArrayList<>();
 
-        for (int i = 1; i < scenes.size(); i++) {
+        for (int i = 0; i < scenes.size(); i++) {
             this.controllers.add(scenes.get(i).getKey());
             this.scenes.add(new Scene(scenes.get(i).getValue()));
         }
@@ -109,11 +115,20 @@ public class MainCtrl {
     public void makeConnection(Player player){
         long id = server.getLobby();
         server.send("/game/" + id + "/lobby/join", player);
-
+        current = ENTERNAME;
         // Choose what action to take, depending on type of message
         server.registerForMessages("/game/"+id, Game.class, game -> {
+            if(current != game.screen) {
+                switch (game.screen) {
+                    case LOBBY:
+                        showLobbyScreen();
+                        current = LOBBY;
+                        break;
+                }
+            }
             switch(game.type){
                 case LOBBYUPDATE:
+
                     LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
                     try {
                         ctrl.createTable(game.getPlayers());
@@ -174,18 +189,18 @@ public class MainCtrl {
     /**
      * Sets primaryStage's scene to the Lobby screen
      *
-     * @param players the players for a game
+     *  removed the player parameter at the moment
      */
-    public void showLobbyScreen(List<Player> players) {
+    public void showLobbyScreen() {
         showScene(this.scenes.get(5));
 
-        //set up the lobby with the list of players
-        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
-        try {
-            ctrl.createLobby(players);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        //set up the lobby with the list of players
+//        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+//        try {
+//            ctrl.createLobby(players);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

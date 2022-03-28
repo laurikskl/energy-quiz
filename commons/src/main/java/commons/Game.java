@@ -10,6 +10,7 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<Question> questions;
     public Type type;
+    public Screen screen;
 
     /**
      * Create a Game Object
