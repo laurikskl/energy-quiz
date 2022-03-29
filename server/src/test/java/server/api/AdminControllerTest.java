@@ -10,8 +10,10 @@ import server.Admin.AdminService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AdminControllerTest {
 
@@ -57,5 +59,16 @@ class AdminControllerTest {
         ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest("name0", 0l, 0l, "source0", "imagePath0");
 
         assertEquals(this.adminController.getActivitiesByExample(activitySearchRequest), ResponseEntity.ok(List.of(this.activities.get(0))));
+    }
+
+    /**
+     * Test removeById
+     */
+    @Test
+    void removeById() {
+        this.adminController.removeById(0l);
+        List<Activity> activities = this.adminController.getAll();
+
+        assertEquals(activities.indexOf(this.activities.get(0)), -1);
     }
 }
