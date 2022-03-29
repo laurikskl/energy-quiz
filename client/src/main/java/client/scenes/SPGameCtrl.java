@@ -103,6 +103,8 @@ public class SPGameCtrl extends Controller {
         }
         Collections.shuffle(questions);
 
+        simpleTimer();
+        timer.stop();
         doAQuestion(questions.get(0));
 
     }
@@ -273,6 +275,7 @@ public class SPGameCtrl extends Controller {
      */
     public void back(ActionEvent actionEvent) throws IOException {
         //sets the scene back to the main screen
+        timer.stop();
         this.mainCtrl.showSplash();
     }
 
