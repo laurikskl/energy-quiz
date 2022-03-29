@@ -71,4 +71,28 @@ public class AdminService {
         return activities;
     }
 
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    public Boolean removeById(Long ID) {
+        Activity activity = new Activity();
+        activity.setId(ID);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching().withIgnoreNullValues();
+
+        Example<Activity> activityExample = Example.of(activity, matcher);
+
+        List<Activity> activities = this.repository.findAll(activityExample);
+
+        if (activities.size() < 1) {
+            return false;
+        }
+
+        this.repository.delete(activities.get(0));
+        return true;
+    }
+
 }
