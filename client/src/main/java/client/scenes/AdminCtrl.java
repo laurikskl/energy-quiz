@@ -39,8 +39,6 @@ public class AdminCtrl extends Controller{
     @FXML
     private TextField searchSourceField;
     @FXML
-    private TextField searchImageField;
-    @FXML
     private Button searchButton;
     @FXML
     private Button searchShowAllButton;
