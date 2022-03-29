@@ -96,7 +96,7 @@ public class SPGameCtrl extends Controller {
 
         while (questions.isEmpty()) { //Maybe questions.isEmpty()?
             try {
-                questions = this.server.getQuestions();
+                questions = getServer().getQuestions();
             } catch (Exception e) {
                 System.out.println("something went wrong here");
             }
@@ -198,6 +198,7 @@ public class SPGameCtrl extends Controller {
         } else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
         }
+        refresh();
 //        else if (q.getClass().equals(Question.AccurateEstimation.class)) {
 //            doAccurateEstimation((Question.AccurateEstimation) q);
 //        }
@@ -211,7 +212,7 @@ public class SPGameCtrl extends Controller {
      * @throws IOException
      */
     public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException, InterruptedException {
-        this.mainCtrl.startMC(this, multiChoice);
+        getMainCtrl().startMC(this, multiChoice);
     }
 
     /**
@@ -222,7 +223,7 @@ public class SPGameCtrl extends Controller {
      * @throws IOException
      */
     public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException, InterruptedException {
-        this.mainCtrl.startCE(this, choiceEstimation);
+        getMainCtrl().startCE(this, choiceEstimation);
     }
 
     /**
@@ -378,18 +379,12 @@ public class SPGameCtrl extends Controller {
         this.questionNumber = questionNumber;
     }
 
-    /**
-     * Getter for server.
-     */
-    public ServerUtils getServer() {
-        return server;
-    }
 
     /**
      * @param server instance of ServerUtils
      */
     public void setServer(ServerUtils server) {
-        this.server = server;
+
         this.player = player;
         this.qCount = 0;
         this.score = 0;
@@ -398,7 +393,7 @@ public class SPGameCtrl extends Controller {
             throw new IllegalStateException("One or more FXML fields are null");
         }
         name.setText(player.getUserName());
-        scoreCount.setText("Score: 0");
+        scoreCount.setText("0");
         questionNumber.setText("0/20");
         while(questions == null) {
             try{

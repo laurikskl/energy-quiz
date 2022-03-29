@@ -64,19 +64,19 @@ public class EnterNameSinglePlayerCtrl extends Controller {
             //fetch player from database, if it doesn't exist store a new player with score 0
             Player player;
             try {
-                player = this.server.getPlayer(usernameString);
+                player = getServer().getPlayer(usernameString);
 
                 if (player == null) {
                     player = new Player(usernameString, 0);
-                    this.server.setPlayer(usernameString, 0);
+                    getServer().setPlayer(usernameString, 0);
                 }
             } catch (Exception e) { //this should only happen when the server is null
                 player = new Player(usernameString, 0);
             }
 //            super.getMainCtrl().startSPGame(player, server);
 //            super.getMainCtrl().showSPGame();
-            this.mainCtrl.startSPGame(player, server);
-            this.mainCtrl.showSPGame();
+            getMainCtrl().startSPGame(player, getServer());
+            getMainCtrl().showSPGame();
         }
 
     }
@@ -88,6 +88,6 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * @throws IOException when files not found or misread
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 }

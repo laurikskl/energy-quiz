@@ -16,22 +16,47 @@
 
 package server;
 
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-/**
- * Temporary comment for checkstyle.
- */
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * This comment is a temporary fix for checkstyle.
+ * Temporary comment for checkstyle.
  */
 
 @SpringBootApplication
 @EntityScan(basePackages = {"commons", "server"})
 public class Main {
 
+    private static ConfigurableApplicationContext context;
+
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        context = SpringApplication.run(Main.class, args);
+    }
+
+    /**
+     * Restart the server
+     * @return true if restarting, false otherwise
+     */
+    public static Boolean restart() {
+        ApplicationArguments args = context.getBean(ApplicationArguments.class);
+
+        //restart server on a separate thread
+        Thread thread = new Thread(() -> {
+            context.close();
+            context = SpringApplication.run(Main.class, args.getSourceArgs());
+        });
+
+        try {
+            thread.setDaemon(false);
+            thread.start();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

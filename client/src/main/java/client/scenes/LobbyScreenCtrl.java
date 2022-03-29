@@ -60,7 +60,7 @@ public class LobbyScreenCtrl extends Controller {
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 
     /**
@@ -71,7 +71,7 @@ public class LobbyScreenCtrl extends Controller {
      * @throws IOException
      */
     public void startGame(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showMPGame();
+        getMainCtrl().showMPGame();
 
         // TODO: Start a session, forward other players to the game, fetch questions.
     }

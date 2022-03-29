@@ -20,25 +20,13 @@ import commons.*;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
-import javafx.util.Pair;
 import org.glassfish.jersey.client.ClientConfig;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompFrameHandler;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.URL;
-import java.net.http.WebSocket;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -134,6 +122,7 @@ public class ServerUtils {
      * @param player the player that disconnected
      */
 
+    /**
     public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("player/disconnect")
@@ -141,7 +130,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
     }
-
+    */
 
     /**
      * @param name the name of a player
@@ -211,6 +200,7 @@ public class ServerUtils {
                 .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
     }
 
+    /**
     public <T> void registerForMessages(String destination,Class<T> type, Consumer<T> consumer){
         session.subscribe(destination, new StompFrameHandler() {
             @Override
@@ -254,24 +244,57 @@ public class ServerUtils {
             });
     }
 
+     */
 
+    /**
+     * get all activities
+     * @return all activities
+     */
     public List<Activity> getAllActivities() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getAll").
+                .target(SERVER).path("api/admin/getAll").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
                 get(new GenericType<List<Activity>>() {
                 });
     }
 
+    /**
+     * @param name
+     * @param powerConsumptionMin
+     * @param powerConsumptionMax
+     * @param source
+     * @param imagePath
+     * @return list of activities that match given parameters
+     */
     public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
         ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
 
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getByName")
+                .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
     }
+
+    /**
+     * Restart the server
+     * @return true if restarting, false otherwise
+     */
+    public Boolean restart() {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/restart").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    get(new GenericType<Boolean>() {
+                    });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 }

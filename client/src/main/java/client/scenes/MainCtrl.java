@@ -205,4 +205,11 @@ public class MainCtrl {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+
+    /**
+     * @return list of controllers
+     */
+    public List<Controller> getControllers() {
+        return controllers;
+    }
 }

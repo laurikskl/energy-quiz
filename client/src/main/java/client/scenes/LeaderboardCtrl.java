@@ -65,7 +65,7 @@ public class LeaderboardCtrl extends Controller {
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        this.mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
     /**
      * Might add a refresh button later on.

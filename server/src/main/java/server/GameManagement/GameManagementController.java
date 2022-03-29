@@ -2,15 +2,15 @@ package server.GameManagement;
 
 import commons.Game;
 /**
-  * Starts new games.
-  * Gets games by their id.
-  * Uses logic from the GameService layer.
-  */
+ * Starts new games.
+ * Gets games by their id.
+ * Uses logic from the GameService layer.
+ */
 public class GameManagementController {
 
   /**
-    * The gameService layer where the logic is.
-    */
+   * The gameService layer where the logic is.
+   */
   private final GameManagementService gameManagementService;
 
   /**

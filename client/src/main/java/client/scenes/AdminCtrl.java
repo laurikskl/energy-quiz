@@ -24,6 +24,12 @@ public class AdminCtrl extends Controller{
     @FXML
     private ImageView backImg;
 
+    //Restart
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Label restartStatusLabel;
+
     //Search
     @FXML
     private TextField searchNameField;
@@ -125,6 +131,9 @@ public class AdminCtrl extends Controller{
         this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
+    /**
+     * Initialize nodes in the scene just after the constructor has been called.
+     */
     @FXML
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
@@ -169,9 +178,26 @@ public class AdminCtrl extends Controller{
      * @throws IOException
      */
     public void back(ActionEvent actionEvent) throws IOException {
-        mainCtrl.showSplash();
+        getMainCtrl().showSplash();
     }
 
+    /**
+     * Restart the server and show if it succeeded or not.
+     *
+     * @param actionEvent - the mouse clicked on the Restart Server button
+     */
+    public void mouseClickedRestart(ActionEvent actionEvent) {
+        if (this.server.restart()) {
+            this.restartStatusLabel.setText("Restarted");
+        }
+        else {
+            this.restartStatusLabel.setText("Restart Failed");
+        }
+    }
+
+    /** Copy the contents of the selected cell in string format if the table is selected and ctrl+c is pressed.
+     * @param keyEvent Key combination
+     */
     public void tableViewKeyEvent(KeyEvent keyEvent) {
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
@@ -220,7 +246,7 @@ public class AdminCtrl extends Controller{
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
-        return this.fileChooser.showOpenDialog(this.mainCtrl.getPrimaryStage()).getAbsolutePath();
+        return this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
     }
 
     /**
@@ -230,7 +256,7 @@ public class AdminCtrl extends Controller{
     private String choosePath() {
         this.directoryChooser.setTitle("Select Activities Folder");
 
-        return this.directoryChooser.showDialog(this.mainCtrl.getPrimaryStage()).getAbsolutePath();
+        return this.directoryChooser.showDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
     }
 
     /**
@@ -262,7 +288,7 @@ public class AdminCtrl extends Controller{
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
-        List<Activity> activities = server.getActivitiesByExample(
+        List<Activity> activities = this.server.getActivitiesByExample(
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
@@ -280,7 +306,7 @@ public class AdminCtrl extends Controller{
     public void showAll(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
-        List<Activity> activities = server.getAllActivities();
+        List<Activity> activities = this.server.getAllActivities();
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());
