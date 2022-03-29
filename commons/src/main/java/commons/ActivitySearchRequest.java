@@ -106,6 +106,10 @@ public class ActivitySearchRequest implements Serializable {
         this.imagePath = imagePath;
     }
 
+    /**
+     * @param o other object
+     * @return if this equals object o
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,6 +118,9 @@ public class ActivitySearchRequest implements Serializable {
         return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source) && Objects.equals(imagePath, that.imagePath);
     }
 
+    /**
+     * @return a string representation of this object
+     */
     @Override
     public String toString() {
         return "ActivitySearchRequest{" +

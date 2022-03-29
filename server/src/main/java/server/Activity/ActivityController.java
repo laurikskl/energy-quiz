@@ -1,11 +1,9 @@
 package server.Activity;
 
 import commons.Activity;
-import commons.ActivitySearchRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/activities")
@@ -27,22 +25,4 @@ public class ActivityController {
         return activityService.getRandomActivity();
     }
 
-    /**
-     * get all activities
-     * @return all activities
-     */
-    @GetMapping("/getAll")
-    public List<Activity> getAll() {
-        return activityService.getAll();
-    }
-
-
-    /**
-     * @param activitySearchRequest
-     * @return list of activities that match given parameters
-     */
-    @PostMapping("/getByName")
-    public ResponseEntity<List<Activity>> getActivitiesByExample(@RequestBody ActivitySearchRequest activitySearchRequest) {
-        return ResponseEntity.ok(activityService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource(), activitySearchRequest.getImagePath()));
-    }
 }
