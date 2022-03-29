@@ -246,23 +246,54 @@ public class ServerUtils {
 
      */
 
+    /**
+     * get all activities
+     * @return all activities
+     */
     public List<Activity> getAllActivities() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getAll").
+                .target(SERVER).path("api/admin/getAll").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
                 get(new GenericType<List<Activity>>() {
                 });
     }
 
+    /**
+     * @param name
+     * @param powerConsumptionMin
+     * @param powerConsumptionMax
+     * @param source
+     * @param imagePath
+     * @return list of activities that match given parameters
+     */
     public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
         ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
 
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getByName")
+                .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
+    }
+
+    /**
+     * Restart the server
+     * @return true if restarting, false otherwise
+     */
+    public Boolean restart() {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/restart").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    get(new GenericType<Boolean>() {
+                    });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
