@@ -81,9 +81,9 @@ public class MultiChoiceCtrl extends Controller {
         String path2 = multiChoice.getActivities().get(1).getImagePath();
         String path3 = multiChoice.getActivities().get(2).getImagePath();
 
-        image1.setImage(new Image(new File(path1).toURI().toString()));
-        image2.setImage(new Image(new File(path2).toURI().toString()));
-        image3.setImage(new Image(new File(path3).toURI().toString()));
+        if(path1 != null) image1.setImage(new Image(new File(path1).toURI().toString()));
+        if(path2 != null) image2.setImage(new Image(new File(path2).toURI().toString()));
+        if(path3 != null) image3.setImage(new Image(new File(path3).toURI().toString()));
 
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
