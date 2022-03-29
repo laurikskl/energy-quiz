@@ -29,6 +29,7 @@ public class ActivityController {
 
     /**
      * get all activities
+     *
      * @return all activities
      */
     @GetMapping("/getAll")
@@ -43,6 +44,6 @@ public class ActivityController {
      */
     @PostMapping("/getByName")
     public ResponseEntity<List<Activity>> getActivitiesByExample(@RequestBody ActivitySearchRequest activitySearchRequest) {
-        return ResponseEntity.ok(activityService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource(), activitySearchRequest.getImagePath()));
+        return ResponseEntity.ok(activityService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource(), activitySearchRequest.getImageContent()));
     }
 }
