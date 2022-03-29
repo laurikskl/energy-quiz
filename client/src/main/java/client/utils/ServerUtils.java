@@ -253,8 +253,8 @@ public class ServerUtils {
                 });
     }
 
-    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, byte[] imageContent) {
-        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imageContent);
+    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source);
 
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/activities/getByName")

@@ -1,5 +1,6 @@
 package commons;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,21 +13,18 @@ public class ActivitySearchRequest implements Serializable {
     private Long powerConsumptionMin;
     private Long powerConsumptionMax;
     private String source;
-    private byte[] imageContent;
 
     /**
      * @param name
      * @param powerConsumptionMin
      * @param powerConsumptionMax
      * @param source
-     * @param imageContent
      */
-    public ActivitySearchRequest(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, byte[] imageContent) {
+    public ActivitySearchRequest(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
         this.name = name;
         this.powerConsumptionMin = powerConsumptionMin;
         this.powerConsumptionMax = powerConsumptionMax;
         this.source = source;
-        this.imageContent = imageContent;
     }
 
     /**
@@ -92,30 +90,12 @@ public class ActivitySearchRequest implements Serializable {
         this.source = source;
     }
 
-    /**
-     * Getter for image content
-     *
-     * @return
-     */
-    public byte[] getImageContent() {
-        return imageContent;
-    }
-
-    /**
-     * Setter for image content
-     *
-     * @param imageContent
-     */
-    public void setImageContent(byte[] imageContent) {
-        this.imageContent = imageContent;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActivitySearchRequest that = (ActivitySearchRequest) o;
-        return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source) && Objects.equals(imageContent, that.imageContent);
+        return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source);
     }
 
     @Override
@@ -125,7 +105,6 @@ public class ActivitySearchRequest implements Serializable {
                 ", powerConsumptionMin=" + powerConsumptionMin +
                 ", powerConsumptionMax=" + powerConsumptionMax +
                 ", source='" + source + '\'' +
-                ", imageContent='" + imageContent + '\'' +
                 '}';
     }
 }

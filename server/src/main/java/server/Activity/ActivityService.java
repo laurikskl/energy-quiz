@@ -66,9 +66,9 @@ public class ActivityService {
      * @param imageContent        if this is a substring of the property path "imagePath", select that activity
      * @return a list of selected Activities
      */
-    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, byte[] imageContent) {
+    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
 
-        Activity activity = new Activity(name, null, source, imageContent);
+        Activity activity = new Activity(name, null, source, null);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
