@@ -274,7 +274,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<List<Activity>>() {});
     }
 
     /**
@@ -296,5 +296,24 @@ public class ServerUtils {
         }
     }
 
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    public Boolean removeById(Long ID) {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/removeById").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<Boolean>() {});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
