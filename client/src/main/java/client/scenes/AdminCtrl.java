@@ -202,25 +202,6 @@ public class AdminCtrl extends Controller {
     }
 
     /**
-     * Helper method to choose images
-     *
-     * @return The absolute path of the selected file
-     */
-    private String chooseImage() {
-        this.fileChooser.setTitle("Select Image");
-        this.fileChooser.getExtensionFilters().setAll(
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png")
-        );
-
-        File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
-
-        if (file == null) return null;
-
-        return file.getAbsolutePath();
-    }
-
-    /**
      * Helper method to choose paths
      *
      * @return The absolute path of the selected file
