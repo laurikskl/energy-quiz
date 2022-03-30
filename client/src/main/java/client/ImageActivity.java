@@ -14,7 +14,7 @@ import java.io.ByteArrayInputStream;
  */
 public class ImageActivity {
 
-    private Long id;
+    private String id;
     private String name;
     private Long powerConsumption;
     private String source;
@@ -66,7 +66,7 @@ public class ImageActivity {
     /**
      * @return id
      */
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

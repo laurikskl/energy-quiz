@@ -38,10 +38,10 @@ public class QuestionTest {
 
     @BeforeEach
     public void setup() {
-        a1 = new Activity("Coding", 1200l, "github.com");
-        a2 = new Activity("Watching tv", 1200l, "github.com");
-        a3 = new Activity("Writing tests", 900l, "github.com");
-        a4 = new Activity("Lamp", 800l, "github.com");
+        a1 = new Activity("00-coding", "Coding", 1200l, "github.com", null);
+        a2 = new Activity("00-tv", "Watching tv", 1200l, "github.com", null);
+        a3 = new Activity("00-tests", "Writing tests", 900l, "github.com", null);
+        a4 = new Activity("00-lamp", "Lamp", 800l, "github.com", null);
         activityList = Arrays.asList(a1, a2, a3, a4);
         mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1, null);
         matching = new Question.Matching(activityList, null);

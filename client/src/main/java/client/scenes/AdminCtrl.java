@@ -4,6 +4,7 @@ import client.ImageActivity;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
+import commons.ActivityBank;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -13,10 +14,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class AdminCtrl extends Controller {
 
     //Search
     @FXML
+    private TextField searchIDField;
+    @FXML
     private TextField searchNameField;
     @FXML
     private TextField searchConsumptionMinField;
@@ -46,22 +50,6 @@ public class AdminCtrl extends Controller {
     private Button searchShowAllButton;
     @FXML
     private Label searchStatusLabel;
-
-    //Add By hand
-    @FXML
-    private TextField addNameField;
-    @FXML
-    private TextField addConsumptionField;
-    @FXML
-    private TextField addSourceField;
-    @FXML
-    private TextField addImageField;
-    @FXML
-    private Button addImageBrowseButton;
-    @FXML
-    private Button addSubmitButton;
-    @FXML
-    private Label addStatusLabel;
 
     //Add From Activity Bank
     @FXML
@@ -89,7 +77,6 @@ public class AdminCtrl extends Controller {
 
     //Fields
     private FileChooser fileChooser;
-    private DirectoryChooser directoryChooser;
     private KeyCodeCombination copyKeyCode;
 
     /**
@@ -100,7 +87,6 @@ public class AdminCtrl extends Controller {
     public AdminCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
         this.fileChooser = new FileChooser();
-        this.directoryChooser = new DirectoryChooser();
         this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
@@ -129,17 +115,6 @@ public class AdminCtrl extends Controller {
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
                     searchConsumptionMaxField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
-
-        //Restrict removeByIDField content to numbers
-        this.removeByIDField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    removeByIDField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -233,12 +208,16 @@ public class AdminCtrl extends Controller {
      */
     private String chooseImage() {
         this.fileChooser.setTitle("Select Image");
-        this.fileChooser.getExtensionFilters().addAll(
+        this.fileChooser.getExtensionFilters().setAll(
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
-        return this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
+        File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
+
+        if (file == null) return null;
+
+        return file.getAbsolutePath();
     }
 
     /**
@@ -246,10 +225,17 @@ public class AdminCtrl extends Controller {
      *
      * @return The absolute path of the selected file
      */
-    private String choosePath() {
-        this.directoryChooser.setTitle("Select Activities Folder");
+    private String chooseJson() {
+        this.fileChooser.setTitle("Select A Json file in the Activity Bank");
+        this.fileChooser.getExtensionFilters().setAll(
+                new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
 
-        return this.directoryChooser.showDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
+        File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
+
+        if (file == null) return null;
+
+        return file.getAbsolutePath();
     }
 
     /**
@@ -280,6 +266,7 @@ public class AdminCtrl extends Controller {
         }
 
         List<Activity> activities = this.server.getActivitiesByExample(
+                this.searchIDField.getText(),
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
@@ -303,43 +290,36 @@ public class AdminCtrl extends Controller {
     }
 
     /**
-     * Edit an Activity
-     * @param mouseEvent - the mouse clicked on editSubmitButton
-     */
-    public void editSubmit(MouseEvent mouseEvent){
-
-    }
-
-    /**
-     * Browse for an image and put its absolute path in addImageField.
-     * @param mouseEvent - the mouse clicked on addImageBrowseButton
-     */
-    public void addImageBrowse(MouseEvent mouseEvent){
-        this.addImageField.setText(chooseImage());
-    }
-
-    /**
-     * Add an Activity
-     * @param mouseEvent - the mouse clicked on AddSubmitButton
-     */
-    public void addSubmit(MouseEvent mouseEvent){
-
-    }
-
-    /**
-     * Browse for a folder and put its absolute path in ABPathField.
+     * Browse for a Json file and put its absolute path in ABPathField.
      * @param mouseEvent - the mouse clicked on ABPathBrowseButton
      */
     public void aBPathBrowse(MouseEvent mouseEvent){
-        this.aBPathField.setText(choosePath());
+        this.aBPathField.setText(chooseJson());
     }
 
     /**
      * Add all Activities from an Activity Bank
      * @param mouseEvent - the mouse clicked on aBSubmitButton
      */
-    public void aBSubmit(MouseEvent mouseEvent){
+    public void aBSubmit(MouseEvent mouseEvent) throws IOException {
+        this.aBStatusLabel.setText("Adding Activities");
+        int n = 0;
 
+        try {
+            Path path = Path.of(this.aBPathField.getText());
+
+            ActivityBank activityBank = ActivityBank.JsonReader(path);
+
+            activityBank.setOverride(this.aBOverrideCB.isSelected());
+
+            n = this.server.addBank(activityBank);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            this.aBStatusLabel.setText("Please provide valid ActivityBank");
+        }
+
+        this.aBStatusLabel.setText("Added " + n + " Activities");
     }
 
     /**

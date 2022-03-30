@@ -257,14 +257,55 @@ public class ServerUtils {
                 });
     }
 
-    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
-        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source);
+    /**
+     * Select and return all Activities that meet the criteria from the database
+     * @param name if this is a substring of the property path "name", select that activity
+     * @param powerConsumptionMin minimum of the powerConsumption range
+     * @param powerConsumptionMax maximum of the powerConsumption range
+     * @param source if this is a substring of the property path "source", select that activity
+     * @return a list of selected Activities
+     */
+    public List<Activity> getActivitiesByExample(String id, String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(id, name, powerConsumptionMin, powerConsumptionMax, source);
 
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<List<Activity>>() {});
+    }
+
+    /**
+     * Add activities from an Activity Bank with the choice to retain the old Activities or to override them.
+     * @param activityBank Class containing a list of activities to add and a boolean if the previous activities should be deleted
+     * @return the amount of Activities added
+     */
+    public Integer addBank(ActivityBank activityBank) {
+
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/addBank")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(activityBank, APPLICATION_JSON), new GenericType<Integer>() {});
+    }
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    public Boolean removeById(Long ID) {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/removeById").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<Boolean>() {});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -279,26 +320,6 @@ public class ServerUtils {
                     .accept(APPLICATION_JSON).
                     get(new GenericType<Boolean>() {
                     });
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-
-    /**
-     * Remove activity by ID
-     * @param ID
-     * @return true if removing, false otherwise
-     */
-    public Boolean removeById(Long ID) {
-        try {
-            return ClientBuilder.newClient(new ClientConfig())
-                    .target(SERVER).path("api/admin/removeById").
-                    request(APPLICATION_JSON)
-                    .accept(APPLICATION_JSON).
-                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<Boolean>() {});
         }
         catch (Exception e) {
             e.printStackTrace();
