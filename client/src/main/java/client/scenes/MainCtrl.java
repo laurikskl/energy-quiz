@@ -183,7 +183,7 @@ public class MainCtrl {
      * @param parentCtrl
      * @param multiChoice
      */
-    public void startMC(Controller parentCtrl, Question multiChoice) {
+    public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
@@ -196,7 +196,7 @@ public class MainCtrl {
      * @param parentCtrl
      * @param choiceEstimation
      */
-    public void startCE(Controller parentCtrl, Question choiceEstimation) {
+    public void startCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
         ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
         ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);

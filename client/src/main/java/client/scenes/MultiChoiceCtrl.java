@@ -12,12 +12,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.Instant;
-import java.util.Collections;
 
 /**
  * This class handles the multiChoice question type, by:
@@ -65,7 +67,7 @@ public class MultiChoiceCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    public void start(Controller parentCtrl, Question multiChoice) {
+    public void start(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         this.parentCtrl = (SPGameCtrl) parentCtrl;
         //Set the isCorrect to -1 meaning there was no answer
         this.isCorrect = -1;
@@ -80,8 +82,8 @@ public class MultiChoiceCtrl extends Controller {
         //Finds the correct answer and inserts its name in the correctActivityName field
         this.correctActivityName = correctActivity.getName();
 
-        //Shuffling the answers so the first one is not always right, then setting the text and images
-        Collections.shuffle(multiChoice.getActivities());
+
+
         byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
         byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
         byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
@@ -90,9 +92,22 @@ public class MultiChoiceCtrl extends Controller {
         Image img2 = new Image(new ByteArrayInputStream(byteArr2));
         Image img3 = new Image(new ByteArrayInputStream(byteArr3));
 
+        Image defaultIMG = new Image(String.valueOf(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL()));
+
         image1.setImage(img1);
         image2.setImage(img2);
         image3.setImage(img3);
+
+        //set to default if there was an error in getting the images
+        if(img1.isError()) {
+            image1.setImage(defaultIMG);
+        }
+        if(img2.isError()) {
+            image2.setImage(defaultIMG);
+        }
+        if(img3.isError()) {
+            image3.setImage(defaultIMG);
+        }
 
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
@@ -142,10 +157,9 @@ public class MultiChoiceCtrl extends Controller {
 
     /**
      * This method changes the color of the correct answer for 3 seconds.
-     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorsCorrect(Button button) {
+    public void temporaryChangeButtonColorsCorrect(Button button){
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
@@ -158,10 +172,9 @@ public class MultiChoiceCtrl extends Controller {
 
     /**
      * This method changes the color of the wrong answer for 3 seconds.
-     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorWrong(Button button) {
+    public void temporaryChangeButtonColorWrong(Button button){
         button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
@@ -189,7 +202,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress1(MouseEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctActivityName)) {
@@ -229,7 +242,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress2(MouseEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctActivityName)) {
@@ -266,7 +279,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress3(MouseEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctActivityName)) {

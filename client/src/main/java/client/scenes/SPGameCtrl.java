@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -290,10 +291,10 @@ public class SPGameCtrl extends Controller {
     /**
      * This method takes you back to the splash screen when the back button is pressed
      *
-     * @param actionEvent click
+     * @param mouseEvent click
      * @throws IOException when file not found or misread
      */
-    public void back(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent actionEvent) throws IOException {
         //sets the scene back to the main screen
         getMainCtrl().showSplash();
     }
