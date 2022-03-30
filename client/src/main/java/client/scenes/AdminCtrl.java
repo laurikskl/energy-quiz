@@ -47,32 +47,6 @@ public class AdminCtrl extends Controller {
     @FXML
     private Label searchStatusLabel;
 
-    //Edit
-    @FXML
-    private TextField editByIDField;
-    @FXML
-    private CheckBox editNameCB;
-    @FXML
-    private CheckBox editConsumptionCB;
-    @FXML
-    private CheckBox editSourceCB;
-    @FXML
-    private CheckBox editImageCB;
-    @FXML
-    private TextField editNameField;
-    @FXML
-    private TextField editConsumptionField;
-    @FXML
-    private TextField editSourceField;
-    @FXML
-    private TextField editImageField;
-    @FXML
-    private Button editImageBrowseButton;
-    @FXML
-    private Button editSubmitButton;
-    @FXML
-    private Label editStatusLabel;
-
     //Add By hand
     @FXML
     private TextField addNameField;
@@ -326,14 +300,6 @@ public class AdminCtrl extends Controller {
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());
-    }
-
-    /**
-     * Browse for an image and put its absolute path in editImageField.
-     * @param mouseEvent - the mouse clicked on editImageBrowseButton
-     */
-    public void editImageBrowse(MouseEvent mouseEvent){
-        this.editImageField.setText(chooseImage());
     }
 
     /**
