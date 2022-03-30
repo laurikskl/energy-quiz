@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -81,14 +82,16 @@ public class MultiChoiceCtrl extends Controller {
         //Finds the correct answer and inserts its name in the correctActivityName field
         this.correctActivityName = correctActivity.getName();
 
-        String path1 = multiChoice.getActivities().get(0).getImagePath();
-        String path2 = multiChoice.getActivities().get(1).getImagePath();
-        String path3 = multiChoice.getActivities().get(2).getImagePath();
 
-        //setting the images
-        Image img1 = new Image(new File(path1).toURI().toString());
-        Image img2 = new Image(new File(path2).toURI().toString());
-        Image img3 = new Image(new File(path3).toURI().toString());
+
+        byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
+        byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
+        byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
+
+        Image img1 = new Image(new ByteArrayInputStream(byteArr1));
+        Image img2 = new Image(new ByteArrayInputStream(byteArr2));
+        Image img3 = new Image(new ByteArrayInputStream(byteArr3));
+
         Image defaultIMG = new Image(String.valueOf(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL()));
 
         image1.setImage(img1);

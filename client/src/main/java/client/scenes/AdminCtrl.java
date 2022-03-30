@@ -1,11 +1,13 @@
 package client.scenes;
 
+import client.ImageActivity;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,12 +18,19 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdminCtrl extends Controller{
+public class AdminCtrl extends Controller {
 
     @FXML
     private ImageView backImg;
+
+    //Restart
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Label restartStatusLabel;
 
     //Search
     @FXML
@@ -32,8 +41,6 @@ public class AdminCtrl extends Controller{
     private TextField searchConsumptionMaxField;
     @FXML
     private TextField searchSourceField;
-    @FXML
-    private TextField searchImageField;
     @FXML
     private Button searchButton;
     @FXML
@@ -105,7 +112,7 @@ public class AdminCtrl extends Controller{
 
     //Table
     @FXML
-    private TableView<Activity> tableView;
+    private TableView<ImageActivity> tableView;
 
     //Fields
     private FileChooser fileChooser;
@@ -124,11 +131,14 @@ public class AdminCtrl extends Controller{
         this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
+    /**
+     * Initialize nodes in the scene just after the constructor has been called.
+     */
     @FXML
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMinField content to numbers
         this.searchConsumptionMinField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -139,7 +149,7 @@ public class AdminCtrl extends Controller{
             }
         });
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMaxField content to numbers
         this.searchConsumptionMaxField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -150,13 +160,24 @@ public class AdminCtrl extends Controller{
             }
         });
 
+        //Restrict removeByIDField content to numbers
+        this.removeByIDField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    removeByIDField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
         //Set up columns to automatically take in the correct attributes if an Activity gets added to the table as an item.
-        List<TableColumn<Activity, ?>> columns = this.tableView.getColumns();
+        List<TableColumn<ImageActivity, ?>> columns = this.tableView.getColumns();
         columns.get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         columns.get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         columns.get(2).setCellValueFactory(new PropertyValueFactory<>("powerConsumption"));
         columns.get(3).setCellValueFactory(new PropertyValueFactory<>("source"));
-        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("imagePath"));
+        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("button"));
 
         //Enable cell selection
         this.tableView.getSelectionModel().setCellSelectionEnabled(true);
@@ -164,13 +185,31 @@ public class AdminCtrl extends Controller{
 
     /**
      * Go back to the Splash screen
-     * @param mouseEvent - the mouse clicked on the Back button
+     *
+     * @param actionEvent - the mouse clicked on the Back button
      * @throws IOException
      */
-    public void back(MouseEvent mouseEvent) throws IOException {
+    public void back(ActionEvent actionEvent) throws IOException {
         getMainCtrl().showSplash();
     }
 
+    /**
+     * Restart the server and show if it succeeded or not.
+     *
+     * @param actionEvent - the mouse clicked on the Restart Server button
+     */
+    public void mouseClickedRestart(ActionEvent actionEvent) {
+        if (this.server.restart()) {
+            this.restartStatusLabel.setText("Restarted");
+        }
+        else {
+            this.restartStatusLabel.setText("Restart Failed");
+        }
+    }
+
+    /** Copy the contents of the selected cell in string format if the table is selected and ctrl+c is pressed.
+     * @param keyEvent Key combination
+     */
     public void tableViewKeyEvent(KeyEvent keyEvent) {
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
@@ -201,15 +240,23 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to display activities in tableView
+     *
      * @param activities activities to show in the table
      */
     public void loadTable(List<Activity> activities) {
+        List<ImageActivity> imageActivities = new ArrayList<>();
+        activities.forEach(activity -> {
+            imageActivities.add(new ImageActivity(activity));
+        });
+
         this.tableView.getItems().clear();
-        this.tableView.getItems().addAll(activities);
+
+        this.tableView.getItems().addAll(imageActivities);
     }
 
     /**
      * Helper method to choose images
+     *
      * @return The absolute path of the selected file
      */
     private String chooseImage() {
@@ -224,6 +271,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to choose paths
+     *
      * @return The absolute path of the selected file
      */
     private String choosePath() {
@@ -234,9 +282,10 @@ public class AdminCtrl extends Controller{
 
     /**
      * Search the Activity Database and put the result in tableView
-     * @param mouseEvent - the mouse clicked on searchButton
+     *
+     * @param actionEvent - the mouse clicked on searchButton
      */
-    public void search(MouseEvent mouseEvent) {
+    public void search(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
         String minConsumption = this.searchConsumptionMinField.getText();
@@ -248,25 +297,22 @@ public class AdminCtrl extends Controller{
         //Parse minConsumption to Long
         if (minConsumption.equals("")) {
             minConsumptionLong = null;
-        }
-        else {
+        } else {
             minConsumptionLong = Long.parseLong(minConsumption);
         }
 
         //Parse maxConsumption to Long
         if (maxConsumption.equals("")) {
             maxConsumptionLong = null;
-        }
-        else {
+        } else {
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
-        List<Activity> activities = getServer().getActivitiesByExample(
+        List<Activity> activities = this.server.getActivitiesByExample(
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
-                this.searchSourceField.getText(),
-                this.searchImageField.getText()
+                this.searchSourceField.getText()
         );
         this.loadTable(activities);
         this.searchStatusLabel.setText("Activities found: " + activities.size());
@@ -274,12 +320,13 @@ public class AdminCtrl extends Controller{
 
     /**
      * Show all activities from the Activity Database
-     * @param mouseEvent - the mouse clicked on searchButton
+     *
+     * @param actionEvent - the mouse clicked on searchButton
      */
-    public void showAll(MouseEvent mouseEvent) {
+    public void showAll(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
-        List<Activity> activities = getServer().getAllActivities();
+        List<Activity> activities = this.server.getAllActivities();
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());
@@ -287,57 +334,71 @@ public class AdminCtrl extends Controller{
 
     /**
      * Browse for an image and put its absolute path in editImageField.
-     * @param mouseEvent - the mouse clicked on editImageBrowseButton
+     *
+     * @param actionEvent - the mouse clicked on editImageBrowseButton
      */
-    public void editImageBrowse(MouseEvent mouseEvent){
+    public void editImageBrowse(ActionEvent actionEvent) {
         this.editImageField.setText(chooseImage());
     }
 
     /**
      * Edit an Activity
-     * @param mouseEvent - the mouse clicked on editSubmitButton
+     *
+     * @param actionEvent - the mouse clicked on editSubmitButton
      */
-    public void editSubmit(MouseEvent mouseEvent){
+    public void editSubmit(ActionEvent actionEvent) {
 
     }
 
     /**
      * Browse for an image and put its absolute path in addImageField.
-     * @param mouseEvent - the mouse clicked on addImageBrowseButton
+     *
+     * @param actionEvent - the mouse clicked on addImageBrowseButton
      */
-    public void addImageBrowse(MouseEvent mouseEvent){
+    public void addImageBrowse(ActionEvent actionEvent) {
         this.addImageField.setText(chooseImage());
     }
 
     /**
      * Add an Activity
-     * @param mouseEvent - the mouse clicked on AddSubmitButton
+     *
+     * @param actionEvent - the mouse clicked on AddSubmitButton
      */
-    public void addSubmit(MouseEvent mouseEvent){
+    public void addSubmit(ActionEvent actionEvent) {
 
     }
 
     /**
      * Browse for a folder and put its absolute path in ABPathField.
-     * @param mouseEvent - the mouse clicked on ABPathBrowseButton
+     *
+     * @param actionEvent - the mouse clicked on ABPathBrowseButton
      */
-    public void aBPathBrowse(MouseEvent mouseEvent){
+    public void aBPathBrowse(ActionEvent actionEvent) {
         this.aBPathField.setText(choosePath());
     }
 
     /**
      * Add all Activities from an Activity Bank
-     * @param mouseEvent - the mouse clicked on aBSubmitButton
+     *
+     * @param actionEvent - the mouse clicked on aBSubmitButton
      */
-    public void aBSubmit(MouseEvent mouseEvent){
+    public void aBSubmit(ActionEvent actionEvent) {
 
     }
 
     /**
      * Remove an Activity
-     * @param mouseEvent - the mouse clicked on removeSubmitButton
+     *
+     * @param actionEvent - the mouse clicked on removeSubmitButton
      */
-    public void removeSubmit(MouseEvent mouseEvent){
-
+    public void removeSubmit(ActionEvent actionEvent){
+        Long id = Long.parseLong(this.removeByIDField.getText());
+        this.removeStatusLabel.setText("Removing " + id);
+        if (this.server.removeById(id)) {
+            this.removeStatusLabel.setText("Removed " + id);
+        }
+        else {
+            this.removeStatusLabel.setText("Failed Removing " + id);
+        }
     }
 }

@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -78,8 +79,8 @@ public class ChoiceEstimationCtrl extends Controller{
         correctAnswer = choiceEstimation.getActivities().get(0).getPowerConsumption();
         correctText = String.valueOf(correctAnswer);
         //Set the activity, image and buttons
-        String path = choiceEstimation.getActivities().get(0).getImagePath();
-        Image img = new Image(new File(path).toURI().toString());
+        byte[] byteArray = choiceEstimation.getActivities().get(0).getImageContent();
+        Image img = new Image(new ByteArrayInputStream(byteArray));
         //if there was an error in getting the image, set it to a default image
         if(img.isError()) {
             image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));

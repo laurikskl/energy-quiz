@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
-public class MPGameCtrl extends Controller{
+public class MPGameCtrl extends Controller {
 
     /**
      * @param server   reference to an instance of ServerUtils

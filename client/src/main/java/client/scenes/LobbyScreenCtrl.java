@@ -35,7 +35,8 @@ public class LobbyScreenCtrl extends Controller {
      * Initializing the colName values
      */
     @FXML
-    private void initialize() {;
+    private void initialize() {
+        ;
 
         //TODO: Fetch the players currently in the waiting room and insert them into the table
         //colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));

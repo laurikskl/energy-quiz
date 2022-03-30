@@ -4,6 +4,7 @@ import commons.Activity;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import server.database.ActivityRepository;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -44,13 +45,19 @@ public class ActivityConfig {
                         //Add the path for the image
                         String path = file.toString() + "\\" + beginning;
                         if (Files.exists(Path.of(path + "jpg"))) {
-                            activity.setImagePath(path + "jpg");
+                            File image = new File(path + "jpg");
+                            byte[] bytes = Files.readAllBytes(image.toPath());
+                            activity.setImageContent(bytes);
                         }
                         if (Files.exists(Path.of(path + "png"))) {
-                            activity.setImagePath(path + "png");
+                            File image = new File(path + "png");
+                            byte[] bytes = Files.readAllBytes(image.toPath());
+                            activity.setImageContent(bytes);
                         }
                         if (Files.exists(Path.of(path + "jpeg"))) {
-                            activity.setImagePath(path + "jpeg");
+                            File image = new File(path + "jpeg");
+                            byte[] bytes = Files.readAllBytes(image.toPath());
+                            activity.setImageContent(bytes);
                         }
                         activitiesList.add(activity);
                     }
