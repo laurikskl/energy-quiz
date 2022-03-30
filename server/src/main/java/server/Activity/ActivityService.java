@@ -22,6 +22,7 @@ public class ActivityService {
 
     /**
      * Constructor that injects random and repository
+     *
      * @param repository activity repository
      */
     @Autowired
@@ -38,10 +39,10 @@ public class ActivityService {
 
     public Activity getRandomActivity() {
         Activity activity = null;
-        while(activity == null) {
+        while (activity == null) {
             long randomId = random.nextInt((int) repository.count());
             Optional<Activity> activityOptional = repository.findById(randomId);
-            if(activityOptional.isPresent()) {
+            if (activityOptional.isPresent()) {
                 activity = activityOptional.get();
             }
         }
@@ -58,22 +59,23 @@ public class ActivityService {
 
     /**
      * Select and return all Activities that meet the criteria from the database
-     * @param name if this is a substring of the property path "name", select that activity
+     *
+     * @param name                if this is a substring of the property path "name", select that activity
      * @param powerConsumptionMin minimum of the powerConsumption range
      * @param powerConsumptionMax maximum of the powerConsumption range
-     * @param source if this is a substring of the property path "source", select that activity
-     * @param imagePath if this is a substring of the property path "imagePath", select that activity
+     * @param source              if this is a substring of the property path "source", select that activity
+     * @param imageContent        if this is a substring of the property path "imagePath", select that activity
      * @return a list of selected Activities
      */
-    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
+    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
 
-        Activity activity = new Activity(name, null, source, imagePath);
+        Activity activity = new Activity(name, null, source, null);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
                 .withMatcher("name", GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("source", GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("imagePath", GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("imageContent", GenericPropertyMatchers.contains().ignoreCase())
                 .withIgnoreNullValues();
 
         Example<Activity> activityExample = Example.of(activity, matcher);

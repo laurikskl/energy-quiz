@@ -12,21 +12,18 @@ public class ActivitySearchRequest implements Serializable {
     private Long powerConsumptionMin;
     private Long powerConsumptionMax;
     private String source;
-    private String imagePath;
 
     /**
      * @param name
      * @param powerConsumptionMin
      * @param powerConsumptionMax
      * @param source
-     * @param imagePath
      */
-    public ActivitySearchRequest(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
+    public ActivitySearchRequest(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
         this.name = name;
         this.powerConsumptionMin = powerConsumptionMin;
         this.powerConsumptionMax = powerConsumptionMax;
         this.source = source;
-        this.imagePath = imagePath;
     }
 
     /**
@@ -92,30 +89,12 @@ public class ActivitySearchRequest implements Serializable {
         this.source = source;
     }
 
-    /**
-     * @return imagePath
-     */
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    /**
-     * @param imagePath
-     */
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    /**
-     * @param o other object
-     * @return if this equals object o
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActivitySearchRequest that = (ActivitySearchRequest) o;
-        return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source) && Objects.equals(imagePath, that.imagePath);
+        return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source);
     }
 
     /**
@@ -128,7 +107,6 @@ public class ActivitySearchRequest implements Serializable {
                 ", powerConsumptionMin=" + powerConsumptionMin +
                 ", powerConsumptionMax=" + powerConsumptionMax +
                 ", source='" + source + '\'' +
-                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }
