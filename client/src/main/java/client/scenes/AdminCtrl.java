@@ -4,12 +4,10 @@ import client.ImageActivity;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,12 +17,11 @@ import javafx.scene.input.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminCtrl extends Controller{
+public class AdminCtrl extends Controller {
 
     @FXML
     private ImageView backImg;
@@ -168,6 +165,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Go back to the Splash screen
+     *
      * @param actionEvent - the mouse clicked on the Back button
      * @throws IOException
      */
@@ -205,6 +203,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to display activities in tableView
+     *
      * @param activities activities to show in the table
      */
     public void loadTable(List<Activity> activities) {
@@ -220,6 +219,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to choose images
+     *
      * @return The absolute path of the selected file
      */
     private String chooseImage() {
@@ -234,6 +234,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to choose paths
+     *
      * @return The absolute path of the selected file
      */
     private String choosePath() {
@@ -244,6 +245,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Search the Activity Database and put the result in tableView
+     *
      * @param actionEvent - the mouse clicked on searchButton
      */
     public void search(ActionEvent actionEvent) {
@@ -258,16 +260,14 @@ public class AdminCtrl extends Controller{
         //Parse minConsumption to Long
         if (minConsumption.equals("")) {
             minConsumptionLong = null;
-        }
-        else {
+        } else {
             minConsumptionLong = Long.parseLong(minConsumption);
         }
 
         //Parse maxConsumption to Long
         if (maxConsumption.equals("")) {
             maxConsumptionLong = null;
-        }
-        else {
+        } else {
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
@@ -283,6 +283,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Show all activities from the Activity Database
+     *
      * @param actionEvent - the mouse clicked on searchButton
      */
     public void showAll(ActionEvent actionEvent) {
@@ -296,57 +297,64 @@ public class AdminCtrl extends Controller{
 
     /**
      * Browse for an image and put its absolute path in editImageField.
+     *
      * @param actionEvent - the mouse clicked on editImageBrowseButton
      */
-    public void editImageBrowse(ActionEvent actionEvent){
+    public void editImageBrowse(ActionEvent actionEvent) {
         this.editImageField.setText(chooseImage());
     }
 
     /**
      * Edit an Activity
+     *
      * @param actionEvent - the mouse clicked on editSubmitButton
      */
-    public void editSubmit(ActionEvent actionEvent){
+    public void editSubmit(ActionEvent actionEvent) {
 
     }
 
     /**
      * Browse for an image and put its absolute path in addImageField.
+     *
      * @param actionEvent - the mouse clicked on addImageBrowseButton
      */
-    public void addImageBrowse(ActionEvent actionEvent){
+    public void addImageBrowse(ActionEvent actionEvent) {
         this.addImageField.setText(chooseImage());
     }
 
     /**
      * Add an Activity
+     *
      * @param actionEvent - the mouse clicked on AddSubmitButton
      */
-    public void addSubmit(ActionEvent actionEvent){
+    public void addSubmit(ActionEvent actionEvent) {
 
     }
 
     /**
      * Browse for a folder and put its absolute path in ABPathField.
+     *
      * @param actionEvent - the mouse clicked on ABPathBrowseButton
      */
-    public void aBPathBrowse(ActionEvent actionEvent){
+    public void aBPathBrowse(ActionEvent actionEvent) {
         this.aBPathField.setText(choosePath());
     }
 
     /**
      * Add all Activities from an Activity Bank
+     *
      * @param actionEvent - the mouse clicked on aBSubmitButton
      */
-    public void aBSubmit(ActionEvent actionEvent){
+    public void aBSubmit(ActionEvent actionEvent) {
 
     }
 
     /**
      * Remove an Activity
+     *
      * @param actionEvent - the mouse clicked on removeSubmitButton
      */
-    public void removeSubmit(ActionEvent actionEvent){
+    public void removeSubmit(ActionEvent actionEvent) {
 
     }
 }
