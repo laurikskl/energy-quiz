@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.Instant;
 
@@ -81,13 +81,17 @@ public class MultiChoiceCtrl extends Controller {
 
         //Shuffling the answers so the first one is not always right, then setting the text and images
         Collections.shuffle(multiChoice.getActivities());
-        String path1 = multiChoice.getActivities().get(0).getImagePath();
-        String path2 = multiChoice.getActivities().get(1).getImagePath();
-        String path3 = multiChoice.getActivities().get(2).getImagePath();
+        byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
+        byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
+        byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
 
-        if(path1 != null) image1.setImage(new Image(new File(path1).toURI().toString()));
-        if(path2 != null) image2.setImage(new Image(new File(path2).toURI().toString()));
-        if(path3 != null) image3.setImage(new Image(new File(path3).toURI().toString()));
+        Image img1 = new Image(new ByteArrayInputStream(byteArr1));
+        Image img2 = new Image(new ByteArrayInputStream(byteArr2));
+        Image img3 = new Image(new ByteArrayInputStream(byteArr3));
+
+        image1.setImage(img1);
+        image2.setImage(img2);
+        image3.setImage(img3);
 
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
@@ -137,9 +141,10 @@ public class MultiChoiceCtrl extends Controller {
 
     /**
      * This method changes the color of the correct answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorsCorrect(Button button){
+    public void temporaryChangeButtonColorsCorrect(Button button) {
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
@@ -152,9 +157,10 @@ public class MultiChoiceCtrl extends Controller {
 
     /**
      * This method changes the color of the wrong answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorWrong(Button button){
+    public void temporaryChangeButtonColorWrong(Button button) {
         button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)

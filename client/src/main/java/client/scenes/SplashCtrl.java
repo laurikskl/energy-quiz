@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+
 import java.io.IOException;
 
 public class SplashCtrl extends Controller {
@@ -30,7 +31,6 @@ public class SplashCtrl extends Controller {
      * Is called automatically after constructor
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
-     *
      */
 
     @FXML
@@ -82,6 +82,7 @@ public class SplashCtrl extends Controller {
 
     /**
      * Changes the scene to the HowToPlay Scene.
+     *
      * @param actionEvent - the mouse clicked on the How To Play button
      * @throws IOException
      */
@@ -91,6 +92,7 @@ public class SplashCtrl extends Controller {
 
     /**
      * Changes the scene to the Admin Scene.
+     *
      * @param actionEvent - the mouse clicked on Admin button
      * @throws IOException when file is not found
      */

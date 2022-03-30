@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.ImageActivity;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
@@ -16,9 +17,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdminCtrl extends Controller{
+public class AdminCtrl extends Controller {
 
     @FXML
     private ImageView backImg;
@@ -38,8 +40,6 @@ public class AdminCtrl extends Controller{
     private TextField searchConsumptionMaxField;
     @FXML
     private TextField searchSourceField;
-    @FXML
-    private TextField searchImageField;
     @FXML
     private Button searchButton;
     @FXML
@@ -111,7 +111,7 @@ public class AdminCtrl extends Controller{
 
     //Table
     @FXML
-    private TableView<Activity> tableView;
+    private TableView<ImageActivity> tableView;
 
     //Fields
     private FileChooser fileChooser;
@@ -171,12 +171,12 @@ public class AdminCtrl extends Controller{
         });
 
         //Set up columns to automatically take in the correct attributes if an Activity gets added to the table as an item.
-        List<TableColumn<Activity, ?>> columns = this.tableView.getColumns();
+        List<TableColumn<ImageActivity, ?>> columns = this.tableView.getColumns();
         columns.get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         columns.get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         columns.get(2).setCellValueFactory(new PropertyValueFactory<>("powerConsumption"));
         columns.get(3).setCellValueFactory(new PropertyValueFactory<>("source"));
-        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("imagePath"));
+        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("button"));
 
         //Enable cell selection
         this.tableView.getSelectionModel().setCellSelectionEnabled(true);
@@ -238,15 +238,23 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to display activities in tableView
+     *
      * @param activities activities to show in the table
      */
     public void loadTable(List<Activity> activities) {
+        List<ImageActivity> imageActivities = new ArrayList<>();
+        activities.forEach(activity -> {
+            imageActivities.add(new ImageActivity(activity));
+        });
+
         this.tableView.getItems().clear();
-        this.tableView.getItems().addAll(activities);
+
+        this.tableView.getItems().addAll(imageActivities);
     }
 
     /**
      * Helper method to choose images
+     *
      * @return The absolute path of the selected file
      */
     private String chooseImage() {
@@ -261,6 +269,7 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to choose paths
+     *
      * @return The absolute path of the selected file
      */
     private String choosePath() {
@@ -285,16 +294,14 @@ public class AdminCtrl extends Controller{
         //Parse minConsumption to Long
         if (minConsumption.equals("")) {
             minConsumptionLong = null;
-        }
-        else {
+        } else {
             minConsumptionLong = Long.parseLong(minConsumption);
         }
 
         //Parse maxConsumption to Long
         if (maxConsumption.equals("")) {
             maxConsumptionLong = null;
-        }
-        else {
+        } else {
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
@@ -302,8 +309,7 @@ public class AdminCtrl extends Controller{
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
-                this.searchSourceField.getText(),
-                this.searchImageField.getText()
+                this.searchSourceField.getText()
         );
         this.loadTable(activities);
         this.searchStatusLabel.setText("Activities found: " + activities.size());

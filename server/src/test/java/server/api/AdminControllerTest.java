@@ -29,7 +29,7 @@ class AdminControllerTest {
 
         this.activities = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            Activity activity = new Activity("name" + i, Long.valueOf(i), "source"+ i, "imagePath" + i);
+            Activity activity = new Activity("name" + i, Long.valueOf(i), "source"+ i, null);
             activity.setId(Long.valueOf(i));
 
             this.activities.add(activity);
@@ -54,7 +54,7 @@ class AdminControllerTest {
      */
     @Test
     void getActivitiesByExample() {
-        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest("name0", 0l, 0l, "source0", "imagePath0");
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest("name0", 0l, 0l, "source0");
 
         assertEquals(this.adminController.getActivitiesByExample(activitySearchRequest), ResponseEntity.ok(List.of(this.activities.get(0))));
     }
