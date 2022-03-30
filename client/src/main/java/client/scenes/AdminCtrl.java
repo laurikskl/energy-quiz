@@ -138,7 +138,7 @@ public class AdminCtrl extends Controller{
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMinField content to numbers
         this.searchConsumptionMinField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -149,13 +149,24 @@ public class AdminCtrl extends Controller{
             }
         });
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMaxField content to numbers
         this.searchConsumptionMaxField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
                     searchConsumptionMaxField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        //Restrict removeByIDField content to numbers
+        this.removeByIDField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    removeByIDField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -365,6 +376,13 @@ public class AdminCtrl extends Controller{
      * @param actionEvent - the mouse clicked on removeSubmitButton
      */
     public void removeSubmit(ActionEvent actionEvent){
-
+        Long id = Long.parseLong(this.removeByIDField.getText());
+        this.removeStatusLabel.setText("Removing " + id);
+        if (this.server.removeById(id)) {
+            this.removeStatusLabel.setText("Removed " + id);
+        }
+        else {
+            this.removeStatusLabel.setText("Failed Removing " + id);
+        }
     }
 }

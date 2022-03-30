@@ -44,4 +44,14 @@ public class AdminController {
     public Boolean restart() {
         return Main.restart();
     }
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    @PostMapping("/removeById")
+    public Boolean removeById(@RequestBody Long ID) {
+        return this.adminService.removeById(ID);
+    }
 }

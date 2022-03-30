@@ -58,4 +58,15 @@ class AdminControllerTest {
 
         assertEquals(this.adminController.getActivitiesByExample(activitySearchRequest), ResponseEntity.ok(List.of(this.activities.get(0))));
     }
+
+    /**
+     * Test removeById
+     */
+    @Test
+    void removeById() {
+        this.adminController.removeById(0l);
+        List<Activity> activities = this.adminController.getAll();
+
+        assertEquals(activities.indexOf(this.activities.get(0)), -1);
+    }
 }
