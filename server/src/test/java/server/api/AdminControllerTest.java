@@ -29,8 +29,8 @@ class AdminControllerTest {
 
         this.activities = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            Activity activity = new Activity("name" + i, Long.valueOf(i), "source"+ i, null);
-            activity.setId(Long.valueOf(i));
+            Activity activity = new Activity("id" + i, "name" + i, Long.valueOf(i), "source"+ i, null);
+            activity.setId("" + i);
 
             this.activities.add(activity);
         }
@@ -54,7 +54,7 @@ class AdminControllerTest {
      */
     @Test
     void getActivitiesByExample() {
-        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest("name0", 0l, 0l, "source0");
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest("id0", "name0", 0l, 0l, "source0");
 
         assertEquals(this.adminController.getActivitiesByExample(activitySearchRequest), ResponseEntity.ok(List.of(this.activities.get(0))));
     }
@@ -64,7 +64,7 @@ class AdminControllerTest {
      */
     @Test
     void removeById() {
-        this.adminController.removeById(0l);
+        this.adminController.removeById("id" + 0);
         List<Activity> activities = this.adminController.getAll();
 
         assertEquals(activities.indexOf(this.activities.get(0)), -1);
