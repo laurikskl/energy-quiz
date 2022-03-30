@@ -163,7 +163,7 @@ public class ActivityTest {
     @Test
     public void toStringTest() {
         assertEquals("Activity{id=" + null + ", name='Cycling', powerConsumption=" + 420
-                        + ", source='randomURL1', imagePath='activities/00/tesla.jpg'" + '}'
+                        + ", source='randomURL1'" + '}'
                 , activity.toString());
     }
 
