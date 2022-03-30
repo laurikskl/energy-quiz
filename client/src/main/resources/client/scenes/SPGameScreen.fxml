@@ -20,7 +20,7 @@
                 <Font name="System Bold" size="40.0" />
             </font>
         </Text>
-        <Button id="back" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;">
+        <Button id="back" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #f1f1f1;">
             <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                     <image>

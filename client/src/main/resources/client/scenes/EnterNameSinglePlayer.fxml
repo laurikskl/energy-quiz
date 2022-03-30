@@ -23,7 +23,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </TextField>
-      <Button fx:id="play" alignment="CENTER" layoutX="770.0" layoutY="652.0" mnemonicParsing="false" onAction="#startGame" prefHeight="100.0" prefWidth="400.0" style="-fx-background-radius: 20;" text="PLAY!" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="play" alignment="CENTER" layoutX="770.0" layoutY="652.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="100.0" prefWidth="400.0" style="-fx-background-radius: 20;" text="PLAY!" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="System Bold" size="45.0" />
          </font>
@@ -38,7 +38,7 @@
             <Image url="@/entername/MaxThePlant.png" />
          </image>
       </ImageView>
-      <Button id="back" fx:id="backButton" layoutX="187.0" layoutY="56.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
+      <Button id="back" fx:id="backButton" layoutX="187.0" layoutY="56.0" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
