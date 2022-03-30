@@ -6,6 +6,7 @@ import commons.Question;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -79,7 +80,6 @@ public class ChoiceEstimationCtrl extends Controller{
         image.setImage(new Image(new File(path).toURI().toString()));
         activityButton.setText(choiceEstimation.getActivities().get(0).getName());
         setButtons();
-
     }
 
     /**
@@ -156,6 +156,8 @@ public class ChoiceEstimationCtrl extends Controller{
         } else {
             isCorrect = false;
         }
+        buttonsEnabled(false);
+
         showCorrect();
 
         //keep the same question while the correct answer shown
@@ -192,6 +194,7 @@ public class ChoiceEstimationCtrl extends Controller{
         } else {
             isCorrect = false;
         }
+        buttonsEnabled(false);
 
         showCorrect();
 
@@ -229,6 +232,7 @@ public class ChoiceEstimationCtrl extends Controller{
         } else {
             isCorrect = false;
         }
+        buttonsEnabled(false);
 
         showCorrect();
 
@@ -258,7 +262,18 @@ public class ChoiceEstimationCtrl extends Controller{
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(2)
+        );
+        pause.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parentCtrl.scoreAwardedVisibility(false, 0);
+            }
+        });
+        pause.play();
     }
 
     /**
@@ -271,13 +286,23 @@ public class ChoiceEstimationCtrl extends Controller{
     }
      */
 
+
     /**
-     * Disable all buttons
+     * Enable/disable all buttons
+     *
+     * @param enabled iff true buttons are enabled
      */
-    public void disableButtons() {
-        answer1.setDisable(false);
-        answer2.setDisable(false);
-        answer3.setDisable(false);
+
+    public void buttonsEnabled(boolean enabled) {
+        if(enabled) {
+            answer1.setDisable(false);
+            answer2.setDisable(false);
+            answer3.setDisable(false);
+        } else {
+            answer1.setDisable(true);
+            answer2.setDisable(true);
+            answer3.setDisable(true);
+        }
     }
 
 

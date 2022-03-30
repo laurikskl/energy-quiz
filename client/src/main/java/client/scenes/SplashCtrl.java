@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+
 import java.io.IOException;
 
 public class SplashCtrl extends Controller {
@@ -64,7 +65,7 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
 
-    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void mouseClickedSinglePlayer(ActionEvent actionEvent) throws IOException {
         getMainCtrl().showEnterNameSinglePlayer();
     }
 

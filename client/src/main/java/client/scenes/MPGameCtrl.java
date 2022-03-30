@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
+
 import java.io.IOException;
 
 public class MPGameCtrl extends Controller{

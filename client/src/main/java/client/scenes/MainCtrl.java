@@ -21,10 +21,13 @@ import commons.Player;
 import commons.Question;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ public class MainCtrl {
      * @param primaryStage the primary stage
      * @param scenes       List of pairs of Controller instances and roots for fxml loader
      */
-    public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
+    public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) throws FileNotFoundException {
         this.primaryStage = primaryStage;
 
         this.controllers = new ArrayList<>();
@@ -71,6 +74,8 @@ public class MainCtrl {
             e.printStackTrace();
         }
 
+        primaryStage.getIcons().add(new Image(new FileInputStream("client/src/main/resources/entername/MaxThePlant.png")));
+        primaryStage.setTitle("Save Max The Plant");
         showSplash();
     }
 
@@ -174,22 +179,27 @@ public class MainCtrl {
 
     /**
      * Load the MultipleChoice question frame
+     * Enable buttons after the question for the next question
      * @param parentCtrl
      * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) {
-        ((MultiChoiceCtrl) this.controllers.get(8)).start(parentCtrl, multiChoice);
+        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
+        multiChoiceCtrl.start(parentCtrl, multiChoice);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        multiChoiceCtrl.buttonsEnabled(true);
     }
 
     /**
      * Load the ChoiceEstimation question frame
+     * Enable buttons after the question for the next question
      * @param parentCtrl
      * @param choiceEstimation
      */
     public void startCE(Controller parentCtrl, Question choiceEstimation) {
         ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
+        ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
     }
 
     /**
