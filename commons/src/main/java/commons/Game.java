@@ -26,10 +26,6 @@ public class Game {
         this.round = 0;
     }
 
-    public enum Type {
-        LOBBYUPDATE
-    }
-
     /**
      * Basic constructor
      */

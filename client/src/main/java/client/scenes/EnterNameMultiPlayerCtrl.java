@@ -59,9 +59,10 @@ public class EnterNameMultiPlayerCtrl extends Controller {
                     getServer().setPlayer(usernameString, 0);
                 }
             } catch (Exception e) { //this should only happen when the server is null
+                e.printStackTrace();
                 player = new Player(usernameString, 0);
             }
-            getMainCtrl().makeConnection(player);
+            this.mainCtrl.makeConnection(player);
 //            LobbyCtrl ctrl = (LobbyCtrl) getMainCtrl().getControllers().get(5);
 //            ctrl.createLobby(List.of(player));
 //            getMainCtrl().showLobbyScreen(List.of(player));

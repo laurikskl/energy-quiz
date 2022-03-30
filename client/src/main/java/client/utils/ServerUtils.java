@@ -235,6 +235,7 @@ public class ServerUtils {
         } catch (InterruptedException e){
             Thread.currentThread().interrupt();
             } catch(ExecutionException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
         }
         throw new IllegalStateException();

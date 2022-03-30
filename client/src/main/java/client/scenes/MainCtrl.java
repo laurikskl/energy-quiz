@@ -21,6 +21,7 @@ import commons.Game;
 import commons.Player;
 import commons.Question;
 import commons.Screen;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -114,10 +115,9 @@ public class MainCtrl {
      */
     public void makeConnection(Player player){
         long id = server.getLobby();
-        server.send("/game/" + id + "/lobby/join", player);
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
-        server.registerForMessages("/game/"+id, Game.class, game -> {
+        server.registerForMessages("/topic/game/"+id, Game.class, game -> {
             if(current != game.screen) {
                 switch (game.screen) {
                     case LOBBY:
@@ -138,6 +138,7 @@ public class MainCtrl {
                     break;
             }
         });
+        server.send("/app/game/" + id + "/lobby/join", player);
 
     }
 
@@ -192,7 +193,7 @@ public class MainCtrl {
      *  removed the player parameter at the moment
      */
     public void showLobbyScreen() {
-        showScene(this.scenes.get(5));
+        Platform.runLater(() -> showScene(this.scenes.get(5))); ;
 
 //        //set up the lobby with the list of players
 //        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);

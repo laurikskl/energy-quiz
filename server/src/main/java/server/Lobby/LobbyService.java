@@ -2,7 +2,6 @@ package server.Lobby;
 
 import commons.Game;
 import commons.Player;
-import commons.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
 
-import static commons.Game.Type.LOBBYUPDATE;
 import static commons.Screen.LOBBY;
+import static commons.Type.LOBBYUPDATE;
 
 /**
  * Logic for the lobby.
@@ -29,7 +28,6 @@ public class LobbyService {
    //* @param simpMessagingTemplate
    */
 
-
   @Autowired
   public LobbyService(GameManagementService service,
                       SimpMessagingTemplate simpMessagingTemplate) {
@@ -41,13 +39,13 @@ public class LobbyService {
   /**
    * Adds the player that entered their name in the multiplayer enter
    * name screen to a lobby.
-   * @param dest the destination in the message mapping
    * @param p the player that joined
    */
 
-  @MessageMapping("/game/{id}/lobby/join")
-  public void onJoin(String dest, Player p){
+
+  public void onJoin(Player p){
     currentLobby.getPlayers().add(p);
+    System.out.println("Player added to lobby");
     refreshLobbyTable();
   }
 
