@@ -19,6 +19,11 @@ package commons;
 import org.json.JSONObject;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -34,8 +39,7 @@ public class Activity implements Comparable {
      */
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    public String id;
 
     @Column
     public String name;
@@ -43,8 +47,6 @@ public class Activity implements Comparable {
     public Long powerConsumption;
     @Column(length = 500)
     public String source;
-    //    @Column
-//    public String imagePath;
     @Column
     @Lob
     public byte[] imageContent;
@@ -60,32 +62,20 @@ public class Activity implements Comparable {
 
 
     /**
-     * Constructor with name, powerConsumption, source and imagePath
+     * Constructor with name, powerConsumption, source and imageContent
      *
+     * @param id               id of activity
      * @param name             title of activity
      * @param powerConsumption consumption of activity in wh
      * @param source           source of info
      * @param imageContent     content of the image
      */
-    public Activity(String name, Long powerConsumption, String source, byte[] imageContent) {
+    public Activity(String id, String name, Long powerConsumption, String source, byte[] imageContent) {
+        this.id = id;
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
         this.imageContent = imageContent;
-    }
-
-
-    /**
-     * Constructor with name, power consupmtion and source
-     *
-     * @param name             title of activity
-     * @param powerConsumption consumption of activity in wh
-     * @param source           source of info
-     */
-    public Activity(String name, Long powerConsumption, String source) {
-        this.name = name;
-        this.powerConsumption = powerConsumption;
-        this.source = source;
     }
 
 
@@ -96,13 +86,26 @@ public class Activity implements Comparable {
      * @return Activity from a JSON
      */
 
-    public static Activity JSONActivityReader(String jsonString) {
+    public static Activity JSONActivityReader(String jsonString, String path) {
         JSONObject jsonObject = new JSONObject(jsonString);
+        String id = jsonObject.getString("id");
         String name = jsonObject.getString("title");
         Long powerConsumption = jsonObject.getLong("consumption_in_wh");
         String source = jsonObject.getString("source");
 
-        return new Activity(name, powerConsumption, source);
+        Path imagePath = Path.of(path, (jsonObject.getString("image_path")));
+
+        byte[] imageContent = null;
+
+        if (Files.exists(imagePath)){
+            try {
+                imageContent = Files.readAllBytes(imagePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new Activity(id, name, powerConsumption, source, imageContent);
     }
 
 
@@ -111,7 +114,7 @@ public class Activity implements Comparable {
      *
      * @return id
      */
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -121,7 +124,7 @@ public class Activity implements Comparable {
      *
      * @param id
      */
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -204,63 +207,34 @@ public class Activity implements Comparable {
         this.imageContent = imageContent;
     }
 
-    //    /**
-//     * Getter fot the image path
-//     *
-//     * @return imagePath
-//     */
-//    public String getImagePath() {
-//        return imagePath;
-//    }
-//
-//
-//    /**
-//     * Setter for the image path
-//     *
-//     * @param imagePath path of image
-//     */
-//    public void setImagePath(String imagePath) {
-//        this.imagePath = imagePath;
-//    }
-
 
     /**
-     * Equals method comparing all fields except id of the activity class
-     *
-     * @param o other object
-     * @return If the fields match the activities are treated as equal and the method returns true
+     * @param obj
+     * @return if this equals obj
      */
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Activity activity = (Activity) o;
-        return Objects.equals(name, activity.name)
-                && Objects.equals(powerConsumption, activity.powerConsumption)
-                && Objects.equals(source, activity.source)
-                && Objects.equals(imageContent, activity.imageContent);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Activity activity = (Activity) obj;
+        return Objects.equals(id, activity.id) && Objects.equals(name, activity.name) && Objects.equals(powerConsumption, activity.powerConsumption) && Objects.equals(source, activity.source) && Arrays.equals(imageContent, activity.imageContent);
     }
 
-
     /**
-     * Hash method creating hash from name, powerConsumption, source and image path
-     *
-     * @return hashcode of Activity
+     * @return hashCode of the object
      */
-
     @Override
     public int hashCode() {
-        return Objects.hash(name, powerConsumption, source, imageContent);
+        int result = Objects.hash(id, name, powerConsumption, source);
+        result = 31 * result + Arrays.hashCode(imageContent);
+        return result;
     }
-
 
     /**
      * To string method listing all parameters of activity except image content
      *
      * @return stringified activity
      */
-
     @Override
     public String toString() {
         return "Activity{" +
@@ -280,7 +254,6 @@ public class Activity implements Comparable {
      * 1 if consumption is lower than of o,
      * -1 if consumption is higher than of o
      */
-
     @Override
     public int compareTo(Object o) {
         Activity that = (Activity) o;

@@ -56,63 +56,38 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="14.0" layoutY="18.0" text="Name:" />
-                              <TextField fx:id="searchNameField" layoutX="98.0" layoutY="14.0" />
-                              <Label layoutX="14.0" layoutY="44.0" text="Consumption:" />
-                              <TextField fx:id="searchConsumptionMinField" layoutX="98.0" layoutY="40.0" prefHeight="26.0" prefWidth="64.0" />
-                              <Label layoutX="170.0" layoutY="44.0" text="-" />
-                              <TextField fx:id="searchConsumptionMaxField" layoutX="184.0" layoutY="40.0" prefHeight="26.0" prefWidth="64.0" />
-                              <Label layoutX="14.0" layoutY="70.0" text="Source:" />
-                              <TextField fx:id="searchSourceField" layoutX="98.0" layoutY="66.0" />
-                              <Button fx:id="searchButton" layoutX="101.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#search" text="Search" />
-                              <Button fx:id="searchShowAllButton" layoutX="158.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#showAll" text="Show All" />
-                              <Label fx:id="searchStatusLabel" layoutX="14.0" layoutY="124.0" />
+                              <Label layoutX="14.0" layoutY="18.0" text="ID:" />
+                              <TextField fx:id="searchIDField" layoutX="98.0" layoutY="14.0" />
+                              <Label layoutX="14.0" layoutY="44.0" text="Name:" />
+                              <TextField fx:id="searchNameField" layoutX="98.0" layoutY="40.0" />
+                              <Label layoutX="14.0" layoutY="70.0" text="Consumption:" />
+                              <TextField fx:id="searchConsumptionMinField" layoutX="98.0" layoutY="66.0" prefHeight="26.0" prefWidth="64.0" />
+                              <Label layoutX="170.0" layoutY="70.0" text="-" />
+                              <TextField fx:id="searchConsumptionMaxField" layoutX="184.0" layoutY="66.0" prefHeight="26.0" prefWidth="64.0" />
+                              <Label layoutX="14.0" layoutY="96.0" text="Source:" />
+                              <TextField fx:id="searchSourceField" layoutX="98.0" layoutY="92.0" />
+                              <Button fx:id="searchButton" layoutX="101.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#search" text="Search" />
+                              <Button fx:id="searchShowAllButton" layoutX="158.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#showAll" text="Show All" />
+                              <Label fx:id="searchStatusLabel" layoutX="14.0" layoutY="150.0" />
                            </children>
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                  <TitledPane animated="false" prefHeight="200.0" prefWidth="200.0" text="Add">
+                  <TitledPane prefHeight="200.0" prefWidth="200.0" text="Add from Activity Bank">
                      <content>
-                        <Accordion>
-                          <panes>
-                            <TitledPane animated="false" text="By hand">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Label layoutX="16.0" layoutY="13.0" text="Name:" />
-                                          <TextField fx:id="addNameField" layoutX="133.0" layoutY="9.0" />
-                                          <Label layoutX="16.0" layoutY="39.0" text="Consumption:" />
-                                          <TextField fx:id="addConsumptionField" layoutX="133.0" layoutY="35.0" />
-                                          <Label layoutX="16.0" layoutY="65.0" text="Source:" />
-                                          <TextField fx:id="addSourceField" layoutX="133.0" layoutY="61.0" />
-                                          <Label layoutX="14.0" layoutY="90.0" text="Image Path:" />
-                                          <TextField fx:id="addImageField" layoutX="133.0" layoutY="86.0" prefHeight="26.0" prefWidth="96.0" />
-                                          <Button fx:id="addImageBrowseButton" layoutX="229.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#addImageBrowse" text="Browse" />
-                                          <Button fx:id="addSubmitButton" layoutX="139.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#addSubmit" text="Add" />
-                                          <Label fx:id="addStatusLabel" layoutX="13.0" layoutY="145.0" />
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </TitledPane>
-                            <TitledPane animated="false" text="From Activity Bank">
-                                 <content>
-                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <Label layoutX="14.0" layoutY="15.0" text="Path:" />
-                                          <TextField fx:id="aBPathField" layoutX="73.0" layoutY="10.0" prefHeight="26.0" prefWidth="96.0" />
-                                          <Button fx:id="aBPathBrowseButton" layoutX="169.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#aBPathBrowse" text="Browse" />
-                                          <CheckBox fx:id="aBOverrideCB" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Override Database" />
-                                          <Button fx:id="aBSubmitButton" layoutX="120.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#aBSubmit" text="Add" />
-                                          <Label fx:id="aBStatusLabel" layoutX="14.0" layoutY="106.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                          </panes>
-                        </Accordion>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="15.0" text="Path:" />
+                              <TextField fx:id="aBPathField" layoutX="73.0" layoutY="10.0" prefHeight="26.0" prefWidth="96.0" />
+                              <Button fx:id="aBPathBrowseButton" layoutX="169.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#aBPathBrowse" text="Browse" />
+                              <CheckBox fx:id="aBOverrideCB" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="Override Database" />
+                              <Button fx:id="aBSubmitButton" layoutX="120.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#aBSubmit" text="Add" />
+                              <Label fx:id="aBStatusLabel" layoutX="14.0" layoutY="106.0" />
+                           </children>
+                        </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" text="Remove">
+                  <TitledPane animated="false" text="Remove by ID">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
