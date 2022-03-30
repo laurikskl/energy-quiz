@@ -26,6 +26,12 @@ public class AdminCtrl extends Controller {
     @FXML
     private ImageView backImg;
 
+    //Restart
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Label restartStatusLabel;
+
     //Search
     @FXML
     private TextField searchNameField;
@@ -125,11 +131,14 @@ public class AdminCtrl extends Controller {
         this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
+    /**
+     * Initialize nodes in the scene just after the constructor has been called.
+     */
     @FXML
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMinField content to numbers
         this.searchConsumptionMinField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -140,13 +149,24 @@ public class AdminCtrl extends Controller {
             }
         });
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMaxField content to numbers
         this.searchConsumptionMaxField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
                     searchConsumptionMaxField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        //Restrict removeByIDField content to numbers
+        this.removeByIDField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    removeByIDField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -173,6 +193,23 @@ public class AdminCtrl extends Controller {
         getMainCtrl().showSplash();
     }
 
+    /**
+     * Restart the server and show if it succeeded or not.
+     *
+     * @param actionEvent - the mouse clicked on the Restart Server button
+     */
+    public void mouseClickedRestart(ActionEvent actionEvent) {
+        if (this.server.restart()) {
+            this.restartStatusLabel.setText("Restarted");
+        }
+        else {
+            this.restartStatusLabel.setText("Restart Failed");
+        }
+    }
+
+    /** Copy the contents of the selected cell in string format if the table is selected and ctrl+c is pressed.
+     * @param keyEvent Key combination
+     */
     public void tableViewKeyEvent(KeyEvent keyEvent) {
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
@@ -271,7 +308,7 @@ public class AdminCtrl extends Controller {
             maxConsumptionLong = Long.parseLong(maxConsumption);
         }
 
-        List<Activity> activities = getServer().getActivitiesByExample(
+        List<Activity> activities = this.server.getActivitiesByExample(
                 this.searchNameField.getText(),
                 minConsumptionLong,
                 maxConsumptionLong,
@@ -289,7 +326,7 @@ public class AdminCtrl extends Controller {
     public void showAll(ActionEvent actionEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
-        List<Activity> activities = getServer().getAllActivities();
+        List<Activity> activities = this.server.getAllActivities();
         this.loadTable(activities);
 
         this.searchStatusLabel.setText("Activities found: " + activities.size());
@@ -354,7 +391,14 @@ public class AdminCtrl extends Controller {
      *
      * @param actionEvent - the mouse clicked on removeSubmitButton
      */
-    public void removeSubmit(ActionEvent actionEvent) {
-
+    public void removeSubmit(ActionEvent actionEvent){
+        Long id = Long.parseLong(this.removeByIDField.getText());
+        this.removeStatusLabel.setText("Removing " + id);
+        if (this.server.removeById(id)) {
+            this.removeStatusLabel.setText("Removed " + id);
+        }
+        else {
+            this.removeStatusLabel.setText("Failed Removing " + id);
+        }
     }
 }

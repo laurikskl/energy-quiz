@@ -97,6 +97,9 @@ public class ActivitySearchRequest implements Serializable {
         return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source);
     }
 
+    /**
+     * @return a string representation of this object
+     */
     @Override
     public String toString() {
         return "ActivitySearchRequest{" +

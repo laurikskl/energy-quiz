@@ -1,4 +1,4 @@
-package server.Player;
+package server.database;
 
 import commons.Player;
 import org.springframework.data.jpa.repository.JpaRepository;

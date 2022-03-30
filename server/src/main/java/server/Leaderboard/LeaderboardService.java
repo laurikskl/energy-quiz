@@ -2,7 +2,7 @@ package server.Leaderboard;
 
 import commons.Player;
 import org.springframework.stereotype.Service;
-import server.Player.PlayerRepository;
+import server.database.PlayerRepository;
 
 import java.util.Collections;
 import java.util.List;
