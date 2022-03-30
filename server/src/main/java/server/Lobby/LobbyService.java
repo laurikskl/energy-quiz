@@ -2,6 +2,7 @@ package server.Lobby;
 
 import commons.Game;
 import commons.Player;
+import commons.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
 
 import static commons.Game.Type.LOBBYUPDATE;
+import static commons.Screen.LOBBY;
 
 /**
  * Logic for the lobby.
@@ -55,6 +57,7 @@ public class LobbyService {
   public void refreshLobbyTable(){
     long id = currentLobby.getId();
     currentLobby.type = LOBBYUPDATE;
+    currentLobby.screen = LOBBY;
     simpMessagingTemplate.convertAndSend("/topic/game/" + id, currentLobby );
   }
 
