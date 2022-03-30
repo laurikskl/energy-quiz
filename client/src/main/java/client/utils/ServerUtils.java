@@ -294,7 +294,7 @@ public class ServerUtils {
      * @param ID
      * @return true if removing, false otherwise
      */
-    public Boolean removeById(Long ID) {
+    public Boolean removeById(String ID) {
         try {
             return ClientBuilder.newClient(new ClientConfig())
                     .target(SERVER).path("api/admin/removeById").

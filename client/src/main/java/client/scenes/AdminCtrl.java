@@ -327,7 +327,7 @@ public class AdminCtrl extends Controller {
      * @param mouseEvent - the mouse clicked on removeSubmitButton
      */
     public void removeSubmit(MouseEvent mouseEvent){
-        Long id = Long.parseLong(this.removeByIDField.getText());
+        String id = this.removeByIDField.getText();
         this.removeStatusLabel.setText("Removing " + id);
         if (this.server.removeById(id)) {
             this.removeStatusLabel.setText("Removed " + id);
