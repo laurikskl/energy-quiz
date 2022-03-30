@@ -64,7 +64,7 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
 
-    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void mouseClickedSinglePlayer(ActionEvent actionEvent) throws IOException {
         getMainCtrl().showEnterNameSinglePlayer();
     }
 

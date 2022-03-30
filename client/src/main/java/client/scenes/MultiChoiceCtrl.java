@@ -7,6 +7,7 @@ import commons.Question;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,7 +17,6 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Collections;
 
 /**
  * This class handles the multiChoice question type, by:
@@ -32,6 +32,8 @@ public class MultiChoiceCtrl extends Controller {
     private Question multiChoice;
     private SPGameCtrl parentCtrl;
 
+
+    private Activity correctActivity;
     private int isCorrect;
     private Instant instant;
     private Long start;
@@ -72,8 +74,10 @@ public class MultiChoiceCtrl extends Controller {
         this.start = instant.getEpochSecond();
         //Set Question
         this.multiChoice = multiChoice;
+        //Set correct activity
+        this.correctActivity = multiChoice.getCorrect();
         //Finds the correct answer and inserts its name in the correctActivityName field
-        setCorrectAnswer();
+        this.correctActivityName = correctActivity.getName();
 
         //Shuffling the answers so the first one is not always right, then setting the text and images
         Collections.shuffle(multiChoice.getActivities());
@@ -96,32 +100,24 @@ public class MultiChoiceCtrl extends Controller {
     }
 
     /**
-     * Loops over activities and finds which one is the correct one
-     */
-    public void setCorrectAnswer() {
-        Long correctActivityIndex = multiChoice.getCorrect().getId();
-        String correctActivityName = "";
-        for (Activity act : multiChoice.getActivities()) {
-            if (act.getId() == correctActivityIndex)
-                correctActivityName = act.getName();
-        }
-        this.correctActivityName = correctActivityName;
-    }
-
-    /**
      * Paints the buttons, the wrong answers are painted red and the correct one is painted
      * green
      **/
     public void showCorrect() {
-        Button correct = answer1;
-        Button wrong1 = answer2;
-        Button wrong2 = answer3;
+        Button correct = null;
+        Button wrong1 = null;
+        Button wrong2 = null;
 
-        if (answer2.getText().equals(correctActivityName)) {
+        //set the correct and wrong buttons
+        if(answer1.getText().equals(correctActivityName)) {
+            correct = answer1;
+            wrong1 = answer2;
+            wrong2 = answer3;
+        } else if(answer2.getText().equals(correctActivityName)) {
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
-        } else if (answer3.getText().equals(correctActivityName)) {
+        } else {
             correct = answer3;
             wrong1 = answer1;
             wrong2 = answer2;
@@ -180,15 +176,6 @@ public class MultiChoiceCtrl extends Controller {
     }
 
     /**
-     * Getter returning true if the user was correct
-     *
-     * @return
-     */
-    public int getIsCorrect() {
-        return isCorrect;
-    }
-
-    /**
      * When first answer button is pressed check if it was the correct answer
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
@@ -204,6 +191,7 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+        buttonsEnabled(false);
 
         //show which answer was the correct one (for 3 seconds)
         showCorrect();
@@ -243,6 +231,7 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+        buttonsEnabled(false);
 
         showCorrect();
         PauseTransition pause = new PauseTransition(
@@ -279,6 +268,7 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+        buttonsEnabled(false);
 
         showCorrect();
         PauseTransition pause = new PauseTransition(
@@ -299,23 +289,46 @@ public class MultiChoiceCtrl extends Controller {
 
     }
 
+
     /**
      * Add score for the question and refresh the SPGameScreen (visible update question counter and score)
+     * Also show how much points awarded for the question
      *
      * @throws InterruptedException
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(2)
+        );
+        pause.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parentCtrl.scoreAwardedVisibility(false, 0);
+            }
+        });
+        pause.play();
     }
 
+
     /**
-     * Disable all buttons
+     * Enable/disable all buttons
+     *
+     * @param enabled iff true buttons are enabled
      */
-    public void disableButtons() {
-        answer1.setDisable(false);
-        answer2.setDisable(false);
-        answer3.setDisable(false);
+
+    public void buttonsEnabled(boolean enabled) {
+        if(enabled) {
+            answer1.setDisable(false);
+            answer2.setDisable(false);
+            answer3.setDisable(false);
+        } else {
+            answer1.setDisable(true);
+            answer2.setDisable(true);
+            answer3.setDisable(true);
+        }
     }
 
 }

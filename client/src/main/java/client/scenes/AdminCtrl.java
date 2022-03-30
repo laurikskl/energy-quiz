@@ -6,7 +6,6 @@ import commons.Activity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -185,10 +184,10 @@ public class AdminCtrl extends Controller{
 
     /**
      * Go back to the Splash screen
-     * @param actionEvent - the mouse clicked on the Back button
+     * @param mouseEvent - the mouse clicked on the Back button
      * @throws IOException
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showSplash();
     }
 
@@ -272,9 +271,9 @@ public class AdminCtrl extends Controller{
 
     /**
      * Search the Activity Database and put the result in tableView
-     * @param actionEvent - the mouse clicked on searchButton
+     * @param mouseEvent - the mouse clicked on searchButton
      */
-    public void search(ActionEvent actionEvent) {
+    public void search(MouseEvent mouseEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
         String minConsumption = this.searchConsumptionMinField.getText();
@@ -312,9 +311,9 @@ public class AdminCtrl extends Controller{
 
     /**
      * Show all activities from the Activity Database
-     * @param actionEvent - the mouse clicked on searchButton
+     * @param mouseEvent - the mouse clicked on searchButton
      */
-    public void showAll(ActionEvent actionEvent) {
+    public void showAll(MouseEvent mouseEvent) {
         this.searchStatusLabel.setText("Retrieving...");
 
         List<Activity> activities = this.server.getAllActivities();
@@ -325,57 +324,57 @@ public class AdminCtrl extends Controller{
 
     /**
      * Browse for an image and put its absolute path in editImageField.
-     * @param actionEvent - the mouse clicked on editImageBrowseButton
+     * @param mouseEvent - the mouse clicked on editImageBrowseButton
      */
-    public void editImageBrowse(ActionEvent actionEvent){
+    public void editImageBrowse(MouseEvent mouseEvent){
         this.editImageField.setText(chooseImage());
     }
 
     /**
      * Edit an Activity
-     * @param actionEvent - the mouse clicked on editSubmitButton
+     * @param mouseEvent - the mouse clicked on editSubmitButton
      */
-    public void editSubmit(ActionEvent actionEvent){
+    public void editSubmit(MouseEvent mouseEvent){
 
     }
 
     /**
      * Browse for an image and put its absolute path in addImageField.
-     * @param actionEvent - the mouse clicked on addImageBrowseButton
+     * @param mouseEvent - the mouse clicked on addImageBrowseButton
      */
-    public void addImageBrowse(ActionEvent actionEvent){
+    public void addImageBrowse(MouseEvent mouseEvent){
         this.addImageField.setText(chooseImage());
     }
 
     /**
      * Add an Activity
-     * @param actionEvent - the mouse clicked on AddSubmitButton
+     * @param mouseEvent - the mouse clicked on AddSubmitButton
      */
-    public void addSubmit(ActionEvent actionEvent){
+    public void addSubmit(MouseEvent mouseEvent){
 
     }
 
     /**
      * Browse for a folder and put its absolute path in ABPathField.
-     * @param actionEvent - the mouse clicked on ABPathBrowseButton
+     * @param mouseEvent - the mouse clicked on ABPathBrowseButton
      */
-    public void aBPathBrowse(ActionEvent actionEvent){
+    public void aBPathBrowse(MouseEvent mouseEvent){
         this.aBPathField.setText(choosePath());
     }
 
     /**
      * Add all Activities from an Activity Bank
-     * @param actionEvent - the mouse clicked on aBSubmitButton
+     * @param mouseEvent - the mouse clicked on aBSubmitButton
      */
-    public void aBSubmit(ActionEvent actionEvent){
+    public void aBSubmit(MouseEvent mouseEvent){
 
     }
 
     /**
      * Remove an Activity
-     * @param actionEvent - the mouse clicked on removeSubmitButton
+     * @param mouseEvent - the mouse clicked on removeSubmitButton
      */
-    public void removeSubmit(ActionEvent actionEvent){
+    public void removeSubmit(MouseEvent mouseEvent){
         Long id = Long.parseLong(this.removeByIDField.getText());
         this.removeStatusLabel.setText("Removing " + id);
         if (this.server.removeById(id)) {
