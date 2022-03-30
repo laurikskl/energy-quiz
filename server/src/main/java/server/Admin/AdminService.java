@@ -42,12 +42,13 @@ public class AdminService {
      * @param source if this is a substring of the property path "source", select that activity
      * @return a list of selected Activities
      */
-    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+    public List<Activity> getByExample(String id, String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
 
-        Activity activity = new Activity(name, null, source, null);
+        Activity activity = new Activity(id, name, null, source, null);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
+                .withMatcher("id", GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("name", GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("source", GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("imagePath", GenericPropertyMatchers.contains().ignoreCase())
@@ -71,11 +72,30 @@ public class AdminService {
     }
 
     /**
+     * Add activities from an Activity Bank with the choice to retain the old Activities or to override them.
+     * @param activities List of activities to add
+     * @param override Should the previous activities be deleted?
+     * @return the amount of Activities added
+     */
+    public Integer AddBank(List<Activity> activities, boolean override) {
+        if (override) {
+            repository.deleteAll();
+        }
+        else {
+            activities.removeAll(repository.findAll());
+        }
+
+        repository.saveAll(activities);
+
+        return activities.size();
+    }
+
+    /**
      * Remove activity by ID
      * @param ID
      * @return true if removing, false otherwise
      */
-    public Boolean removeById(Long ID) {
+    public Boolean removeById(String ID) {
         Activity activity = new Activity();
         activity.setId(ID);
 
@@ -93,5 +113,4 @@ public class AdminService {
         this.repository.delete(activities.get(0));
         return true;
     }
-
 }
