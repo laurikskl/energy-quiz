@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.List;
 
 public class EnterNameMultiPlayerCtrl extends Controller {
 
