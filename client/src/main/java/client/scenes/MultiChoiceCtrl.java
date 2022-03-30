@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Collections;
 
 /**
  * This class handles the multiChoice question type, by:

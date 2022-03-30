@@ -194,9 +194,9 @@ public class AdminCtrl extends Controller {
     /**
      * Restart the server and show if it succeeded or not.
      *
-     * @param actionEvent - the mouse clicked on the Restart Server button
+     * @param mouseEvent - the mouse clicked on the Restart Server button
      */
-    public void mouseClickedRestart(ActionEvent actionEvent) {
+    public void mouseClickedRestart(MouseEvent mouseEvent) {
         if (this.server.restart()) {
             this.restartStatusLabel.setText("Restarted");
         }
