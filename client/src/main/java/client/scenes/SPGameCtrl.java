@@ -4,11 +4,11 @@ import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -46,6 +46,8 @@ public class SPGameCtrl extends Controller {
     private Text name;
     @FXML
     private Text questionNumber;
+    @FXML
+    private Text scoreAwarded;
 
 
     @FXML
@@ -93,10 +95,13 @@ public class SPGameCtrl extends Controller {
         name.setText(player.getUserName());
         scoreCount.setText("Score: 0");
         questionNumber.setText("1/20");
+        scoreAwardedVisibility(false, 0);
 
         while (questions.isEmpty()) { //Maybe questions.isEmpty()?
             try {
+                System.out.println("got here");
                 questions = getServer().getQuestions();
+                System.out.println("here too");
             } catch (Exception e) {
                 System.out.println("something went wrong here");
             }
@@ -123,6 +128,23 @@ public class SPGameCtrl extends Controller {
         doAQuestion(questions.get(this.getqCount()));
 
     }
+
+
+    /**
+     * @param visible true iff scoreAwarded should be visible
+     * @param points the points awarded for a question
+     */
+
+    public void scoreAwardedVisibility(boolean visible, int points) {
+        if(visible) {
+            scoreAwarded.setVisible(true);
+            scoreAwarded.setText("+" + points);
+        } else {
+            scoreAwarded.setVisible(false);
+        }
+
+    }
+
 
     /**
      * This method resets the text for the countdown timer every second.
@@ -272,7 +294,7 @@ public class SPGameCtrl extends Controller {
      * @param actionEvent click
      * @throws IOException when file not found or misread
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent actionEvent) throws IOException {
         //sets the scene back to the main screen
         getMainCtrl().showSplash();
     }
@@ -427,4 +449,6 @@ public class SPGameCtrl extends Controller {
     public Timer getTimer() {
         return timer;
     }
+
+
 }
