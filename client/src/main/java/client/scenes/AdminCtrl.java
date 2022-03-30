@@ -232,18 +232,10 @@ public class AdminCtrl extends Controller {
 
         this.tableView.getItems().addAll(imageActivities);
     }
-
-    /**
-     * Helper method to choose paths
-     *
-     * @return The absolute path of the selected file
-     */
     private String chooseJson() {
         this.fileChooser.setTitle("Select A Json file in the Activity Bank");
         this.fileChooser.getExtensionFilters().setAll(
                 new FileChooser.ExtensionFilter("JSON", "*.json")
-        );
-
         File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
 
         if (file == null) return null;
