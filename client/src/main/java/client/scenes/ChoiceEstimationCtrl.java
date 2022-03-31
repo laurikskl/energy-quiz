@@ -158,22 +158,8 @@ public class ChoiceEstimationCtrl extends Controller{
         }
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**
@@ -195,22 +181,8 @@ public class ChoiceEstimationCtrl extends Controller{
 
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**
@@ -232,22 +204,8 @@ public class ChoiceEstimationCtrl extends Controller{
 
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**

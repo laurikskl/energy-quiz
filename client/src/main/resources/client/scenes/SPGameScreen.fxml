@@ -31,7 +31,7 @@
                 <Font size="60.0" />
             </font>
         </Text>
-        <Text fx:id="counterTimer" fill="RED" layoutX="1473.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15 seconds">
+        <Text fx:id="counterTimer" fill="RED" layoutX="1473.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" --:--">
             <font>
                 <Font name="System Bold" size="40.0" />
             </font>

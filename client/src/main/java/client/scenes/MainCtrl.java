@@ -66,7 +66,7 @@ public class MainCtrl {
             this.scenes.get(5).getStylesheets().add(new File("client/src/main/resources/stylesheets/lobby.css").toURI().toURL().toExternalForm());
             this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
             this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
-            this.scenes.get(8).getStylesheets().add(new File("stylesheets/endGame.css").toURI().toURL().toExternalForm());
+            this.scenes.get(11).getStylesheets().add(new File("stylesheets/endGame.css").toURI().toURL().toExternalForm());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -152,7 +152,7 @@ public class MainCtrl {
     }
 
     public void showEndGame(){
-        showScene(this.scenes.get(8));
+        showScene(this.scenes.get(11));
     }
 
     /**

@@ -17,7 +17,7 @@
             <Font size="60.0" />
          </font>
       </Text>
-      <Button fx:id="playAgain" layoutX="741.0" layoutY="752.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="417.0" text="PLAY AGAIN!">
+      <Button fx:id="playAgain" onAction="#playAgain" layoutX="741.0" layoutY="752.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="417.0" text="PLAY AGAIN!">
          <font>
             <Font size="40.0" />
          </font>

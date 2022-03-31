@@ -144,6 +144,7 @@ public class MultiChoiceCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorsCorrect(Button button){
+
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
@@ -208,23 +209,8 @@ public class MultiChoiceCtrl extends Controller {
         //show which answer was the correct one (for 3 seconds)
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
-
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**
@@ -245,21 +231,9 @@ public class MultiChoiceCtrl extends Controller {
         }
 
         showCorrect();
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
 
     }
 
@@ -281,21 +255,9 @@ public class MultiChoiceCtrl extends Controller {
         }
 
         showCorrect();
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
 
     }
 

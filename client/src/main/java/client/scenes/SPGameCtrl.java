@@ -117,13 +117,14 @@ public class SPGameCtrl extends Controller {
      * @throws InterruptedException
      */
     public void startNewQuestion() throws IOException, InterruptedException {
-
-        //for now, I will make the application exit after the player has done 20 questions
+        //Checks if the user has reached 20 questions and finished his turn.
+        //If he did, show the final screen.
         if (this.getqCount()==20) {
-            Platform.exit();
+            timer.stop();
+            this.getMainCtrl().showEndGame();
         }
-        doAQuestion(questions.get(this.getqCount()));
 
+        doAQuestion(questions.get(this.getqCount()));
     }
 
     /**
@@ -142,19 +143,24 @@ public class SPGameCtrl extends Controller {
                 seconds--;
 
                 //if more than 15 seconds passed, move on to the next question
-                if (seconds<0){
+                if (seconds==0){
 
-                    timer.stop();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            timer.stop();
 
-                    try {
-                        startNewQuestion();
-                        return;
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+                            try {
+                                startNewQuestion();
+                                return;
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        });
                     }
-                }
                 counterTimer.setText(seconds + " seconds");
             }
         });
@@ -168,6 +174,15 @@ public class SPGameCtrl extends Controller {
      */
     public void resetSeconds(){
         this.seconds = 16;
+    }
+
+    /**
+     * Update visible score and visible question counter.
+     */
+    public void refresh(){
+
+        scoreCount.setText(String.valueOf(score));
+        //questionNumber.setText(qCount + "/20");
     }
 
     public BorderPane getQuestionFrame() {
@@ -415,19 +430,26 @@ public class SPGameCtrl extends Controller {
     }
 
     /**
-     * Update visible score and visible question counter.
-     */
-    public void refresh(){
-
-        scoreCount.setText(String.valueOf(score));
-        //questionNumber.setText(qCount + "/20");
-    }
-
-    /**
      * This method returns the timer.
      * @return timer
      */
     public Timer getTimer() {
         return timer;
+    }
+
+    /**
+     *
+     * @return the text with how many seconds this has left
+     */
+    public Text getCounterTimer() {
+        return counterTimer;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 }
