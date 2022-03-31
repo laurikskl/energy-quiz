@@ -7,16 +7,19 @@ import commons.Question;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.Instant;
-import java.util.Collections;
 
 /**
  * This class handles the multiChoice question type, by:
@@ -32,6 +35,8 @@ public class MultiChoiceCtrl extends Controller {
     private Question multiChoice;
     private SPGameCtrl parentCtrl;
 
+
+    private Activity correctActivity;
     private int isCorrect;
     private Instant instant;
     private Long start;
@@ -62,7 +67,7 @@ public class MultiChoiceCtrl extends Controller {
         super(server, mainCtrl);
     }
 
-    public void start(Controller parentCtrl, Question multiChoice) {
+    public void start(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         this.parentCtrl = (SPGameCtrl) parentCtrl;
         //Set the isCorrect to -1 meaning there was no answer
         this.isCorrect = -1;
@@ -72,18 +77,37 @@ public class MultiChoiceCtrl extends Controller {
         this.start = instant.getEpochSecond();
         //Set Question
         this.multiChoice = multiChoice;
+        //Set correct activity
+        this.correctActivity = multiChoice.getCorrect();
         //Finds the correct answer and inserts its name in the correctActivityName field
-        setCorrectAnswer();
+        this.correctActivityName = correctActivity.getName();
 
-        //Shuffling the answers so the first one is not always right, then setting the text and images
-        Collections.shuffle(multiChoice.getActivities());
-        String path1 = multiChoice.getActivities().get(0).getImagePath();
-        String path2 = multiChoice.getActivities().get(1).getImagePath();
-        String path3 = multiChoice.getActivities().get(2).getImagePath();
 
-        if(path1 != null) image1.setImage(new Image(new File(path1).toURI().toString()));
-        if(path2 != null) image2.setImage(new Image(new File(path2).toURI().toString()));
-        if(path3 != null) image3.setImage(new Image(new File(path3).toURI().toString()));
+
+        byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
+        byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
+        byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
+
+        Image img1 = new Image(new ByteArrayInputStream(byteArr1));
+        Image img2 = new Image(new ByteArrayInputStream(byteArr2));
+        Image img3 = new Image(new ByteArrayInputStream(byteArr3));
+
+        Image defaultIMG = new Image(String.valueOf(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL()));
+
+        image1.setImage(img1);
+        image2.setImage(img2);
+        image3.setImage(img3);
+
+        //set to default if there was an error in getting the images
+        if(img1.isError()) {
+            image1.setImage(defaultIMG);
+        }
+        if(img2.isError()) {
+            image2.setImage(defaultIMG);
+        }
+        if(img3.isError()) {
+            image3.setImage(defaultIMG);
+        }
 
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());
@@ -96,32 +120,24 @@ public class MultiChoiceCtrl extends Controller {
     }
 
     /**
-     * Loops over activities and finds which one is the correct one
-     */
-    public void setCorrectAnswer() {
-        Long correctActivityIndex = multiChoice.getCorrect().getId();
-        String correctActivityName = "";
-        for (Activity act : multiChoice.getActivities()) {
-            if (act.getId() == correctActivityIndex)
-                correctActivityName = act.getName();
-        }
-        this.correctActivityName = correctActivityName;
-    }
-
-    /**
      * Paints the buttons, the wrong answers are painted red and the correct one is painted
      * green
      **/
     public void showCorrect() {
-        Button correct = answer1;
-        Button wrong1 = answer2;
-        Button wrong2 = answer3;
+        Button correct = null;
+        Button wrong1 = null;
+        Button wrong2 = null;
 
-        if (answer2.getText().equals(correctActivityName)) {
+        //set the correct and wrong buttons
+        if(answer1.getText().equals(correctActivityName)) {
+            correct = answer1;
+            wrong1 = answer2;
+            wrong2 = answer3;
+        } else if(answer2.getText().equals(correctActivityName)) {
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
-        } else if (answer3.getText().equals(correctActivityName)) {
+        } else {
             correct = answer3;
             wrong1 = answer1;
             wrong2 = answer2;
@@ -180,22 +196,13 @@ public class MultiChoiceCtrl extends Controller {
     }
 
     /**
-     * Getter returning true if the user was correct
-     *
-     * @return
-     */
-    public int getIsCorrect() {
-        return isCorrect;
-    }
-
-    /**
      * When first answer button is pressed check if it was the correct answer
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
      * @param actionEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress1(MouseEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctActivityName)) {
@@ -204,6 +211,7 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+        buttonsEnabled(false);
 
         //show which answer was the correct one (for 3 seconds)
         showCorrect();
@@ -234,7 +242,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress2(MouseEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctActivityName)) {
@@ -243,6 +251,7 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+        buttonsEnabled(false);
 
         showCorrect();
         PauseTransition pause = new PauseTransition(
@@ -270,7 +279,7 @@ public class MultiChoiceCtrl extends Controller {
      *
      * @param actionEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress3(MouseEvent actionEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctActivityName)) {
@@ -279,6 +288,7 @@ public class MultiChoiceCtrl extends Controller {
         } else {
             isCorrect = 0;
         }
+        buttonsEnabled(false);
 
         showCorrect();
         PauseTransition pause = new PauseTransition(
@@ -299,23 +309,46 @@ public class MultiChoiceCtrl extends Controller {
 
     }
 
+
     /**
      * Add score for the question and refresh the SPGameScreen (visible update question counter and score)
+     * Also show how much points awarded for the question
      *
      * @throws InterruptedException
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(2)
+        );
+        pause.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parentCtrl.scoreAwardedVisibility(false, 0);
+            }
+        });
+        pause.play();
     }
 
+
     /**
-     * Disable all buttons
+     * Enable/disable all buttons
+     *
+     * @param enabled iff true buttons are enabled
      */
-    public void disableButtons() {
-        answer1.setDisable(false);
-        answer2.setDisable(false);
-        answer3.setDisable(false);
+
+    public void buttonsEnabled(boolean enabled) {
+        if(enabled) {
+            answer1.setDisable(false);
+            answer2.setDisable(false);
+            answer3.setDisable(false);
+        } else {
+            answer1.setDisable(true);
+            answer2.setDisable(true);
+            answer3.setDisable(true);
+        }
     }
 
 }

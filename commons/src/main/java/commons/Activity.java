@@ -43,8 +43,11 @@ public class Activity implements Comparable {
     public Long powerConsumption;
     @Column(length = 500)
     public String source;
+    //    @Column
+//    public String imagePath;
     @Column
-    public String imagePath;
+    @Lob
+    public byte[] imageContent;
 
 
     /**
@@ -59,25 +62,25 @@ public class Activity implements Comparable {
     /**
      * Constructor with name, powerConsumption, source and imagePath
      *
-     * @param name title of activity
+     * @param name             title of activity
      * @param powerConsumption consumption of activity in wh
-     * @param source source of info
-     * @param imagePath path to image
+     * @param source           source of info
+     * @param imageContent     content of the image
      */
-    public Activity(String name, Long powerConsumption, String source, String imagePath) {
+    public Activity(String name, Long powerConsumption, String source, byte[] imageContent) {
         this.name = name;
         this.powerConsumption = powerConsumption;
         this.source = source;
-        this.imagePath = imagePath;
+        this.imageContent = imageContent;
     }
 
 
     /**
      * Constructor with name, power consupmtion and source
      *
-     * @param name title of activity
+     * @param name             title of activity
      * @param powerConsumption consumption of activity in wh
-     * @param source source of info
+     * @param source           source of info
      */
     public Activity(String name, Long powerConsumption, String source) {
         this.name = name;
@@ -183,25 +186,42 @@ public class Activity implements Comparable {
         this.source = source;
     }
 
-
     /**
-     * Getter fot the image path
+     * Getter for image content
      *
-     * @return imagePath
+     * @return
      */
-    public String getImagePath() {
-        return imagePath;
+    public byte[] getImageContent() {
+        return imageContent;
     }
 
-
     /**
-     * Setter for the image path
+     * Setter for image content
      *
-     * @param imagePath path of image
+     * @param imageContent
      */
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setImageContent(byte[] imageContent) {
+        this.imageContent = imageContent;
     }
+
+    //    /**
+//     * Getter fot the image path
+//     *
+//     * @return imagePath
+//     */
+//    public String getImagePath() {
+//        return imagePath;
+//    }
+//
+//
+//    /**
+//     * Setter for the image path
+//     *
+//     * @param imagePath path of image
+//     */
+//    public void setImagePath(String imagePath) {
+//        this.imagePath = imagePath;
+//    }
 
 
     /**
@@ -219,7 +239,7 @@ public class Activity implements Comparable {
         return Objects.equals(name, activity.name)
                 && Objects.equals(powerConsumption, activity.powerConsumption)
                 && Objects.equals(source, activity.source)
-                && Objects.equals(imagePath, activity.imagePath);
+                && Objects.equals(imageContent, activity.imageContent);
     }
 
 
@@ -231,12 +251,12 @@ public class Activity implements Comparable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, powerConsumption, source, imagePath);
+        return Objects.hash(name, powerConsumption, source, imageContent);
     }
 
 
     /**
-     * To string method listing all parameters of activity
+     * To string method listing all parameters of activity except image content
      *
      * @return stringified activity
      */
@@ -248,7 +268,6 @@ public class Activity implements Comparable {
                 ", name='" + name + '\'' +
                 ", powerConsumption=" + powerConsumption +
                 ", source='" + source + '\'' +
-                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 
@@ -257,18 +276,18 @@ public class Activity implements Comparable {
      * Basic compare method based on energy consumption
      *
      * @param o other object
-     * @return  0 if consumption is equal to that of o,
-     *          1 if consumption is lower than of o,
-     *          -1 if consumption is higher than of o
+     * @return 0 if consumption is equal to that of o,
+     * 1 if consumption is lower than of o,
+     * -1 if consumption is higher than of o
      */
 
     @Override
     public int compareTo(Object o) {
         Activity that = (Activity) o;
-        if(that.getPowerConsumption() == this.getPowerConsumption()) {
+        if (that.getPowerConsumption() == this.getPowerConsumption()) {
             return 0;
         }
-        if(getPowerConsumption() < that.getPowerConsumption()) {
+        if (getPowerConsumption() < that.getPowerConsumption()) {
             return 1;
         }
         return -1;

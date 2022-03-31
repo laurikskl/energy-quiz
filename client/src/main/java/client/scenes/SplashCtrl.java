@@ -3,9 +3,10 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+
 import java.io.IOException;
 
 public class SplashCtrl extends Controller {
@@ -64,7 +65,7 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
 
-    public void mouseClickedSinglePlayer(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void mouseClickedSinglePlayer(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showEnterNameSinglePlayer();
     }
 
@@ -75,7 +76,7 @@ public class SplashCtrl extends Controller {
      * @param actionEvent - the mouse clicked on the MULTIPLAYER button
      * @throws IOException when file is not found
      */
-    public void mouseClickedMultiPlayer(ActionEvent actionEvent) throws IOException {
+    public void mouseClickedMultiPlayer(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showEnterNameMultiPlayer();
     }
 
@@ -85,7 +86,7 @@ public class SplashCtrl extends Controller {
      * @param actionEvent - the mouse clicked on the How To Play button
      * @throws IOException
      */
-    public void mouseClickedHow2Play(ActionEvent actionEvent) throws IOException {
+    public void mouseClickedHow2Play(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showHow2Play();
     }
 
@@ -94,7 +95,7 @@ public class SplashCtrl extends Controller {
      * @param actionEvent - the mouse clicked on Admin button
      * @throws IOException when file is not found
      */
-    public void mouseClickedAdmin(ActionEvent actionEvent) throws IOException {
+    public void mouseClickedAdmin(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showAdmin();
     }
 }

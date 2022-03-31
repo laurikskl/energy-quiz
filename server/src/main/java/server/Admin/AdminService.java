@@ -40,12 +40,11 @@ public class AdminService {
      * @param powerConsumptionMin minimum of the powerConsumption range
      * @param powerConsumptionMax maximum of the powerConsumption range
      * @param source if this is a substring of the property path "source", select that activity
-     * @param imagePath if this is a substring of the property path "imagePath", select that activity
      * @return a list of selected Activities
      */
-    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
+    public List<Activity> getByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
 
-        Activity activity = new Activity(name, null, source, imagePath);
+        Activity activity = new Activity(name, null, source, null);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
@@ -69,6 +68,30 @@ public class AdminService {
         activities = activities.stream().filter(activity1 -> (activity1.getPowerConsumption() >= finalPowerConsumptionMin) && (activity1.getPowerConsumption() <= finalPowerConsumptionMax)).collect(Collectors.toList());
 
         return activities;
+    }
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    public Boolean removeById(Long ID) {
+        Activity activity = new Activity();
+        activity.setId(ID);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching().withIgnoreNullValues();
+
+        Example<Activity> activityExample = Example.of(activity, matcher);
+
+        List<Activity> activities = this.repository.findAll(activityExample);
+
+        if (activities.size() < 1) {
+            return false;
+        }
+
+        this.repository.delete(activities.get(0));
+        return true;
     }
 
 }

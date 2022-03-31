@@ -137,4 +137,11 @@ class QuestionServiceTest {
         assertEquals(mostNRG.getCorrect(), max);
     }
 
+    @Test
+    void zerosAtEnd() {
+        assertEquals(2, q1.zerosAtEnd(1500L));
+        assertEquals(1, q1.zerosAtEnd(160L));
+        assertEquals(0, q1.zerosAtEnd(106L));
+    }
+
 }

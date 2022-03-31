@@ -33,7 +33,7 @@ public class AdminController {
      */
     @PostMapping("/getByExample")
     public ResponseEntity<List<Activity>> getActivitiesByExample(@RequestBody ActivitySearchRequest activitySearchRequest) {
-        return ResponseEntity.ok(adminService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource(), activitySearchRequest.getImagePath()));
+        return ResponseEntity.ok(adminService.getByExample(activitySearchRequest.getName(), activitySearchRequest.getPowerConsumptionMin(), activitySearchRequest.getPowerConsumptionMax(), activitySearchRequest.getSource()));
     }
 
     /**
@@ -43,5 +43,15 @@ public class AdminController {
     @GetMapping("/restart")
     public Boolean restart() {
         return Main.restart();
+    }
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    @PostMapping("/removeById")
+    public Boolean removeById(@RequestBody Long ID) {
+        return this.adminService.removeById(ID);
     }
 }

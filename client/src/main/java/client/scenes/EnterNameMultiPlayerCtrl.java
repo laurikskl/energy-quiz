@@ -4,9 +4,9 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @throws IOException when reading files goes wrong
      */
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    public void startGame(MouseEvent actionEvent) throws IOException {
 
         usernameString = userName.getText();
 
@@ -75,7 +75,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException when reading files goes wrong
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showSplash();
     }
 }

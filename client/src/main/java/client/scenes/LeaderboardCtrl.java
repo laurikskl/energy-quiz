@@ -1,12 +1,9 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-//import commons.PlayerForTable;
-//import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-//import javafx.scene.control.TableColumn;
-//import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
+
 import javax.inject.Inject;
 import java.io.IOException;
 
@@ -61,10 +58,10 @@ public class LeaderboardCtrl extends Controller {
     /**
      * goes back to the splash screen
      *
-     * @param actionEvent is when the back button is clicked
+     * @param mouseEvent is when the back button is clicked
      * @throws IOException
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showSplash();
     }
     /**
