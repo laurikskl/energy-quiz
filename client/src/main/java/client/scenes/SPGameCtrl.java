@@ -103,7 +103,8 @@ public class SPGameCtrl extends Controller {
                 questions = getServer().getQuestions();
                 System.out.println("here too");
             } catch (Exception e) {
-                System.out.println("something went wrong here");
+                e.printStackTrace();
+                System.out.println("Couldn't get questions from server");
             }
         }
         Collections.shuffle(questions);

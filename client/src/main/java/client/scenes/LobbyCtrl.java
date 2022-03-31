@@ -18,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -177,28 +176,17 @@ public class LobbyCtrl extends Controller {
 
     }
 
-
-    /**
-     * Gets an updated list from the server
-     * @param players resets the table containing player names
-     */
-
-    @MessageMapping("/topic/game/{id}/table")
-    public void resetTable(String dest, List<Player> players) throws IOException {
-        this.players = players;
-        table.getItems().setAll(players);
-        resetHint();
-        resetPlayerAmount(players);
-    }
-
     /**
      * Set up the table for players
      *
      * @param players the list of players in the lobby
      */
-    public void createTable(List<Player> players){
+
+    public void createTable(List<Player> players) throws IOException {
         this.players = players;
         table.getItems().setAll(players);
+        resetHint();
+        resetPlayerAmount(players);
     }
 
 
@@ -247,7 +235,7 @@ public class LobbyCtrl extends Controller {
      * @param players the players in this lobby
      */
 
-    public void createLobby(List<Player> players, Player player) throws IOException {
+    public void createLobby(List<Player> players) throws IOException {
         createTable(players);
         resetHint();
         resetPlayerAmount(players);
