@@ -23,6 +23,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
+
     @Inject
     public EnterNameMultiPlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
@@ -32,6 +33,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
     /**
      * Exits the application, called by quit button
      */
+
     public void cancel() {
         Platform.exit();
     }
@@ -42,6 +44,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param actionEvent - pressing the play button triggers this function.
      * @throws IOException when reading files goes wrong
      */
+
     @FXML
     public void startGame(MouseEvent actionEvent) throws IOException {
 
@@ -57,14 +60,22 @@ public class EnterNameMultiPlayerCtrl extends Controller {
                     player = new Player(usernameString, 0);
                     getServer().setPlayer(usernameString, 0);
                 }
-            } catch (Exception e) { //this should only happen when the server is null
+                //this should only happen when the server is null
+            } catch (Exception e) {
                 e.printStackTrace();
                 player = new Player(usernameString, 0);
             }
+            long id = server.getLobby();
+
+            // If name isn't available, don't make a connection
+            if(!server.nameCheck(player)){
+                //if the username is broken, send a warning
+                warningText.setText("This name is not available!");
+                return;
+            }
+
+            // Make a connection to the lobby if name is available
             this.mainCtrl.makeConnection(player);
-//            LobbyCtrl ctrl = (LobbyCtrl) getMainCtrl().getControllers().get(5);
-//            ctrl.createLobby(List.of(player));
-//            getMainCtrl().showLobbyScreen(List.of(player));
         }
 
     }
@@ -75,6 +86,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException when reading files goes wrong
      */
+
     public void back(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showSplash();
     }
