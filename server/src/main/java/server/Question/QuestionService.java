@@ -62,14 +62,14 @@ public class QuestionService {
      */
 
     public Question getRandomQuestion() {
-        int randomType = random.nextInt(2);
+        int randomType = random.nextInt(3);
         switch (randomType) {
             case 0:
                 return getRandomMostNRG();
             case 1:
                 return getRandomChoiceEstimation();
             case 2:
-                return getRandomMatching();
+                return getRandomAccurateEstimation();
         }
         return null;
     }
@@ -165,5 +165,19 @@ public class QuestionService {
         }
         Collections.sort(activities); //most energy will be in front
         return new Question.MostNRGQuestion(activities, activities.get(0), null);
+    }
+
+    /**
+     * @return a random question of type accurateEstimation
+     */
+    public Question.AccurateEstimation getRandomAccurateEstimation(){
+        //Generate a random activity
+        Activity activity = activityController.getRandomActivity();
+        List<Activity> activities = new ArrayList<>();
+
+        //Put the activity in the activity list for the constructor
+        activities.add(activity);
+
+        return new Question.AccurateEstimation(activities, null);
     }
 }

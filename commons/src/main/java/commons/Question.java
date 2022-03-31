@@ -18,6 +18,7 @@ import java.util.List;
         @Type(value = Question.MostNRGQuestion.class, name = "MostNRGQuestion"),
         @Type(value = Question.ChoiceEstimation.class, name = "ChoiceEstimation"),
         @Type(value = Question.Matching.class, name = "Matching"),
+        @Type(value = Question.AccurateEstimation.class, name = "Matching")
 })
 public abstract class Question {
 
@@ -172,6 +173,33 @@ public abstract class Question {
             setCorrect(activities.get(1));
         }
 
+    }
+
+    /**
+     * Question where the player is given a random activity,
+     * and they have to guess the consumption of that activity in Wh
+     * by entering a valid number
+     */
+
+    @Getter
+    @JsonTypeName("AccurateEstimation")
+    public static class AccurateEstimation extends Question {
+        /**
+         * Zero-parameter constructor
+         */
+        public AccurateEstimation() {
+            super(null, null);
+            //for object mapper
+        }
+
+        /**
+         *
+         * @param activities - the activity used for this question (at index 0)
+         * @param consumptions - the consumption of the activity (also at index 0)
+         */
+        public AccurateEstimation(List<Activity> activities, List<Long> consumptions) {
+            super(activities, consumptions);
+        }
     }
 
 
