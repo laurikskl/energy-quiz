@@ -1,25 +1,13 @@
 /*Entire table*/
 .table-view {
-    -fx-background-color: #6639D4;
-    -fx-background-radius: 20px;
-}
-
-/*Align table text to  center*/
-#col {
-    -fx-alignment: CENTER;
+    -fx-background-color: transparent;
 }
 
 /*Single cells*/
 .table-row-cell{
-    -fx-font-size: 30px;
-    -fx-background-color:  rgb(253, 253, 253);  
-    -fx-background-radius: 10px;
-    -fx-pref-height: 100px;
-
-    /*Spacing between cells and edge of table*/
-    -fx-padding: 10px;
-    -fx-border-insets:10px;
-    -fx-background-insets: 10px;
+    -fx-background-color:  transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-cell-size: 32px;
 }
 
 /*Making header transparent*/

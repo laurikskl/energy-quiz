@@ -49,7 +49,8 @@ public class EnterNameMultiPlayerCtrl extends Controller {
 
         usernameString = userName.getText();
 
-        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        else if(usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
 
         else {
             Player player;

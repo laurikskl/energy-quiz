@@ -47,7 +47,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fx:id="warningText" fill="RED" layoutX="807.0" layoutY="629.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="534.9999389648438">
+      <Text fx:id="warningText" fill="RED" layoutX="580.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="781.3998413085938">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
