@@ -8,6 +8,7 @@ import commons.ActivityBank;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,6 +19,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,12 +148,42 @@ public class AdminCtrl extends Controller {
      * @param mouseEvent - the mouse clicked on the Restart Server button
      */
     public void mouseClickedRestart(MouseEvent mouseEvent) {
-        if (this.server.restart()) {
-            this.restartStatusLabel.setText("Restarted");
-        }
-        else {
-            this.restartStatusLabel.setText("Restart Failed");
-        }
+        AdminCtrl adminCtrl = this;
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                if (!adminCtrl.server.restart()) {
+                    this.cancel();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.restartStatusLabel.setText("Restarting...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.restartStatusLabel.setText("Restarted");
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                adminCtrl.restartStatusLabel.setText("Restart Failed");
+            }
+        };
+
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     /** Copy the contents of the selected cell in string format if the table is selected and ctrl+c is pressed.
@@ -224,37 +256,60 @@ public class AdminCtrl extends Controller {
      * @param mouseEvent - the mouse clicked on searchButton
      */
     public void search(MouseEvent mouseEvent) {
-        this.searchStatusLabel.setText("Retrieving...");
+        AdminCtrl adminCtrl = this;
 
-        String minConsumption = this.searchConsumptionMinField.getText();
-        String maxConsumption = this.searchConsumptionMaxField.getText();
+        Task<Integer> task = new Task() {
+            @Override
+            protected Integer call() {
+                String minConsumption = adminCtrl.searchConsumptionMinField.getText();
+                String maxConsumption = adminCtrl.searchConsumptionMaxField.getText();
 
-        Long minConsumptionLong;
-        Long maxConsumptionLong;
+                Long minConsumptionLong;
+                Long maxConsumptionLong;
 
-        //Parse minConsumption to Long
-        if (minConsumption.equals("")) {
-            minConsumptionLong = null;
-        } else {
-            minConsumptionLong = Long.parseLong(minConsumption);
-        }
+                //Parse minConsumption to Long
+                if (minConsumption.equals("")) {
+                    minConsumptionLong = null;
+                } else {
+                    minConsumptionLong = Long.parseLong(minConsumption);
+                }
 
-        //Parse maxConsumption to Long
-        if (maxConsumption.equals("")) {
-            maxConsumptionLong = null;
-        } else {
-            maxConsumptionLong = Long.parseLong(maxConsumption);
-        }
+                //Parse maxConsumption to Long
+                if (maxConsumption.equals("")) {
+                    maxConsumptionLong = null;
+                } else {
+                    maxConsumptionLong = Long.parseLong(maxConsumption);
+                }
 
-        List<Activity> activities = this.server.getActivitiesByExample(
-                this.searchIDField.getText(),
-                this.searchNameField.getText(),
-                minConsumptionLong,
-                maxConsumptionLong,
-                this.searchSourceField.getText()
-        );
-        this.loadTable(activities);
-        this.searchStatusLabel.setText("Activities found: " + activities.size());
+                List<Activity> activities = adminCtrl.server.getActivitiesByExample(
+                        adminCtrl.searchIDField.getText(),
+                        adminCtrl.searchNameField.getText(),
+                        minConsumptionLong,
+                        maxConsumptionLong,
+                        adminCtrl.searchSourceField.getText()
+                );
+                adminCtrl.loadTable(activities);
+
+                return activities.size();
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.searchStatusLabel.setText("Retrieving...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.searchStatusLabel.setText("Activities found: " + this.getValue());
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     /**
@@ -262,12 +317,35 @@ public class AdminCtrl extends Controller {
      * @param mouseEvent - the mouse clicked on searchButton
      */
     public void showAll(MouseEvent mouseEvent) {
-        this.searchStatusLabel.setText("Retrieving...");
+        AdminCtrl adminCtrl = this;
 
-        List<Activity> activities = this.server.getAllActivities();
-        this.loadTable(activities);
+        Task<Integer> task = new Task<>() {
+            @Override
+            protected Integer call() {
 
-        this.searchStatusLabel.setText("Activities found: " + activities.size());
+                List<Activity> activities = adminCtrl.server.getAllActivities();
+                adminCtrl.loadTable(activities);
+
+                return activities.size();
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.searchStatusLabel.setText("Retrieving...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.searchStatusLabel.setText("Activities found: " + this.getValue());
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     /**
@@ -282,25 +360,55 @@ public class AdminCtrl extends Controller {
      * Add all Activities from an Activity Bank
      * @param mouseEvent - the mouse clicked on aBSubmitButton
      */
-    public void aBSubmit(MouseEvent mouseEvent) throws IOException {
-        this.aBStatusLabel.setText("Adding Activities");
-        int n = 0;
+    public void aBSubmit(MouseEvent mouseEvent) {
+        AdminCtrl adminCtrl = this;
 
-        try {
-            Path path = Path.of(this.aBPathField.getText());
+        Task<Integer> task = new Task<>() {
+            @Override
+            protected Integer call() {
+                Integer n = 0;
 
-            ActivityBank activityBank = ActivityBank.JsonReader(path);
+                try {
+                    Path path = Path.of(adminCtrl.aBPathField.getText());
 
-            activityBank.setOverride(this.aBOverrideCB.isSelected());
+                    ActivityBank activityBank = ActivityBank.JsonReader(path);
 
-            n = this.server.addBank(activityBank);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            this.aBStatusLabel.setText("Please provide valid ActivityBank");
-        }
+                    activityBank.setOverride(adminCtrl.aBOverrideCB.isSelected());
 
-        this.aBStatusLabel.setText("Added " + n + " Activities");
+                    n = adminCtrl.server.addBank(activityBank);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.cancel();
+                }
+
+                return n;
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.aBStatusLabel.setText("Adding Activities...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.aBStatusLabel.setText("Added " + this.getValue() + " Activities");
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                adminCtrl.aBStatusLabel.setText("Provide a valid Activity Bank please");
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     /**
@@ -308,13 +416,43 @@ public class AdminCtrl extends Controller {
      * @param mouseEvent - the mouse clicked on removeSubmitButton
      */
     public void removeSubmit(MouseEvent mouseEvent){
-        String id = this.removeByIDField.getText();
-        this.removeStatusLabel.setText("Removing " + id);
-        if (this.server.removeById(id)) {
-            this.removeStatusLabel.setText("Removed " + id);
-        }
-        else {
-            this.removeStatusLabel.setText("Failed Removing " + id);
-        }
+        AdminCtrl adminCtrl = this;
+
+        Task<Void> task = new Task<>() {
+            private String id;
+
+            @Override
+            protected Void call() {
+                this.id = adminCtrl.removeByIDField.getText();
+
+                if (!adminCtrl.server.removeById(this.id)) {
+                    this.cancel();
+                }
+                return null;
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.removeStatusLabel.setText("Removing " + this.id + "...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.aBStatusLabel.setText("Added " + this.id + " Activities");
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                adminCtrl.removeStatusLabel.setText("Failed Removing " + id);
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 }
