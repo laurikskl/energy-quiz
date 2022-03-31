@@ -4,11 +4,13 @@ import commons.Game;
 import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
 
-import java.util.List;
+import static commons.Screen.LOBBY;
+import static commons.Type.LOBBYUPDATE;
 
 /**
  * Logic for the lobby.
@@ -18,7 +20,7 @@ import java.util.List;
 public class LobbyService {
   public Game currentLobby;
   private final GameManagementService service;
-  //private final SimpMessagingTemplate simpMessagingTemplate;
+  private final SimpMessagingTemplate simpMessagingTemplate;
 
   /**
    * Constructor that initializes a gameManagementService and a new lobby.
@@ -26,24 +28,24 @@ public class LobbyService {
    //* @param simpMessagingTemplate
    */
 
-
   @Autowired
-  public LobbyService(GameManagementService service
-                      /*SimpMessagingTemplate simpMessagingTemplate*/) {
+  public LobbyService(GameManagementService service,
+                      SimpMessagingTemplate simpMessagingTemplate) {
     this.service = service;
     currentLobby = service.newLobby();
-    /*this.simpMessagingTemplate = simpMessagingTemplate;*/
+    this.simpMessagingTemplate = simpMessagingTemplate;
   }
 
   /**
    * Adds the player that entered their name in the multiplayer enter
    * name screen to a lobby.
-   * @param dest the destination in the message mapping
    * @param p the player that joined
    */
-  @MessageMapping("/game/{id}/lobby/join")
-  public void onJoin(String dest, Player p){
+
+
+  public void onJoin(Player p){
     currentLobby.getPlayers().add(p);
+    System.out.println("Player added to lobby");
     refreshLobbyTable();
   }
 
@@ -52,8 +54,9 @@ public class LobbyService {
    */
   public void refreshLobbyTable(){
     long id = currentLobby.getId();
-    List<Player> players = currentLobby.getPlayers();
-    //simpMessagingTemplate.convertAndSend("/topic/game/" + id + "/table", players );
+    currentLobby.type = LOBBYUPDATE;
+    currentLobby.screen = LOBBY;
+    simpMessagingTemplate.convertAndSend("/topic/game/" + id, currentLobby );
   }
 
   /**

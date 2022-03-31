@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package client.scenes;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-/**
- * This comment is a temporary fix for checkstyle.
- */
-
-public class MainCtrlTest {
-
-    private MainCtrl sut;
-
-    @BeforeEach
-    public void setup() {
-        sut = new MainCtrl();
-    }
-
-    @Test
-    public void writeSomeTests() {
-        // TODO create replacement objects and write some tests
-        // sut.initialize(null, null, null);
-    }
-}
+//package client.scenes;
+//
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//
+///**
+// * This comment is a temporary fix for checkstyle.
+// */
+//
+//public class MainCtrlTest {
+//
+//    private MainCtrl sut;
+//
+//    @BeforeEach
+//    public void setup() {
+//        sut = new MainCtrl();
+//    }
+//
+//    @Test
+//    public void writeSomeTests() {
+//        // TODO create replacement objects and write some tests
+//        // sut.initialize(null, null, null);
+//    }
+//}

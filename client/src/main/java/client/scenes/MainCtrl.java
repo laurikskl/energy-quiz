@@ -17,18 +17,28 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Game;
 import commons.Player;
 import commons.Question;
+import commons.Screen;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import javax.inject.Inject;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static commons.Screen.ENTERNAME;
+import static commons.Screen.LOBBY;
 
 public class MainCtrl {
 
@@ -37,9 +47,37 @@ public class MainCtrl {
     //Controllers
     private List<Controller> controllers;
 
+    /**
+     * Controller and scenes indexes.
+     * 0 - Splash
+     * 1 - EnterNameSinglePlayer
+     * 2 - EnterNameMultiPlayer
+     * 3 - Leaderboard
+     * 4 - SPGame
+     * 5 - Lobby
+     * 6 - MPGame
+     * 7 - How2Play
+     * 8 - MultiChoice
+     * 9 - ChoiceEstimation
+     * 10 - Admin
+     */
+
     //Scenes
     private List<Scene> scenes;
 
+    private ServerUtils server;
+
+    // Current scene as an enum
+    private Screen current;
+
+    /**
+     * Injects server utils.
+     * @param server the server utils
+     */
+    @Inject
+    public MainCtrl(ServerUtils server) {
+        this.server = server;
+    }
 
     /**
      * Acts as constructor
@@ -47,9 +85,8 @@ public class MainCtrl {
      * @param primaryStage the primary stage
      * @param scenes       List of pairs of Controller instances and roots for fxml loader
      */
-    public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) {
+    public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) throws FileNotFoundException {
         this.primaryStage = primaryStage;
-
         this.controllers = new ArrayList<>();
         this.scenes = new ArrayList<>();
 
@@ -71,7 +108,43 @@ public class MainCtrl {
             e.printStackTrace();
         }
 
+        primaryStage.getIcons().add(new Image(new FileInputStream("client/src/main/resources/entername/MaxThePlant.png")));
+        primaryStage.setTitle("Save Max The Plant");
         showSplash();
+    }
+
+    /**
+     * gets the id of the current ongoing lobby and sends the player
+     * to the relevant destination.
+     * @param player The player who is typing in their name
+     */
+    public void makeConnection(Player player){
+        long id = server.getLobby();
+        current = ENTERNAME;
+        // Choose what action to take, depending on type of message
+        server.registerForMessages("/topic/game/"+id, Game.class, game -> {
+            if(current != game.screen) {
+                switch (game.screen) {
+                    case LOBBY:
+                        showLobbyScreen();
+                        current = LOBBY;
+                        break;
+                }
+            }
+            switch(game.type){
+                case LOBBYUPDATE:
+
+                    LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+                    try {
+                        ctrl.createTable(game.getPlayers());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        });
+        server.send("/app/game/" + id + "/lobby/join", player);
+
     }
 
     /**
@@ -122,16 +195,15 @@ public class MainCtrl {
     /**
      * Sets primaryStage's scene to the Lobby screen
      *
-     * @param players the players for a game
-     * @param player  the player of the client
+     *  removed the player parameter at the moment
      */
-    public void showLobbyScreen(List<Player> players, Player player) {
-        showScene(this.scenes.get(5));
+    public void showLobbyScreen() {
+        Platform.runLater(() -> showScene(this.scenes.get(5))); ;
 
-        //set up the lobby with the list of players
-        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+//        //set up the lobby with the list of players
+//        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
 //        try {
-//            ctrl.createLobby(players, player);
+//            ctrl.createLobby(players);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
@@ -174,22 +246,27 @@ public class MainCtrl {
 
     /**
      * Load the MultipleChoice question frame
+     * Enable buttons after the question for the next question
      * @param parentCtrl
      * @param multiChoice
      */
-    public void startMC(Controller parentCtrl, Question multiChoice) {
-        ((MultiChoiceCtrl) this.controllers.get(8)).start(parentCtrl, multiChoice);
+    public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
+        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
+        multiChoiceCtrl.start(parentCtrl, multiChoice);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        multiChoiceCtrl.buttonsEnabled(true);
     }
 
     /**
      * Load the ChoiceEstimation question frame
+     * Enable buttons after the question for the next question
      * @param parentCtrl
      * @param choiceEstimation
      */
-    public void startCE(Controller parentCtrl, Question choiceEstimation) {
+    public void startCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
         ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
+        ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
     }
 
     /**

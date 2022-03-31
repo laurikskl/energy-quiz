@@ -25,7 +25,7 @@ class ActivityControllerTest {
 
         this.activities = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            Activity activity = new Activity("name" + i, Long.valueOf(i), "source"+ i, "imagePath" + i);
+            Activity activity = new Activity("name" + i, Long.valueOf(i), "source"+ i, null);
             activity.setId(Long.valueOf(i));
 
             this.activities.add(activity);

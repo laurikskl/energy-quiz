@@ -2,12 +2,12 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
@@ -43,9 +43,9 @@ public class How2PlayCtrl extends Controller{
 
     /**
      * Go back to the Splash Screen.
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void goBack(ActionEvent actionEvent) {
+    public void goBack(MouseEvent mouseEvent) {
         getMainCtrl().showSplash();
         getMainCtrl().getPrimaryStage().show();
     }

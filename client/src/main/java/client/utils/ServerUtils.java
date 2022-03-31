@@ -21,12 +21,22 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -123,14 +133,14 @@ public class ServerUtils {
      */
 
     /**
-    public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("player/disconnect")
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
-    }
-    */
+     public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
+     return ClientBuilder.newClient(new ClientConfig())
+     .target(SERVER).path("player/disconnect")
+     .request(APPLICATION_JSON)
+     .accept(APPLICATION_JSON)
+     .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
+     }
+     */
 
     /**
      * @param name the name of a player
@@ -200,7 +210,6 @@ public class ServerUtils {
                 .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
     }
 
-    /**
     public <T> void registerForMessages(String destination,Class<T> type, Consumer<T> consumer){
         session.subscribe(destination, new StompFrameHandler() {
             @Override
@@ -226,6 +235,7 @@ public class ServerUtils {
         } catch (InterruptedException e){
             Thread.currentThread().interrupt();
             } catch(ExecutionException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
         }
         throw new IllegalStateException();
@@ -235,6 +245,10 @@ public class ServerUtils {
         session.send(destination, o);
     }
 
+    /**
+     * Gets the id of the current lobby.
+     * @return id of the lobby
+     */
     public long getLobby() {
         return ClientBuilder.newClient(new ClientConfig())
             .target(SERVER).path("api/lobby/getid")
@@ -244,7 +258,6 @@ public class ServerUtils {
             });
     }
 
-     */
 
     /**
      * get all activities
@@ -259,22 +272,14 @@ public class ServerUtils {
                 });
     }
 
-    /**
-     * @param name
-     * @param powerConsumptionMin
-     * @param powerConsumptionMax
-     * @param source
-     * @param imagePath
-     * @return list of activities that match given parameters
-     */
-    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
-        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
+    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source);
 
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<List<Activity>>() {});
     }
 
     /**
@@ -296,5 +301,24 @@ public class ServerUtils {
         }
     }
 
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    public Boolean removeById(Long ID) {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/removeById").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<Boolean>() {});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
