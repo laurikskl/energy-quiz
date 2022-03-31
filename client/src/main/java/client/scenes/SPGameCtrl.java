@@ -202,8 +202,8 @@ public class SPGameCtrl extends Controller {
      * This method gets called everytime the game moves on to the next question.
      * That is, either when the player has answered by pressing a button,
      * or when the timer of 15 seconds per question runs out.
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws IOException when something goes wrong with file-reading or finding
+     * @throws InterruptedException when a question is interrupted
      */
     public void startNewQuestion() throws IOException, InterruptedException {
 
@@ -314,9 +314,9 @@ public class SPGameCtrl extends Controller {
      * Then it adds points to score accordingly, using ScoreSystem
      *
      * @param multiChoice current multiChoice question
-     * @throws IOException
+     * @throws IOException when something goes wrong with file-reading or finding
      */
-    public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException, InterruptedException {
+    public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException{
         getMainCtrl().startMC(this, multiChoice);
     }
 
@@ -325,9 +325,9 @@ public class SPGameCtrl extends Controller {
      * Then it adds points to score accordingly, using ScoreSystem
      *
      * @param choiceEstimation current Estimation question
-     * @throws IOException
+     * @throws IOException cooldownText.setText("Wait " + timeLeft + " second before sending another message");
      */
-    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException, InterruptedException {
+    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException {
         getMainCtrl().startCE(this, choiceEstimation);
     }
 
@@ -336,7 +336,7 @@ public class SPGameCtrl extends Controller {
      * Then it adds points to score accordingly, using ScoreSystem
      *
      * @param q current Matching question
-     * @throws IOException
+     * @throws IOException when file-reading or finding goes wrong
      */
     public void doMatching(Question.Matching q) throws IOException {
         String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
