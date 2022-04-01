@@ -18,7 +18,7 @@ import java.util.List;
         @Type(value = Question.MostNRGQuestion.class, name = "MostNRGQuestion"),
         @Type(value = Question.ChoiceEstimation.class, name = "ChoiceEstimation"),
         @Type(value = Question.Matching.class, name = "Matching"),
-        @Type(value = Question.AccurateEstimation.class, name = "Matching")
+        @Type(value = Question.AccurateEstimation.class, name = "AccurateEstimation")
 })
 public abstract class Question {
 
