@@ -20,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -67,8 +66,6 @@ public class SPGameCtrl extends Controller {
     private BorderPane questionFrame;
     @FXML
     private ImageView emo1IMG, emo2IMG, emo3IMG, emo4IMG, emo5IMG, emo6IMG;
-    @FXML
-    private VBox vbox;
     @FXML
     private TableColumn<Pair<String, ImageView>, String> nameCol;
     @FXML
@@ -118,10 +115,20 @@ public class SPGameCtrl extends Controller {
         this.questions = new ArrayList<>();
         this.onCooldown = false;
 
-        //setting up emoji cooldown
+        //display emoji when received
+        server.registerForMessages("/topic/game/1/emoji", Emoji.class, emoji -> {
+            try {
+                displayEmoji(emoji);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
+        //setting up emoji cooldown for 4 seconds
         cooldownText.setVisible(false);
         this.cooldown = new PauseTransition(new Duration(4000));
         cooldown.setOnFinished(event -> {
+            //turn off cooldown and set its text to invisible after 4 seconds
             onCooldown = false;
             cooldownText.setVisible(false);
         });
@@ -136,7 +143,7 @@ public class SPGameCtrl extends Controller {
 
         //setup for the chat
         nameCol.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getKey()));
-        emojiCol.setCellValueFactory(q -> new ObservableObjectValue<ImageView>() {
+        emojiCol.setCellValueFactory(q -> new ObservableObjectValue<>() {
             @Override
             public void addListener(InvalidationListener listener) {
 
@@ -253,9 +260,7 @@ public class SPGameCtrl extends Controller {
                 try {
                     startNewQuestion();
                     return;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (InterruptedException ex) {
+                } catch (IOException | InterruptedException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -289,7 +294,7 @@ public class SPGameCtrl extends Controller {
      *
      * @param q the current question
      */
-    public void doAQuestion(Question q) throws IOException, InterruptedException {
+    public void doAQuestion(Question q) throws IOException {
         //Question has been run
         this.qCount++;
         System.out.println("Question has started!");
@@ -303,11 +308,11 @@ public class SPGameCtrl extends Controller {
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
         } else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
         }
         refresh();
-//        else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-//            doAccurateEstimation((Question.AccurateEstimation) q);
-//        }
+
     }
 
     /**
@@ -353,26 +358,16 @@ public class SPGameCtrl extends Controller {
         questionFrame.setCenter(scene.getRoot());
     }
 
-//    /**
-//     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
-//     * Then it adds points to score accordingly, using ScoreSystem
-//     *
-//     * @param q current AccurateEstimation question
-//     * @throws IOException
-//     */
-//    public void doAccurateEstimation(Question.AccurateEstimation q) throws IOException {
-//        String pathToFxml = "client/src/main/resources/client/scenes/AccurateEstimation.fxml";
-//        URL url = new File(pathToFxml).toURI().toURL();
-//        FXMLLoader fxmlLoader = new FXMLLoader(url);
-//        Parent root = fxmlLoader.load();
-//
-//        //TODO: Create AccurateEstimationCtrl
-//        AccurateEstimationCtrl controller = fxmlLoader.<AccurateEstimationCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.AccurateEstimation) q);
-//        Scene scene = new Scene(root);
-//
-//        questionFrame.setCenter(scene.getRoot());
-//    }
+    /**
+     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param accurateEstimation current AccurateEstimation question
+     * @throws IOException
+     */
+    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
+        getMainCtrl().startAE(this, accurateEstimation);
+    }
 
     /**
      * This method takes you back to the splash screen when the back button is pressed
@@ -542,22 +537,19 @@ public class SPGameCtrl extends Controller {
 
     public void sendEmoji(String kind) {
         if(!onCooldown) {
-            Emoji sent = server.sendEmoji(new Emoji(player, kind));
-            try {
-                displayEmoji(sent);
-            } catch (FileNotFoundException e) { //when emoji image file not found in displayEmoji
-                e.printStackTrace();
-            }
+            //send emoji if not on cooldown
+            server.send("/app/game/" + 1 + "/lobby/emoji-received", new Emoji(player, kind));
             onCooldown = true;
+            //start 4 second cooldown defined in initialize
             cooldown.play();
         } else {
+            //if on cooldown show cooldown text with time remaining
             int timeLeft = 4 - (int) cooldown.currentTimeProperty().get().toSeconds();
             if(timeLeft == 1) {
                 cooldownText.setText("Wait " + timeLeft + " second before sending another message");
             } else {
                 cooldownText.setText("Wait " + timeLeft + " seconds before sending another message");
             }
-
             cooldownText.setVisible(true);
         }
     }
@@ -571,10 +563,6 @@ public class SPGameCtrl extends Controller {
 
     private void displayEmoji(Emoji sent) throws FileNotFoundException {
         String name = sent.getSender().getUserName();
-        /*
-        if(sent.getSender().equals(player)) {
-            name = "You";
-        }*/
         Image img = null;
         switch(sent.getEmoji()) {
             case "Dead":

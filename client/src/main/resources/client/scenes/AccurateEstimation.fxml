@@ -1,49 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0"
-            style="-fx-pref-height: 800; -fx-pref-width: 1200; -fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/17">
+            style="-fx-pref-height: 700; -fx-pref-width: 1100; -fx-background-color: #f1f1f1;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="client.scenes.AccurateEstimationCtrl">
     <children>
-        <AnchorPane layoutX="74.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0"
-                    style="-fx-pref-height: 600; -fx-pref-width: 450; -fx-background-color: #7CCADE; -fx-background-radius: 20;"
-                    AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="700.0"
-                    AnchorPane.topAnchor="100.0">
-            <children>
-                <ImageView id="image" fitHeight="300.0" fitWidth="400.0" layoutX="50.0" layoutY="50.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <Text layoutX="195.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Activity">
-                    <font>
-                        <Font name="System Bold" size="30.0"/>
-                    </font>
-                </Text>
-            </children>
-        </AnchorPane>
         <Text layoutX="604.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="How much energy does it take?" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+              text="How much energy does it take?"
+              AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
             <font>
-                <Font name="System Bold" size="40.0"/>
+                <Font name="System Bold" size="40.0" />
             </font>
         </Text>
-        <TextField layoutX="734.0" layoutY="374.0" prefHeight="53.0" prefWidth="176.0" promptText="Enter a number"
+        <TextField fx:id="enterNumber"
+                   layoutX="621.0" layoutY="291.0" prefHeight="53.0" prefWidth="176.0"
+                   promptText="Enter a number"
                    style="-fx-background-color: #d5d5d5; -fx-background-radius: 20; -fx-pref-height: 50; -fx-pref-width: 150;"
-                   AnchorPane.rightAnchor="316.0">
+                   AnchorPane.rightAnchor="329.0">
             <font>
-                <Font name="System Bold" size="17.0"/>
+                <Font name="System Bold" size="17.0" />
             </font>
         </TextField>
-        <Text fill="#6639d4" layoutX="780.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your guess:">
+        <Text fill="#6639d4"
+              layoutX="675.0" layoutY="262.0"
+              strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Your guess:">
             <font>
-                <Font name="System Bold" size="25.0"/>
+                <Font name="System Bold" size="25.0" />
             </font>
         </Text>
-        <Text layoutX="904.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kWh">
+        <Text layoutX="785.0" layoutY="325.0"
+              strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Wh">
             <font>
-                <Font name="System Bold" size="16.0"/>
+                <Font name="System Bold" size="16.0" />
             </font>
         </Text>
+      <Button fx:id="activity"
+              layoutX="-5.0" layoutY="108.0" mnemonicParsing="false"
+              style="-fx-background-color: #7CCADE; -fx-pref-height: 500; -fx-pref-width: 410; -fx-background-radius: 20; -fx-content-display: top;"
+              text="Activity" textAlignment="CENTER" wrapText="true"
+              AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0">
+         <graphic>
+                <ImageView id="image" fx:id="image"
+                           fitHeight="300.0" fitWidth="300.0"
+                           pickOnBounds="true" preserveRatio="true" />
+         </graphic>
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Button>
+      <Text fx:id="numberError"
+            fill="#f2296c" layoutX="611.0"
+            layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0"
+            text="Please enter a valid number!">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="actualText"
+            fill="#6639d4"
+            layoutX="624.0" layoutY="457.0" strokeType="OUTSIDE" strokeWidth="0.0"
+            text="Actual answer: " textAlignment="CENTER" wrappingWidth="169.99267578125">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="actualAnswer"
+            layoutX="789.0" layoutY="461.0"
+            strokeType="OUTSIDE" strokeWidth="0.0" text="666" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Text>
+      <Button fx:id="submit" onMouseClicked="#handleSubmit"
+              layoutX="691.0" layoutY="353.0" mnemonicParsing="false"
+              style="-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-height: 40; -fx-pref-width: 100;"
+              text="SUBMIT" textAlignment="CENTER" >
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

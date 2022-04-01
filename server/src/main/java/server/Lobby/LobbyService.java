@@ -1,5 +1,6 @@
 package server.Lobby;
 
+import commons.Emoji;
 import commons.Game;
 import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +78,7 @@ public class LobbyService {
    * @return the id as a long
    */
   public long getLobby(){
-    long id = currentLobby.getId();
-    return id;
+    return currentLobby.getId();
   }
 
   /**
@@ -108,4 +108,12 @@ public class LobbyService {
     return true;
   }
 
+  /**
+   * Sends an emoji to all players in the lobby when received by a client
+   * @param e the emoji to send to all players
+   */
+
+  public void onEmoji(Emoji e, long lobbyId) {
+    simpMessagingTemplate.convertAndSend("/topic/game/" + lobbyId + "/emoji", e);
+  }
 }
