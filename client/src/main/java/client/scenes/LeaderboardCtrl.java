@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
-
 import javax.inject.Inject;
 import java.io.IOException;
 

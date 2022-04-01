@@ -25,8 +25,8 @@ class ActivityControllerTest {
 
         this.activities = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            Activity activity = new Activity("name" + i, Long.valueOf(i), "source"+ i, null);
-            activity.setId(Long.valueOf(i));
+            Activity activity = new Activity("id" + i, "name" + i, Long.valueOf(i), "source"+ i, null);
+            activity.setId("" + i);
 
             this.activities.add(activity);
         }
