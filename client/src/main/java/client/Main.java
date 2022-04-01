@@ -83,6 +83,7 @@ public class Main extends Application {
         scenes.add(FXML.load(ChoiceEstimationCtrl.class, "client", "scenes", "ChoiceEstimation.fxml"));
         scenes.add(FXML.load(AdminCtrl.class, "client", "scenes", "Admin.fxml"));
         scenes.add(FXML.load(EndGameCtrl.class, "client", "scenes", "EndGameScreen.fxml"));
+        scenes.add(FXML.load(AccurateEstimationCtrl.class,"client", "scenes", "AccurateEstimation.fxml" ));
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, scenes);
     }

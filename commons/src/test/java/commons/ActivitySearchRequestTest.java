@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ActivitySearchRequestTest {
     private ActivitySearchRequest activitySearchRequest;
+    private String id;
     private String name;
     private Long powerConsumptionMin;
     private Long powerConsumptionMax;
@@ -17,12 +18,14 @@ public class ActivitySearchRequestTest {
      */
     @BeforeEach
     void initialize() {
+        this.id = "id";
         this.name = "name";
         this.powerConsumptionMin = 1l;
         this.powerConsumptionMax = 2l;
         this.source = "source";
 
         this.activitySearchRequest = new ActivitySearchRequest(
+                this.id,
                 this.name,
                 this.powerConsumptionMin,
                 this.powerConsumptionMax,
@@ -109,6 +112,7 @@ public class ActivitySearchRequestTest {
     @Test
     void testEquals() {
         ActivitySearchRequest activitySearchRequest2 = new ActivitySearchRequest(
+                this.id,
                 this.name,
                 this.powerConsumptionMin,
                 this.powerConsumptionMax,
@@ -124,7 +128,8 @@ public class ActivitySearchRequestTest {
     @Test
     void testToString() {
         String string = "ActivitySearchRequest{" +
-                "name='" + this.name + '\'' +
+                "id='" + this.id + '\'' +
+                ", name='" + this.name + '\'' +
                 ", powerConsumptionMin=" + this.powerConsumptionMin +
                 ", powerConsumptionMax=" + this.powerConsumptionMax +
                 ", source='" + this.source + '\'' +

@@ -68,6 +68,9 @@ public class MainCtrl {
 
     private ServerUtils server;
 
+    //the client's player for multiplayer with their name
+    public Player thisPlayer;
+
     // Current scene as an enum
     private Screen current;
 
@@ -101,6 +104,7 @@ public class MainCtrl {
             this.scenes.get(0).getStylesheets().add(new File("client/src/main/resources/stylesheets/splash.css").toURI().toURL().toExternalForm());
             this.scenes.get(1).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
             this.scenes.get(2).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(4).getStylesheets().add(new File("client/src/main/resources/stylesheets/SPGame.css").toURI().toURL().toExternalForm());
             this.scenes.get(5).getStylesheets().add(new File("client/src/main/resources/stylesheets/lobby.css").toURI().toURL().toExternalForm());
             this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
             this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
@@ -120,6 +124,8 @@ public class MainCtrl {
      * @param player The player who is typing in their name
      */
     public void makeConnection(Player player){
+        //save this player's username in main ctrl
+        this.thisPlayer = player;
         long id = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
@@ -134,7 +140,6 @@ public class MainCtrl {
             }
             switch(game.type){
                 case LOBBYUPDATE:
-
                     LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
                     try {
                         ctrl.createTable(game.getPlayers());
@@ -272,6 +277,16 @@ public class MainCtrl {
         ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
         ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
+    }
+
+    /**
+     * Load the AccurateEstimation question frame
+     * @param parentCtrl
+     * @param accurateEstimation
+     */
+    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+        ((AccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
     }
 
     /**

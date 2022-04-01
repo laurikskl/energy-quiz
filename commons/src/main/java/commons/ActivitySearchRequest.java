@@ -8,6 +8,7 @@ import java.util.Objects;
  */
 public class ActivitySearchRequest implements Serializable {
     //fields
+    private String id;
     private String name;
     private Long powerConsumptionMin;
     private Long powerConsumptionMax;
@@ -19,7 +20,8 @@ public class ActivitySearchRequest implements Serializable {
      * @param powerConsumptionMax
      * @param source
      */
-    public ActivitySearchRequest(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+    public ActivitySearchRequest(String id, String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+        this.id = id;
         this.name = name;
         this.powerConsumptionMin = powerConsumptionMin;
         this.powerConsumptionMax = powerConsumptionMax;
@@ -31,6 +33,20 @@ public class ActivitySearchRequest implements Serializable {
      */
     public ActivitySearchRequest() {
 
+    }
+
+    /**
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -89,12 +105,16 @@ public class ActivitySearchRequest implements Serializable {
         this.source = source;
     }
 
+    /**
+     * @param obj
+     * @return if this equals obj
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ActivitySearchRequest that = (ActivitySearchRequest) o;
-        return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ActivitySearchRequest that = (ActivitySearchRequest) obj;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source);
     }
 
     /**
@@ -103,7 +123,8 @@ public class ActivitySearchRequest implements Serializable {
     @Override
     public String toString() {
         return "ActivitySearchRequest{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", powerConsumptionMin=" + powerConsumptionMin +
                 ", powerConsumptionMax=" + powerConsumptionMax +
                 ", source='" + source + '\'' +

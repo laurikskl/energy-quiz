@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
