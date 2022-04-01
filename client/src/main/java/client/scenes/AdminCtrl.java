@@ -242,8 +242,9 @@ public class AdminCtrl extends Controller {
         this.fileChooser.getExtensionFilters().setAll(
                 new FileChooser.ExtensionFilter("JSON", "*.json")
         );
+        
         File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
-
+        
         if (file == null) return null;
 
         return file.getAbsolutePath();
