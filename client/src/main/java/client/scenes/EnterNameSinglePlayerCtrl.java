@@ -58,7 +58,8 @@ public class EnterNameSinglePlayerCtrl extends Controller {
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
-        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        else if(usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
 
         else {
             //fetch player from database, if it doesn't exist store a new player with score 0
