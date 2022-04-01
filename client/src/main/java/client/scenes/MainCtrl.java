@@ -22,9 +22,11 @@ import commons.Player;
 import commons.Question;
 import commons.Screen;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -46,6 +48,7 @@ public class MainCtrl {
 
     //Controllers
     private List<Controller> controllers;
+    private Popup disconnectMessage;
 
     /**
      * Controller and scenes indexes.
@@ -246,6 +249,14 @@ public class MainCtrl {
      */
     public void startSPGame(Player player, ServerUtils server) throws IOException, InterruptedException {
         ((SPGameCtrl) this.controllers.get(4)).startGame(player);
+
+        //Defining a new Popup when starting the Singleplayer game,
+        //setting the fxml and controller
+        disconnectMessage = new Popup();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DisconnectMessage.fxml"));
+        disconnectMessage.getContent().add(loader.load());
+        DisconnectMessageCtrl controller = loader.getController();
+        controller.setMainCtrl(this);
     }
 
 
@@ -274,6 +285,21 @@ public class MainCtrl {
         ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
     }
 
+    /**
+     * Method for setting the fxml of the disconnectMessage popup and displaying it
+     * @throws IOException
+     */
+    public void displayDisconnectMessage() throws IOException{
+        disconnectMessage.show(primaryStage);
+    }
+
+    /**
+     * Method for hiding the disconnect message
+     * @throws IOException
+     */
+    public void hideDisconnectMessage() throws IOException{
+        disconnectMessage.hide();
+    }
     /**
      * Closes the primary stage to quit the application
      */
