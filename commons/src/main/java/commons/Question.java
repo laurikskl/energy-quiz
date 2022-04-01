@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -18,6 +20,7 @@ import java.util.List;
         @Type(value = Question.MostNRGQuestion.class, name = "MostNRGQuestion"),
         @Type(value = Question.ChoiceEstimation.class, name = "ChoiceEstimation"),
         @Type(value = Question.Matching.class, name = "Matching"),
+        @Type(value = Question.AccurateEstimation.class, name = "AccurateEstimation")
 })
 public abstract class Question {
 
@@ -145,8 +148,7 @@ public abstract class Question {
     /**
      * Question where the player get an activity like "Taking a shower (50l water)" and must
      * select an activity that consumes an equivalent amount of energy out of 3 options.
-     * At index 0 is the activity to compare to
-     * At index 1 is the matching activity
+     * At index 0 you can find the activity to match to
      */
 
     @Getter
@@ -170,8 +172,44 @@ public abstract class Question {
         public Matching(List<Activity> activities, List<Long> consumptions) {
             super(activities, consumptions);
             setCorrect(activities.get(1));
+            ArrayList<Activity> newList = new ArrayList<>();
+            newList.add(activities.get(0));
+            ArrayList<Activity> subset = new ArrayList<>();
+            for(int i = 1; i < activities.size(); i++) {
+                subset.add(activities.get(i));
+            }
+            Collections.shuffle(subset);
+            newList.addAll(subset);
+            setActivities(newList);
         }
 
+    }
+
+    /**
+     * Question where the player is given a random activity,
+     * and they have to guess the consumption of that activity in Wh
+     * by entering a valid number
+     */
+
+    @Getter
+    @JsonTypeName("AccurateEstimation")
+    public static class AccurateEstimation extends Question {
+        /**
+         * Zero-parameter constructor
+         */
+        public AccurateEstimation() {
+            super(null, null);
+            //for object mapper
+        }
+
+        /**
+         *
+         * @param activities - the activity used for this question (at index 0)
+         * @param consumptions - the consumption of the activity (also at index 0)
+         */
+        public AccurateEstimation(List<Activity> activities, List<Long> consumptions) {
+            super(activities, consumptions);
+        }
     }
 
 

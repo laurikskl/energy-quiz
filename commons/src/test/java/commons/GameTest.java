@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GameTest {
 
@@ -30,9 +31,9 @@ class GameTest {
         demi = new Player("xxdemixx", 666);
         adda = new Player("adduta", 0);
 
-        activity1 = new Activity("Cycling", 420l, "randomURL1", "activities/00/tesla.jpg");
-        activity2 = new Activity("Cycling", 420l, "randomURL2", "activities/01/tesla.jpg");
-        activity3 = new Activity("Cycling", 69l, "randomURL2", "activities/01/tesla.jpg");
+        activity1 = new Activity("00-cycling-1", "Cycling", 420l, "randomURL1", null);
+        activity2 = new Activity("00-cycling-2", "Cycling", 420l, "randomURL2", null);
+        activity3 = new Activity("00-cycling-3", "Cycling", 69l, "randomURL2", null);
 
         activities.add(activity1);
         activities.add(activity2);

@@ -21,12 +21,22 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -70,7 +80,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {
+                .get(new GenericType<>() {
                 });
     }
 
@@ -80,11 +90,11 @@ public class ServerUtils {
      */
 
     public List<Player> getLeaderboard() {
-        return (List<Player>) ClientBuilder.newClient(new ClientConfig())
+        return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/leaderboard")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .get(new GenericType<List<Player>>() {
+                .get(new GenericType<>() {
                 });
     }
 
@@ -123,14 +133,14 @@ public class ServerUtils {
      */
 
     /**
-    public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("player/disconnect")
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
-    }
-    */
+     public Pair<WebSocket, Player> disconnected(WebSocket socket, Player player) {
+     return ClientBuilder.newClient(new ClientConfig())
+     .target(SERVER).path("player/disconnect")
+     .request(APPLICATION_JSON)
+     .accept(APPLICATION_JSON)
+     .post(Entity.entity(new Pair<WebSocket, Player>(socket, player), APPLICATION_JSON), Pair.class);
+     }
+     */
 
     /**
      * @param name the name of a player
@@ -157,7 +167,7 @@ public class ServerUtils {
                 .target(SERVER).path("player").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
-                get(new GenericType<List<Player>>() {
+                get(new GenericType<>() {
                 });
     }
 
@@ -174,7 +184,7 @@ public class ServerUtils {
                     .target(SERVER).path("player").
                     request(APPLICATION_JSON)
                     .accept(APPLICATION_JSON).
-                    get(new GenericType<List<Player>>() {
+                    get(new GenericType<>() {
                     });
         }
         //try to find player by name and return score
@@ -201,6 +211,13 @@ public class ServerUtils {
     }
 
     /**
+     * Register for messages on the specified address
+     * @param destination the address you subscribe on
+     * @param type the type of object you wish to receive here
+     * @param consumer the object that will be received from the server
+     * @param <T> the type of the object
+     */
+
     public <T> void registerForMessages(String destination,Class<T> type, Consumer<T> consumer){
         session.subscribe(destination, new StompFrameHandler() {
             @Override
@@ -215,7 +232,25 @@ public class ServerUtils {
         });
     }
 
-    private StompSession session = connect("ws://localhost:8080/websocket");
+    /**
+     * URL of the stomp session.
+     */
+
+    private final StompSession session = connect("ws://localhost:8080/websocket");
+
+    /**
+     * Unsubscribe from the websocket session.
+     */
+
+    public void disconnect(){
+        session.disconnect();
+    }
+
+    /**
+     * Connect to a websocket.
+     * @param url the specified URL
+     * @return the session
+     */
 
     private StompSession connect(String url){
         var client = new StandardWebSocketClient();
@@ -226,44 +261,132 @@ public class ServerUtils {
         } catch (InterruptedException e){
             Thread.currentThread().interrupt();
             } catch(ExecutionException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
         }
         throw new IllegalStateException();
     }
 
+    /**
+     * Send to a specific destination on the server side.
+     * @param destination the URL
+     * @param o the object that will be sent
+     */
+
     public void send(String destination, Object o){
         session.send(destination, o);
     }
+
+    /**
+     * Gets the id of the current lobby.
+     * @return id of the lobby
+     */
 
     public long getLobby() {
         return ClientBuilder.newClient(new ClientConfig())
             .target(SERVER).path("api/lobby/getid")
             .request(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .get(new GenericType <Long>() {
+            .get(new GenericType <>() {
             });
     }
 
+    /**
+     * get all activities
+     * @return all activities
      */
-
     public List<Activity> getAllActivities() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getAll").
+                .target(SERVER).path("api/admin/getAll").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
-                get(new GenericType<List<Activity>>() {
+                get(new GenericType<>() {
                 });
     }
 
-    public List<Activity> getActivitiesByExample(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
-        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(name, powerConsumptionMin, powerConsumptionMax, source, imagePath);
+    /**
+     * Select and return all Activities that meet the criteria from the database
+     * @param name if this is a substring of the property path "name", select that activity
+     * @param powerConsumptionMin minimum of the powerConsumption range
+     * @param powerConsumptionMax maximum of the powerConsumption range
+     * @param source if this is a substring of the property path "source", select that activity
+     * @return a list of selected Activities
+     */
+    public List<Activity> getActivitiesByExample(String id, String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+        ActivitySearchRequest activitySearchRequest = new ActivitySearchRequest(id, name, powerConsumptionMin, powerConsumptionMax, source);
 
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/activities/getByName")
+                .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON) , new GenericType<List<Activity>>() {});
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<>() {});
     }
 
+    /**
+     * Add activities from an Activity Bank with the choice to retain the old Activities or to override them.
+     * @param activityBank Class containing a list of activities to add and a boolean if the previous activities should be deleted
+     * @return the amount of Activities added
+     */
+    public Integer addBank(ActivityBank activityBank) {
+
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/addBank")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(activityBank, APPLICATION_JSON), new GenericType<Integer>() {});
+    }
+
+    /**
+     * Remove activity by ID
+     * @param ID
+     * @return true if removing, false otherwise
+     */
+    public Boolean removeById(String ID) {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/removeById").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<Boolean>() {});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Restart the server
+     * @return true if restarting, false otherwise
+     */
+    public Boolean restart() {
+        try {
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/admin/restart").
+                    request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON).
+                    get(new GenericType<Boolean>() {
+                    });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the name is available in the current lobby.
+     * @param player the player that wishes to join
+     * @return true if the name is available, false if not
+     */
+
+    public Boolean nameCheck(Player player) {
+        return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("api/lobby/namecheck")
+            .request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .post(Entity.entity(player, APPLICATION_JSON), new GenericType<>() {
+            });
+    }
 
 }

@@ -5,12 +5,13 @@ import commons.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.Activity.ActivityController;
-import server.Activity.ActivityRepository;
+import server.database.ActivityRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 /**
@@ -51,7 +52,10 @@ public class QuestionService {
     public List<Question> getQuestions() {
         ArrayList<Question> questions = new ArrayList<>();
         while (questions.size() < 20) {
-            questions.add(getRandomQuestion());
+            Question q = getRandomQuestion();
+            if(q != null) {
+                questions.add(q);
+            }
         }
         return questions;
     }
@@ -62,14 +66,14 @@ public class QuestionService {
      */
 
     public Question getRandomQuestion() {
-        int randomType = random.nextInt(2);
+        int randomType = random.nextInt(3);
         switch (randomType) {
             case 0:
                 return getRandomMostNRG();
             case 1:
                 return getRandomChoiceEstimation();
             case 2:
-                return getRandomMatching();
+                return getRandomAccurateEstimation();
         }
         return null;
     }
@@ -107,11 +111,10 @@ public class QuestionService {
 
         //finding other activities as answers
         while (activities.size() < 4) {
-            long randomId = random.nextInt((int) activityRepository.count());
             Activity toAdd = null;
             while (toAdd == null) {
                 Activity potential = activityController.getRandomActivity();
-                if (potential != null && potential.getPowerConsumption() != activity.getPowerConsumption()) {
+                if (potential != null && !potential.getPowerConsumption().equals(activity.getPowerConsumption())) {
                     toAdd = potential;
                 }
             }
@@ -123,6 +126,8 @@ public class QuestionService {
 
 
     /**
+     * We make the answer generation smarter by ensuring answers have the same amount of zeros at the end
+     *
      * @return a random question of type ChoiceEstimation
      */
 
@@ -131,20 +136,96 @@ public class QuestionService {
 
         //adding the correct answer at index 0
         long correct = activity.getPowerConsumption();
+
+        //ignore numbers that are too big for the question generation
+        if(correct >= 2000000000) {
+            return getRandomChoiceEstimation();
+        }
+        System.out.println(correct);
+
+        //finding out how many zeroes the correct answer has at the end
+        int zeroCount = zerosAtEnd(correct);
+        System.out.println("zeros " + zeroCount);
+
         List<Long> answers = new ArrayList<>();
         answers.add(correct);
 
-        //adding two other answers with a maximum difference of 50%
-        int min = (int) Math.floor(0.5 * correct);
-        int max = (int) Math.ceil(1.5 * correct);
-        while (answers.size() < 3) {
-            long randomNumber = random.nextInt(max + 1);
-            if (randomNumber >= min && randomNumber != correct) {
-                answers.add(randomNumber);
+        //setting random upper and lower bounds used in calculating min and max values
+        float lowerBound = -1L;
+        while(lowerBound <= 0) {
+            lowerBound = ThreadLocalRandom.current().nextLong(7L)/10F;
+        }
+
+        float upperBound = -1;
+        while(upperBound <= 0) {
+            upperBound = ThreadLocalRandom.current().nextLong(5L)/10F;
+        }
+
+        //adding two other answers with a maximum difference of lower/upper bound
+        long min = Math.round(lowerBound * correct);
+        long max = Math.round((upperBound + 1) * correct);
+
+        //fix the bug where the correct answer is quite small
+        if(correct <= 10) {
+            while(answers.size() < 3) {
+                long rand = random.nextInt(10);
+                if(!answers.contains(rand)) {
+                    answers.add(rand);
+                }
             }
         }
 
+
+
+        while (answers.size() < 3) {
+            long randomNumber = ThreadLocalRandom.current().nextLong(min,max + 1);
+            //for larger numbers make sure each answer has the same amount of zeros at end
+            /*
+            if(correct % 5F == 0 && zeroCount == 0) {
+                char[] digits = String.valueOf(correct).toCharArray();
+                int lastDigit = Integer.parseInt(String.valueOf(digits[digits.length - 1]));
+                //take care of numbers ending in 5
+                if(lastDigit == 5) {
+                    int digitsAmount = String.valueOf(randomNumber).toCharArray().length;
+                    while(Integer.parseInt(String.valueOf(String.valueOf(randomNumber).toCharArray()[digitsAmount - 1])) != 5 ||
+                            Integer.parseInt(String.valueOf(String.valueOf(randomNumber).toCharArray()[digitsAmount - 1])) != 10) {
+                        randomNumber++;
+                    }
+                }
+                if(zeroCount > 0) {
+                    for(int i = 0; i < zeroCount; i++) {
+                        Math.round(randomNumber /= 10F);
+                    }
+                    if(zerosAtEnd(randomNumber) > 0) {
+                        randomNumber += random.nextInt(10);
+                    }
+                    for(int i = 0; i < zeroCount; i++) {
+                        randomNumber *= 10F;
+                    }
+                }
+            }*/
+
+            if (!answers.contains(randomNumber) && randomNumber > 0) {
+                answers.add(randomNumber);
+            }
+        }
         return new Question.ChoiceEstimation(List.of(activity), answers);
+    }
+
+
+    /**
+     * @param num number
+     * @return amount of zeros at end of num
+     */
+
+    public int zerosAtEnd(Long num) {
+        long correctToDiv = num;
+        int zeroCount = 0;
+        while(correctToDiv % 10L == 0) {
+            correctToDiv /= 10L;
+            zeroCount++;
+        }
+        return zeroCount;
     }
 
 
@@ -164,6 +245,22 @@ public class QuestionService {
             }
         }
         Collections.sort(activities); //most energy will be in front
-        return new Question.MostNRGQuestion(activities, activities.get(0), null);
+        Question.MostNRGQuestion toRet = new Question.MostNRGQuestion(activities, activities.get(0), null);
+        Collections.shuffle(toRet.getActivities());
+        return toRet;
+    }
+
+    /**
+     * @return a random question of type accurateEstimation
+     */
+    public Question.AccurateEstimation getRandomAccurateEstimation(){
+        //Generate a random activity
+        Activity activity = activityController.getRandomActivity();
+        List<Activity> activities = new ArrayList<>();
+
+        //Put the activity in the activity list for the constructor
+        activities.add(activity);
+
+        return new Question.AccurateEstimation(activities, null);
     }
 }

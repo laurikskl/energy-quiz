@@ -6,14 +6,18 @@ import commons.Question;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Collections;
 
@@ -60,7 +64,7 @@ public class ChoiceEstimationCtrl extends Controller{
      * @param parentCtrl controller for the Singleplayer game
      * @param choiceEstimation question
      */
-    public void start(Controller parentCtrl, Question choiceEstimation) {
+    public void start(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
         this.parentCtrl = (SPGameCtrl) parentCtrl;
         //Set the isCorrect to false meaning there was no answer
         this.isCorrect = false;
@@ -75,11 +79,16 @@ public class ChoiceEstimationCtrl extends Controller{
         correctAnswer = choiceEstimation.getActivities().get(0).getPowerConsumption();
         correctText = String.valueOf(correctAnswer);
         //Set the activity, image and buttons
-        String path = choiceEstimation.getActivities().get(0).getImagePath();
-        image.setImage(new Image(new File(path).toURI().toString()));
+        byte[] byteArray = choiceEstimation.getActivities().get(0).getImageContent();
+        Image img = new Image(new ByteArrayInputStream(byteArray));
+        //if there was an error in getting the image, set it to a default image
+        if(img.isError()) {
+            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
+        } else {
+            image.setImage(img);
+        }
         activityButton.setText(choiceEstimation.getActivities().get(0).getName());
         setButtons();
-
     }
 
     /**
@@ -147,7 +156,7 @@ public class ChoiceEstimationCtrl extends Controller{
      *
      * @param actionEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress1(MouseEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctText)) {
@@ -156,6 +165,8 @@ public class ChoiceEstimationCtrl extends Controller{
         } else {
             isCorrect = false;
         }
+        buttonsEnabled(false);
+
         showCorrect();
 
         //keep the same question while the correct answer shown
@@ -183,7 +194,7 @@ public class ChoiceEstimationCtrl extends Controller{
      *
      * @param actionEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress2(MouseEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctText)) {
@@ -192,6 +203,7 @@ public class ChoiceEstimationCtrl extends Controller{
         } else {
             isCorrect = false;
         }
+        buttonsEnabled(false);
 
         showCorrect();
 
@@ -220,7 +232,7 @@ public class ChoiceEstimationCtrl extends Controller{
      *
      * @param actionEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException {
+    public void handleButtonPress3(MouseEvent actionEvent) throws InterruptedException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctText)) {
@@ -229,6 +241,7 @@ public class ChoiceEstimationCtrl extends Controller{
         } else {
             isCorrect = false;
         }
+        buttonsEnabled(false);
 
         showCorrect();
 
@@ -258,7 +271,18 @@ public class ChoiceEstimationCtrl extends Controller{
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(2)
+        );
+        pause.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parentCtrl.scoreAwardedVisibility(false, 0);
+            }
+        });
+        pause.play();
     }
 
     /**
@@ -271,13 +295,23 @@ public class ChoiceEstimationCtrl extends Controller{
     }
      */
 
+
     /**
-     * Disable all buttons
+     * Enable/disable all buttons
+     *
+     * @param enabled iff true buttons are enabled
      */
-    public void disableButtons() {
-        answer1.setDisable(false);
-        answer2.setDisable(false);
-        answer3.setDisable(false);
+
+    public void buttonsEnabled(boolean enabled) {
+        if(enabled) {
+            answer1.setDisable(false);
+            answer2.setDisable(false);
+            answer3.setDisable(false);
+        } else {
+            answer1.setDisable(true);
+            answer2.setDisable(true);
+            answer3.setDisable(true);
+        }
     }
 
 

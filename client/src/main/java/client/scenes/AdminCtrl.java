@@ -1,30 +1,42 @@
 package client.scenes;
 
+import client.ImageActivity;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
+import commons.ActivityBank;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdminCtrl extends Controller{
+public class AdminCtrl extends Controller {
 
     @FXML
     private ImageView backImg;
 
+    //Restart
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Label restartStatusLabel;
+
     //Search
+    @FXML
+    private TextField searchIDField;
     @FXML
     private TextField searchNameField;
     @FXML
@@ -34,55 +46,11 @@ public class AdminCtrl extends Controller{
     @FXML
     private TextField searchSourceField;
     @FXML
-    private TextField searchImageField;
-    @FXML
     private Button searchButton;
     @FXML
     private Button searchShowAllButton;
     @FXML
     private Label searchStatusLabel;
-
-    //Edit
-    @FXML
-    private TextField editByIDField;
-    @FXML
-    private CheckBox editNameCB;
-    @FXML
-    private CheckBox editConsumptionCB;
-    @FXML
-    private CheckBox editSourceCB;
-    @FXML
-    private CheckBox editImageCB;
-    @FXML
-    private TextField editNameField;
-    @FXML
-    private TextField editConsumptionField;
-    @FXML
-    private TextField editSourceField;
-    @FXML
-    private TextField editImageField;
-    @FXML
-    private Button editImageBrowseButton;
-    @FXML
-    private Button editSubmitButton;
-    @FXML
-    private Label editStatusLabel;
-
-    //Add By hand
-    @FXML
-    private TextField addNameField;
-    @FXML
-    private TextField addConsumptionField;
-    @FXML
-    private TextField addSourceField;
-    @FXML
-    private TextField addImageField;
-    @FXML
-    private Button addImageBrowseButton;
-    @FXML
-    private Button addSubmitButton;
-    @FXML
-    private Label addStatusLabel;
 
     //Add From Activity Bank
     @FXML
@@ -106,11 +74,10 @@ public class AdminCtrl extends Controller{
 
     //Table
     @FXML
-    private TableView<Activity> tableView;
+    private TableView<ImageActivity> tableView;
 
     //Fields
     private FileChooser fileChooser;
-    private DirectoryChooser directoryChooser;
     private KeyCodeCombination copyKeyCode;
 
     /**
@@ -121,15 +88,17 @@ public class AdminCtrl extends Controller{
     public AdminCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
         this.fileChooser = new FileChooser();
-        this.directoryChooser = new DirectoryChooser();
         this.copyKeyCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
     }
 
+    /**
+     * Initialize nodes in the scene just after the constructor has been called.
+     */
     @FXML
     private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMinField content to numbers
         this.searchConsumptionMinField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -140,7 +109,7 @@ public class AdminCtrl extends Controller{
             }
         });
 
-        //Restrict TextField content to numbers
+        //Restrict searchConsumptionMaxField content to numbers
         this.searchConsumptionMaxField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -152,12 +121,12 @@ public class AdminCtrl extends Controller{
         });
 
         //Set up columns to automatically take in the correct attributes if an Activity gets added to the table as an item.
-        List<TableColumn<Activity, ?>> columns = this.tableView.getColumns();
+        List<TableColumn<ImageActivity, ?>> columns = this.tableView.getColumns();
         columns.get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         columns.get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         columns.get(2).setCellValueFactory(new PropertyValueFactory<>("powerConsumption"));
         columns.get(3).setCellValueFactory(new PropertyValueFactory<>("source"));
-        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("imagePath"));
+        columns.get(4).setCellValueFactory(new PropertyValueFactory<>("button"));
 
         //Enable cell selection
         this.tableView.getSelectionModel().setCellSelectionEnabled(true);
@@ -165,18 +134,69 @@ public class AdminCtrl extends Controller{
 
     /**
      * Go back to the Splash screen
-     * @param actionEvent - the mouse clicked on the Back button
+     * @param mouseEvent - the mouse clicked on the Back button
      * @throws IOException
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showSplash();
     }
 
+    /**
+     * Restart the server and show if it succeeded or not.
+     *
+     * @param mouseEvent - the mouse clicked on the Restart Server button
+     */
+    public void mouseClickedRestart(MouseEvent mouseEvent) {
+        AdminCtrl adminCtrl = this;
+
+        //Create a Task which updates a statusLabel after it runs, succeeds or is canceled
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                if (!adminCtrl.server.restart()) {
+                    this.cancel();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.restartStatusLabel.setText("Restarting...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.restartStatusLabel.setText("Restarted");
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                adminCtrl.restartStatusLabel.setText("Restart Failed");
+            }
+        };
+
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
+    }
+
+    /** Copy the contents of the selected cell in string format if the table is selected and ctrl+c is pressed.
+     * @param keyEvent Key combination
+     */
     public void tableViewKeyEvent(KeyEvent keyEvent) {
+        //If the KeyEvent is Ctrl+C inside tableView
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
+            //Get selected cells' positions
             ObservableList<TablePosition> selectedCells = this.tableView.getSelectionModel().getSelectedCells();
 
+            //Check if a cell has been selected
             if (selectedCells.size() != 0) {
                 //Get TablePosition of selected cell
                 TablePosition tablePosition = selectedCells.get(0);
@@ -202,143 +222,247 @@ public class AdminCtrl extends Controller{
 
     /**
      * Helper method to display activities in tableView
+     *
      * @param activities activities to show in the table
      */
     public void loadTable(List<Activity> activities) {
+        //convert the given activities to activities with show image buttons.
+        List<ImageActivity> imageActivities = new ArrayList<>();
+        activities.forEach(activity -> {
+            imageActivities.add(new ImageActivity(activity));
+        });
+
+        //Clear the table
         this.tableView.getItems().clear();
-        this.tableView.getItems().addAll(activities);
-    }
 
-    /**
-     * Helper method to choose images
-     * @return The absolute path of the selected file
-     */
-    private String chooseImage() {
-        this.fileChooser.setTitle("Select Image");
-        this.fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png")
-        );
-
-        return this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
+        //Load all imageActivities
+        this.tableView.getItems().addAll(imageActivities);
     }
 
     /**
      * Helper method to choose paths
+     *
      * @return The absolute path of the selected file
      */
-    private String choosePath() {
-        this.directoryChooser.setTitle("Select Activities Folder");
+    private String chooseJson() {
+        this.fileChooser.setTitle("Select A Json file in the Activity Bank");
+        this.fileChooser.getExtensionFilters().setAll(
+                new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
+        
+        File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
+        
+        if (file == null) return null;
 
-        return this.directoryChooser.showDialog(getMainCtrl().getPrimaryStage()).getAbsolutePath();
+        return file.getAbsolutePath();
     }
 
     /**
      * Search the Activity Database and put the result in tableView
-     * @param actionEvent - the mouse clicked on searchButton
+     * @param mouseEvent - the mouse clicked on searchButton
      */
-    public void search(ActionEvent actionEvent) {
-        this.searchStatusLabel.setText("Retrieving...");
+    public void search(MouseEvent mouseEvent) {
+        AdminCtrl adminCtrl = this;
 
-        String minConsumption = this.searchConsumptionMinField.getText();
-        String maxConsumption = this.searchConsumptionMaxField.getText();
+        //Create a Task which updates a statusLabel after it runs or succeeds
+        Task<Integer> task = new Task() {
+            @Override
+            protected Integer call() {
+                String minConsumption = adminCtrl.searchConsumptionMinField.getText();
+                String maxConsumption = adminCtrl.searchConsumptionMaxField.getText();
 
-        Long minConsumptionLong;
-        Long maxConsumptionLong;
+                Long minConsumptionLong;
+                Long maxConsumptionLong;
 
-        //Parse minConsumption to Long
-        if (minConsumption.equals("")) {
-            minConsumptionLong = null;
-        }
-        else {
-            minConsumptionLong = Long.parseLong(minConsumption);
-        }
+                //Parse minConsumption to Long
+                if (minConsumption.equals("")) {
+                    minConsumptionLong = null;
+                } else {
+                    minConsumptionLong = Long.parseLong(minConsumption);
+                }
 
-        //Parse maxConsumption to Long
-        if (maxConsumption.equals("")) {
-            maxConsumptionLong = null;
-        }
-        else {
-            maxConsumptionLong = Long.parseLong(maxConsumption);
-        }
+                //Parse maxConsumption to Long
+                if (maxConsumption.equals("")) {
+                    maxConsumptionLong = null;
+                } else {
+                    maxConsumptionLong = Long.parseLong(maxConsumption);
+                }
 
-        List<Activity> activities = getServer().getActivitiesByExample(
-                this.searchNameField.getText(),
-                minConsumptionLong,
-                maxConsumptionLong,
-                this.searchSourceField.getText(),
-                this.searchImageField.getText()
-        );
-        this.loadTable(activities);
-        this.searchStatusLabel.setText("Activities found: " + activities.size());
+                List<Activity> activities = adminCtrl.server.getActivitiesByExample(
+                        adminCtrl.searchIDField.getText(),
+                        adminCtrl.searchNameField.getText(),
+                        minConsumptionLong,
+                        maxConsumptionLong,
+                        adminCtrl.searchSourceField.getText()
+                );
+                adminCtrl.loadTable(activities);
+
+                return activities.size();
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.searchStatusLabel.setText("Retrieving...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.searchStatusLabel.setText("Activities found: " + this.getValue());
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     /**
      * Show all activities from the Activity Database
-     * @param actionEvent - the mouse clicked on searchButton
+     * @param mouseEvent - the mouse clicked on searchButton
      */
-    public void showAll(ActionEvent actionEvent) {
-        this.searchStatusLabel.setText("Retrieving...");
+    public void showAll(MouseEvent mouseEvent) {
+        AdminCtrl adminCtrl = this;
 
-        List<Activity> activities = getServer().getAllActivities();
-        this.loadTable(activities);
+        //Create a Task which updates a statusLabel after it runs or succeeds
+        Task<Integer> task = new Task<>() {
+            @Override
+            protected Integer call() {
 
-        this.searchStatusLabel.setText("Activities found: " + activities.size());
-    }
+                List<Activity> activities = adminCtrl.server.getAllActivities();
+                adminCtrl.loadTable(activities);
 
-    /**
-     * Browse for an image and put its absolute path in editImageField.
-     * @param actionEvent - the mouse clicked on editImageBrowseButton
-     */
-    public void editImageBrowse(ActionEvent actionEvent){
-        this.editImageField.setText(chooseImage());
-    }
+                return activities.size();
+            }
 
-    /**
-     * Edit an Activity
-     * @param actionEvent - the mouse clicked on editSubmitButton
-     */
-    public void editSubmit(ActionEvent actionEvent){
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.searchStatusLabel.setText("Retrieving...");
+            }
 
-    }
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.searchStatusLabel.setText("Activities found: " + this.getValue());
+            }
+        };
 
-    /**
-     * Browse for an image and put its absolute path in addImageField.
-     * @param actionEvent - the mouse clicked on addImageBrowseButton
-     */
-    public void addImageBrowse(ActionEvent actionEvent){
-        this.addImageField.setText(chooseImage());
-    }
-
-    /**
-     * Add an Activity
-     * @param actionEvent - the mouse clicked on AddSubmitButton
-     */
-    public void addSubmit(ActionEvent actionEvent){
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
     }
 
     /**
-     * Browse for a folder and put its absolute path in ABPathField.
-     * @param actionEvent - the mouse clicked on ABPathBrowseButton
+     * Browse for a Json file and put its absolute path in ABPathField.
+     * @param mouseEvent - the mouse clicked on ABPathBrowseButton
      */
-    public void aBPathBrowse(ActionEvent actionEvent){
-        this.aBPathField.setText(choosePath());
+    public void aBPathBrowse(MouseEvent mouseEvent){
+        this.aBPathField.setText(chooseJson());
     }
 
     /**
      * Add all Activities from an Activity Bank
-     * @param actionEvent - the mouse clicked on aBSubmitButton
+     * @param mouseEvent - the mouse clicked on aBSubmitButton
      */
-    public void aBSubmit(ActionEvent actionEvent){
+    public void aBSubmit(MouseEvent mouseEvent) {
+        AdminCtrl adminCtrl = this;
+
+        //Create a Task which updates a statusLabel after it runs, succeeds or is canceled
+        Task<Integer> task = new Task<>() {
+            @Override
+            protected Integer call() {
+                Integer n = 0;
+
+                try {
+                    Path path = Path.of(adminCtrl.aBPathField.getText());
+
+                    ActivityBank activityBank = ActivityBank.fileReader(path);
+
+                    activityBank.setOverride(adminCtrl.aBOverrideCB.isSelected());
+
+                    n = adminCtrl.server.addBank(activityBank);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.cancel();
+                }
+
+                return n;
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.aBStatusLabel.setText("Adding Activities...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.aBStatusLabel.setText("Added " + this.getValue() + " Activities");
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                adminCtrl.aBStatusLabel.setText("Provide a valid Activity Bank please");
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
     }
 
     /**
      * Remove an Activity
-     * @param actionEvent - the mouse clicked on removeSubmitButton
+     * @param mouseEvent - the mouse clicked on removeSubmitButton
      */
-    public void removeSubmit(ActionEvent actionEvent){
+    public void removeSubmit(MouseEvent mouseEvent){
+        AdminCtrl adminCtrl = this;
+
+        //Create a Task which updates a statusLabel after it runs, succeeds or is canceled
+        Task<Void> task = new Task<>() {
+            private String id;
+
+            @Override
+            protected Void call() {
+                this.id = adminCtrl.removeByIDField.getText();
+
+                if (!adminCtrl.server.removeById(this.id)) {
+                    this.cancel();
+                }
+                return null;
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                adminCtrl.removeStatusLabel.setText("Removing " + this.id + "...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                adminCtrl.removeStatusLabel.setText("Removed " + this.id);
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                adminCtrl.removeStatusLabel.setText("Failed Removing " + id);
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
     }
 }

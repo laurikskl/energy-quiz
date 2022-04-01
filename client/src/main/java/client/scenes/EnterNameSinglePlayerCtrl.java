@@ -4,10 +4,10 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
@@ -54,11 +54,12 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * @param actionEvent - pressing the play button triggers this function.
      */
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException, InterruptedException {
+    public void startGame(MouseEvent actionEvent) throws IOException, InterruptedException {
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
-        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        else if(usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
 
         else {
             //fetch player from database, if it doesn't exist store a new player with score 0
@@ -87,7 +88,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException when files not found or misread
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showSplash();
     }
 }

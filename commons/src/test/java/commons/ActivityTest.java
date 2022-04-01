@@ -19,18 +19,22 @@ public class ActivityTest {
      */
     @BeforeEach
     public void initialize() {
-        activity = new Activity("Cycling", 420L, "randomURL1", "activities/00/tesla.jpg");
-        activityChanged = new Activity("Cycling", 420L, "randomURL2", "activities/01/tesla.jpg");
+        activity = new Activity("00-cycling", "Cycling", 420L, "randomURL1", null);
+        activityChanged = new Activity("00-cycling", "Cycling", 420L, "randomURL2", null);
         json1 = "{\n" +
+                "    \"id\" : \"00-cycling\",\n" +
                 "    \"title\" : \"Using a blender for one hour\",\n" +
                 "    \"consumption_in_wh\" : 400,\n" +
                 "    \"source\" : \"https://www.electricalclassroom.com/power-consume-energy-usage-of-blenders/" +
-                "#:~:text=Power%20consumption%20of%20blenders,stator%20winding%20for%20speed%20control.\"\n" +
+                "#:~:text=Power%20consumption%20of%20blenders,stator%20winding%20for%20speed%20control.\",\n" +
+                "    \"image_path\" : \"\"\n" +
                 "}";
         json2 = "{\n" +
+                "    \"id\" : \"00-vacuum\",\n" +
                 "    \"title\": \"Vacuuming your home for 30min\",\n" +
                 "    \"consumption_in_wh\": 9000000000000,\n" +
-                "    \"source\": \"https://www.philips.com.sg/c-p/FC9350_61/3000-series-bagless-vacuum-cleaner\"\n" +
+                "    \"source\": \"https://www.philips.com.sg/c-p/FC9350_61/3000-series-bagless-vacuum-cleaner\",\n" +
+                "    \"image_path\" : \"\"\n" +
                 "}\n";
     }
 
@@ -43,11 +47,11 @@ public class ActivityTest {
     }
 
     /**
-     * Testing if the id of the 1st activity is 0
+     * Testing if the id of the 1st activity is 00-cycling
      */
     @Test
     public void getIdTest1() {
-        assertEquals(null, activity.getId());
+        assertEquals("00-cycling", activity.getId());
     }
 
     /**
@@ -75,20 +79,12 @@ public class ActivityTest {
     }
 
     /**
-     * Testing getter for image path
-     */
-    @Test
-    void getImagePathTest() {
-        assertEquals("activities/00/tesla.jpg", activity.getImagePath());
-    }
-
-    /**
      * Testing if setting Id to 2 works
      */
     @Test
     public void setIdTest() {
-        activityChanged.setId(2L);
-        assertEquals(2L, activityChanged.getId());
+        activityChanged.setId("00-new-id");
+        assertEquals("00-new-id", activityChanged.getId());
     }
 
     /**
@@ -118,12 +114,6 @@ public class ActivityTest {
         assertEquals("randomURL", activityChanged.getSource());
     }
 
-    @Test
-    void setImagePathTest() {
-        activityChanged.setImagePath("activities/17/tesla.jpg");
-        assertEquals("activities/17/tesla.jpg", activityChanged.getImagePath());
-    }
-
     /**
      * Testing if equals method works for the same reference
      */
@@ -145,8 +135,8 @@ public class ActivityTest {
      */
     @Test
     public void equalsTest() {
-        Activity activitySame = new Activity("Cycling", 420L, "randomURL1", "activities/00/tesla.jpg");
-        Activity activityDiff = new Activity("Biking", 420L, "randomURL", "activities/00/tesla.jpg");
+        Activity activitySame = new Activity("00-cycling", "Cycling", 420L, "randomURL1", null);
+        Activity activityDiff = new Activity("00-biking", "Biking", 420L, "randomURL", null);
         assertTrue(activity.equals(activitySame));
         assertTrue(activitySame.equals(activity));
         assertFalse(activity.equals(activityDiff));
@@ -158,7 +148,7 @@ public class ActivityTest {
      */
     @Test
     void hashEqualTest() {
-        Activity activitySame = new Activity("Cycling", 420L, "randomURL1", "activities/00/tesla.jpg");
+        Activity activitySame = new Activity("00-cycling", "Cycling", 420L, "randomURL1", null);
         assertEquals(activity.hashCode(), activitySame.hashCode());
     }
 
@@ -167,7 +157,7 @@ public class ActivityTest {
      */
     @Test
     void hashDifferentTest() {
-        Activity activityDiff = new Activity("Biking", 420L, "randomURL", "activities/00/tesla.jpg");
+        Activity activityDiff = new Activity("00-cycling", "Biking", 420L, "randomURL", null);
         assertNotEquals(activity.hashCode(), activityDiff.hashCode());
     }
 
@@ -176,8 +166,8 @@ public class ActivityTest {
      */
     @Test
     public void toStringTest() {
-        assertEquals("Activity{id=" + null + ", name='Cycling', powerConsumption=" + 420
-                        + ", source='randomURL1', imagePath='activities/00/tesla.jpg'" + '}'
+        assertEquals("Activity{id=00-cycling" + ", name='Cycling', powerConsumption=" + 420
+                        + ", source='randomURL1'" + '}'
                 , activity.toString());
     }
 
@@ -189,7 +179,7 @@ public class ActivityTest {
      */
     @Test
     void JSONActivityReaderTest1() throws FileNotFoundException {
-        Activity readFromJson = Activity.JSONActivityReader(json1);
+        Activity readFromJson = Activity.JSONActivityReader(json1, "");
         assertEquals("Using a blender for one hour", readFromJson.getName());
         assertEquals(400, readFromJson.getPowerConsumption());
         assertEquals("https://www.electricalclassroom.com/power-consume-energy-usage-of-blenders/" +
@@ -205,7 +195,7 @@ public class ActivityTest {
      */
     @Test
     void JSONActivityReaderTest2() throws FileNotFoundException {
-        Activity readFromJson = Activity.JSONActivityReader(json2);
+        Activity readFromJson = Activity.JSONActivityReader(json2, "");
         assertEquals("Vacuuming your home for 30min", readFromJson.getName());
         assertEquals(9000000000000L, readFromJson.getPowerConsumption());
         assertEquals("https://www.philips.com.sg/c-p/FC9350_61/3000-series-bagless-vacuum-cleaner"

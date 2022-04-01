@@ -66,7 +66,7 @@ class QuestionServiceTest {
         Question random = q1.getRandomQuestion();
         assertNotNull(random);
         if(!(random instanceof Question.MostNRGQuestion) && !(random instanceof Question.ChoiceEstimation) &&
-                !(random instanceof Question.Matching)) {
+                !(random instanceof Question.Matching) && !(random instanceof Question.AccurateEstimation)) {
             fail("No random question of the right type was generated");
         }
     }
@@ -135,6 +135,13 @@ class QuestionServiceTest {
             }
         }
         assertEquals(mostNRG.getCorrect(), max);
+    }
+
+    @Test
+    void zerosAtEnd() {
+        assertEquals(2, q1.zerosAtEnd(1500L));
+        assertEquals(1, q1.zerosAtEnd(160L));
+        assertEquals(0, q1.zerosAtEnd(106L));
     }
 
 }

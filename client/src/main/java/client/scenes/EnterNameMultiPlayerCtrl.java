@@ -4,13 +4,12 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.List;
 
 public class EnterNameMultiPlayerCtrl extends Controller {
 
@@ -18,13 +17,13 @@ public class EnterNameMultiPlayerCtrl extends Controller {
     private TextField userName;
     @FXML
     private Text warningText;
-
     String usernameString;
 
     /**
      * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
+
     @Inject
     public EnterNameMultiPlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
@@ -34,6 +33,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
     /**
      * Exits the application, called by quit button
      */
+
     public void cancel() {
         Platform.exit();
     }
@@ -44,12 +44,14 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param actionEvent - pressing the play button triggers this function.
      * @throws IOException when reading files goes wrong
      */
+
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    public void startGame(MouseEvent actionEvent) throws IOException {
 
         usernameString = userName.getText();
 
-        if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
+        else if(usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
 
         else {
             Player player;
@@ -59,25 +61,24 @@ public class EnterNameMultiPlayerCtrl extends Controller {
                     player = new Player(usernameString, 0);
                     getServer().setPlayer(usernameString, 0);
                 }
-            } catch (Exception e) { //this should only happen when the server is null
+                //this should only happen when the server is null
+            } catch (Exception e) {
+                e.printStackTrace();
                 player = new Player(usernameString, 0);
             }
-            //joinLobby(player);
-            LobbyCtrl ctrl = (LobbyCtrl) getMainCtrl().getControllers().get(5);
-            ctrl.createLobby(List.of(player), player);
-            getMainCtrl().showLobbyScreen(List.of(player), player);
+            long id = server.getLobby();
+
+            // If name isn't available, don't make a connection
+            if(!server.nameCheck(player)){
+                //if the username is broken, send a warning
+                warningText.setText("This name is not available!");
+                return;
+            }
+
+            // Make a connection to the lobby if name is available
+            this.mainCtrl.makeConnection(player);
         }
 
-    }
-
-    /**
-     * gets the id of the current ongoing lobby and sends the player
-     * to the relevant destination.
-     * @param player The player who is typing in their name
-     */
-    public void joinLobby(Player player){
-        //long id = getServer().getLobby();
-        //getServer().send("/game/" + id + "/lobby/join", player);
     }
 
     /**
@@ -86,7 +87,8 @@ public class EnterNameMultiPlayerCtrl extends Controller {
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException when reading files goes wrong
      */
-    public void back(ActionEvent actionEvent) throws IOException {
+
+    public void back(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showSplash();
     }
 }

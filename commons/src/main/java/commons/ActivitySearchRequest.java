@@ -8,25 +8,24 @@ import java.util.Objects;
  */
 public class ActivitySearchRequest implements Serializable {
     //fields
+    private String id;
     private String name;
     private Long powerConsumptionMin;
     private Long powerConsumptionMax;
     private String source;
-    private String imagePath;
 
     /**
      * @param name
      * @param powerConsumptionMin
      * @param powerConsumptionMax
      * @param source
-     * @param imagePath
      */
-    public ActivitySearchRequest(String name, Long powerConsumptionMin, Long powerConsumptionMax, String source, String imagePath) {
+    public ActivitySearchRequest(String id, String name, Long powerConsumptionMin, Long powerConsumptionMax, String source) {
+        this.id = id;
         this.name = name;
         this.powerConsumptionMin = powerConsumptionMin;
         this.powerConsumptionMax = powerConsumptionMax;
         this.source = source;
-        this.imagePath = imagePath;
     }
 
     /**
@@ -34,6 +33,20 @@ public class ActivitySearchRequest implements Serializable {
      */
     public ActivitySearchRequest() {
 
+    }
+
+    /**
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -93,35 +106,28 @@ public class ActivitySearchRequest implements Serializable {
     }
 
     /**
-     * @return imagePath
+     * @param obj
+     * @return if this equals obj
      */
-    public String getImagePath() {
-        return imagePath;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ActivitySearchRequest that = (ActivitySearchRequest) obj;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source);
     }
 
     /**
-     * @param imagePath
+     * @return a string representation of this object
      */
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ActivitySearchRequest that = (ActivitySearchRequest) o;
-        return Objects.equals(name, that.name) && Objects.equals(powerConsumptionMin, that.powerConsumptionMin) && Objects.equals(powerConsumptionMax, that.powerConsumptionMax) && Objects.equals(source, that.source) && Objects.equals(imagePath, that.imagePath);
-    }
-
     @Override
     public String toString() {
         return "ActivitySearchRequest{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", powerConsumptionMin=" + powerConsumptionMin +
                 ", powerConsumptionMax=" + powerConsumptionMax +
                 ", source='" + source + '\'' +
-                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }

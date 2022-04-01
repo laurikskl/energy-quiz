@@ -3,33 +3,33 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ActivitySearchRequestTest {
     private ActivitySearchRequest activitySearchRequest;
+    private String id;
     private String name;
     private Long powerConsumptionMin;
     private Long powerConsumptionMax;
     private String source;
-    private String imagePath;
 
     /**
      * Set up objects needed for the tests
      */
     @BeforeEach
     void initialize() {
+        this.id = "id";
         this.name = "name";
         this.powerConsumptionMin = 1l;
         this.powerConsumptionMax = 2l;
         this.source = "source";
-        this.imagePath = "imagePath";
 
         this.activitySearchRequest = new ActivitySearchRequest(
+                this.id,
                 this.name,
                 this.powerConsumptionMin,
                 this.powerConsumptionMax,
-                this.source,
-                this.imagePath
+                this.source
         );
 
     }
@@ -107,34 +107,16 @@ public class ActivitySearchRequestTest {
     }
 
     /**
-     * Test getImagePath
-     */
-    @Test
-    void getImagePath() {
-        assertEquals(this.activitySearchRequest.getImagePath(), this.imagePath);
-    }
-
-    /**
-     * Test setImagePath
-     */
-    @Test
-    void setImagePath() {
-        String imagePath2 = "imagePath2";
-        this.activitySearchRequest.setImagePath(imagePath2);
-        assertEquals(this.activitySearchRequest.getImagePath(), imagePath2);
-    }
-
-    /**
      * Test equals
      */
     @Test
     void testEquals() {
         ActivitySearchRequest activitySearchRequest2 = new ActivitySearchRequest(
+                this.id,
                 this.name,
                 this.powerConsumptionMin,
                 this.powerConsumptionMax,
-                this.source,
-                this.imagePath
+                this.source
         );
 
         assertEquals(activitySearchRequest2, this.activitySearchRequest);
@@ -146,11 +128,11 @@ public class ActivitySearchRequestTest {
     @Test
     void testToString() {
         String string = "ActivitySearchRequest{" +
-                "name='" + this.name + '\'' +
+                "id='" + this.id + '\'' +
+                ", name='" + this.name + '\'' +
                 ", powerConsumptionMin=" + this.powerConsumptionMin +
                 ", powerConsumptionMax=" + this.powerConsumptionMax +
                 ", source='" + this.source + '\'' +
-                ", imagePath='" + this.imagePath + '\'' +
                 '}';
 
         assertEquals(this.activitySearchRequest.toString(), string);

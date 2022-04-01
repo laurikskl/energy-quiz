@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import server.Activity.ActivityRepository;
+import server.database.ActivityRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,10 +25,10 @@ public class TestActivityRepository implements ActivityRepository {
      * Activities are initialized and put into a list
      */
 
-    private final Activity a1 = new Activity("showering", 2000l, "wikipedia.com");
-    private final Activity a2 = new Activity("watching tv", 1000l, "wikipedia.com");
-    private final Activity a3 = new Activity("coding", 1500l, "wikipedia.com");
-    private final Activity a4 = new Activity("using e-bike", 2000l, "wikipedia.com");
+    private final Activity a1 = new Activity("00-showering", "showering", 2000l, "wikipedia.com", null);
+    private final Activity a2 = new Activity("00-tv", "watching tv", 1000l, "wikipedia.com", null);
+    private final Activity a3 = new Activity("00-coding", "coding", 1500l, "wikipedia.com", null);
+    private final Activity a4 = new Activity("00-e-bike", "using e-bike", 2000l, "wikipedia.com", null);
     private final List<Activity> activities = Arrays.asList(a1, a2, a3, a4);
 
 
