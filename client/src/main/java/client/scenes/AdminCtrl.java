@@ -19,7 +19,6 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -242,6 +241,7 @@ public class AdminCtrl extends Controller {
         this.fileChooser.setTitle("Select A Json file in the Activity Bank");
         this.fileChooser.getExtensionFilters().setAll(
                 new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
         File file = this.fileChooser.showOpenDialog(getMainCtrl().getPrimaryStage());
 
         if (file == null) return null;
