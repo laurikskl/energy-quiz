@@ -2,5 +2,5 @@ package commons;
 
 public enum Type {
   LOBBYUPDATE,
-  EMOJI
+  EMOJI,
 }

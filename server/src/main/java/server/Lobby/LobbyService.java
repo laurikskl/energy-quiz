@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
+import server.Question.QuestionService;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import static commons.Type.LOBBYUPDATE;
 public class LobbyService {
   public Game currentLobby;
   private final GameManagementService service;
+  private final QuestionService questionService;
   private final SimpMessagingTemplate simpMessagingTemplate;
 
   /**
@@ -34,9 +36,11 @@ public class LobbyService {
 
   @Autowired
   public LobbyService(GameManagementService service,
-                      SimpMessagingTemplate simpMessagingTemplate) {
+                      SimpMessagingTemplate simpMessagingTemplate,
+                      QuestionService questionService) {
     this.service = service;
     currentLobby = service.newLobby();
+    this.questionService = questionService;
     this.simpMessagingTemplate = simpMessagingTemplate;
   }
 
@@ -45,7 +49,6 @@ public class LobbyService {
    * name screen to a lobby.
    * @param p the player that joined
    */
-
 
   public void onJoin(Player p){
     currentLobby.getPlayers().add(p);
@@ -77,6 +80,7 @@ public class LobbyService {
    * Gets the id of the current game.
    * @return the id as a long
    */
+
   public long getLobby(){
     return currentLobby.getId();
   }
@@ -84,10 +88,9 @@ public class LobbyService {
   /**
    * Adds the lobby to the game management service list of active games.
    */
-
-  @MessageMapping("/game/{id}/lobby/start")
-  public void startLobby(String dest, String msg){
+  public void startLobby(long id){
     Game toAdd = currentLobby;
+
     service.makeLobbyActive(toAdd);
     currentLobby = service.newLobby();
     refreshLobbyTable();

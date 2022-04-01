@@ -3,6 +3,7 @@ package server.GameManagement;
 import commons.Game;
 import commons.Player;
 import commons.Question;
+import commons.RoundPlayer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 public class GameManagementService {
 
   public List<Game> games;
-  public long generateId;
+  public int generateId;
 
   /**
    * Constructor for the gameService class that starts a new arrayList with games
@@ -93,5 +94,31 @@ public class GameManagementService {
    */
   public List<Game> getGames() {
     return games;
+  }
+
+  /**
+   * Update the score of the player that sent their new score
+   * @param id the id of the game the player is in
+   * @param roundPlayer the player that is updating their score
+   */
+  public void scoreUpdate(long id, RoundPlayer roundPlayer) {
+    Game game = this.games.get((int) id);
+    // the amount of points the player wants to add
+    int score = roundPlayer.getScore();
+
+    // if the round the player is sending the score from doesn't match
+    // the current round of the game then we don't give the player
+    // points
+    if(game.getRound() != roundPlayer.getRound()) return;
+
+    // we look through the players in the game to find the one
+    // that wants to update their score
+    for(Player player : game.getPlayers()){
+      if(player.getUserName().equals(roundPlayer.getUserName())){
+        //the score of the player before adding to it
+        int currentScore = player.getScore();
+        player.setScore((score + currentScore));
+      }
+    }
   }
 }

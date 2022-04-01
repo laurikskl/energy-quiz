@@ -125,7 +125,7 @@ public class MainCtrl {
     public void makeConnection(Player player){
         //save this player's username in main ctrl
         this.thisPlayer = player;
-        long id = server.getLobby();
+        int id = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
         server.registerForMessages("/topic/game/"+id, Game.class, game -> {

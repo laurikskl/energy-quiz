@@ -150,7 +150,7 @@ public class LobbyCtrl extends Controller {
      */
 
     public void leaveLobby(){
-        long id = getServer().getLobby();
+        int id = getServer().getLobby();
         getServer().send("/app/game/" + id + "/lobby/leave", mainCtrl.thisPlayer);
     }
 
@@ -164,7 +164,7 @@ public class LobbyCtrl extends Controller {
      */
 
     public void startGame(ActionEvent actionEvent) throws IOException {
-        //long id = getServer().getLobby();
+        //int id = getServer().getLobby();
         String startGame = "Game started";
         //getServer().send("/game/" + id + "/lobby/start", startGame);
         getMainCtrl().showMPGame();

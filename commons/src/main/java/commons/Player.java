@@ -7,6 +7,7 @@ import javax.persistence.*;
 /**
  * This is the class for the Player entity in the database.
  */
+
 @Entity
 public class Player {
 
@@ -15,6 +16,7 @@ public class Player {
      * A String which contains the username of the Player.
      * And an int that stores the score of the Player.
      */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
@@ -35,6 +37,7 @@ public class Player {
      * @param userName - the userName of the player
      * @param score    - his highest score
      */
+
     public Player(String userName, int score) {
         this.userName = userName;
         this.score = score;
@@ -66,7 +69,7 @@ public class Player {
      * @return the score of the object Player
      */
 
-    public long getScore() {
+    public int getScore() {
         return score;
     }
 
@@ -85,6 +88,7 @@ public class Player {
      * @param obj the object to be compared to
      * @return true if the objects are equal, false otherwise
      */
+
     @Override
     public boolean equals(Object obj) {
 
@@ -102,6 +106,7 @@ public class Player {
      * Hash function for the Player object.
      * @return the object in hash form
      */
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
@@ -111,6 +116,7 @@ public class Player {
      * Returns a human-readable form of the player object.
      * @return a string with the human-readable form of the object.
      */
+
     @Override
     public String toString() {
         return "Username: " + this.getUserName() + "\nHighest score: " + this.getScore();

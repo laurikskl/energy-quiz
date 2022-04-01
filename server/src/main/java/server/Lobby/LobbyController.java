@@ -59,6 +59,15 @@ public class LobbyController {
   }
 
   /**
+   * Calls the same method in the service.
+   * @param id of the websocket subscription
+   */
+  @MessageMapping("/game/{id}/lobby/start")
+  public void startLobby(@DestinationVariable long id){
+    lobbyService.startLobby(id);
+  }
+
+  /**
    * Called when emoji is sent to the server for a specific lobby
    * @param id of the websocket subscription
    * @param e emoji sent

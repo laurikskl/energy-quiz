@@ -9,6 +9,7 @@ public class Game {
     private int round;
     private ArrayList<Player> players;
     private ArrayList<Question> questions;
+    private Question question;
     public Type type;
     public Screen screen;
 
