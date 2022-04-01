@@ -285,8 +285,8 @@ public class MainCtrl {
      * @param accurateEstimation
      */
     public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
-        ((AccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
+        ((AccurateEstimationCtrl) this.controllers.get(12)).start(parentCtrl, accurateEstimation);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
     }
 
     /**
