@@ -47,7 +47,7 @@ public class ActivityBank implements Serializable {
      * @return new ActivityBank based on the JSON String
      * @throws IOException
      */
-    public static ActivityBank JsonReader(Path path) throws IOException {
+    public static ActivityBank fileReader(Path path) throws IOException {
         String jsonString = Files.readString(path);
         JSONArray jsonArray = new JSONArray(jsonString);
 

@@ -46,16 +46,18 @@ public class AdminService {
 
         Activity activity = new Activity(id, name, null, source, null);
 
+        //Create matcher to filter by substring for id, name and source, ignoring case and ignoring null values
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
                 .withMatcher("id", GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("name", GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("source", GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("imagePath", GenericPropertyMatchers.contains().ignoreCase())
                 .withIgnoreNullValues();
 
+        //Create example to filter by a given Activity according to the matcher
         Example<Activity> activityExample = Example.of(activity, matcher);
 
+        //Get all activities that match the example
         List<Activity> activities = repository.findAll(activityExample);
 
         if (powerConsumptionMin == null) powerConsumptionMin = Long.MIN_VALUE;
@@ -79,12 +81,15 @@ public class AdminService {
      */
     public Integer AddBank(List<Activity> activities, boolean override) {
         if (override) {
+            //Clear the Activity database if override was toggled
             repository.deleteAll();
         }
         else {
+            //Remove all Activities from the list that will be added, that are already in the database
             activities.removeAll(repository.findAll());
         }
 
+        //Add all activities from the list to the database
         repository.saveAll(activities);
 
         return activities.size();
@@ -96,14 +101,16 @@ public class AdminService {
      * @return true if removing, false otherwise
      */
     public Boolean removeById(String ID) {
-        Activity activity = new Activity();
-        activity.setId(ID);
+        Activity activity = new Activity(ID, null, null, null, null);
 
+        //Create matcher that matches Activities, ignoring null values
         ExampleMatcher matcher = ExampleMatcher
                 .matching().withIgnoreNullValues();
 
+        //Create example to filter by a given Activity according to the matcher
         Example<Activity> activityExample = Example.of(activity, matcher);
 
+        //Get all Activities that match the given ID
         List<Activity> activities = this.repository.findAll(activityExample);
 
         if (activities.size() < 1) {

@@ -149,6 +149,7 @@ public class AdminCtrl extends Controller {
     public void mouseClickedRestart(MouseEvent mouseEvent) {
         AdminCtrl adminCtrl = this;
 
+        //Create a Task which updates a statusLabel after it runs, succeeds or is canceled
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
@@ -189,10 +190,13 @@ public class AdminCtrl extends Controller {
      * @param keyEvent Key combination
      */
     public void tableViewKeyEvent(KeyEvent keyEvent) {
+        //If the KeyEvent is Ctrl+C inside tableView
         if (copyKeyCode.match(keyEvent) && keyEvent.getSource() instanceof TableView) {
 
+            //Get selected cells' positions
             ObservableList<TablePosition> selectedCells = this.tableView.getSelectionModel().getSelectedCells();
 
+            //Check if a cell has been selected
             if (selectedCells.size() != 0) {
                 //Get TablePosition of selected cell
                 TablePosition tablePosition = selectedCells.get(0);
@@ -222,13 +226,16 @@ public class AdminCtrl extends Controller {
      * @param activities activities to show in the table
      */
     public void loadTable(List<Activity> activities) {
+        //convert the given activities to activities with show image buttons.
         List<ImageActivity> imageActivities = new ArrayList<>();
         activities.forEach(activity -> {
             imageActivities.add(new ImageActivity(activity));
         });
 
+        //Clear the table
         this.tableView.getItems().clear();
 
+        //Load all imageActivities
         this.tableView.getItems().addAll(imageActivities);
     }
 
@@ -257,6 +264,7 @@ public class AdminCtrl extends Controller {
     public void search(MouseEvent mouseEvent) {
         AdminCtrl adminCtrl = this;
 
+        //Create a Task which updates a statusLabel after it runs or succeeds
         Task<Integer> task = new Task() {
             @Override
             protected Integer call() {
@@ -318,6 +326,7 @@ public class AdminCtrl extends Controller {
     public void showAll(MouseEvent mouseEvent) {
         AdminCtrl adminCtrl = this;
 
+        //Create a Task which updates a statusLabel after it runs or succeeds
         Task<Integer> task = new Task<>() {
             @Override
             protected Integer call() {
@@ -362,6 +371,7 @@ public class AdminCtrl extends Controller {
     public void aBSubmit(MouseEvent mouseEvent) {
         AdminCtrl adminCtrl = this;
 
+        //Create a Task which updates a statusLabel after it runs, succeeds or is canceled
         Task<Integer> task = new Task<>() {
             @Override
             protected Integer call() {
@@ -370,7 +380,7 @@ public class AdminCtrl extends Controller {
                 try {
                     Path path = Path.of(adminCtrl.aBPathField.getText());
 
-                    ActivityBank activityBank = ActivityBank.JsonReader(path);
+                    ActivityBank activityBank = ActivityBank.fileReader(path);
 
                     activityBank.setOverride(adminCtrl.aBOverrideCB.isSelected());
 
@@ -417,6 +427,7 @@ public class AdminCtrl extends Controller {
     public void removeSubmit(MouseEvent mouseEvent){
         AdminCtrl adminCtrl = this;
 
+        //Create a Task which updates a statusLabel after it runs, succeeds or is canceled
         Task<Void> task = new Task<>() {
             private String id;
 

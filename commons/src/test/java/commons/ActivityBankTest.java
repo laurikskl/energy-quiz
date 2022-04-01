@@ -83,7 +83,7 @@ class ActivityBankTest {
      */
     @Test
     void jsonReader() throws IOException {
-        ActivityBank newActivityBank = ActivityBank.JsonReader(this.jsonFile);
+        ActivityBank newActivityBank = ActivityBank.fileReader(this.jsonFile);
         newActivityBank.setOverride(true);
 
         assertTrue(this.activityBank.equals(newActivityBank));
