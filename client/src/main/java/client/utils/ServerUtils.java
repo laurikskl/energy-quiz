@@ -100,6 +100,22 @@ public class ServerUtils {
 
 
     /**
+     * Notify the server an emoji has been sent
+     *
+     * @param emoji the emoji sent
+     * @return the emoji sent
+     */
+
+    public Emoji sendEmoji(Emoji emoji) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/emojis/sent") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(emoji, APPLICATION_JSON), Emoji.class);
+    }
+
+
+    /**
      * This comment is a temporary fix for checkstyle.
      */
 

@@ -51,7 +51,7 @@ class SPGameCtrlTest {
         s1 = new SPGameCtrl(server, mainCtrl);
         try {
             s1.startGame(p1);
-        } catch (IllegalStateException | IOException | InterruptedException ignored) {
+        } catch (IllegalStateException | IOException | InterruptedException | NullPointerException ignored) {
         }
     }
 
