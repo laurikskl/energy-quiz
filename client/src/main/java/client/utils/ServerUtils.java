@@ -121,7 +121,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/questions/next")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .get(new GenericType<>() {
+                .get(new GenericType<List<Question>>() {
                 });
     }
 
