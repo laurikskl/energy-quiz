@@ -450,7 +450,7 @@ public class AdminCtrl extends Controller {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                adminCtrl.aBStatusLabel.setText("Added " + this.id + " Activities");
+                adminCtrl.removeStatusLabel.setText("Removed " + this.id);
             }
 
             @Override
