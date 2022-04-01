@@ -275,6 +275,16 @@ public class MainCtrl {
     }
 
     /**
+     * Load the AccurateEstimation question frame
+     * @param parentCtrl
+     * @param accurateEstimation
+     */
+    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+        ((AccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
+    }
+
+    /**
      * Closes the primary stage to quit the application
      */
     public void close() {
