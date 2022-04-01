@@ -55,6 +55,7 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      */
     @FXML
     public void startGame(MouseEvent actionEvent) throws IOException, InterruptedException {
+
         usernameString = userName.getText();
 
         //if the user doesn't provide a username, send a warning text
@@ -64,11 +65,15 @@ public class EnterNameSinglePlayerCtrl extends Controller {
             //fetch player from database, if it doesn't exist store a new player with score 0
             Player player;
             try {
+
                 player = getServer().getPlayer(usernameString);
 
                 if (player == null) {
                     player = new Player(usernameString, 0);
                     getServer().setPlayer(usernameString, 0);
+                }
+                else {
+                    player = getServer().getPlayer(usernameString);
                 }
             } catch (Exception e) { //this should only happen when the server is null
                 player = new Player(usernameString, 0);

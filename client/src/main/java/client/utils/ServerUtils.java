@@ -43,7 +43,6 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 /**
  * This class is for communication between client and server
  */
-
 public class ServerUtils {
 
     /**
@@ -91,7 +90,7 @@ public class ServerUtils {
 
     public List<Player> getLeaderboard() {
         return (List<Player>) ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/leaderboard")
+                .target(SERVER).path("/api/leaderboard/")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(new GenericType<List<Player>>() {

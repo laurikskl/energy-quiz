@@ -127,7 +127,25 @@ public class SPGameCtrl extends Controller {
         //If he did, show the final screen.
         if (this.getqCount()==20) {
             timer.stop();
-            this.getMainCtrl().showEndGame();
+            player.setScore(score);
+
+            //Sets the player in the database with the final score of this round.
+
+            if (server.getPlayer(player.userName)!=null && player.score < server.getPlayer(player.userName).getScore()){
+                //If current score is lower than the highest score of the player, keep his highest score.
+                server.setPlayer(player.userName, (int) server.getPlayer(player.userName).getScore());
+            }
+            else{
+                //If the player doesn't exist or had reached a higher score this round, set it with the highest score.
+                server.setPlayer(player.userName, player.score);
+            }
+
+            //Sets the screen with the final score of the player and then displays EndGame screen.
+            getMainCtrl().setEndGame(player.score);
+            getMainCtrl().showEndGame();
+
+            //With this line, the method stops generating a new question after the user reached the 20th question.
+            return;
         }
 
         doAQuestion(questions.get(this.getqCount()));

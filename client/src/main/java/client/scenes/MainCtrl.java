@@ -49,17 +49,18 @@ public class MainCtrl {
 
     /**
      * Controller and scenes indexes.
-     * 0 - Splash
+     * 0 - splash
      * 1 - EnterNameSinglePlayer
      * 2 - EnterNameMultiPlayer
-     * 3 - Leaderboard
-     * 4 - SPGame
-     * 5 - Lobby
-     * 6 - MPGame
+     * 3 - LeaderboardScreen
+     * 4 - SPGameScreen
+     * 5 - LobbyScreen
+     * 6 - MPGameScreen
      * 7 - How2Play
-     * 8 - MultiChoice
+     * 8 - MultiChoiceScreen
      * 9 - ChoiceEstimation
      * 10 - Admin
+     * 11 - EndGameScreen
      */
 
     //Scenes
@@ -103,7 +104,7 @@ public class MainCtrl {
             this.scenes.get(5).getStylesheets().add(new File("client/src/main/resources/stylesheets/lobby.css").toURI().toURL().toExternalForm());
             this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
             this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
-            this.scenes.get(11).getStylesheets().add(new File("stylesheets/endGame.css").toURI().toURL().toExternalForm());
+            this.scenes.get(11).getStylesheets().add(new File("client/src/main/resources/stylesheets/endGame.css").toURI().toURL().toExternalForm());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -198,7 +199,7 @@ public class MainCtrl {
      *  removed the player parameter at the moment
      */
     public void showLobbyScreen() {
-        Platform.runLater(() -> showScene(this.scenes.get(5))); ;
+        Platform.runLater(() -> showScene(this.scenes.get(5)));
 
 //        //set up the lobby with the list of players
 //        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
@@ -221,6 +222,10 @@ public class MainCtrl {
      */
     public void showHow2Play() {
         showScene(this.scenes.get(7));
+    }
+
+    public void setEndGame(int score){
+        ((EndGameCtrl) controllers.get(11)).initialize(score);
     }
 
     public void showEndGame(){

@@ -16,7 +16,6 @@ import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Collections;
