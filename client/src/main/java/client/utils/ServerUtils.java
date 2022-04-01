@@ -210,6 +210,14 @@ public class ServerUtils {
                 .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
     }
 
+    /**
+     * Register for messages on the specified address
+     * @param destination the address you subscribe on
+     * @param type the type of object you wish to receive here
+     * @param consumer the object that will be received from the server
+     * @param <T> the type of the object
+     */
+
     public <T> void registerForMessages(String destination,Class<T> type, Consumer<T> consumer){
         session.subscribe(destination, new StompFrameHandler() {
             @Override
@@ -224,7 +232,25 @@ public class ServerUtils {
         });
     }
 
+    /**
+     * URL of the stomp session.
+     */
+
     private StompSession session = connect("ws://localhost:8080/websocket");
+
+    /**
+     * Unsubscribe from the websocket session.
+     */
+
+    public void disconnect(){
+        session.disconnect();
+    }
+
+    /**
+     * Connect to a websocket.
+     * @param url the specified URL
+     * @return the session
+     */
 
     private StompSession connect(String url){
         var client = new StandardWebSocketClient();
@@ -241,6 +267,12 @@ public class ServerUtils {
         throw new IllegalStateException();
     }
 
+    /**
+     * Send to a specific destination on the server side.
+     * @param destination the URL
+     * @param o the object that will be sent
+     */
+
     public void send(String destination, Object o){
         session.send(destination, o);
     }
@@ -249,6 +281,7 @@ public class ServerUtils {
      * Gets the id of the current lobby.
      * @return id of the lobby
      */
+
     public long getLobby() {
         return ClientBuilder.newClient(new ClientConfig())
             .target(SERVER).path("api/lobby/getid")
@@ -320,4 +353,18 @@ public class ServerUtils {
         }
     }
 
+    /**
+     * Checks if the name is available in the current lobby.
+     * @param player the player that wishes to join
+     * @return true if the name is available, false if not
+     */
+
+    public Boolean nameCheck(Player player) {
+        return ClientBuilder.newClient(new ClientConfig())
+            .target(SERVER).path("api/lobby/namecheck")
+            .request(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .post(Entity.entity(player, APPLICATION_JSON), new GenericType<Boolean>() {
+            });
+    }
 }

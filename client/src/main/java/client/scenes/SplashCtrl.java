@@ -31,7 +31,6 @@ public class SplashCtrl extends Controller {
      * Is called automatically after constructor
      * Sets the image of the ImageView in the splash screen to the logo
      * Should probably set the path to be non-relative but that's a problem for later
-     *
      */
 
     @FXML
@@ -83,6 +82,7 @@ public class SplashCtrl extends Controller {
 
     /**
      * Changes the scene to the HowToPlay Scene.
+     *
      * @param actionEvent - the mouse clicked on the How To Play button
      * @throws IOException
      */
@@ -92,10 +92,20 @@ public class SplashCtrl extends Controller {
 
     /**
      * Changes the scene to the Admin Scene.
+     *
      * @param actionEvent - the mouse clicked on Admin button
      * @throws IOException when file is not found
      */
     public void mouseClickedAdmin(MouseEvent actionEvent) throws IOException {
         getMainCtrl().showAdmin();
+    }
+
+    /**
+     * Changes the scene to Leaderboard
+     *
+     * @param mouseEvent
+     */
+    public void mouseClickedLeaderboard(MouseEvent mouseEvent) {
+        getMainCtrl().showLeaderboard();
     }
 }

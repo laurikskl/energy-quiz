@@ -67,6 +67,9 @@ public class MainCtrl {
 
     private ServerUtils server;
 
+    //the client's player for multiplayer with their name
+    public Player thisPlayer;
+
     // Current scene as an enum
     private Screen current;
 
@@ -119,6 +122,8 @@ public class MainCtrl {
      * @param player The player who is typing in their name
      */
     public void makeConnection(Player player){
+        //save this player's username in main ctrl
+        this.thisPlayer = player;
         long id = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
@@ -133,7 +138,6 @@ public class MainCtrl {
             }
             switch(game.type){
                 case LOBBYUPDATE:
-
                     LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
                     try {
                         ctrl.createTable(game.getPlayers());
