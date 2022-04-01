@@ -80,7 +80,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {
+                .get(new GenericType<>() {
                 });
     }
 
@@ -90,28 +90,12 @@ public class ServerUtils {
      */
 
     public List<Player> getLeaderboard() {
-        return (List<Player>) ClientBuilder.newClient(new ClientConfig())
+        return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/leaderboard")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .get(new GenericType<List<Player>>() {
+                .get(new GenericType<>() {
                 });
-    }
-
-
-    /**
-     * Notify the server an emoji has been sent
-     *
-     * @param emoji the emoji sent
-     * @return the emoji sent
-     */
-
-    public Emoji sendEmoji(Emoji emoji) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/emojis/sent") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(emoji, APPLICATION_JSON), Emoji.class);
     }
 
 
@@ -137,7 +121,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/questions/next")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .get(new GenericType<List<Question>>() {
+                .get(new GenericType<>() {
                 });
     }
 
@@ -183,7 +167,7 @@ public class ServerUtils {
                 .target(SERVER).path("player").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
-                get(new GenericType<List<Player>>() {
+                get(new GenericType<>() {
                 });
     }
 
@@ -200,7 +184,7 @@ public class ServerUtils {
                     .target(SERVER).path("player").
                     request(APPLICATION_JSON)
                     .accept(APPLICATION_JSON).
-                    get(new GenericType<List<Player>>() {
+                    get(new GenericType<>() {
                     });
         }
         //try to find player by name and return score
@@ -252,7 +236,7 @@ public class ServerUtils {
      * URL of the stomp session.
      */
 
-    private StompSession session = connect("ws://localhost:8080/websocket");
+    private final StompSession session = connect("ws://localhost:8080/websocket");
 
     /**
      * Unsubscribe from the websocket session.
@@ -303,7 +287,7 @@ public class ServerUtils {
             .target(SERVER).path("api/lobby/getid")
             .request(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .get(new GenericType <Long>() {
+            .get(new GenericType <>() {
             });
     }
 
@@ -316,7 +300,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/admin/getAll").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
-                get(new GenericType<List<Activity>>() {
+                get(new GenericType<>() {
                 });
     }
 
@@ -327,7 +311,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<List<Activity>>() {});
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
@@ -340,7 +324,7 @@ public class ServerUtils {
                     .target(SERVER).path("api/admin/restart").
                     request(APPLICATION_JSON)
                     .accept(APPLICATION_JSON).
-                    get(new GenericType<Boolean>() {
+                    get(new GenericType<>() {
                     });
         }
         catch (Exception e) {
@@ -352,7 +336,7 @@ public class ServerUtils {
 
     /**
      * Remove activity by ID
-     * @param ID
+     * @param ID the id of the activity to be removed
      * @return true if removing, false otherwise
      */
     public Boolean removeById(Long ID) {
@@ -361,7 +345,7 @@ public class ServerUtils {
                     .target(SERVER).path("api/admin/removeById").
                     request(APPLICATION_JSON)
                     .accept(APPLICATION_JSON).
-                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<Boolean>() {});
+                    post(Entity.entity(ID, APPLICATION_JSON), new GenericType<>() {});
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -380,7 +364,8 @@ public class ServerUtils {
             .target(SERVER).path("api/lobby/namecheck")
             .request(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .post(Entity.entity(player, APPLICATION_JSON), new GenericType<Boolean>() {
+            .post(Entity.entity(player, APPLICATION_JSON), new GenericType<>() {
             });
     }
+
 }
