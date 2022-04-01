@@ -1,5 +1,6 @@
 package server.Lobby;
 
+import commons.Emoji;
 import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -34,8 +35,7 @@ public class LobbyController {
    */
   @GetMapping("/getid")
   public long getLobbyID(){
-    long id = lobbyService.getLobby();
-    return id;
+    return lobbyService.getLobby();
   }
 
   /**
@@ -56,6 +56,16 @@ public class LobbyController {
   @MessageMapping("/game/{id}/lobby/leave")
   public void onLeave(@DestinationVariable long id, Player p){
     lobbyService.onLeave(p);
+  }
+
+  /**
+   * Called when emoji is sent to the server for a specific lobby
+   * @param id of the websocket subscription
+   * @param e emoji sent
+   */
+  @MessageMapping("/game/{id}/lobby/emoji-received")
+  public void onEmoji(@DestinationVariable long id, Emoji e) {
+    lobbyService.onEmoji(e, id);
   }
 
   /**
