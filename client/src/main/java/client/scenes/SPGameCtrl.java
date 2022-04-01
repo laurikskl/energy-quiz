@@ -294,7 +294,7 @@ public class SPGameCtrl extends Controller {
      *
      * @param q the current question
      */
-    public void doAQuestion(Question q) throws IOException {
+    public void doAQuestion(Question q) throws IOException, InterruptedException {
         //Question has been run
         this.qCount++;
         System.out.println("Question has started!");
@@ -375,7 +375,7 @@ public class SPGameCtrl extends Controller {
      * @param mouseEvent click
      * @throws IOException when file not found or misread
      */
-    public void back(MouseEvent actionEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
         //sets the scene back to the main screen
         getMainCtrl().showSplash();
     }
