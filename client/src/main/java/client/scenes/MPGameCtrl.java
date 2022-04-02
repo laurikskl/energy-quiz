@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import javax.swing.Timer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,11 +55,15 @@ public class MPGameCtrl extends Controller {
     private Text cooldownText;
     @FXML
     private BorderPane questionFrame;
+    @FXML
+    private Text counterTimer;
+    private Timer timer;
 
     /**
      * Fields used in class
      */
 
+    private int seconds;
     private boolean onCooldown;
     private PauseTransition cooldown;
     private Player player;
@@ -269,6 +274,45 @@ public class MPGameCtrl extends Controller {
      *
      * @param kind the kind of emoji sent
      */
+
+    /**
+     * This method resets the text for the countdown timer every second.
+     * If the timer hit 0 seconds and the player has not answered, it calls the method
+     * to move on to the next question.
+     */
+    public void simpleTimer() {
+
+        resetSeconds();
+
+        timer = new Timer(1000, e -> {
+
+            seconds--;
+
+            //if more than 15 seconds passed, move on to the next question
+            if (seconds<0){
+
+                timer.stop();
+
+                try {
+                    startNewQuestion();
+                    return;
+                } catch (IOException | InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            counterTimer.setText(seconds + " seconds");
+        });
+
+        timer.start();
+
+    }
+
+    /**
+     * This method resets the seconds.
+     */
+    public void resetSeconds(){
+        this.seconds = 16;
+    }
 
     public void sendEmoji(String kind) {
         if(!onCooldown) {
