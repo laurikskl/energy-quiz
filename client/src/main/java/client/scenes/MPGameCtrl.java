@@ -86,6 +86,9 @@ public class MPGameCtrl extends Controller {
         super(server, mainCtrl);
     }
 
+    public int getRound() {
+        return round;
+    }
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.

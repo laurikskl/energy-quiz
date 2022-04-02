@@ -73,6 +73,9 @@ public class MainCtrl {
     // Current scene as an enum
     private Screen current;
 
+    //the lobby we are in
+    public long lobbyId;
+
     /**
      * Injects server utils.
      * @param server the server utils
@@ -125,10 +128,10 @@ public class MainCtrl {
     public void makeConnection(Player player){
         //save this player's username in main ctrl
         this.thisPlayer = player;
-        long id = server.getLobby();
+        this.lobbyId = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
-        server.registerForMessages("/topic/game/"+id, Game.class, game -> {
+        server.registerForMessages("/topic/game/"+ lobbyId, Game.class, game -> {
             if(current != game.screen) {
                 switch (game.screen) {
                     case LOBBY:
@@ -141,16 +144,14 @@ public class MainCtrl {
             }
             switch(game.type){
                 case LOBBYUPDATE:
-                    LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
-                    try {
-                        ctrl.createTable(game.getPlayers());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    updateLobby(game);
+                    break;
+                case STARTMP:
+                    startMPGame();
                     break;
             }
         });
-        server.send("/app/game/" + id + "/lobby/join", player);
+        server.send("/app/game/" + lobbyId + "/lobby/join", player);
 
     }
 
@@ -241,15 +242,9 @@ public class MainCtrl {
         showScene(this.scenes.get(10));
     }
 
-    /**
-     * Sets the PlayerObj
-     *
-     * @param player PlayerObj representing this player
-     */
     public void startSPGame(Player player, ServerUtils server) throws IOException, InterruptedException {
         ((SPGameCtrl) this.controllers.get(4)).startGame(player);
     }
-
 
     /**
      * Load the MultipleChoice question frame
@@ -286,6 +281,55 @@ public class MainCtrl {
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
     }
 
+
+    /**
+     * Sets the PlayerObj
+     *
+     */
+    public void startMPGame() {
+        ((MPGameCtrl) this.controllers.get(6)).startGame(thisPlayer, lobbyId);
+    }
+
+    /**
+     * Load the MultipleChoice question frame
+     * Enable buttons after the question for the next question
+     * @param parentCtrl
+     * @param multiChoice
+     */
+    public void MPstartMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
+        MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(8);
+        multiChoiceCtrl.start(parentCtrl, multiChoice);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        multiChoiceCtrl.buttonsEnabled(true);
+    }
+
+    public void doQuestion(Question q) throws IOException, InterruptedException {
+        MPGameCtrl ctrl = (MPGameCtrl) this.controllers.get(6);
+        ctrl.doAQuestion(q);
+    }
+
+    /**
+     * Load the ChoiceEstimation question frame
+     * Enable buttons after the question for the next question
+     * @param parentCtrl
+     * @param choiceEstimation
+     */
+    public void MPstartCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
+        ((MPChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
+        ((MPChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
+    }
+
+    /**
+     * Load the AccurateEstimation question frame
+     * @param parentCtrl
+     * @param accurateEstimation
+     */
+    public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+        ((MPAccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
+    }
+
     /**
      * Closes the primary stage to quit the application
      */
@@ -305,5 +349,17 @@ public class MainCtrl {
      */
     public List<Controller> getControllers() {
         return controllers;
+    }
+
+    /**
+     *
+     */
+    public void updateLobby(Game game){
+        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
+        try {
+            ctrl.createTable(game.getPlayers());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
