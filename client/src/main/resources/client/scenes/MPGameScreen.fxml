@@ -170,6 +170,6 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
-      <BorderPane fx:id="questionFrame" layoutX="568.0" layoutY="224.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="961.0" />
+      <BorderPane fx:id="questionFrame" layoutX="314.0" layoutY="224.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1120.0" />
     </children>
 </AnchorPane>

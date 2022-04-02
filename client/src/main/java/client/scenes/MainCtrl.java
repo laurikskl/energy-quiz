@@ -321,7 +321,9 @@ public class MainCtrl {
     public void MPstartMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(12);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
+        System.out.println("Scene to be set");
         ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
+        System.out.println("Scene set");
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
