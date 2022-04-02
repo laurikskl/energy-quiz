@@ -64,7 +64,7 @@ public class MainCtrl {
      * 11 - Accurate Estimation
      * 12 - MPMultiChoice
      * 13 - MPChoiceEstimation
-     * 14 - AccurateEstimation
+     * 14 - MPAccurateEstimation
      */
 
     //Scenes

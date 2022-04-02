@@ -2,10 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Emoji;
-import commons.Game;
-import commons.Player;
-import commons.Question;
+import commons.*;
 import javafx.animation.PauseTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -30,6 +27,8 @@ import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -215,6 +214,21 @@ public class MPGameCtrl extends Controller {
         simpleTimer();
         questionNumber.setText(round + 1 + "/20");
         System.out.println(q.getClass());
+        //Fake question
+
+        Question.MostNRGQuestion mostNRGQuestion;
+        Activity a1;
+        Activity a2;
+        Activity a3;
+        List<Activity> activityList;
+        a1 = new Activity("00-coding", "Coding", 1200l, "github.com", null);
+        a2 = new Activity("00-tv", "Watching tv", 1200l, "github.com", null);
+        a3 = new Activity("00-tests", "Writing tests", 900l, "github.com", null);
+        activityList = Arrays.asList(a1, a2, a3);
+        mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1, null);
+
+        q = mostNRGQuestion;
+        
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
             doMultiChoice((Question.MostNRGQuestion) q);
