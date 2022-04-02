@@ -209,6 +209,35 @@ public class SPGameCtrl extends Controller {
     }
 
     /**
+     * This method takes care of every individual question by
+     * running the concrete method for each type of question.
+     * This method also handles changing the score that is visible on the screen
+     * and question counter
+     *
+     * @param q the current question
+     */
+    public void doAQuestion(Question q) throws IOException, InterruptedException {
+        //Question has been run
+        this.qCount++;
+        System.out.println("Question has started!");
+        simpleTimer();
+        questionNumber.setText(qCount+"/20");
+
+        //Choose which type of question it is and load the appropriate frame with its controller
+        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
+            doMultiChoice((Question.MostNRGQuestion) q);
+        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
+        } else if (q.getClass().equals(Question.Matching.class)) {
+            doMatching((Question.Matching) q);
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
+        }
+        refresh();
+
+    }
+
+    /**
      * This method gets called everytime the game moves on to the next question.
      * That is, either when the player has answered by pressing a button,
      * or when the timer of 15 seconds per question runs out.
@@ -244,7 +273,6 @@ public class SPGameCtrl extends Controller {
         doAQuestion(questions.get(this.getqCount()));
     }
 
-
     /**
      * @param visible true iff scoreAwarded should be visible
      * @param points the points awarded for a question
@@ -272,18 +300,15 @@ public class SPGameCtrl extends Controller {
         timer = new Timer(1000, e -> {
 
             seconds--;
+            counterTimer.setText(seconds + " seconds");
 
-                //if more than 15 seconds passed, move on to the next question
-                if (seconds==0){
             //if more than 15 seconds passed, move on to the next question
-            if (seconds<0){
+            if (seconds==0){
 
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
                             timer.stop();
-                timer.stop();
-
                             try {
                                 startNewQuestion();
                                 return;
@@ -293,17 +318,8 @@ public class SPGameCtrl extends Controller {
                                 ex.printStackTrace();
                             }
                         }
-                        });
-                    }
-                counterTimer.setText(seconds + " seconds");
-                try {
-                    startNewQuestion();
-                    return;
-                } catch (IOException | InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+                    });
             }
-            counterTimer.setText(seconds + " seconds");
         });
 
         timer.start();
@@ -332,35 +348,6 @@ public class SPGameCtrl extends Controller {
      */
     public BorderPane getQuestionFrame() {
         return questionFrame;
-    }
-
-    /**
-     * This method takes care of every individual question by
-     * running the concrete method for each type of question.
-     * This method also handles changing the score that is visible on the screen
-     * and question counter
-     *
-     * @param q the current question
-     */
-    public void doAQuestion(Question q) throws IOException, InterruptedException {
-        //Question has been run
-        this.qCount++;
-        System.out.println("Question has started!");
-        simpleTimer();
-        questionNumber.setText(qCount+"/20");
-
-        //Choose which type of question it is and load the appropriate frame with its controller
-        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
-            doMultiChoice((Question.MostNRGQuestion) q);
-        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
-            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
-        } else if (q.getClass().equals(Question.Matching.class)) {
-            doMatching((Question.Matching) q);
-        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
-        }
-        refresh();
-
     }
 
     /**

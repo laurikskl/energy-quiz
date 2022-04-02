@@ -81,11 +81,13 @@ public class ChoiceEstimationCtrl extends Controller{
         byte[] byteArray = choiceEstimation.getActivities().get(0).getImageContent();
         Image img = new Image(new ByteArrayInputStream(byteArray));
         //if there was an error in getting the image, set it to a default image
+        /*
         if(img.isError()) {
             image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
         } else {
-            image.setImage(img);
-        }
+
+         */
+        image.setImage(img);
         activityButton.setText(choiceEstimation.getActivities().get(0).getName());
         setButtons();
     }

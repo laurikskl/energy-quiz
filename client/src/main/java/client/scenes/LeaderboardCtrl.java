@@ -43,7 +43,7 @@ public class LeaderboardCtrl extends Controller {
      */
     @FXML
     private void initialize() {
-        /*
+
         List<Player> leaderboardPlayers = server.getLeaderboard();
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
@@ -63,7 +63,6 @@ public class LeaderboardCtrl extends Controller {
         colName.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
         colScore.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().score));
 
-         */
     }
 
     /**

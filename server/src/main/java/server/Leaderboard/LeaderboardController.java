@@ -29,12 +29,14 @@ public class LeaderboardController {
    */
   @GetMapping(path = {"", "/"})
   public List<Player> getTopLeaderboard() {
+
     List<Player> players = repository.findAll();
     return players
             .stream()
             .sorted(Comparator.comparing(Player::getScore).reversed())
             .limit(15)
             .collect(Collectors.toList());
+
   }
 
 }
