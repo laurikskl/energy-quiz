@@ -370,14 +370,14 @@ public class SPGameCtrl extends Controller {
     }
 
     /**
-     * This method takes you back to the splash screen when the back button is pressed
+     * This method displays a message when you press the back button in game, so you can confirm you want to exit
      *
      * @param mouseEvent click
      * @throws IOException when file not found or misread
      */
-    public void back(MouseEvent mouseEvent) throws IOException {
-        //sets the scene back to the main screen
-        getMainCtrl().showSplash();
+    public void back(MouseEvent actionEvent) throws IOException {
+        //shows popup
+        mainCtrl.displayDisconnectMessage();
     }
 
 
