@@ -55,20 +55,25 @@ public class MPGameCtrl extends Controller {
     private Text cooldownText;
     @FXML
     private BorderPane questionFrame;
+
+    /*For the timer.
+     */
     @FXML
     private Text counterTimer;
     private Timer timer;
+    private int seconds;
 
     /**
      * Fields used in class
      */
 
-    private int seconds;
     private boolean onCooldown;
     private PauseTransition cooldown;
     private Player player;
     private long lobbyId;
     private int round;
+    @FXML
+    private Text questionNumber;
 
 
     /**
@@ -293,12 +298,6 @@ public class MPGameCtrl extends Controller {
 
                 timer.stop();
 
-                try {
-                    startNewQuestion();
-                    return;
-                } catch (IOException | InterruptedException ex) {
-                    ex.printStackTrace();
-                }
             }
             counterTimer.setText(seconds + " seconds");
         });
