@@ -48,35 +48,40 @@ public class EnterNameMultiPlayerCtrl extends Controller {
     @FXML
     public void startGame(MouseEvent actionEvent) throws IOException {
 
-        usernameString = userName.getText();
+        if (this.server.connect()) {
+            usernameString = userName.getText();
 
-        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
-        else if(usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
+            if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
+            else if (usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
 
-        else {
-            Player player;
-            try {
-                player = getServer().getPlayer(usernameString);
-                if (player == null) {
+            else {
+                Player player;
+                try {
+                    player = getServer().getPlayer(usernameString);
+                    if (player == null) {
+                        player = new Player(usernameString, 0);
+                        getServer().setPlayer(usernameString, 0);
+                    }
+                    //this should only happen when the server is null
+                } catch (Exception e) {
+                    e.printStackTrace();
                     player = new Player(usernameString, 0);
-                    getServer().setPlayer(usernameString, 0);
                 }
-                //this should only happen when the server is null
-            } catch (Exception e) {
-                e.printStackTrace();
-                player = new Player(usernameString, 0);
-            }
-            long id = server.getLobby();
+                long id = server.getLobby();
 
-            // If name isn't available, don't make a connection
-            if(!server.nameCheck(player)){
-                //if the username is broken, send a warning
-                warningText.setText("This name is not available!");
-                return;
-            }
+                // If name isn't available, don't make a connection
+                if (!server.nameCheck(player)) {
+                    //if the username is broken, send a warning
+                    warningText.setText("This name is not available!");
+                    return;
+                }
 
-            // Make a connection to the lobby if name is available
-            this.mainCtrl.makeConnection(player);
+                // Make a connection to the lobby if name is available
+                this.mainCtrl.makeConnection(player);
+            }
+        }
+        else {
+            this.warningText.setText("Couldn't connect to the server");
         }
 
     }

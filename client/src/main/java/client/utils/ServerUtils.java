@@ -17,6 +17,7 @@
 package client.utils;
 
 import commons.*;
+import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -47,11 +48,15 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 
     /**
-     * SERVER is the location of the server
+     * SERVER is the server address
+     * WSSERVER is the server address for the websockets
+     * STOMPSESSION is the StompSession used by the websockets
      * players is the list of players for a game
      */
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080/";
+    private static String WSSERVER = "ws://localhost:8080/";
+    private static StompSession STOMPSESSION;
 
     private static List<Player> players;
 
@@ -82,6 +87,46 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<>() {
                 });
+    }
+
+    /**
+     * @param serverAddress Address to connect to.
+     * @return If we can connect to the Server Address.
+     */
+    public boolean setServerAddress(String serverAddress) {
+        String server = SERVER;
+        String wsServer = WSSERVER;
+        SERVER = "http://" + serverAddress + "/";
+        WSSERVER = "ws://" + serverAddress + "/";
+
+        //Test the connection
+        boolean connected = checkServer();
+        if (!connected) {
+            //Reset Server Address
+            ServerUtils.SERVER = server;
+            ServerUtils.WSSERVER = wsServer;
+        }
+
+        return connected;
+    }
+
+    /**
+     * @return if the server is running
+     */
+    public boolean checkServer() {
+        Boolean bool = false;
+        try {
+            bool = ClientBuilder.newClient(new ClientConfig()) //
+                    .target(SERVER).path("api/admin/running") //
+                    .request(APPLICATION_JSON) //
+                    .accept(APPLICATION_JSON) //
+                    .get(new GenericType<Boolean>() {
+                    });
+        } catch (ProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return bool;
     }
 
 
@@ -219,7 +264,7 @@ public class ServerUtils {
      */
 
     public <T> void registerForMessages(String destination,Class<T> type, Consumer<T> consumer){
-        session.subscribe(destination, new StompFrameHandler() {
+        STOMPSESSION.subscribe(destination, new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
@@ -233,38 +278,44 @@ public class ServerUtils {
     }
 
     /**
-     * URL of the stomp session.
-     */
-
-    private final StompSession session = connect("ws://localhost:8080/websocket");
-
-    /**
-     * Unsubscribe from the websocket session.
+     * Unsubscribe from the websocket session and set STOMPSESSION to null, if it exists.
      */
 
     public void disconnect(){
-        session.disconnect();
+        if (STOMPSESSION != null) {
+            STOMPSESSION.disconnect();
+            STOMPSESSION = null;
+        }
     }
 
     /**
      * Connect to a websocket.
-     * @param url the specified URL
-     * @return the session
      */
 
-    private StompSession connect(String url){
+    public boolean connect(){
         var client = new StandardWebSocketClient();
         var stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter((new MappingJackson2MessageConverter()));
+
+        boolean bool = false;
         try {
-            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
-        } catch (InterruptedException e){
-            Thread.currentThread().interrupt();
-            } catch(ExecutionException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+            STOMPSESSION = stomp.connect(WSSERVER + "websocket", new StompSessionHandlerAdapter() {}).get();
+            bool = true;
         }
-        throw new IllegalStateException();
+        catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
+        catch(ExecutionException e) {
+                e.printStackTrace();
+        }
+        return bool;
+    }
+
+    /**
+     * @return STOMPSESSION
+     */
+    public StompSession getStompSession() {
+        return ServerUtils.STOMPSESSION;
     }
 
     /**
@@ -274,7 +325,7 @@ public class ServerUtils {
      */
 
     public void send(String destination, Object o){
-        session.send(destination, o);
+        STOMPSESSION.send(destination, o);
     }
 
     /**
@@ -388,5 +439,4 @@ public class ServerUtils {
             .post(Entity.entity(player, APPLICATION_JSON), new GenericType<>() {
             });
     }
-
 }
