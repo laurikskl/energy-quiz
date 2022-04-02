@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -42,6 +43,8 @@ public class LobbyCtrl extends Controller {
     private ImageView hintIMG;
     @FXML
     private Button backButton;
+    @FXML
+    private Button playButton;
     @FXML
     private TableView<Player> table;
     @FXML
@@ -160,19 +163,24 @@ public class LobbyCtrl extends Controller {
      * Method that changes the stage to MPGameScreen
      * TODO: Should also be managing the start of the game, fetching questions etc.
      *
-     * @param actionEvent clicked mouse
+     * @param mouseEvent clicked mouse
      * @throws IOException when something goes wrong with files
      */
 
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    public void startGame(MouseEvent mouseEvent) throws IOException {
+        playButton.setDisable(false);
         long id = getServer().getLobby();
-
+        System.out.println("BUTTON PRESSED and disabled!!! id = " + id);
         String startGame = "Game started";
-        getServer().send("/game/" + id + "/lobby/start", startGame);
+        String startLobby = "Lobby added to gameService";
+        //Sends request to lobby to add current lobby to the game service
+        getServer().send("/app/game/" + id + "/lobby/start", startLobby);
+        //Sends request to GameManagementController to start a MP game
+        getServer().send("/app/game/" + id + "/startGame", startGame);
+
         //getMainCtrl().showMPGame();
 
         // TODO: Start a session, forward other players to the game, fetch questions.
-
     }
 
     /**

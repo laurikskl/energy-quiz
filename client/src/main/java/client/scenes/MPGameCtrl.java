@@ -16,9 +16,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -30,11 +27,9 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Stack;
 
 /**
@@ -127,6 +122,7 @@ public class MPGameCtrl extends Controller {
         this.round = 0;
         this.game = game;
 
+        refreshScoreboard();
         colNameScoreboard.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
         colScoreScoreboard.setCellValueFactory(col -> new SimpleIntegerProperty(col.getValue().score));
 
@@ -211,22 +207,25 @@ public class MPGameCtrl extends Controller {
      * @param q the current question
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
+        refreshScoreboard();
         //Question has been run
         this.round++;
         System.out.println("Question has started!");
+        resetSeconds();
         simpleTimer();
         questionNumber.setText(round + 1 + "/20");
-
+        System.out.println(q.getClass());
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
             doMultiChoice((Question.MostNRGQuestion) q);
-        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
-            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
-        } else if (q.getClass().equals(Question.Matching.class)) {
-            doMatching((Question.Matching) q);
-        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
         }
+//        else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+//            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
+//        } else if (q.getClass().equals(Question.Matching.class)) {
+//            doMatching((Question.Matching) q);
+//        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+//            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
+//        }
         //refresh();
 
     }
@@ -239,7 +238,8 @@ public class MPGameCtrl extends Controller {
      * @throws IOException when something goes wrong with file-reading or finding
      */
     public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException {
-        getMainCtrl().startMC(this, multiChoice);
+        System.out.println("MultiChoice start");
+        getMainCtrl().MPstartMC(this, multiChoice);
     }
 
     /**
@@ -249,9 +249,10 @@ public class MPGameCtrl extends Controller {
      * @param choiceEstimation current Estimation question
      * @throws IOException cooldownText.setText("Wait " + timeLeft + " second before sending another message");
      */
-    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException {
-        getMainCtrl().startCE(this, choiceEstimation);
-    }
+//    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException {
+//        System.out.println("Choice estimation start");
+//        getMainCtrl().MPstartCE(this, choiceEstimation);
+//    }
 
     /**
      * This method inserts the frame, gets time and correctness of the answer from the controller
@@ -260,19 +261,19 @@ public class MPGameCtrl extends Controller {
      * @param q current Matching question
      * @throws IOException when file-reading or finding goes wrong
      */
-    public void doMatching(Question.Matching q) throws IOException {
-        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
-        URL url = new File(pathToFxml).toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-
-        //TODO: Create MatchingCtrl
-//        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.Matching) q);
-        Scene scene = new Scene(root);
-
-        questionFrame.setCenter(scene.getRoot());
-    }
+//    public void doMatching(Question.Matching q) throws IOException {
+//        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
+//        URL url = new File(pathToFxml).toURI().toURL();
+//        FXMLLoader fxmlLoader = new FXMLLoader(url);
+//        Parent root = fxmlLoader.load();
+//
+//        //TODO: Create MatchingCtrl
+////        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
+////        controller.initialize(server, mainCtrl, (Question.Matching) q);
+//        Scene scene = new Scene(root);
+//
+//        questionFrame.setCenter(scene.getRoot());
+//    }
 
     /**
      * This method inserts the frame, gets time, distance and correctness of the answer from the controller
@@ -281,9 +282,10 @@ public class MPGameCtrl extends Controller {
      * @param accurateEstimation current AccurateEstimation question
      * @throws IOException
      */
-    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
-        getMainCtrl().startAE(this, accurateEstimation);
-    }
+//    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
+//        System.out.println("Accurate Estimation start");
+//        getMainCtrl().MPstartAE(this, accurateEstimation);
+//    }
 
     /**
      * Getter for question frame

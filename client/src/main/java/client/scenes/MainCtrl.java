@@ -37,8 +37,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static commons.Screen.ENTERNAME;
-import static commons.Screen.LOBBY;
+import static commons.Screen.*;
 
 public class MainCtrl {
 
@@ -62,6 +61,10 @@ public class MainCtrl {
      * 8 - MultiChoice
      * 9 - ChoiceEstimation
      * 10 - Admin
+     * 11 - Accurate Estimation
+     * 12 - MPMultiChoice
+     * 13 - MPChoiceEstimation
+     * 14 - AccurateEstimation
      */
 
     //Scenes
@@ -127,28 +130,47 @@ public class MainCtrl {
         int id = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
-        server.registerForMessages("/topic/game/" + lobbyId, Game.class, game -> {
-            if (current != game.screen) {
+        server.registerForMessages("/topic/game/" + id, Game.class, game -> {
+            System.out.println("Received game object!");
+            System.out.println(game.screen + " " + game.type);
+            if (!current.equals(game.screen)) {
+                System.out.println("CURRENT != game.screen");
                 switch (game.screen) {
                     case LOBBY:
+                        System.out.println("Showing Lobby");
                         showLobbyScreen();
                         current = LOBBY;
                         break;
                     case QUESTION:
-
+                        System.out.println("Showing MPGameScreen");
+                        showMPGame();
+                        current = QUESTION;
+                        break;
                 }
             }
+
+            System.out.println("Switch moment");
             switch (game.type) {
                 case LOBBYUPDATE:
+                    System.out.println("Update lobby");
                     updateLobby(game);
                     break;
-                case STARTMP: //Gets a game with the questions and players
+                case STARTMP:
+                    System.out.println("Start MPGame");
                     startMPGame(game);
                     break;
+                case QUESTION:
+                    System.out.println("Do a question");
+                    try {
+                        doQuestion(game.getQuestion());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
             }
         });
-        server.send("/app/game/" + lobbyId + "/lobby/join", player);
-
+        server.send("/app/game/" + id + "/lobby/join", player);
     }
 
     /**
@@ -218,7 +240,7 @@ public class MainCtrl {
      * Sets primaryStage's scene to the MPGame screen
      */
     public void showMPGame() {
-        showScene(this.scenes.get(6));
+        Platform.runLater(() -> showScene(this.scenes.get(6)));
     }
 
     /**
@@ -297,12 +319,19 @@ public class MainCtrl {
      * @param multiChoice
      */
     public void MPstartMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
-        MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(8);
+        MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(12);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
+    /**
+     * Get the MPGameController and invoke a method doAQuestion from it
+     *
+     * @param q
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public void doQuestion(Question q) throws IOException, InterruptedException {
         MPGameCtrl ctrl = (MPGameCtrl) this.controllers.get(6);
         ctrl.doAQuestion(q);
@@ -316,9 +345,9 @@ public class MainCtrl {
      * @param choiceEstimation
      */
     public void MPstartCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
-        ((MPChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
-        ((MPChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
+        ((MPChoiceEstimationCtrl) this.controllers.get(13)).start(parentCtrl, choiceEstimation);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13).getRoot());
+        ((MPChoiceEstimationCtrl) this.controllers.get(13)).buttonsEnabled(true);
     }
 
     /**
@@ -328,8 +357,8 @@ public class MainCtrl {
      * @param accurateEstimation
      */
     public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
-        ((MPAccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
+        ((MPAccurateEstimationCtrl) this.controllers.get(14)).start(parentCtrl, accurateEstimation);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(14).getRoot());
     }
 
     /**

@@ -4,5 +4,6 @@ public enum Type {
     LOBBYUPDATE,
     EMOJI,
     STARTMP,
-    NOTHING
+    NOTHING,
+    QUESTION
 }

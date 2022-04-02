@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -164,10 +165,11 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fill="RED" layoutX="1587.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--:--">
+      <Text fx:id="counterTimer" fill="RED" layoutX="1527.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15 seconds">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
+      <BorderPane fx:id="questionFrame" layoutX="568.0" layoutY="224.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="961.0" />
     </children>
 </AnchorPane>

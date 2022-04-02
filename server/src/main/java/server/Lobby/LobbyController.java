@@ -5,11 +5,13 @@ import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the lobbies
  */
+@Controller
 @RestController
 @RequestMapping("api/lobby")
 public class LobbyController {
@@ -64,7 +66,8 @@ public class LobbyController {
      * @param id of the websocket subscription
      */
     @MessageMapping("/game/{id}/lobby/start")
-    public void startLobby(@DestinationVariable long id) {
+    public void startLobby(@DestinationVariable long id, String s) {
+        System.out.println(s);
         lobbyService.startLobby(id);
     }
 
@@ -78,20 +81,6 @@ public class LobbyController {
     public void onEmoji(@DestinationVariable long id, Emoji e) {
         lobbyService.onEmoji(e, id);
     }
-
-
-    /**
-     * Called when start button in the lobby was pressed.
-     * Should redirect all the players to the first question
-     * (display MPGameScreen, with scoreboard on the side and correct question frame)
-     *
-     * @param id
-     */
-    @MessageMapping("/game/{id}/lobby/startGame")
-    public void startGame(@DestinationVariable long id) {
-        lobbyService.startGame();
-    }
-
 
     /**
      * Checks if the desired username is available.

@@ -9,7 +9,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.GameManagement.GameManagementService;
-import server.Question.QuestionService;
 
 import java.util.List;
 
@@ -23,7 +22,6 @@ import static commons.Type.LOBBYUPDATE;
 @Service
 @Component
 public class LobbyService {
-    public final QuestionService questionService;
     private final GameManagementService service;
     private final SimpMessagingTemplate simpMessagingTemplate;
     public Game currentLobby;
@@ -36,12 +34,10 @@ public class LobbyService {
      */
     @Autowired
     public LobbyService(GameManagementService service,
-                        SimpMessagingTemplate simpMessagingTemplate,
-                        QuestionService questionService) {
+                        SimpMessagingTemplate simpMessagingTemplate) {
         this.service = service;
         currentLobby = service.newLobby();
         this.simpMessagingTemplate = simpMessagingTemplate;
-        this.questionService = questionService;
     }
 
     /**
@@ -134,13 +130,5 @@ public class LobbyService {
      */
     public void onEmoji(Emoji e, long lobbyId) {
         simpMessagingTemplate.convertAndSend("/topic/game/" + lobbyId + "/emoji", e);
-    }
-
-    public void startGame() {
-        long id = currentLobby.getId();
-        //Get the list of 20 questions
-        //Go over the questions and send them one by one with a (15) seconds break
-        //Before sending the question update the scores of the players
-        //simpMessagingTemplate.convertAndSend("/topic/game/" + id);
     }
 }

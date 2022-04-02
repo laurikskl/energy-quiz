@@ -53,7 +53,7 @@ public class QuestionService {
         ArrayList<Question> questions = new ArrayList<>();
         while (questions.size() < 20) {
             Question q = getRandomQuestion();
-            if(q != null) {
+            if (q != null) {
                 questions.add(q);
             }
         }
@@ -138,27 +138,27 @@ public class QuestionService {
         long correct = activity.getPowerConsumption();
 
         //ignore numbers that are too big for the question generation
-        if(correct >= 2000000000) {
+        if (correct >= 2000000000) {
             return getRandomChoiceEstimation();
         }
-        System.out.println(correct);
+//        System.out.println(correct);
 
         //finding out how many zeroes the correct answer has at the end
         int zeroCount = zerosAtEnd(correct);
-        System.out.println("zeros " + zeroCount);
+//        System.out.println("zeros " + zeroCount);
 
         List<Long> answers = new ArrayList<>();
         answers.add(correct);
 
         //setting random upper and lower bounds used in calculating min and max values
         float lowerBound = -1L;
-        while(lowerBound <= 0) {
-            lowerBound = ThreadLocalRandom.current().nextLong(7L)/10F;
+        while (lowerBound <= 0) {
+            lowerBound = ThreadLocalRandom.current().nextLong(7L) / 10F;
         }
 
         float upperBound = -1;
-        while(upperBound <= 0) {
-            upperBound = ThreadLocalRandom.current().nextLong(5L)/10F;
+        while (upperBound <= 0) {
+            upperBound = ThreadLocalRandom.current().nextLong(5L) / 10F;
         }
 
         //adding two other answers with a maximum difference of lower/upper bound
@@ -166,19 +166,18 @@ public class QuestionService {
         long max = Math.round((upperBound + 1) * correct);
 
         //fix the bug where the correct answer is quite small
-        if(correct <= 10) {
-            while(answers.size() < 3) {
+        if (correct <= 10) {
+            while (answers.size() < 3) {
                 long rand = random.nextInt(10);
-                if(!answers.contains(rand)) {
+                if (!answers.contains(rand)) {
                     answers.add(rand);
                 }
             }
         }
 
 
-
         while (answers.size() < 3) {
-            long randomNumber = ThreadLocalRandom.current().nextLong(min,max + 1);
+            long randomNumber = ThreadLocalRandom.current().nextLong(min, max + 1);
             //for larger numbers make sure each answer has the same amount of zeros at end
             /*
             if(correct % 5F == 0 && zeroCount == 0) {
@@ -221,7 +220,7 @@ public class QuestionService {
     public int zerosAtEnd(Long num) {
         long correctToDiv = num;
         int zeroCount = 0;
-        while(correctToDiv % 10L == 0) {
+        while (correctToDiv % 10L == 0) {
             correctToDiv /= 10L;
             zeroCount++;
         }
@@ -253,7 +252,7 @@ public class QuestionService {
     /**
      * @return a random question of type accurateEstimation
      */
-    public Question.AccurateEstimation getRandomAccurateEstimation(){
+    public Question.AccurateEstimation getRandomAccurateEstimation() {
         //Generate a random activity
         Activity activity = activityController.getRandomActivity();
         List<Activity> activities = new ArrayList<>();
