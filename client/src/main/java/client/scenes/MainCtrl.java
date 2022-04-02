@@ -284,6 +284,16 @@ public class MainCtrl {
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
         ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
     }
+ /**
+     * Load the AccurateEstimation question frame
+     * @param parentCtrl
+     * @param accurateEstimation
+     */
+     public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+        ((AccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
+    }
+
 
     /**
      * Method for setting the fxml of the disconnectMessage popup and displaying it
