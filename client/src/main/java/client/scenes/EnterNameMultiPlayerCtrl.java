@@ -66,7 +66,7 @@ public class EnterNameMultiPlayerCtrl extends Controller {
                 e.printStackTrace();
                 player = new Player(usernameString, 0);
             }
-            long id = server.getLobby();
+            int id = server.getLobby();
 
             // If name isn't available, don't make a connection
             if(!server.nameCheck(player)){

@@ -34,7 +34,6 @@ public class LobbyService {
      * @param service the gameManagement service injected
      *                //* @param simpMessagingTemplate
      */
-
     @Autowired
     public LobbyService(GameManagementService service,
                         SimpMessagingTemplate simpMessagingTemplate,
@@ -51,8 +50,6 @@ public class LobbyService {
      *
      * @param p the player that joined
      */
-
-
     public void onJoin(Player p) {
         currentLobby.getPlayers().add(p);
         System.out.println("Player added to lobby");
@@ -85,6 +82,7 @@ public class LobbyService {
      *
      * @return the id as a long
      */
+
     public long getLobby() {
         return currentLobby.getId();
     }
@@ -92,10 +90,9 @@ public class LobbyService {
     /**
      * Adds the lobby to the game management service list of active games.
      */
-
-    @MessageMapping("/game/{id}/lobby/start")
-    public void startLobby(String dest, String msg) {
+    public void startLobby(long id) {
         Game toAdd = currentLobby;
+
         service.makeLobbyActive(toAdd);
         currentLobby = service.newLobby();
         refreshLobbyTable();
@@ -115,6 +112,19 @@ public class LobbyService {
             if (p.getUserName().equals(requestedUsername)) return false;
         }
         return true;
+    }
+
+
+    /**
+     * Adds the lobby to the game management service list of active games.
+     */
+
+    @MessageMapping("/game/{id}/lobby/start")
+    public void startLobby(String dest, String msg) {
+        Game toAdd = currentLobby;
+        service.makeLobbyActive(toAdd);
+        currentLobby = service.newLobby();
+        refreshLobbyTable();
     }
 
     /**

@@ -1,6 +1,10 @@
 package server.GameManagement;
 
 import commons.Game;
+import commons.RoundPlayer;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+
 /**
  * Starts new games.
  * Gets games by their id.
@@ -37,5 +41,16 @@ public class GameManagementController {
    */
   public Game newLobby(){
     return gameManagementService.newLobby();
+  }
+
+  /**
+   * Update the score of the player that sent their new score
+   * @param id the id of the game the player is in
+   * @param player the player that is updating their score
+   */
+
+  @MessageMapping("/game/{id}/scoreupdate")
+  public void scoreUpdate(@DestinationVariable long id, RoundPlayer player){
+    gameManagementService.scoreUpdate(id, player);
   }
 }

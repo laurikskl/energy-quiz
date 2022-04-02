@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Game {
-
     public Type type;
     public Screen screen;
     private long id;
     private int round;
     private ArrayList<Player> players;
-    private ArrayList<Question> questions; //We insert only one question here
+    private ArrayList<Question> questions;
+    private Question question;
 
     /**
      * Create a Game Object

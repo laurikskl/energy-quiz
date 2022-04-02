@@ -282,7 +282,7 @@ public class ServerUtils {
      * @return id of the lobby
      */
 
-    public long getLobby() {
+    public int getLobby() {
         return ClientBuilder.newClient(new ClientConfig())
             .target(SERVER).path("api/lobby/getid")
             .request(APPLICATION_JSON)

@@ -59,6 +59,16 @@ public class LobbyController {
     }
 
     /**
+     * Calls the same method in the service.
+     *
+     * @param id of the websocket subscription
+     */
+    @MessageMapping("/game/{id}/lobby/start")
+    public void startLobby(@DestinationVariable long id) {
+        lobbyService.startLobby(id);
+    }
+
+    /**
      * Called when emoji is sent to the server for a specific lobby
      *
      * @param id of the websocket subscription
@@ -69,13 +79,13 @@ public class LobbyController {
         lobbyService.onEmoji(e, id);
     }
 
+
     /**
      * Called when start button in the lobby was pressed.
      * Should redirect all the players to the first question
      * (display MPGameScreen, with scoreboard on the side and correct question frame)
      *
      * @param id
-     * @param p
      */
     @MessageMapping("/game/{id}/lobby/startGame")
     public void startGame(@DestinationVariable long id) {

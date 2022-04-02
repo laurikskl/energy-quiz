@@ -84,8 +84,8 @@ public class LobbyCtrl extends Controller {
         //setting font everywhere
         Font font = Font.loadFont(new FileInputStream("client/src/main/resources/fonts/Spartan-Bold.ttf"), 25);
         colName.setCellFactory(getCustomCellFactory(font)); //setting font for table
-        for(Node node : anchor.getChildren()) {
-            if(node instanceof Text) {
+        for (Node node : anchor.getChildren()) {
+            if (node instanceof Text) {
                 ((Text) node).setFont(font);
             }
         }
@@ -135,6 +135,7 @@ public class LobbyCtrl extends Controller {
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
      * Unsubscribe from the websocket connection
+     *
      * @param actionEvent - pressing the back button triggers this function
      * @throws IOException when files not found/misread
      */
@@ -149,8 +150,8 @@ public class LobbyCtrl extends Controller {
      * Removes the player from the lobby.
      */
 
-    public void leaveLobby(){
-        long id = getServer().getLobby();
+    public void leaveLobby() {
+        int id = getServer().getLobby();
         getServer().send("/app/game/" + id + "/lobby/leave", mainCtrl.thisPlayer);
     }
 
@@ -165,6 +166,7 @@ public class LobbyCtrl extends Controller {
 
     public void startGame(ActionEvent actionEvent) throws IOException {
         long id = getServer().getLobby();
+
         String startGame = "Game started";
         getServer().send("/game/" + id + "/lobby/start", startGame);
         //getMainCtrl().showMPGame();
@@ -194,7 +196,7 @@ public class LobbyCtrl extends Controller {
      */
 
     public void resetHint() throws IOException {
-        if(hints == null) {
+        if (hints == null) {
             //reading the hints and selecting a random one to display
             File hintDoc = new File("client/src/main/resources/main/Hints.txt");
             BufferedReader reader = new BufferedReader(new FileReader(hintDoc));
@@ -202,7 +204,7 @@ public class LobbyCtrl extends Controller {
             String line;
             do {
                 line = reader.readLine();
-                if(line != null) {
+                if (line != null) {
                     hints.add(line);
                 }
             } while (line != null);
