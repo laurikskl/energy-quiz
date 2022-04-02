@@ -66,7 +66,7 @@ class QuestionServiceTest {
         Question random = q1.getRandomQuestion();
         assertNotNull(random);
         if(!(random instanceof Question.MostNRGQuestion) && !(random instanceof Question.ChoiceEstimation) &&
-                !(random instanceof Question.Matching)) {
+                !(random instanceof Question.Matching) && !(random instanceof Question.AccurateEstimation)) {
             fail("No random question of the right type was generated");
         }
     }
