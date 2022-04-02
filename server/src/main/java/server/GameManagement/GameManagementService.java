@@ -149,6 +149,7 @@ public class GameManagementService {
         System.out.println(game.getPlayers().toString());
         //Start the questions
         //for (Question question : questionList) {
+        questionList.get(0).deleteImages();
         game.setQuestion(questionList.get(0));
         game.type = Type.QUESTION;
         game.screen = Screen.QUESTION;

@@ -69,7 +69,13 @@ public abstract class Question {
     }
 
     /**
-     *
+     * @param activities the list of activities
+     */
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
+    /**
      * @return the list of consumptions
      */
     public List<Long> getConsumptions() {
@@ -77,11 +83,15 @@ public abstract class Question {
     }
 
     /**
-     * @param activities the list of activities
+     * Set images to null for all the activities in this question
+     * Useful when we need to send question with web socket
      */
-
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
+    public void deleteImages() {
+        for (Activity act : this.activities) {
+            act.setImageContent(null);
+        }
+        if (correct != null)
+            correct.setImageContent(null);
     }
 
     /**
@@ -175,7 +185,7 @@ public abstract class Question {
             ArrayList<Activity> newList = new ArrayList<>();
             newList.add(activities.get(0));
             ArrayList<Activity> subset = new ArrayList<>();
-            for(int i = 1; i < activities.size(); i++) {
+            for (int i = 1; i < activities.size(); i++) {
                 subset.add(activities.get(i));
             }
             Collections.shuffle(subset);
@@ -203,8 +213,7 @@ public abstract class Question {
         }
 
         /**
-         *
-         * @param activities - the activity used for this question (at index 0)
+         * @param activities   - the activity used for this question (at index 0)
          * @param consumptions - the consumption of the activity (also at index 0)
          */
         public AccurateEstimation(List<Activity> activities, List<Long> consumptions) {
