@@ -44,21 +44,30 @@ public class LeaderboardCtrl extends Controller {
     @FXML
     private void initialize() {
 
+        // First, it fetches all the players from the database and their correspondent scores
+        // in decreasing order by score.
         List<Player> leaderboardPlayers = server.getLeaderboard();
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
         for (int i = 1; i <= leaderboardPlayers.size(); i++) {
+
+            // For every player, create a new entity which has:
+            // the same username as the player,
+            // the same score,
+            // and the placement in the leaderboard.
             String score = String.valueOf(leaderboardPlayers.get(i - 1).getScore());
             String userName = leaderboardPlayers.get(i - 1).getUserName();
             String place = Integer.toString(i);
 
             PlayerForTable playerWithPlace = new PlayerForTable(score, userName, place);
+            // Add the player with his place to the leaderboard.
             leaderboardTable.add(playerWithPlace);
         }
 
         data = FXCollections.observableList(leaderboardTable);
         table.setItems(data);
 
+        // Place the place, username and score in the table.
         colPlace.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().place));
         colName.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
         colScore.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().score));
@@ -75,7 +84,7 @@ public class LeaderboardCtrl extends Controller {
         getMainCtrl().showSplash();
     }
     /**
-     * Might add a refresh button later on.
+     * With this method, the player can refresh the Leaderboard table and see actual data.
      */
   public void refresh() {
 
@@ -83,7 +92,7 @@ public class LeaderboardCtrl extends Controller {
     List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
     for(int i = 1; i <= leaderboardPlayers.size() ; i++){
-
+        // Uses the same reasoning as above, where you create a Player with his place in the leaderboard.
       String score = Long.toString(leaderboardPlayers.get(i-1).getScore());
       String userName = leaderboardPlayers.get(i-1).getUserName();
       String place = Integer.toString(i);
