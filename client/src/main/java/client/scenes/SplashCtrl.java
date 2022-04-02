@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,7 +23,7 @@ public class SplashCtrl extends Controller {
     @FXML
     private Button connectButton;
     @FXML
-    private Label connectLabel;
+    private Label connectStatusLabel;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -71,7 +72,32 @@ public class SplashCtrl extends Controller {
      * @param mouseEvent
      */
     public void connect(MouseEvent mouseEvent) {
-        this.mainCtrl.setServerAddress(this.connectField.getText());
+        SplashCtrl splashCtrl = this;
+
+        Task task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                return splashCtrl.server.setServerAddress(splashCtrl.connectField.getText());
+            }
+
+            @Override
+            protected void running() {
+                super.running();
+                splashCtrl.connectStatusLabel.setText("Connecting...");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                if (this.getValue()) splashCtrl.connectStatusLabel.setText("Connected");
+                else splashCtrl.connectStatusLabel.setText("Connection failed");
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     /**

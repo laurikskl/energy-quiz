@@ -17,9 +17,11 @@
 package client.utils;
 
 import commons.*;
+import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
@@ -33,6 +35,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -51,7 +54,8 @@ public class ServerUtils {
      * players is the list of players for a game
      */
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080/";
+    private static String WSSERVER = "ws://localhost:8080/";
 
     private static List<Player> players;
 
@@ -82,6 +86,36 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<>() {
                 });
+    }
+
+    /**
+     * @param serverAddress Address to connect to.
+     * @return If we can connect to the Server Address.
+     */
+    public Boolean setServerAddress(String serverAddress) {
+        String server = SERVER;
+        String wsServer = WSSERVER;
+        SERVER = "http://" + serverAddress + "/";
+        WSSERVER = "ws://" + serverAddress + "/";
+
+        //Test the connection
+        Boolean bool = false;
+        try {
+            bool = ClientBuilder.newClient(new ClientConfig()) //
+                    .target(SERVER).path("api/admin/running") //
+                    .request(APPLICATION_JSON) //
+                    .accept(APPLICATION_JSON) //
+                    .get(new GenericType<Boolean>() {
+                    });
+        } catch (ProcessingException e) {
+            e.printStackTrace();
+
+            //Reset Server Address
+            ServerUtils.SERVER = server;
+            ServerUtils.WSSERVER = wsServer;
+        }
+
+        return bool;
     }
 
 
@@ -236,7 +270,7 @@ public class ServerUtils {
      * URL of the stomp session.
      */
 
-    private final StompSession session = connect("ws://localhost:8080/websocket");
+private final StompSession session = connect(WSSERVER + "websocket");
 
     /**
      * Unsubscribe from the websocket session.

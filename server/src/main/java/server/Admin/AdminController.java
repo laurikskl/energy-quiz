@@ -20,6 +20,15 @@ public class AdminController {
     }
 
     /**
+     * Method for clients to check if the server is running.
+     * @return If the server is running. Always true
+     */
+    @GetMapping("/running")
+    public Boolean running() {
+        return true;
+    }
+
+    /**
      * get all activities
      * @return all activities
      */
