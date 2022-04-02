@@ -28,7 +28,7 @@ import java.util.Collections;
  * - handling the user input (the user pressing one of the 3 buttons)
  * - updating the score accordingly
  */
-public class MPChoiceEstimationCtrl extends Controller{
+public class MPChoiceEstimationCtrl extends Controller {
 
     private Question choiceEstimation;
     private SPGameCtrl parentCtrl;
@@ -61,7 +61,8 @@ public class MPChoiceEstimationCtrl extends Controller{
 
     /**
      * Method for starting the question, setting all the UI and starting the timer
-     * @param parentCtrl controller for the Singleplayer game
+     *
+     * @param parentCtrl       controller for the Singleplayer game
      * @param choiceEstimation question
      */
     public void start(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
@@ -82,7 +83,7 @@ public class MPChoiceEstimationCtrl extends Controller{
         byte[] byteArray = choiceEstimation.getActivities().get(0).getImageContent();
         Image img = new Image(new ByteArrayInputStream(byteArray));
         //if there was an error in getting the image, set it to a default image
-        if(img.isError()) {
+        if (img.isError()) {
             image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
         } else {
             image.setImage(img);
@@ -94,7 +95,7 @@ public class MPChoiceEstimationCtrl extends Controller{
     /**
      * Method for setting the buttons in a randomized way
      */
-    public void setButtons(){
+    public void setButtons() {
         Collections.shuffle(choiceEstimation.getConsumptions());
 
         answer1.setText(String.valueOf(choiceEstimation.getConsumptions().get(0)));
@@ -119,8 +120,7 @@ public class MPChoiceEstimationCtrl extends Controller{
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
-        }
-        else if (answer3.getText().equals(correctText)) {
+        } else if (answer3.getText().equals(correctText)) {
             correct = answer3;
             wrong1 = answer1;
             wrong2 = answer2;
@@ -266,7 +266,7 @@ public class MPChoiceEstimationCtrl extends Controller{
     /**
      * When the correct answer is pressed, the score for the question is calculated
      * and added to the score on the screen
-     * 
+     *
      * @throws InterruptedException
      */
     public void handleCorrect() throws InterruptedException {
@@ -303,7 +303,7 @@ public class MPChoiceEstimationCtrl extends Controller{
      */
 
     public void buttonsEnabled(boolean enabled) {
-        if(enabled) {
+        if (enabled) {
             answer1.setDisable(false);
             answer2.setDisable(false);
             answer3.setDisable(false);
@@ -313,11 +313,4 @@ public class MPChoiceEstimationCtrl extends Controller{
             answer3.setDisable(true);
         }
     }
-
-
-
-
-
-
-
 }

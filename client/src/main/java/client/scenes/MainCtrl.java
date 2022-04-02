@@ -42,11 +42,13 @@ import static commons.Screen.LOBBY;
 
 public class MainCtrl {
 
+    //the client's player for multiplayer with their name
+    public Player thisPlayer;
+    //the lobby we are in
+    public long lobbyId;
     private Stage primaryStage;
-
     //Controllers
     private List<Controller> controllers;
-
     /**
      * Controller and scenes indexes.
      * 0 - Splash
@@ -64,20 +66,13 @@ public class MainCtrl {
 
     //Scenes
     private List<Scene> scenes;
-
     private ServerUtils server;
-
-    //the client's player for multiplayer with their name
-    public Player thisPlayer;
-
     // Current scene as an enum
     private Screen current;
 
-    //the lobby we are in
-    public long lobbyId;
-
     /**
      * Injects server utils.
+     *
      * @param server the server utils
      */
     @Inject
@@ -123,16 +118,17 @@ public class MainCtrl {
     /**
      * gets the id of the current ongoing lobby and sends the player
      * to the relevant destination.
+     *
      * @param player The player who is typing in their name
      */
-    public void makeConnection(Player player){
+    public void makeConnection(Player player) {
         //save this player's username in main ctrl
         this.thisPlayer = player;
         this.lobbyId = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
-        server.registerForMessages("/topic/game/"+ lobbyId, Game.class, game -> {
-            if(current != game.screen) {
+        server.registerForMessages("/topic/game/" + lobbyId, Game.class, game -> {
+            if (current != game.screen) {
                 switch (game.screen) {
                     case LOBBY:
                         showLobbyScreen();
@@ -142,12 +138,12 @@ public class MainCtrl {
 
                 }
             }
-            switch(game.type){
+            switch (game.type) {
                 case LOBBYUPDATE:
                     updateLobby(game);
                     break;
-                case STARTMP:
-                    startMPGame();
+                case STARTMP: //Gets a game with the questions and players
+                    startMPGame(game);
                     break;
             }
         });
@@ -202,11 +198,12 @@ public class MainCtrl {
 
     /**
      * Sets primaryStage's scene to the Lobby screen
-     *
-     *  removed the player parameter at the moment
+     * <p>
+     * removed the player parameter at the moment
      */
     public void showLobbyScreen() {
-        Platform.runLater(() -> showScene(this.scenes.get(5))); ;
+        Platform.runLater(() -> showScene(this.scenes.get(5)));
+        ;
 
 //        //set up the lobby with the list of players
 //        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
@@ -231,7 +228,7 @@ public class MainCtrl {
         showScene(this.scenes.get(7));
     }
 
-    public void showEndGame(){
+    public void showEndGame() {
         showScene(this.scenes.get(8));
     }
 
@@ -249,6 +246,7 @@ public class MainCtrl {
     /**
      * Load the MultipleChoice question frame
      * Enable buttons after the question for the next question
+     *
      * @param parentCtrl
      * @param multiChoice
      */
@@ -262,6 +260,7 @@ public class MainCtrl {
     /**
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
+     *
      * @param parentCtrl
      * @param choiceEstimation
      */
@@ -273,10 +272,11 @@ public class MainCtrl {
 
     /**
      * Load the AccurateEstimation question frame
+     *
      * @param parentCtrl
      * @param accurateEstimation
      */
-    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         ((AccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
     }
@@ -284,15 +284,15 @@ public class MainCtrl {
 
     /**
      * Sets the PlayerObj
-     *
      */
-    public void startMPGame() {
-        ((MPGameCtrl) this.controllers.get(6)).startGame(thisPlayer, lobbyId);
+    public void startMPGame(Game game) {
+        ((MPGameCtrl) this.controllers.get(6)).startGame(thisPlayer, lobbyId, game);
     }
 
     /**
      * Load the MultipleChoice question frame
      * Enable buttons after the question for the next question
+     *
      * @param parentCtrl
      * @param multiChoice
      */
@@ -311,6 +311,7 @@ public class MainCtrl {
     /**
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
+     *
      * @param parentCtrl
      * @param choiceEstimation
      */
@@ -322,10 +323,11 @@ public class MainCtrl {
 
     /**
      * Load the AccurateEstimation question frame
+     *
      * @param parentCtrl
      * @param accurateEstimation
      */
-    public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+    public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         ((MPAccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
         ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
     }
@@ -354,7 +356,7 @@ public class MainCtrl {
     /**
      *
      */
-    public void updateLobby(Game game){
+    public void updateLobby(Game game) {
         LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
         try {
             ctrl.createTable(game.getPlayers());

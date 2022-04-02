@@ -5,12 +5,12 @@ import java.util.Objects;
 
 public class Game {
 
+    public Type type;
+    public Screen screen;
     private long id;
     private int round;
     private ArrayList<Player> players;
-    private ArrayList<Question> questions;
-    public Type type;
-    public Screen screen;
+    private ArrayList<Question> questions; //We insert only one question here
 
     /**
      * Create a Game Object
@@ -88,6 +88,7 @@ public class Game {
 
     /**
      * Equals method.
+     *
      * @param o an object
      * @return boolean if equals
      */
@@ -101,7 +102,7 @@ public class Game {
         }
         Game game = (Game) o;
         return id == game.id && round == game.round && Objects.equals(players, game.players) &&
-            Objects.equals(questions, game.questions);
+                Objects.equals(questions, game.questions);
     }
 
     @Override
