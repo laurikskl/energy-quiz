@@ -163,9 +163,11 @@ public class MainCtrl {
     }
 
     /**
-     * Sets primaryStage's scene to the splash screen
+     * Sets primaryStage's scene to the splash screen;
+     * Disconnects from the websocket if necessary;
      */
     public void showSplash() {
+        this.server.disconnect();
         showScene(this.scenes.get(0));
     }
 
