@@ -38,6 +38,10 @@ public class Activity implements Comparable {
      */
 
     @Id
+    @GeneratedValue
+    private Long internalID;
+
+    @Column
     public String id;
 
     @Column
