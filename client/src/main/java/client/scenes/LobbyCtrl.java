@@ -164,10 +164,10 @@ public class LobbyCtrl extends Controller {
      */
 
     public void startGame(ActionEvent actionEvent) throws IOException {
-        //long id = getServer().getLobby();
+        long id = getServer().getLobby();
         String startGame = "Game started";
-        //getServer().send("/game/" + id + "/lobby/start", startGame);
-        getMainCtrl().showMPGame();
+        getServer().send("/game/" + id + "/lobby/start", startGame);
+        //getMainCtrl().showMPGame();
 
         // TODO: Start a session, forward other players to the game, fetch questions.
 

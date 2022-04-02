@@ -135,6 +135,8 @@ public class MainCtrl {
                         showLobbyScreen();
                         current = LOBBY;
                         break;
+                    case QUESTION:
+
                 }
             }
             switch(game.type){

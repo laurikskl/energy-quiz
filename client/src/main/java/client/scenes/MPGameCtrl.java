@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Emoji;
 import commons.Player;
+import commons.Question;
 import javafx.animation.PauseTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,18 +12,24 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Stack;
 
 /**
@@ -45,6 +52,8 @@ public class MPGameCtrl extends Controller {
     private TableView<Pair<String, ImageView>> chat;
     @FXML
     private Text cooldownText;
+    @FXML
+    private BorderPane questionFrame;
 
     /**
      * Fields used in class
@@ -54,6 +63,7 @@ public class MPGameCtrl extends Controller {
     private PauseTransition cooldown;
     private Player player;
     private long lobbyId;
+    private int round;
 
 
     /**
@@ -89,6 +99,7 @@ public class MPGameCtrl extends Controller {
         this.lobbyId = lobbyId;
         this.onCooldown = false;
         this.player = player;
+        this.round = 0;
 
         //display emoji when received
         server.registerForMessages("/topic/game/" + lobbyId + "/emoji", Emoji.class, emoji -> {
@@ -160,6 +171,97 @@ public class MPGameCtrl extends Controller {
         for(int i = 0; i < 5; i++) {
             chat.getItems().add(new Pair<>("", empty));
         }
+    }
+
+    /**
+     * This method takes care of every individual question by
+     * running the concrete method for each type of question.
+     * This method also handles changing the score that is visible on the screen
+     * and question counter
+     *
+     * @param q the current question
+     */
+    public void doAQuestion(Question q) throws IOException, InterruptedException {
+        //Question has been run
+        this.round++;
+        System.out.println("Question has started!");
+        simpleTimer();
+        questionNumber.setText(round+1 +"/20");
+
+        //Choose which type of question it is and load the appropriate frame with its controller
+        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
+            doMultiChoice((Question.MostNRGQuestion) q);
+        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
+        } else if (q.getClass().equals(Question.Matching.class)) {
+            doMatching((Question.Matching) q);
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
+        }
+        //refresh();
+
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param multiChoice current multiChoice question
+     * @throws IOException when something goes wrong with file-reading or finding
+     */
+    public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException{
+        getMainCtrl().startMC(this, multiChoice);
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param choiceEstimation current Estimation question
+     * @throws IOException cooldownText.setText("Wait " + timeLeft + " second before sending another message");
+     */
+    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException {
+        getMainCtrl().startCE(this, choiceEstimation);
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param q current Matching question
+     * @throws IOException when file-reading or finding goes wrong
+     */
+    public void doMatching(Question.Matching q) throws IOException {
+        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
+        URL url = new File(pathToFxml).toURI().toURL();
+        FXMLLoader fxmlLoader = new FXMLLoader(url);
+        Parent root = fxmlLoader.load();
+
+        //TODO: Create MatchingCtrl
+//        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
+//        controller.initialize(server, mainCtrl, (Question.Matching) q);
+        Scene scene = new Scene(root);
+
+        questionFrame.setCenter(scene.getRoot());
+    }
+
+    /**
+     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param accurateEstimation current AccurateEstimation question
+     * @throws IOException
+     */
+    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
+        getMainCtrl().startAE(this, accurateEstimation);
+    }
+
+    /** Getter for question frame
+     *
+     * @return BorderPane of question frame
+     */
+    public BorderPane getQuestionFrame() {
+        return questionFrame;
     }
 
 
