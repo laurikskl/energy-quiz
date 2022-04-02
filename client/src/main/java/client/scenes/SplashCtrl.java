@@ -4,6 +4,8 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -13,6 +15,14 @@ public class SplashCtrl extends Controller {
 
     @FXML
     private TextField howToPlayText;
+
+    //Connect
+    @FXML
+    private TextField connectField;
+    @FXML
+    private Button connectButton;
+    @FXML
+    private Label connectLabel;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -56,6 +66,13 @@ public class SplashCtrl extends Controller {
         howToPlayText.setVisible(false);
     }
 
+    /**
+     * Set the server given in connectTextField as SERVER in serverUtils through mainCtrl.setServerAddress().
+     * @param mouseEvent
+     */
+    public void connect(MouseEvent mouseEvent) {
+        this.mainCtrl.setServerAddress(this.connectField.getText());
+    }
 
     /**
      * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
@@ -64,7 +81,7 @@ public class SplashCtrl extends Controller {
      * @throws IOException when file is not found
      */
 
-    public void mouseClickedSinglePlayer(MouseEvent actionEvent) throws IOException {
+    public void mouseClickedSinglePlayer(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showEnterNameSinglePlayer();
     }
 
@@ -72,10 +89,10 @@ public class SplashCtrl extends Controller {
     /**
      * Changes the scene with the screen for entering the username when pressing the MULTIPLAYER button.
      *
-     * @param actionEvent - the mouse clicked on the MULTIPLAYER button
+     * @param mouseEvent - the mouse clicked on the MULTIPLAYER button
      * @throws IOException when file is not found
      */
-    public void mouseClickedMultiPlayer(MouseEvent actionEvent) throws IOException {
+    public void mouseClickedMultiPlayer(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showEnterNameMultiPlayer();
     }
 
@@ -83,20 +100,20 @@ public class SplashCtrl extends Controller {
     /**
      * Changes the scene to the HowToPlay Scene.
      *
-     * @param actionEvent - the mouse clicked on the How To Play button
+     * @param mouseEvent - the mouse clicked on the How To Play button
      * @throws IOException
      */
-    public void mouseClickedHow2Play(MouseEvent actionEvent) throws IOException {
+    public void mouseClickedHow2Play(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showHow2Play();
     }
 
     /**
      * Changes the scene to the Admin Scene.
      *
-     * @param actionEvent - the mouse clicked on Admin button
+     * @param mouseEvent - the mouse clicked on Admin button
      * @throws IOException when file is not found
      */
-    public void mouseClickedAdmin(MouseEvent actionEvent) throws IOException {
+    public void mouseClickedAdmin(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showAdmin();
     }
 

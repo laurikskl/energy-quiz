@@ -304,4 +304,8 @@ public class MainCtrl {
     public List<Controller> getControllers() {
         return controllers;
     }
+
+    public void setServerAddress(String serverAddress) {
+        //Set server
+    }
 }
