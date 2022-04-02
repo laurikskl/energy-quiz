@@ -60,7 +60,7 @@ public class SplashCtrl extends Controller {
     /**
      * Changes the scene with the screen for entering the username when pressing the SINGLEPLAYER button.
      *
-     * @param mouseEvent - the mouse clicked on the SINGLEPLAYER button
+     * @param actionEvent - the mouse clicked on the SINGLEPLAYER button
      * @throws IOException when file is not found
      */
 
