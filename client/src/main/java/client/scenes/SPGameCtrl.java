@@ -294,7 +294,7 @@ public class SPGameCtrl extends Controller {
      *
      * @param q the current question
      */
-    public void doAQuestion(Question q) throws IOException {
+    public void doAQuestion(Question q) throws IOException, InterruptedException {
         //Question has been run
         this.qCount++;
         System.out.println("Question has started!");
@@ -308,11 +308,11 @@ public class SPGameCtrl extends Controller {
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
         } else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
         }
         refresh();
-//        else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-//            doAccurateEstimation((Question.AccurateEstimation) q);
-//        }
+
     }
 
     /**
@@ -358,31 +358,21 @@ public class SPGameCtrl extends Controller {
         questionFrame.setCenter(scene.getRoot());
     }
 
-//    /**
-//     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
-//     * Then it adds points to score accordingly, using ScoreSystem
-//     *
-//     * @param q current AccurateEstimation question
-//     * @throws IOException
-//     */
-//    public void doAccurateEstimation(Question.AccurateEstimation q) throws IOException {
-//        String pathToFxml = "client/src/main/resources/client/scenes/AccurateEstimation.fxml";
-//        URL url = new File(pathToFxml).toURI().toURL();
-//        FXMLLoader fxmlLoader = new FXMLLoader(url);
-//        Parent root = fxmlLoader.load();
-//
-//        //TODO: Create AccurateEstimationCtrl
-//        AccurateEstimationCtrl controller = fxmlLoader.<AccurateEstimationCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.AccurateEstimation) q);
-//        Scene scene = new Scene(root);
-//
-//        questionFrame.setCenter(scene.getRoot());
-//    }
+    /**
+     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param accurateEstimation current AccurateEstimation question
+     * @throws IOException
+     */
+    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
+        getMainCtrl().startAE(this, accurateEstimation);
+    }
 
     /**
      * This method displays a message when you press the back button in game, so you can confirm you want to exit
      *
-     * @param actionEvent click
+     * @param mouseEvent click
      * @throws IOException when file not found or misread
      */
     public void back(MouseEvent actionEvent) throws IOException {
