@@ -43,12 +43,12 @@ public class LeaderboardCtrl extends Controller {
      */
     @FXML
     private void initialize() {
-
+        /*
         List<Player> leaderboardPlayers = server.getLeaderboard();
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
         for (int i = 1; i <= leaderboardPlayers.size(); i++) {
-            String score = Long.toString(leaderboardPlayers.get(i - 1).getScore());
+            String score = String.valueOf(leaderboardPlayers.get(i - 1).getScore());
             String userName = leaderboardPlayers.get(i - 1).getUserName();
             String place = Integer.toString(i);
 
@@ -62,6 +62,8 @@ public class LeaderboardCtrl extends Controller {
         colPlace.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().place));
         colName.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
         colScore.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().score));
+
+         */
     }
 
     /**
