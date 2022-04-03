@@ -94,8 +94,8 @@ public class LobbyCtrl extends Controller {
         }
         hintText.setFont(font);
         playersText.setStyle("-fx-font-size: 35px;-fx-alignment: CENTER;");
-        hintText.setStyle("-fx-font-size: 20px");
-        pressToStart.setStyle("-fx-alignment: CENTER;-fx-font-size: 20px");
+        hintText.setStyle("-fx-font-size: 20px;");
+        pressToStart.setStyle("-fx-alignment: CENTER;-fx-font-size: 20px;");
 
         //disable horizontal scrolling for table
         table.addEventFilter(ScrollEvent.ANY, event -> {
@@ -128,7 +128,7 @@ public class LobbyCtrl extends Controller {
                     }
                 };
                 cell.setFont(font);
-                cell.setStyle("-fx-font-size: 40px");
+                cell.setStyle("-fx-font-size: 40px;");
                 return cell;
             }
         };

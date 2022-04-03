@@ -114,7 +114,7 @@ public class MPGameCtrl extends Controller {
      * @param player the player of this client
      */
 
-    public void startGame(Player player, long lobbyId, Game game) {
+    public void startGame(Player player, long lobbyId, Game game) throws IOException, InterruptedException {
         this.lobbyId = lobbyId;
         this.onCooldown = false;
         this.player = player;
@@ -225,14 +225,17 @@ public class MPGameCtrl extends Controller {
         a2 = new Activity("00-tv", "Watching tv", 1200l, "github.com", null);
         a3 = new Activity("00-tests", "Writing tests", 900l, "github.com", null);
         activityList = Arrays.asList(a1, a2, a3);
-        mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1, null);
+        List<Long> consumptions = List.of(a1.getPowerConsumption(), a2.getPowerConsumption(), a3.getPowerConsumption());
+        mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1, consumptions);
 
         q = mostNRGQuestion;
-        
+
+        doMultiChoice((Question.MostNRGQuestion) q);
+
         //Choose which type of question it is and load the appropriate frame with its controller
-        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
-            doMultiChoice((Question.MostNRGQuestion) q);
-        }
+//        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
+//            doMultiChoice((Question.MostNRGQuestion) q);
+//        }
 //        else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
 //            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
 //        } else if (q.getClass().equals(Question.Matching.class)) {
@@ -253,7 +256,7 @@ public class MPGameCtrl extends Controller {
      */
     public void doMultiChoice(Question.MostNRGQuestion multiChoice) throws IOException {
         System.out.println("MultiChoice start");
-        getMainCtrl().MPstartMC(this, multiChoice);
+        this.mainCtrl.MPstartMC(this, multiChoice);
     }
 
     /**

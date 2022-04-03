@@ -1,12 +1,5 @@
-@font-face{
-    font-family: spartan;
-    src: url('/../fonts/spartan.ttf');
-}
-:root{
-    font-family: spartan;
-}
 .table-view {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
 .table-row-cell:even {
@@ -17,6 +10,10 @@
     -fx-background-color: #8DF5EE;
 }
 
-.joker-button:hover{
-    fx-background-color:#8DF5EE;
+.joker-button {
+    -fx-background-color: #6639D4;
+}
+
+.joker-button:hover {
+    -fx-background-color:#8DF5EE;
 }

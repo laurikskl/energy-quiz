@@ -24,7 +24,9 @@ import commons.Screen;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -157,7 +159,13 @@ public class MainCtrl {
                     break;
                 case STARTMP:
                     System.out.println("Start MPGame");
-                    startMPGame(game);
+                    try {
+                        startMPGame(game);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case QUESTION:
                     System.out.println("Do a question");
@@ -307,7 +315,7 @@ public class MainCtrl {
     /**
      * Sets the PlayerObj
      */
-    public void startMPGame(Game game) {
+    public void startMPGame(Game game) throws IOException, InterruptedException {
         ((MPGameCtrl) this.controllers.get(6)).startGame(thisPlayer, lobbyId, game);
     }
 
@@ -321,9 +329,11 @@ public class MainCtrl {
     public void MPstartMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(12);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
-        System.out.println("Scene to be set");
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
-        System.out.println("Scene set");
+
+        Platform.runLater( () ->
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot())
+        );
+
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
