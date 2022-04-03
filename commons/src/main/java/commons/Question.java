@@ -171,18 +171,7 @@ public abstract class Question {
 
         public Matching(List<Activity> activities, List<Long> consumptions) {
             super(activities, consumptions);
-            setCorrect(activities.get(1));
-            ArrayList<Activity> newList = new ArrayList<>();
-            newList.add(activities.get(0));
-            ArrayList<Activity> subset = new ArrayList<>();
-            for(int i = 1; i < activities.size(); i++) {
-                subset.add(activities.get(i));
-            }
-            Collections.shuffle(subset);
-            newList.addAll(subset);
-            setActivities(newList);
         }
-
     }
 
     /**
