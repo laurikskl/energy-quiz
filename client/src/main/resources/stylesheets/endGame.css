@@ -1,11 +1,30 @@
 #root{
     font-family: spartan;
 }
+
 #playAgain {
     -fx-background-color: #7ccade;
 }
 
 #playAgain:hover {
+    -fx-background-color: #6639d4;
+    -fx-text-fill: #f1f1f1
+}
+
+#mainMenu {
+    -fx-background-color: #7ccade;
+}
+
+#mainMenu:hover {
+    -fx-background-color: #6639d4;
+    -fx-text-fill: #f1f1f1
+}
+
+#exit {
+    -fx-background-color: #7ccade;
+}
+
+#exit:hover {
     -fx-background-color: #6639d4;
     -fx-text-fill: #f1f1f1
 }
