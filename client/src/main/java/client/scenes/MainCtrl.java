@@ -24,9 +24,7 @@ import commons.Screen;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -64,9 +62,10 @@ public class MainCtrl {
      * 9 - ChoiceEstimation
      * 10 - Admin
      * 11 - Accurate Estimation
-     * 12 - MPMultiChoice
-     * 13 - MPChoiceEstimation
-     * 14 - MPAccurateEstimation
+     * 12 - MPMultiChoice - gonna be thrown away probably
+     * 13 - MPChoiceEstimation - gonna be thrown away probably
+     * 14 - MPAccurateEstimation - gonna be thrown away probably
+     * 15 - MPGameMultiChoiceCtrl
      */
 
     //Scenes
@@ -320,20 +319,26 @@ public class MainCtrl {
     }
 
     /**
-     * Load the MultipleChoice question frame
+     * Run the MPGameMultipleChoice question startGame method
+     * Show the screen for MPGameMultipleChoice
      * Enable buttons after the question for the next question
-     *
-     * @param parentCtrl
-     * @param multiChoice
      */
-    public void MPstartMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
-        MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(12);
-        multiChoiceCtrl.start(parentCtrl, multiChoice);
-
-        Platform.runLater( () ->
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot())
+    public void MPstartMC(Game game) {  //it is what it is :))
+        MPGameMultiChoiceCtrl multiChoiceCtrl = (MPGameMultiChoiceCtrl) this.controllers.get(15);
+        Platform.runLater(() ->
+                {
+                    try {
+                        ((MPGameMultiChoiceCtrl) this.controllers.get(15)).startGame(game, thisPlayer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
         );
-
+        Platform.runLater(() ->
+                showScene(this.scenes.get(15))
+        );
         multiChoiceCtrl.buttonsEnabled(true);
     }
 

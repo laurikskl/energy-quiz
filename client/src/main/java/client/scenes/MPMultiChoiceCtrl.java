@@ -8,15 +8,12 @@ import commons.RoundPlayer;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -113,9 +110,9 @@ public class MPMultiChoiceCtrl extends Controller {
         answer3.setText(multiChoice.getActivities().get(2).getName());
 
         //Setting the colour of buttons when the question is initialized, so they don't stay the same colour after a question
-//        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-//        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-//        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 250; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 250; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 250; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
     }
 
     /**

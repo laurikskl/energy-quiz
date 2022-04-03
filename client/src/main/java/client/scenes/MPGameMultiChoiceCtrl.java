@@ -13,30 +13,31 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.time.Instant;
 import java.util.Stack;
 
 /**
  * Controller for FXML of the multiplayer game screen
  */
 
-public class MPGameCtrl extends Controller {
+public class MPGameMultiChoiceCtrl extends Controller {
 
+    public int isCorrect;
     /**
      * FXML fields
      */
@@ -57,42 +58,51 @@ public class MPGameCtrl extends Controller {
     @FXML
     private Text cooldownText;
     @FXML
-    private BorderPane questionFrame;
-
-    /*For the timer.
+    private Button answer1;
+    @FXML
+    private Button answer2;
+    @FXML
+    private Button answer3;
+    @FXML
+    private ImageView image1;
+    @FXML
+    private ImageView image2;
+    @FXML
+    private ImageView image3;
+    /**
+     * For the timer.
      */
     @FXML
     private Text counterTimer;
     private Timer timer;
     private int seconds;
-
     /**
      * Fields used in class
      */
 
     private boolean onCooldown;
     private PauseTransition cooldown;
-    private Player player;
-    private long lobbyId;
     private int round;
     @FXML
     private Text questionNumber;
-
     private Game game;
     private ObservableList<Player> data;
+    private long lobbyId;
+    private Player player;
+    private Activity correctActivity;
+    private Question multiChoice;
+    private Instant instant;
+    private Long start;
+    private Long finish;
+    private String correctActivityName;
 
     /**
      * @param server   reference to an instance of ServerUtils
      * @param mainCtrl reference to an instance of mainCtrl
      */
-
     @Inject
-    public MPGameCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MPGameMultiChoiceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
-    }
-
-    public int getRound() {
-        return round;
     }
 
     /**
@@ -108,18 +118,54 @@ public class MPGameCtrl extends Controller {
 
 
     /**
-     * Called when starting a game
-     * THIS IS NOT USED YET!!!!!!!!!!!!!!!!!!!!!!!!
-     *
-     * @param player the player of this client
+     * Start a MultiChoice round in multiplayer
+     * Set all the fields
+     * Start the timer
+     * Fetch the images from server for question
+     * Display the question
      */
-
-    public void startGame(Player player, long lobbyId, Game game) throws IOException, InterruptedException {
-        this.lobbyId = lobbyId;
+    public void startGame(Game game, Player player) throws IOException, InterruptedException {
         this.onCooldown = false;
-        this.player = player;
-        this.round = 0;
+        //Set the game
         this.game = game;
+        //Set the lobbyId
+        this.lobbyId = game.getId();
+        //Set the round number
+        this.round = game.getRound();
+        //Set the question
+        this.multiChoice = game.getQuestion();
+        //Set the player
+        this.player = player;
+        //Set isCorrect to -1 meaning there wasn't an answer
+        this.isCorrect = -1;
+        //Obtaining current state of clock
+        this.instant = Instant.now();
+        //Current time in second from some ancient date
+        this.start = instant.getEpochSecond();
+        //Set correct activity
+        this.correctActivity = multiChoice.getCorrect();
+        //Finds the correct answer and inserts its name in the correctActivityName field
+        this.correctActivityName = correctActivity.getName();
+
+        resetSeconds();
+        simpleTimer();
+        questionNumber.setText(round + 1 + "/20");
+
+        Image defaultIMG = new Image(String.valueOf(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL()));
+
+        // TODO: Ask the server for the images and set them here
+
+        image1.setImage(defaultIMG);
+        image2.setImage(defaultIMG);
+        image3.setImage(defaultIMG);
+
+        answer1.setText(multiChoice.getActivities().get(0).getName());
+        answer2.setText(multiChoice.getActivities().get(1).getName());
+        answer3.setText(multiChoice.getActivities().get(2).getName());
+
+        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 250; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 250; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 250; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
 
         refreshScoreboard();
         colNameScoreboard.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
@@ -196,129 +242,6 @@ public class MPGameCtrl extends Controller {
             chat.getItems().add(new Pair<>("", empty));
         }
     }
-
-    /**
-     * This method takes care of every individual question by
-     * running the concrete method for each type of question.
-     * This method also handles changing the score that is visible on the screen
-     * and question counter
-     *
-     * @param q the current question
-     */
-    public void doAQuestion(Question q) throws IOException, InterruptedException {
-        refreshScoreboard();
-        //Question has been run
-        this.round++;
-        System.out.println("Question has started!");
-        resetSeconds();
-        simpleTimer();
-        questionNumber.setText(round + 1 + "/20");
-
-        System.out.println("Question class = " + q.getClass());
-
-        //Fake, hard-coded question
-        Question.MostNRGQuestion mostNRGQuestion;
-        Activity a1;
-        Activity a2;
-        Activity a3;
-        List<Activity> activityList;
-        a1 = new Activity("00-coding", "Coding", 1200l, "github.com", null);
-        a2 = new Activity("00-tv", "Watching tv", 1200l, "github.com", null);
-        a3 = new Activity("00-tests", "Writing tests", 900l, "github.com", null);
-        activityList = Arrays.asList(a1, a2, a3);
-        List<Long> consumptions = List.of(a1.getPowerConsumption(), a2.getPowerConsumption(), a3.getPowerConsumption());
-        mostNRGQuestion = new Question.MostNRGQuestion(activityList, a1, consumptions);
-
-        q = mostNRGQuestion;
-        game.setQuestion(q);
-        doMultiChoice();
-
-        //Choose which type of question it is and load the appropriate frame with its controller
-//        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
-//            doMultiChoice((Question.MostNRGQuestion) q);
-//        }
-//        else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
-//            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
-//        } else if (q.getClass().equals(Question.Matching.class)) {
-//            doMatching((Question.Matching) q);
-//        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
-//            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
-//        }
-        //refresh();
-
-    }
-
-    /**
-     * This method inserts the frame, gets time and correctness of the answer from the controller
-     * Then it adds points to score accordingly, using ScoreSystem
-     *
-     * @throws IOException when something goes wrong with file-reading or finding
-     */
-    public void doMultiChoice() throws IOException, InterruptedException {
-        System.out.println("MultiChoice question has started");
-        this.mainCtrl.MPstartMC(game);
-//        this.mainCtrl.MPstartMC(this, multiChoice);
-    }
-
-    /**
-     * This method inserts the frame, gets time and correctness of the answer from the controller
-     * Then it adds points to score accordingly, using ScoreSystem
-     *
-     * @param choiceEstimation current Estimation question
-     * @throws IOException cooldownText.setText("Wait " + timeLeft + " second before sending another message");
-     */
-//    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException {
-//        System.out.println("Choice estimation start");
-//        getMainCtrl().MPstartCE(this, choiceEstimation);
-//    }
-
-    /**
-     * This method inserts the frame, gets time and correctness of the answer from the controller
-     * Then it adds points to score accordingly, using ScoreSystem
-     *
-     * @param q current Matching question
-     * @throws IOException when file-reading or finding goes wrong
-     */
-//    public void doMatching(Question.Matching q) throws IOException {
-//        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
-//        URL url = new File(pathToFxml).toURI().toURL();
-//        FXMLLoader fxmlLoader = new FXMLLoader(url);
-//        Parent root = fxmlLoader.load();
-//
-//        //TODO: Create MatchingCtrl
-////        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
-////        controller.initialize(server, mainCtrl, (Question.Matching) q);
-//        Scene scene = new Scene(root);
-//
-//        questionFrame.setCenter(scene.getRoot());
-//    }
-
-    /**
-     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
-     * Then it adds points to score accordingly, using ScoreSystem
-     *
-     * @param accurateEstimation current AccurateEstimation question
-     * @throws IOException
-     */
-//    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
-//        System.out.println("Accurate Estimation start");
-//        getMainCtrl().MPstartAE(this, accurateEstimation);
-//    }
-
-    /**
-     * Getter for question frame
-     *
-     * @return BorderPane of question frame
-     */
-    public BorderPane getQuestionFrame() {
-        return questionFrame;
-    }
-
-
-    /** Tell the server this player sent a specific kind of emoji
-     *
-     * @param kind the kind of emoji sent
-     */
 
     /**
      * This method resets the text for the countdown timer every second.
@@ -437,7 +360,6 @@ public class MPGameCtrl extends Controller {
      *
      * @param mouseEvent mouse clicked
      */
-
     public void TrophyEmoji(MouseEvent mouseEvent) {
         sendEmoji("Trophy");
     }
@@ -448,7 +370,6 @@ public class MPGameCtrl extends Controller {
      *
      * @param mouseEvent mouse clicked
      */
-
     public void DeadEmoji(MouseEvent mouseEvent) {
         sendEmoji("Dead");
     }
@@ -459,7 +380,6 @@ public class MPGameCtrl extends Controller {
      *
      * @param mouseEvent mouse clicked
      */
-
     public void LaughEmoji(MouseEvent mouseEvent) {
         sendEmoji("Laugh");
     }
@@ -470,7 +390,6 @@ public class MPGameCtrl extends Controller {
      *
      * @param mouseEvent mouse clicked
      */
-
     public void KissEmoji(MouseEvent mouseEvent) {
         sendEmoji("Kiss");
     }
@@ -481,7 +400,6 @@ public class MPGameCtrl extends Controller {
      *
      * @param mouseEvent mouse clicked
      */
-
     public void SadEmoji(MouseEvent mouseEvent) {
         sendEmoji("Sad");
     }
@@ -492,7 +410,6 @@ public class MPGameCtrl extends Controller {
      *
      * @param mouseEvent mouse clicked
      */
-
     public void SmileEmoji(MouseEvent mouseEvent) {
         sendEmoji("Smile");
     }
@@ -503,13 +420,190 @@ public class MPGameCtrl extends Controller {
      *
      * @param visible true iff text should be visible
      */
-
     public void visibleCooldown(boolean visible) {
         cooldownText.setVisible(visible);
     }
 
+    /**
+     * Refreshes the data that scoreboard is using
+     */
     public void refreshScoreboard() {
         data = FXCollections.observableList(game.getPlayers());
         scoreboard.setItems(data);
+    }
+
+    /**
+     * When first answer button is pressed check if it was the correct answer
+     * and set 'isCorrect' field accordingly. Also stop the timer and show correct
+     * answers by colouring the fields
+     *
+     * @param actionEvent
+     */
+    public void handleButtonPress1(MouseEvent actionEvent) throws InterruptedException, IOException {
+        instant = Instant.now();
+        finish = instant.getEpochSecond();
+        if (answer1.getText().equals(correctActivityName)) {
+            isCorrect = 1;
+            handleCorrect();
+        } else {
+            isCorrect = 0;
+        }
+        buttonsEnabled(false);
+
+        //show which answer was the correct one (for 3 seconds)
+        showCorrect();
+    }
+
+    /**
+     * When second answer button is pressed check if it was the correct answer
+     * and set 'isCorrect' field accordingly. Also stop the timer and show correct
+     * answers by colouring the fields
+     *
+     * @param actionEvent
+     */
+    public void handleButtonPress2(MouseEvent actionEvent) throws InterruptedException, IOException {
+        instant = Instant.now();
+        finish = instant.getEpochSecond();
+        if (answer2.getText().equals(correctActivityName)) {
+            isCorrect = 1;
+            handleCorrect();
+        } else {
+            isCorrect = 0;
+        }
+        buttonsEnabled(false);
+
+        showCorrect();
+    }
+
+    /**
+     * When third answer button is pressed check if it was the correct answer
+     * and set 'isCorrect' field accordingly. Also stop the timer and show correct
+     * answers by colouring the fields
+     *
+     * @param actionEvent
+     */
+    public void handleButtonPress3(MouseEvent actionEvent) throws InterruptedException, IOException {
+        instant = Instant.now();
+        finish = instant.getEpochSecond();
+        if (answer3.getText().equals(correctActivityName)) {
+            isCorrect = 1;
+            handleCorrect();
+        } else {
+            isCorrect = 0;
+        }
+        buttonsEnabled(false);
+
+        showCorrect();
+    }
+
+    /**
+     * Paints the buttons, the wrong answers are painted red and the correct one is painted
+     * green
+     **/
+    public void showCorrect() {
+        Button correct = null;
+        Button wrong1 = null;
+        Button wrong2 = null;
+
+        //set the correct and wrong buttons
+        if (answer1.getText().equals(correctActivityName)) {
+            correct = answer1;
+            wrong1 = answer2;
+            wrong2 = answer3;
+        } else if (answer2.getText().equals(correctActivityName)) {
+            correct = answer2;
+            wrong1 = answer1;
+            wrong2 = answer3;
+        } else {
+            correct = answer3;
+            wrong1 = answer1;
+            wrong2 = answer2;
+        }
+
+        //change the color for the correct answer with green for 3 seconds
+        final Button correct1 = correct;
+        temporaryChangeButtonColorsCorrect(correct1);
+
+        //change the colors for the wrong answers with red for 3 seconds
+        final Button wrong11 = wrong1;
+        temporaryChangeButtonColorWrong(wrong11);
+
+        final Button wrong12 = wrong2;
+        temporaryChangeButtonColorWrong(wrong12);
+    }
+
+    /**
+     * This method changes the color of the correct answer for 3 seconds.
+     *
+     * @param button - the answer to be changed
+     */
+    public void temporaryChangeButtonColorsCorrect(Button button) {
+        button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
+        });
+        pause.play();
+    }
+
+    /**
+     * This method changes the color of the wrong answer for 3 seconds.
+     *
+     * @param button - the answer to be changed
+     */
+    public void temporaryChangeButtonColorWrong(Button button) {
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        pause.setOnFinished(event -> {
+            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
+        });
+        pause.play();
+    }
+
+
+    /**
+     * Getter for the time spend on a question
+     *
+     * @return
+     */
+    public Long getTime() {
+        return finish - start;
+    }
+
+    /**
+     * Add score for the question and tell server about it (visible update question counter and score)
+     *
+     * @throws InterruptedException
+     */
+    public void handleCorrect() throws InterruptedException {
+//        int addScore = ScoreSystem.calculateScore(this.getTime());
+//        String username = mainCtrl.thisPlayer.getUserName();
+//        int round = parentCtrl.getRound();
+//
+////        add in the roundplayer with the above parameters and send it to the server
+//        RoundPlayer sendingObject = new RoundPlayer(username, addScore, round);
+//        server.send("/app/game/" + mainCtrl.lobbyId + "/scoreupdate", sendingObject);
+    }
+
+
+    /**
+     * Enable/disable all buttons
+     *
+     * @param enabled iff true buttons are enabled
+     */
+    public void buttonsEnabled(boolean enabled) {
+        if (enabled) {
+            answer1.setDisable(false);
+            answer2.setDisable(false);
+            answer3.setDisable(false);
+        } else {
+            answer1.setDisable(true);
+            answer2.setDisable(true);
+            answer3.setDisable(true);
+        }
     }
 }

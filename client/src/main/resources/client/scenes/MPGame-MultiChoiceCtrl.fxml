@@ -9,21 +9,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MPGameCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MPGameMultiChoiceCtrl">
     <children>
-        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6639d4" height="60.0" layoutX="102.0" layoutY="151.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="334.0" AnchorPane.bottomAnchor="740.0" AnchorPane.leftAnchor="230.0" />
-        <Text fill="#f1f1f1" layoutX="338.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scores" textAlignment="CENTER" wrappingWidth="122.70751953125" AnchorPane.bottomAnchor="750.0" AnchorPane.leftAnchor="340.0">
-            <font>
-                <Font name="System Bold" size="36.0" />
-            </font>
-        </Text>
         <Button id="back-button" fx:id="backButton" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
             <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -36,12 +29,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
         </Button>
-        <TableView fx:id="scoreboard" layoutX="123.0" layoutY="209.0" prefHeight="580.0" prefWidth="340.0" style="-fx-pref-width: 300; -fx-pref-height: 540;" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="250.0">
-            <columns>
-                <TableColumn fx:id="colScoreScoreboard" prefWidth="120.0" text="Score" />
-                <TableColumn fx:id="colNameScoreboard" prefWidth="179.20001220703125" text="Name" />
-            </columns>
-        </TableView>
         <PieChart id="timer" layoutX="1702.0" layoutY="21.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
         <Text fx:id="questionNumber" fill="#6639d4" layoutX="1413.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="200.0">
             <font>
@@ -92,13 +79,55 @@
                 </Button>
             </children>
         </HBox>
-      <BorderPane fx:id="questionFrame" layoutX="570.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="950.0" />
       <TableView fx:id="chat" layoutX="1325.0" layoutY="324.0" prefHeight="216.0" prefWidth="420.0">
          <columns>
             <TableColumn fx:id="nameCol" prefWidth="75.0" />
             <TableColumn fx:id="emojiCol" prefWidth="75.0" />
          </columns>
       </TableView>
+      <AnchorPane layoutX="533.0" layoutY="224.0" maxHeight="700.0" maxWidth="950.0" minHeight="700.0" minWidth="950.0" prefHeight="700.0" prefWidth="950.0" style="-fx-pref-height: 800; -fx-pref-width: 1200; -fx-background-color: #f1f1f1;">
+         <children>
+            <HBox layoutX="40.0" layoutY="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="871.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="40.0">
+               <children>
+                  <Button fx:id="answer1" ellipsisString="" maxWidth="250.0" minWidth="250.0" mnemonicParsing="false" onMouseClicked="#handleButtonPress1" prefWidth="250.0" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; -fx-alignment: center;" text="ANSWER1" textAlignment="CENTER" wrapText="true">
+                     <HBox.margin>
+                        <Insets right="60.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fx:id="image1" fitHeight="200.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="answer2" maxWidth="250.0" minWidth="250.0" mnemonicParsing="false" onMouseClicked="#handleButtonPress2" prefWidth="250.0" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER2" textAlignment="CENTER" wrapText="true">
+                     <HBox.margin>
+                        <Insets right="60.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fx:id="image2" fitHeight="200.0" fitWidth="191.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="answer3" maxWidth="250.0" minWidth="250.0" mnemonicParsing="false" onMouseClicked="#handleButtonPress3" prefWidth="250.0" style="-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;" text="ANSWER3" textAlignment="CENTER" wrapText="true">
+                     <graphic>
+                        <ImageView fx:id="image3" fitHeight="200.0" fitWidth="186.0" pickOnBounds="true" preserveRatio="true" translateY="-40.0" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Text layoutX="36.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which activity requires the most amount of energy?" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="35.48046875" AnchorPane.topAnchor="112.15234375">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
       <AnchorPane layoutX="1650.0" layoutY="556.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: transparent;">
          <children>
             <VBox fx:id="vbox" prefHeight="370.0" prefWidth="72.0" style="-fx-background-color: #6639d4; -fx-background-radius: 20px; -fx-alignment: CENTER;">
@@ -171,5 +200,17 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6639d4" height="60.0" layoutX="102.0" layoutY="151.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="334.0" AnchorPane.bottomAnchor="740.0" AnchorPane.leftAnchor="230.0" />
+        <Text fill="#f1f1f1" layoutX="338.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scores" textAlignment="CENTER" wrappingWidth="122.70751953125" AnchorPane.bottomAnchor="750.0" AnchorPane.leftAnchor="340.0">
+            <font>
+                <Font name="System Bold" size="36.0" />
+            </font>
+        </Text>
+        <TableView fx:id="scoreboard" layoutX="123.0" layoutY="209.0" prefHeight="580.0" prefWidth="340.0" style="-fx-pref-width: 300; -fx-pref-height: 540;" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="250.0">
+            <columns>
+                <TableColumn fx:id="colScoreScoreboard" prefWidth="120.0" text="Score" />
+                <TableColumn fx:id="colNameScoreboard" prefWidth="179.20001220703125" text="Name" />
+            </columns>
+        </TableView>
     </children>
 </AnchorPane>
