@@ -72,7 +72,7 @@ public class QuestionService {
             case 2:
                 return getRandomAccurateEstimation();
         }
-        return getRandomChoiceEstimation();
+        return null;
     }
 
 
