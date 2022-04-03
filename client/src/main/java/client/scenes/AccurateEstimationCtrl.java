@@ -6,6 +6,8 @@ import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 //import javafx.event.ActionEvent;
 //import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -181,19 +183,19 @@ public class AccurateEstimationCtrl extends Controller{
      * then adding it to the existing score and updating the game screen
      */
     public void handleScore() throws InterruptedException{
-        //parentCtrl.scoreAwardedVisibility(true, addScore);
         int addScore = ScoreSystem.calculateScore(this.getTime(), finalAnswer, correctAnswer);
+        parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-//        PauseTransition pause = new PauseTransition(
-//                Duration.seconds(2)
-//        );
-//        pause.setOnFinished(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                parentCtrl.scoreAwardedVisibility(false, 0);
-//            }
-//        });
-//        pause.play();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(2)
+        );
+        pause.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parentCtrl.scoreAwardedVisibility(false, 0);
+            }
+        });
+        pause.play();
     }
 
 }

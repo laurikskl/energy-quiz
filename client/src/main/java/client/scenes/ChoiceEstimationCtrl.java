@@ -15,8 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Collections;
@@ -82,11 +80,13 @@ public class ChoiceEstimationCtrl extends Controller{
         byte[] byteArray = choiceEstimation.getActivities().get(0).getImageContent();
         Image img = new Image(new ByteArrayInputStream(byteArray));
         //if there was an error in getting the image, set it to a default image
+        /*
         if(img.isError()) {
             image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
         } else {
-            image.setImage(img);
-        }
+
+         */
+        image.setImage(img);
         activityButton.setText(choiceEstimation.getActivities().get(0).getName());
         setButtons();
     }
@@ -169,22 +169,8 @@ public class ChoiceEstimationCtrl extends Controller{
 
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**
@@ -207,22 +193,8 @@ public class ChoiceEstimationCtrl extends Controller{
 
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**
@@ -245,22 +217,8 @@ public class ChoiceEstimationCtrl extends Controller{
 
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**

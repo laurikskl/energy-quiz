@@ -16,10 +16,15 @@ public class LeaderboardService {
     this.repository = repository;
   }
 
+  /**
+   * Fetches all the players existent in the Player database and creates a list of 15 entities, ordered by the score of the players.
+   * @return
+   */
   public List<Player> getTopPlayers(){
     List<Player> players = repository.findAll();
     Collections.sort(players,(p1, p2) -> p1.score - p2.score);
     List<Player> sortedList = players.subList(0, 14);
     return sortedList;
+
   }
 }

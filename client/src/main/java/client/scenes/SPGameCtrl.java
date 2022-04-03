@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Activity;
 import commons.Emoji;
 import commons.Player;
 import commons.Question;
@@ -200,90 +201,13 @@ public class SPGameCtrl extends Controller {
                 System.out.println("Couldn't get questions from server");
             }
         }
+
         Collections.shuffle(questions);
 
+        simpleTimer();
+        timer.stop();
         //start with first question
         doAQuestion(questions.get(0));
-    }
-
-    /**
-     * This method gets called everytime the game moves on to the next question.
-     * That is, either when the player has answered by pressing a button,
-     * or when the timer of 15 seconds per question runs out.
-     * @throws IOException when something goes wrong with file-reading or finding
-     * @throws InterruptedException when a question is interrupted
-     */
-    public void startNewQuestion() throws IOException, InterruptedException {
-
-        //for now, I will make the application exit after the player has done 20 questions
-        if (this.getqCount()==20) {
-            Platform.exit();
-        }
-        doAQuestion(questions.get(this.getqCount()));
-
-    }
-
-
-    /**
-     * @param visible true iff scoreAwarded should be visible
-     * @param points the points awarded for a question
-     */
-
-    public void scoreAwardedVisibility(boolean visible, int points) {
-        if(visible) {
-            scoreAwarded.setVisible(true);
-            scoreAwarded.setText("+" + points);
-        } else {
-            scoreAwarded.setVisible(false);
-        }
-    }
-
-
-    /**
-     * This method resets the text for the countdown timer every second.
-     * If the timer hit 0 seconds and the player has not answered, it calls the method
-     * to move on to the next question.
-     */
-    public void simpleTimer() {
-
-        resetSeconds();
-
-        timer = new Timer(1000, e -> {
-
-            seconds--;
-
-            //if more than 15 seconds passed, move on to the next question
-            if (seconds<0){
-
-                timer.stop();
-
-                try {
-                    startNewQuestion();
-                    return;
-                } catch (IOException | InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            counterTimer.setText(seconds + " seconds");
-        });
-
-        timer.start();
-
-    }
-
-    /**
-     * This method resets the seconds.
-     */
-    public void resetSeconds(){
-        this.seconds = 16;
-    }
-
-    /** Getter for question frame
-     *
-     * @return BorderPane of question frame
-     */
-    public BorderPane getQuestionFrame() {
-        return questionFrame;
     }
 
     /**
@@ -313,6 +237,119 @@ public class SPGameCtrl extends Controller {
         }
         refresh();
 
+    }
+
+    /**
+     * This method gets called everytime the game moves on to the next question.
+     * That is, either when the player has answered by pressing a button,
+     * or when the timer of 15 seconds per question runs out.
+     * @throws IOException when something goes wrong with file-reading or finding
+     * @throws InterruptedException when a question is interrupted
+     */
+    public void startNewQuestion() throws IOException, InterruptedException {
+        //Checks if the user has reached 20 questions and finished his turn.
+        //If he did, show the final screen.
+        if (this.getqCount()==20) {
+            timer.stop();
+            player.setScore(score);
+
+            //Sets the player in the database with the final score of this round.
+
+            if (server.getPlayer(player.userName)!=null && player.score < server.getPlayer(player.userName).getScore()){
+                //If current score is lower than the highest score of the player, keep his highest score.
+                server.setPlayer(player.userName, (int) server.getPlayer(player.userName).getScore());
+            }
+            else{
+                //If the player doesn't exist or had reached a higher score this round, set it with the highest score.
+                server.setPlayer(player.userName, player.score);
+            }
+
+            //Sets the screen with the final score of the player and then displays EndGame screen.
+            getMainCtrl().setEndGame(player.score);
+            getMainCtrl().showEndGame();
+
+            //With this line, the method stops generating a new question after the user reached the 20th question.
+            return;
+        }
+
+        doAQuestion(questions.get(this.getqCount()));
+    }
+
+    /**
+     * @param visible true iff scoreAwarded should be visible
+     * @param points the points awarded for a question
+     */
+
+    public void scoreAwardedVisibility(boolean visible, int points) {
+        if(visible) {
+            scoreAwarded.setVisible(true);
+            scoreAwarded.setText("+" + points);
+        } else {
+            scoreAwarded.setVisible(false);
+        }
+    }
+
+
+    /**
+     * This method resets the text for the countdown timer every second.
+     * If the timer hit 0 seconds and the player has not answered, it calls the method
+     * to move on to the next question.
+     */
+    public void simpleTimer() {
+
+        resetSeconds();
+
+        timer = new Timer(1000, e -> {
+
+            seconds--;
+            counterTimer.setText(seconds + " seconds");
+
+            //if more than 15 seconds passed, move on to the next question
+            if (seconds==0){
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            timer.stop();
+                            try {
+                                startNewQuestion();
+                                return;
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+            }
+        });
+
+        timer.start();
+
+    }
+
+    /**
+     * This method resets the seconds.
+     */
+    public void resetSeconds(){
+        this.seconds = 16;
+    }
+
+    /**
+     * Update visible score and visible question counter.
+     */
+    public void refresh(){
+
+        scoreCount.setText(String.valueOf(score));
+        //questionNumber.setText(qCount + "/20");
+    }
+
+    /** Getter for question frame
+     *
+     * @return BorderPane of question frame
+     */
+    public BorderPane getQuestionFrame() {
+        return questionFrame;
     }
 
     /**
@@ -375,7 +412,9 @@ public class SPGameCtrl extends Controller {
      * @param mouseEvent click
      * @throws IOException when file not found or misread
      */
-    public void back(MouseEvent actionEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
+        //sets the scene back to the main screen
+        timer.stop();
         //shows popup
         mainCtrl.displayDisconnectMessage();
     }
@@ -514,14 +553,6 @@ public class SPGameCtrl extends Controller {
     }
 
     /**
-     * Update visible score and visible question counter.
-     */
-    public void refresh(){
-        scoreCount.setText(String.valueOf(score));
-        //questionNumber.setText(qCount + "/20");
-    }
-
-    /**
      * This method returns the timer.
      * @return timer
      */
@@ -529,7 +560,21 @@ public class SPGameCtrl extends Controller {
         return timer;
     }
 
+    /**
+     *
+     * @return the text with how many seconds this has left
+     */
+    public Text getCounterTimer() {
+        return counterTimer;
+    }
 
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
     /** Tell the server this player sent a specific kind of emoji
      *
      * @param kind the kind of emoji sent

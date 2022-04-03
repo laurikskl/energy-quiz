@@ -11,7 +11,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPGameCtrl">
+<?import javafx.scene.Cursor?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPGameCtrl">
     <children>
         <Text fx:id="scoreCount" fill="#6639d4" layoutX="400.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE: 0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="81.8359375">
             <font>
@@ -31,13 +32,16 @@
                     </image>
                 </ImageView>
             </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
         </Button>
         <Text fx:id="name" fill="#6639d4" layoutX="834.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;name&gt;" AnchorPane.topAnchor="93.25390625">
             <font>
                 <Font size="60.0" />
             </font>
         </Text>
-        <Text fx:id="counterTimer" fill="RED" layoutX="1473.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15 seconds">
+        <Text fx:id="counterTimer" fill="RED" layoutX="1473.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" --:--">
             <font>
                 <Font name="System Bold" size="40.0" />
             </font>
