@@ -61,7 +61,6 @@ class QuestionServiceTest {
      * Make sure getRandomQuestion creates an instance of one of the subtypes of Question
      */
 
-    /*
     @Test
     void getRandomQuestion() {
         Question random = q1.getRandomQuestion();
@@ -71,7 +70,6 @@ class QuestionServiceTest {
             fail("No random question of the right type was generated");
         }
     }
-     */
 
 
     /**
@@ -80,7 +78,7 @@ class QuestionServiceTest {
      * Has a correct activity
      * Has a list of 4 activities
      */
-
+/*
     @Test
     void getRandomMatching() {
         Question.Matching matching = q1.getRandomMatching();
@@ -89,6 +87,7 @@ class QuestionServiceTest {
         assertNotNull(matching.getCorrect());
         assertEquals(4, matching.getActivities().size());
     }
+ */
 
 
     /**
