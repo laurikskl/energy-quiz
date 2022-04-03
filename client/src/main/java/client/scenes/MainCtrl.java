@@ -64,6 +64,8 @@ public class MainCtrl {
      * 9 - ChoiceEstimation
      * 10 - Admin
      * 11 - EndGameScreen
+     * 12 - AccurateEstimationCtrl
+     * 13 - MatchingCtrl
      */
 
     //Scenes
@@ -299,12 +301,27 @@ public class MainCtrl {
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
     }
 
+    /**
+     * Load the Matching question frame.
+     * @param parentCtrl
+     * @param matching
+     * @throws MalformedURLException
+     */
+
+    public void startMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
+        MatchingCtrl matchingCtrl = (MatchingCtrl) this.controllers.get(13);
+        matchingCtrl.start(parentCtrl, matching);
+        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13).getRoot());
+        matchingCtrl.buttonsEnabled(true);
+    }
+
 
     /**
      * Method for setting the fxml of the disconnectMessage popup and displaying it
      * @throws IOException
+     * @param spGameCtrl
      */
-    public void displayDisconnectMessage() throws IOException{
+    public void displayDisconnectMessage(SPGameCtrl spGameCtrl) throws IOException{
         disconnectMessage.show(primaryStage);
     }
 

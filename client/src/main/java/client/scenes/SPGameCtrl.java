@@ -11,9 +11,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -26,7 +23,6 @@ import javafx.util.Pair;
 
 import javax.inject.Inject;
 import javax.swing.*;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -376,21 +372,10 @@ public class SPGameCtrl extends Controller {
      * This method inserts the frame, gets time and correctness of the answer from the controller
      * Then it adds points to score accordingly, using ScoreSystem
      *
-     * @param q current Matching question
-     * @throws IOException when file-reading or finding goes wrong
+     * @param matching current Matching question
      */
-    public void doMatching(Question.Matching q) throws IOException {
-        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
-        URL url = new File(pathToFxml).toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-
-        //TODO: Create MatchingCtrl
-//        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.Matching) q);
-        Scene scene = new Scene(root);
-
-        questionFrame.setCenter(scene.getRoot());
+    public void doMatching(Question.Matching matching) throws IOException {
+        getMainCtrl().startMatching(this, matching);
     }
 
     /**
@@ -411,10 +396,8 @@ public class SPGameCtrl extends Controller {
      * @throws IOException when file not found or misread
      */
     public void back(MouseEvent mouseEvent) throws IOException {
-        //sets the scene back to the main screen
-        timer.stop();
         //shows popup
-        mainCtrl.displayDisconnectMessage();
+        mainCtrl.displayDisconnectMessage(this);
     }
 
 

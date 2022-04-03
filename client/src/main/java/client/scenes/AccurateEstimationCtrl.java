@@ -4,8 +4,6 @@ import client.utils.ServerUtils;
 import commons.Question;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,7 +17,7 @@ import javafx.util.Duration;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
-//import java.io.File;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
@@ -104,11 +102,11 @@ public class AccurateEstimationCtrl extends Controller{
         Image img = new Image(new ByteArrayInputStream(byteArray));
 
         image.setImage(img);
-//        if(img.isError()) {
-//            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
-//        } else {
-//            image.setImage(img);
-//        }
+        if(img.isError()) {
+            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
+        } else {
+            image.setImage(img);
+        }
 
         activity.setText(accurateEstimation.getActivities().get(0).getName());
 
