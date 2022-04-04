@@ -83,7 +83,6 @@ public class MultiChoiceCtrl extends Controller {
         this.correctActivityName = correctActivity.getName();
 
 
-
         byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
         byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
         byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
@@ -99,13 +98,13 @@ public class MultiChoiceCtrl extends Controller {
         image3.setImage(img3);
 
         //set to default if there was an error in getting the images
-        if(img1.isError()) {
+        if (img1.isError()) {
             image1.setImage(defaultIMG);
         }
-        if(img2.isError()) {
+        if (img2.isError()) {
             image2.setImage(defaultIMG);
         }
-        if(img3.isError()) {
+        if (img3.isError()) {
             image3.setImage(defaultIMG);
         }
 
@@ -129,11 +128,11 @@ public class MultiChoiceCtrl extends Controller {
         Button wrong2 = null;
 
         //set the correct and wrong buttons
-        if(answer1.getText().equals(correctActivityName)) {
+        if (answer1.getText().equals(correctActivityName)) {
             correct = answer1;
             wrong1 = answer2;
             wrong2 = answer3;
-        } else if(answer2.getText().equals(correctActivityName)) {
+        } else if (answer2.getText().equals(correctActivityName)) {
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
@@ -157,9 +156,10 @@ public class MultiChoiceCtrl extends Controller {
 
     /**
      * This method changes the color of the correct answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorsCorrect(Button button){
+    public void temporaryChangeButtonColorsCorrect(Button button) {
 
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
@@ -173,10 +173,11 @@ public class MultiChoiceCtrl extends Controller {
 
     /**
      * This method changes the color of the wrong answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorWrong(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
+    public void temporaryChangeButtonColorWrong(Button button) {
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
@@ -302,7 +303,7 @@ public class MultiChoiceCtrl extends Controller {
      */
 
     public void buttonsEnabled(boolean enabled) {
-        if(enabled) {
+        if (enabled) {
             answer1.setDisable(false);
             answer2.setDisable(false);
             answer3.setDisable(false);
