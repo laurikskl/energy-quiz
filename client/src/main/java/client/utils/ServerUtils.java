@@ -438,4 +438,18 @@ public class ServerUtils {
             .post(Entity.entity(player, APPLICATION_JSON), new GenericType<>() {
             });
     }
+
+    /**
+     * reload activities inside a question from the database by id
+     * @param question question to repair
+     * @return repaired question
+     */
+    public Question repairQuestion(Question question) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/questions/repairQuestion")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(question, APPLICATION_JSON),
+                        new GenericType<Question>() {});
+    }
 }
