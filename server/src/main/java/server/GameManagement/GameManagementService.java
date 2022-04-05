@@ -147,7 +147,7 @@ public class GameManagementService {
 
         //Set the correct screen for the MP game
         game.type = Type.STARTMP;
-        game.screen = Screen.QUESTION;
+        game.screen = Screen.LEADERBOARD;
 
         System.out.println("Sending game object back to client, id = " + id);
         simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
@@ -164,15 +164,16 @@ public class GameManagementService {
             question.deleteImages();
             game.setQuestion(question);
 
-            System.out.println("Sending game object back to client, id = " + id);
+            System.out.println("Sending Questions to client, id = " + id);
             simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
 
             sleep(15500);
 
             //Send Scoreboard
-            game.screen = Screen.SCOREBOARD;
+            game.type = Type.LEADERBOARD;
+            game.screen = Screen.LEADERBOARD;
             game.setPlayers(game.getPlayers());
-            System.out.println("Sending game object back to client, id = " + id);
+            System.out.println("Sending Leaderboard to client, id = " + id);
             simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
 
             sleep(3000);

@@ -5,5 +5,6 @@ public enum Type {
     EMOJI,
     STARTMP,
     NOTHING,
-    QUESTION
+    QUESTION,
+    LEADERBOARD
 }

@@ -78,7 +78,7 @@ public class MainCtrl {
      * 14 - MPMultiChoice
      * 15 - MPChoiceEstimation
      * 16 - MPAccurateEstimation
-     * 17 - MPGameMultiChoiceCtrl
+     * 17 - MPMatchingCtrl
      * 18 - MPLeaderboard
      */
 
@@ -168,10 +168,10 @@ public class MainCtrl {
                         showMPGame();
                         current = QUESTION;
                         break;
-                    case SCOREBOARD:
+                    case LEADERBOARD:
                         System.out.print("Showing Scoreboard");
-                        showScoreboard(game.getPlayers());
-                        current = SCOREBOARD;
+                        showScoreboard();
+                        current = LEADERBOARD;
                         break;
                 }
             }
@@ -201,6 +201,9 @@ public class MainCtrl {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                case LEADERBOARD:
+                    System.out.println("Show Leaderboard");
+                default:
             }
         });
         server.send("/app/game/" + id + "/lobby/join", player);
@@ -419,11 +422,14 @@ public class MainCtrl {
      */
     public void MPstartMC(Controller parentCtrl, Question multiChoice) throws IOException {
         MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(14);
-        multiChoiceCtrl.start(parentCtrl, multiChoice);
         Platform.runLater(() -> {
-                    ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(14));
-                }
-        );
+            try {
+                multiChoiceCtrl.start(parentCtrl, multiChoice);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(14));
+        });
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
@@ -447,8 +453,14 @@ public class MainCtrl {
      * @param choiceEstimation
      */
     public void MPstartCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
-        ((MPChoiceEstimationCtrl) this.controllers.get(15)).start(parentCtrl, choiceEstimation);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(15));
+        Platform.runLater(() -> {
+            try {
+                ((MPChoiceEstimationCtrl) this.controllers.get(15)).start(parentCtrl, choiceEstimation);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(15));
+        });
         ((MPChoiceEstimationCtrl) this.controllers.get(15)).buttonsEnabled(true);
     }
 
@@ -459,8 +471,14 @@ public class MainCtrl {
      * @param accurateEstimation
      */
     public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
-        ((MPAccurateEstimationCtrl) this.controllers.get(16)).start(parentCtrl, accurateEstimation);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16));
+        Platform.runLater(() -> {
+            try {
+                ((MPAccurateEstimationCtrl) this.controllers.get(16)).start(parentCtrl, accurateEstimation);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16));
+        });
     }
 
     /**
@@ -470,8 +488,14 @@ public class MainCtrl {
      * @param matching
      */
     public void MPstartMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
-        ((MPMatchingCtrl) this.controllers.get(17)).start(parentCtrl, matching);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(17));
+        Platform.runLater(() -> {
+            try {
+                ((MPMatchingCtrl) this.controllers.get(17)).start(parentCtrl, matching);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(17));
+        });
     }
 
     /**

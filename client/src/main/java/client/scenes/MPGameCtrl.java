@@ -63,7 +63,6 @@ public class MPGameCtrl extends Controller {
      */
     @FXML
     private Text counterTimer;
-    private Timer timer;
     private int seconds;
 
     /**
@@ -121,6 +120,7 @@ public class MPGameCtrl extends Controller {
         this.player = player;
         this.round = 0;
         this.game = game;
+        simpleTimer();
 
         //display emoji when received
         server.registerForMessages("/topic/game/" + lobbyId + "/emoji", Emoji.class, emoji -> {
@@ -206,7 +206,7 @@ public class MPGameCtrl extends Controller {
         //Question has been run
         System.out.println("Question has started!");
         resetSeconds();
-        simpleTimer();
+        mainCtrl.timer.start();
         questionNumber.setText(++round + "/20");
 
 //        q = server.repairQuestion(q);
@@ -222,9 +222,11 @@ public class MPGameCtrl extends Controller {
         }
         else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
-        } else if (q.getClass().equals(Question.Matching.class)) {
+        }
+        else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
-        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+        }
+        else if (q.getClass().equals(Question.AccurateEstimation.class)) {
             doAccurateEstimationQuestion((Question.AccurateEstimation) q);
         }
 
@@ -261,6 +263,7 @@ public class MPGameCtrl extends Controller {
      * @throws IOException when file-reading or finding goes wrong
      */
     public void doMatching(Question.Matching matching) throws IOException {
+        System.out.println("Matching start");
         getMainCtrl().MPstartMatching(this, matching);
     }
 
@@ -305,15 +308,13 @@ public class MPGameCtrl extends Controller {
             seconds--;
 
             //if more than 15 seconds passed, move on to the next question
-            if (seconds < 0) {
+            if (seconds <= 0) {
 
-                timer.stop();
+                mainCtrl.timer.stop();
 
             }
             counterTimer.setText(seconds + " seconds");
         });
-
-        mainCtrl.timer.start();
 
     }
 

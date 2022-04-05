@@ -102,9 +102,9 @@ public class Main extends Application {
         //14
         scenes.add(FXML.load(MPMultiChoiceCtrl.class, "client", "scenes", "MPMultiChoiceScreen.fxml"));
         //15
-        scenes.add(FXML.load(MPChoiceEstimationCtrl.class, "client", "scenes", "ChoiceEstimation.fxml"));
+        scenes.add(FXML.load(MPChoiceEstimationCtrl.class, "client", "scenes", "MPChoiceEstimation.fxml"));
         //16
-        scenes.add(FXML.load(MPAccurateEstimationCtrl.class, "client", "scenes", "AccurateEstimation.fxml"));
+        scenes.add(FXML.load(MPAccurateEstimationCtrl.class, "client", "scenes", "MPAccurateEstimation.fxml"));
         //17
         scenes.add(FXML.load(MPMatchingCtrl.class, "client", "scenes", "MPMatching.fxml"));
         //18

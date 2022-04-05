@@ -269,7 +269,7 @@ public class QuestionService {
      * @return repaired question
      */
     public Question repairQuestion(Question question) {
-        question.getActivities().forEach(activity -> activity = activityRepository.getById(activity.getInternalId()));
+        question.getActivities().forEach(activity -> activity.setImageContent(activityRepository.getById(activity.getInternalId()).getImageContent()));
         return question;
     }
 }

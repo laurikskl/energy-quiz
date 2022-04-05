@@ -49,7 +49,7 @@ public class QuestionController {
      * @param question question to repair
      * @return repaired question
      */
-    @PostMapping(path = "repairQuestion")
+    @PostMapping(path = "/repairQuestion")
     public ResponseEntity<Question> repairQuestion(@RequestBody Question question) {
         return ResponseEntity.ok(questionService.repairQuestion(question));
     }
