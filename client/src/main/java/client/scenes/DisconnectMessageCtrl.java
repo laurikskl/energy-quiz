@@ -1,12 +1,10 @@
 package client.scenes;
 
-import commons.Question;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class DisconnectMessageCtrl{
     public MainCtrl mainCtrl;
