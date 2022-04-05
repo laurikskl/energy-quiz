@@ -79,6 +79,7 @@ public class MainCtrl {
      * 15 - MPChoiceEstimation
      * 16 - MPAccurateEstimation
      * 17 - MPGameMultiChoiceCtrl
+     * 18 - MPLeaderboard
      */
 
     //Scenes
@@ -454,6 +455,17 @@ public class MainCtrl {
     public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         ((MPAccurateEstimationCtrl) this.controllers.get(16)).start(parentCtrl, accurateEstimation);
         ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16));
+    }
+
+    /**
+     * Load the AccurateEstimation question frame
+     *
+     * @param parentCtrl
+     * @param matching
+     */
+    public void MPstartMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
+        ((MPMatchingCtrl) this.controllers.get(17)).start(parentCtrl, matching);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(17));
     }
 
     /**
