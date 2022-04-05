@@ -83,33 +83,33 @@ public class MPMultiChoiceCtrl extends Controller {
         byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
         byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
 
-        Image img1 = new Image(new ByteArrayInputStream(byteArr1));
-        Image img2 = new Image(new ByteArrayInputStream(byteArr2));
-        Image img3 = new Image(new ByteArrayInputStream(byteArr3));
+//        Image img1 = new Image(new ByteArrayInputStream(byteArr1));
+//        Image img2 = new Image(new ByteArrayInputStream(byteArr2));
+//        Image img3 = new Image(new ByteArrayInputStream(byteArr3));
 
         System.out.println("testMC");
         Image defaultIMG = new Image(String.valueOf(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL()));
 
-//        image1.setImage(defaultIMG);
-//        image2.setImage(defaultIMG);
-//        image3.setImage(defaultIMG);
+        image1.setImage(defaultIMG);
+        image2.setImage(defaultIMG);
+        image3.setImage(defaultIMG);
 
         //set to default if there was an error in getting the images
-        if (img1.isError()) {
-            image1.setImage(defaultIMG);
-        } else {
-            image1.setImage(img1);
-        }
-        if (img2.isError()) {
-            image2.setImage(defaultIMG);
-        } else {
-            image2.setImage(img2);
-        }
-        if (img3.isError()) {
-            image3.setImage(defaultIMG);
-        } else {
-            image3.setImage(img3);
-        }
+//        if (img1.isError()) {
+//            image1.setImage(defaultIMG);
+//        } else {
+//            image1.setImage(img1);
+//        }
+//        if (img2.isError()) {
+//            image2.setImage(defaultIMG);
+//        } else {
+//            image2.setImage(img2);
+//        }
+//        if (img3.isError()) {
+//            image3.setImage(defaultIMG);
+//        } else {
+//            image3.setImage(img3);
+//        }
 
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());

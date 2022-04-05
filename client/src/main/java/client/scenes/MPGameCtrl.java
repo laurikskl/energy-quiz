@@ -202,13 +202,11 @@ public class MPGameCtrl extends Controller {
      * @param q the current question
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
-        refreshScoreboard();
         //Question has been run
-        this.round++;
         System.out.println("Question has started!");
         resetSeconds();
         simpleTimer();
-        questionNumber.setText(round + 1 + "/20");
+        questionNumber.setText(++round + "/20");
 
 //        q = server.repairQuestion(q);
 

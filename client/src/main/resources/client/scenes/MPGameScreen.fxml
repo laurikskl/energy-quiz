@@ -30,7 +30,7 @@
             </cursor>
         </Button>
         <PieChart id="timer" layoutX="1702.0" layoutY="21.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
-        <Text fill="#6639d4" layoutX="1413.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="200.0">
+        <Text fx:id="questionNumber" fill="#6639d4" layoutX="1413.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/20" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="200.0">
             <font>
                 <Font name="System Bold" size="36.0" />
             </font>
