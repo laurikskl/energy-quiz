@@ -322,19 +322,6 @@ public class MainCtrl {
         });
     }
 
-    /**
-     * Load the Matching question frame.
-     * @param parentCtrl
-     * @param matching
-     * @throws MalformedURLException
-     */
-
-    public void startMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
-        MatchingCtrl matchingCtrl = (MatchingCtrl) this.controllers.get(13);
-        matchingCtrl.start(parentCtrl, matching);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13).getRoot());
-        matchingCtrl.buttonsEnabled(true);
-    }
 
     /**
      * Load the Matching question frame.
@@ -346,24 +333,11 @@ public class MainCtrl {
     public void startMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
         MatchingCtrl matchingCtrl = (MatchingCtrl) this.controllers.get(13);
         matchingCtrl.start(parentCtrl, matching);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13).getRoot());
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13));
+        });
         matchingCtrl.buttonsEnabled(true);
     }
-
-    /**
-     * Load the Matching question frame.
-     * @param parentCtrl
-     * @param matching
-     * @throws MalformedURLException
-     */
-
-    public void startMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
-        MatchingCtrl matchingCtrl = (MatchingCtrl) this.controllers.get(13);
-        matchingCtrl.start(parentCtrl, matching);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13).getRoot());
-        matchingCtrl.buttonsEnabled(true);
-    }
-
 
     /**
      * Method for setting the fxml of the disconnectMessage popup and displaying it

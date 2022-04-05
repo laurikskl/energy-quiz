@@ -153,22 +153,11 @@ public class AccurateEstimationCtrl extends Controller{
             enterNumber.setDisable(true);
             showCorrect();
 
-            //Keep the same question while the correct answer shown
-            PauseTransition pause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            pause.setOnFinished(event -> {
-                try {
-                    parentCtrl.getTimer().stop();
-                    parentCtrl.refresh();
-                    parentCtrl.startNewQuestion(); //move to the next question
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            pause.play();
+            // Shows the question for 3 more seconds after an answer has been submitted,
+            // then moves on to the next question.
+            parentCtrl.setSeconds(4);
+            parentCtrl.refresh();
+
         }
         else {
             //If the user submitted text is not a Long, show an error
