@@ -209,8 +209,6 @@ public class MPGameCtrl extends Controller {
         mainCtrl.timer.start();
         questionNumber.setText(++round + "/20");
 
-//        q = server.repairQuestion(q);
-
         System.out.println("Question class = " + q.getClass());
 
         q = this.server.repairQuestion(q);

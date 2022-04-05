@@ -147,7 +147,7 @@ public class GameManagementService {
 
         //Set the correct screen for the MP game
         game.type = Type.STARTMP;
-        game.screen = Screen.LEADERBOARD;
+        game.screen = Screen.ENTERNAME;
 
         System.out.println("Sending game object back to client, id = " + id);
         simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);

@@ -108,7 +108,7 @@ public class Main extends Application {
         //17
         scenes.add(FXML.load(MPMatchingCtrl.class, "client", "scenes", "MPMatching.fxml"));
         //18
-        scenes.add(FXML.load(MPLeaderboardController.class, "client", "scenes", "MPLeaderboard.fxml"));
+        scenes.add(FXML.load(MPLeaderboardCtrl.class, "client", "scenes", "MPLeaderboard.fxml"));
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, scenes);
     }

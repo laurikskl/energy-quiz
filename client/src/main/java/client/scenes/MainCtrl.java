@@ -170,7 +170,7 @@ public class MainCtrl {
                         break;
                     case LEADERBOARD:
                         System.out.print("Showing Scoreboard");
-                        showScoreboard();
+                        showScoreboard(game.getPlayers());
                         current = LEADERBOARD;
                         break;
                 }
@@ -229,9 +229,11 @@ public class MainCtrl {
     }
 
     public void showScoreboard(List<Player> players){
-        MPLeaderboardController MPleaderboardController = (MPLeaderboardController) controllers.get(18);
-        MPleaderboardController.showIntermediaryLeaderboard(players);
-        showScene(this.scenes.get(18));
+        Platform.runLater(() -> {
+            MPLeaderboardCtrl mpLeaderboardController = (MPLeaderboardCtrl) controllers.get(18);
+            mpLeaderboardController.showIntermediaryLeaderboard(players);
+            showScene(this.scenes.get(18));
+        });
     }
 
     /**

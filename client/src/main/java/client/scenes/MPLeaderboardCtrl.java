@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Player;
 import commons.PlayerForTable;
 import javafx.application.Platform;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MPLeaderboardController extends Controller{
+public class MPLeaderboardCtrl extends Controller{
 
     private int seconds = 3;
     double progress = 0;
@@ -35,9 +36,14 @@ public class MPLeaderboardController extends Controller{
 
     private ObservableList<PlayerForTable> data;
 
-
-    public MPLeaderboardController(ServerUtils server, MainCtrl mainCtrl) {
+    @Inject
+    public MPLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
+    }
+
+    @FXML
+    private void initialize(){
+
     }
 
     public void showIntermediaryLeaderboard(List<Player> leaderboardPlayers){
