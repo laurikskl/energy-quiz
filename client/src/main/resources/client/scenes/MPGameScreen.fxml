@@ -17,11 +17,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MPGameCtrl">
     <children>
-        <Text fill="#f1f1f1" layoutX="338.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scores" textAlignment="CENTER" wrappingWidth="122.70751953125" AnchorPane.bottomAnchor="750.0" AnchorPane.leftAnchor="340.0">
-            <font>
-                <Font name="System Bold" size="36.0" />
-            </font>
-        </Text>
         <Button id="back-button" fx:id="backButton" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
             <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -30,18 +25,18 @@
                     </image>
                 </ImageView>
             </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
         </Button>
         <PieChart id="timer" layoutX="1702.0" layoutY="21.0" startAngle="-90.0" style="-fx-pref-width: 120; -fx-pref-height: 120; -fx-background-color: #f1f1f1;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
-        <Text fx:id="questionNumber" fill="#6639d4" layoutX="1461.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20" AnchorPane.rightAnchor="296.0703125" AnchorPane.topAnchor="134.65625">
+        <Text fill="#6639d4" layoutX="1413.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5/20" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="200.0">
             <font>
-                <Font name="System Bold" size="80.0" />
+                <Font name="System Bold" size="36.0" />
             </font>
         </Text>
         <ImageView id="emoji-viewer" fitHeight="120.0" fitWidth="120.0" layoutX="1400.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="20.0" />
-        <HBox layoutX="173.0" layoutY="93.0" prefHeight="107.0" prefWidth="354.0" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="93.0">
+        <HBox layoutX="449.0" layoutY="14.0" prefHeight="107.0" prefWidth="354.0" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="100.0">
             <children>
                 <Button id="bomb-joker" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button">
                     <graphic>
@@ -84,84 +79,84 @@
                 </Button>
             </children>
         </HBox>
-      <TableView fx:id="chat" layoutX="1325.0" layoutY="324.0" prefHeight="216.0" prefWidth="420.0">
-         <columns>
-            <TableColumn fx:id="nameCol" prefWidth="75.0" />
-            <TableColumn fx:id="emojiCol" prefWidth="75.0" />
-         </columns>
-      </TableView>
-      <AnchorPane layoutX="1689.0" layoutY="600.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: transparent;">
-         <children>
-            <VBox fx:id="vbox" prefHeight="370.0" prefWidth="72.0" style="-fx-background-color: #6639d4; -fx-background-radius: 20px; -fx-alignment: CENTER;">
-               <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="emoji1" layoutX="10.0" layoutY="41.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#TrophyEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
-                           <graphic>
-                              <ImageView fx:id="emo1IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="emoji2" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#DeadEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
-                           <graphic>
-                              <ImageView fx:id="emo2IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="emoji3" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#KissEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
-                           <graphic>
-                              <ImageView fx:id="emo3IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="emoji4" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#LaughEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
-                           <graphic>
-                              <ImageView fx:id="emo4IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="emoji5" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#SadEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
-                           <graphic>
-                              <ImageView fx:id="emo5IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="emoji6" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#SmileEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
-                           <graphic>
-                              <ImageView fx:id="emo6IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-      <Text fx:id="cooldownText" fill="RED" layoutX="1307.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please wait 0 seconds before sending another chat" textAlignment="CENTER">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text fx:id="counterTimer" fill="#6639d4" layoutX="1451.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15 seconds">
+        <TableView fx:id="chat" layoutX="1325.0" layoutY="324.0" prefHeight="216.0" prefWidth="420.0">
+            <columns>
+                <TableColumn fx:id="nameCol" prefWidth="75.0" />
+                <TableColumn fx:id="emojiCol" prefWidth="75.0" />
+            </columns>
+        </TableView>
+        <AnchorPane layoutX="1650.0" layoutY="556.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: transparent;">
+            <children>
+                <VBox fx:id="vbox" prefHeight="370.0" prefWidth="72.0" style="-fx-background-color: #6639d4; -fx-background-radius: 20px; -fx-alignment: CENTER;">
+                    <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="emoji1" layoutX="10.0" layoutY="41.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#TrophyEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fx:id="emo1IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="emoji2" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#DeadEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fx:id="emo2IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="emoji3" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#KissEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fx:id="emo3IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="emoji4" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#LaughEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fx:id="emo4IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="emoji5" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#SadEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fx:id="emo5IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="emoji6" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#SmileEmoji" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fx:id="emo6IMG" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <Text fx:id="cooldownText" fill="RED" layoutX="691.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please wait 0 seconds before sending another chat" textAlignment="CENTER">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+      <Text fx:id="counterTimer" fill="RED" layoutX="1483.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" --:--">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
-      <BorderPane fx:id="questionFrame" layoutX="158.0" layoutY="238.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" />
+      <BorderPane fx:id="questionFrame" layoutX="450.0" layoutY="302.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1120.0" />
     </children>
 </AnchorPane>
