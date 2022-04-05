@@ -103,7 +103,8 @@ public class MPGameCtrl extends Controller {
      */
     // TODO: Maybe it should also handle disconnecting, actually
     public void back(ActionEvent actionEvent) throws IOException {
-        getMainCtrl().showSplash();
+        mainCtrl.timer.stop();
+        this.mainCtrl.showSplash();
     }
 
 
@@ -324,7 +325,7 @@ public class MPGameCtrl extends Controller {
 
         resetSeconds();
 
-        timer = new Timer(1000, e -> {
+        mainCtrl.timer = new Timer(1000, e -> {
 
             seconds--;
 
@@ -337,7 +338,7 @@ public class MPGameCtrl extends Controller {
             counterTimer.setText(seconds + " seconds");
         });
 
-        timer.start();
+        mainCtrl.timer.start();
 
     }
 

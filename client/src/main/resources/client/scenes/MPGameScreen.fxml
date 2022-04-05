@@ -85,7 +85,7 @@
                 <TableColumn fx:id="emojiCol" prefWidth="75.0" />
             </columns>
         </TableView>
-        <AnchorPane layoutX="1650.0" layoutY="556.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: transparent;">
+        <AnchorPane layoutX="1592.0" layoutY="540.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: transparent;">
             <children>
                 <VBox fx:id="vbox" prefHeight="370.0" prefWidth="72.0" style="-fx-background-color: #6639d4; -fx-background-radius: 20px; -fx-alignment: CENTER;">
                     <children>
@@ -157,6 +157,6 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
-      <BorderPane fx:id="questionFrame" layoutX="450.0" layoutY="302.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1120.0" />
+      <BorderPane fx:id="questionFrame" layoutX="450.0" layoutY="201.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1120.0" />
     </children>
 </AnchorPane>
