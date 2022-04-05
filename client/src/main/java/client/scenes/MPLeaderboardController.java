@@ -40,7 +40,7 @@ public class MPLeaderboardController extends Controller{
         super(server, mainCtrl);
     }
 
-    private void showIntermediaryLeaderboard(List<Player> leaderboardPlayers){
+    public void showIntermediaryLeaderboard(List<Player> leaderboardPlayers){
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
         for (int i = 1; i <= leaderboardPlayers.size(); i++) {
 

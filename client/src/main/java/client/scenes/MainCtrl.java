@@ -170,7 +170,7 @@ public class MainCtrl {
                         break;
                     case SCOREBOARD:
                         System.out.print("Showing Scoreboard");
-                        showScoreboard();
+                        showScoreboard(game.getPlayers());
                         current = SCOREBOARD;
                         break;
                 }
@@ -225,8 +225,10 @@ public class MainCtrl {
         showScene(this.scenes.get(0));
     }
 
-    public void showScoreboard(){
-
+    public void showScoreboard(List<Player> players){
+        MPLeaderboardController MPleaderboardController = (MPLeaderboardController) controllers.get(18);
+        MPleaderboardController.showIntermediaryLeaderboard(players);
+        showScene(this.scenes.get(18));
     }
 
     /**
