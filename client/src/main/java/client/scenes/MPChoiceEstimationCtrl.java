@@ -175,7 +175,7 @@ public class MPChoiceEstimationCtrl extends Controller {
         );
         pause.setOnFinished(event -> {
             try {
-                parentCtrl.getTimer().stop();
+                this.mainCtrl.getTimer().stop();
                 parentCtrl.refresh();
                 parentCtrl.startNewQuestion(); //move to the next question
             } catch (IOException e) {
@@ -213,7 +213,7 @@ public class MPChoiceEstimationCtrl extends Controller {
         );
         pause.setOnFinished(event -> {
             try {
-                parentCtrl.getTimer().stop();
+                this.mainCtrl.getTimer().stop();
                 parentCtrl.refresh();
                 parentCtrl.startNewQuestion(); //move to the next question
             } catch (IOException e) {
@@ -251,7 +251,7 @@ public class MPChoiceEstimationCtrl extends Controller {
         );
         pause.setOnFinished(event -> {
             try {
-                parentCtrl.getTimer().stop();
+                this.mainCtrl.getTimer().stop();
                 parentCtrl.refresh();
                 parentCtrl.startNewQuestion(); //move to the next question
             } catch (IOException e) {

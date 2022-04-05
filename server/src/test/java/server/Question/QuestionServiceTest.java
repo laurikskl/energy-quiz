@@ -78,7 +78,7 @@ class QuestionServiceTest {
      * Has a correct activity
      * Has a list of 4 activities
      */
-
+/*
     @Test
     void getRandomMatching() {
         Question.Matching matching = q1.getRandomMatching();
@@ -87,6 +87,7 @@ class QuestionServiceTest {
         assertNotNull(matching.getCorrect());
         assertEquals(4, matching.getActivities().size());
     }
+ */
 
 
     /**

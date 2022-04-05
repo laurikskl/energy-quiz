@@ -1,0 +1,20 @@
+#refresh{
+    -fx-background-color: #7259ff;
+    -fx-text-fill: #f1f1f1;
+    -fx-font-weight: bold;
+}
+
+#refresh:hover{
+    -fx-background-color: #8DF5EE;
+    -fx-text-fill: #000000;
+}
+
+
+.table-row-cell:nth-child(even){
+    -fx-background-color: #7CCADE;
+}
+
+.table-row-cell:nth-child(odd){
+    -fx-background-color: #8DF5EE;
+}
+

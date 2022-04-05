@@ -1,44 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17"
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="1080.0" prefWidth="1920.0"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="client.scenes.LeaderboardCtrl">
     <children>
-        <Button fx:id="back" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#back"
+        <Button fx:id="back" layoutX="191.0" layoutY="65.0"
+                mnemonicParsing="false" onMouseClicked="#back"
                 style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
             <graphic>
                 <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/icons/back.png"/>
+                        <Image url="@/icons/back.png" />
                     </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </ImageView>
             </graphic>
         </Button>
-        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6639d4" height="80.0" layoutX="471.0" layoutY="65.0"
-                   stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="982.0"/>
-        <Text fill="#f1f1f1" layoutX="621.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LEADERBOARD"
-              textAlignment="CENTER" wrappingWidth="677.107421875">
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#6639d4" height="74.0"
+                   layoutX="516.0" layoutY="100.0"
+                   stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="900.0" />
+        <Text fill="#f1f1f1" layoutX="622.0" layoutY="152.0"
+              strokeType="OUTSIDE" strokeWidth="0.0"
+              text="LEADERBOARD" textAlignment="CENTER" wrappingWidth="677.107421875">
             <font>
-                <Font name="System Bold" size="36.0"/>
+                <Font name="System Bold" size="36.0" />
             </font>
         </Text>
-        <TableView fx:id="table" layoutX="662.0" layoutY="145.0" maxHeight="-Infinity" maxWidth="600.0"
-                   minHeight="844.0" minWidth="600.0" prefHeight="845.0" prefWidth="602.0"
-                   style="-fx-pref-width: 360; -fx-pref-height: 720;" AnchorPane.bottomAnchor="91.0"
-                   AnchorPane.leftAnchor="662.0" AnchorPane.rightAnchor="658.0" AnchorPane.topAnchor="145.0">
+        <TableView fx:id="table" styleClass="table-view"
+                   layoutX="664.0" layoutY="174.0"
+                   maxHeight="-Infinity" maxWidth="600.0" minHeight="720.0" minWidth="600.0"
+                   prefHeight="762.0" prefWidth="600.0"
+                   style="-fx-pref-width: 360; -fx-pref-height: 720;"
+                   AnchorPane.bottomAnchor="186.0" AnchorPane.leftAnchor="664.0" AnchorPane.rightAnchor="656.0" AnchorPane.topAnchor="174.0">
             <columns>
-                <TableColumn fx:id="colPlace" maxWidth="500.0" prefWidth="69.5999755859375" text="Place"/>
-                <TableColumn fx:id="colName" maxWidth="500.0" prefWidth="383.199951171875" text="Name"/>
-                <TableColumn fx:id="colScore" maxWidth="500.0" prefWidth="149.60015869140625" text="Score"/>
+                <TableColumn fx:id="colPlace" maxWidth="500.0" prefWidth="69.5999755859375" text="Place" />
+                <TableColumn fx:id="colName" maxWidth="500.0" prefWidth="383.199951171875" text="Name" />
+                <TableColumn fx:id="colScore" maxWidth="500.0" prefWidth="149.60015869140625" text="Score" />
             </columns>
         </TableView>
+      <Button fx:id="refresh"
+              layoutX="1325.0" layoutY="121.0"
+              mnemonicParsing="false" onAction="#refresh"
+              prefHeight="37.0" prefWidth="70.0"
+              style="-fx-border-image-insets: 20; -fx-background-radius: 20;" text="REFRESH">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 </AnchorPane>

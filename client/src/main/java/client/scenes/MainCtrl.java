@@ -16,19 +16,25 @@
 
 package client.scenes;
 
+import client.MyFXML;
+import client.MyModule;
 import client.utils.ServerUtils;
+import com.google.inject.Injector;
 import commons.Game;
 import commons.Player;
 import commons.Question;
 import commons.Screen;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import javax.inject.Inject;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +43,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.inject.Guice.createInjector;
 import static commons.Screen.*;
 
 public class MainCtrl {
@@ -48,28 +55,40 @@ public class MainCtrl {
     private Stage primaryStage;
     //Controllers
     private List<Controller> controllers;
+    private Popup disconnectMessage;
+
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
+
+    public Timer timer;
+
     /**
      * Controller and scenes indexes.
-     * 0 - Splash
+     * 0 - splash
      * 1 - EnterNameSinglePlayer
      * 2 - EnterNameMultiPlayer
-     * 3 - Leaderboard
-     * 4 - SPGame
-     * 5 - Lobby
-     * 6 - MPGame
+     * 3 - LeaderboardScreen
+     * 4 - SPGameScreen
+     * 5 - LobbyScreen
+     * 6 - MPGameScreen
      * 7 - How2Play
-     * 8 - MultiChoice
+     * 8 - MultiChoiceScreen
      * 9 - ChoiceEstimation
      * 10 - Admin
-     * 11 - Accurate Estimation
-     * 12 - MPMultiChoice - gonna be thrown away probably
-     * 13 - MPChoiceEstimation - gonna be thrown away probably
-     * 14 - MPAccurateEstimation - gonna be thrown away probably
-     * 15 - MPGameMultiChoiceCtrl
+     * 11 - EndGameScreen
+     * 12 - AccurateEstimationCtrl
+     * 13 - MatchingCtrl
+     * 14 - MPMultiChoice
+     * 15 - MPChoiceEstimation
+     * 16 - MPAccurateEstimation
+     * 17 - MPGameMultiChoiceCtrl
      */
 
     //Scenes
-    private List<Scene> scenes;
+    private List<Parent> scenes;
+
+    private Scene display;
+
     private ServerUtils server;
     // Current scene as an enum
     private Screen current;
@@ -88,7 +107,7 @@ public class MainCtrl {
      * Acts as constructor
      *
      * @param primaryStage the primary stage
-     * @param scenes       List of pairs of Controller instances and roots for fxml loader
+     * @param /*scenes       List of pairs of Controller instances and roots for fxml loader
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) throws FileNotFoundException {
         this.primaryStage = primaryStage;
@@ -97,26 +116,30 @@ public class MainCtrl {
 
         for (int i = 0; i < scenes.size(); i++) {
             this.controllers.add(scenes.get(i).getKey());
-            this.scenes.add(new Scene(scenes.get(i).getValue()));
+            this.scenes.add(scenes.get(i).getValue());
         }
+
 
         //add css
         try {
             this.scenes.get(0).getStylesheets().add(new File("client/src/main/resources/stylesheets/splash.css").toURI().toURL().toExternalForm());
             this.scenes.get(1).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
             this.scenes.get(2).getStylesheets().add(new File("client/src/main/resources/stylesheets/enterNameSingleplayer.css").toURI().toURL().toExternalForm());
+            this.scenes.get(3).getStylesheets().add(new File("client/src/main/resources/stylesheets/leaderboard.css").toURI().toURL().toExternalForm());
             this.scenes.get(4).getStylesheets().add(new File("client/src/main/resources/stylesheets/SPGame.css").toURI().toURL().toExternalForm());
             this.scenes.get(5).getStylesheets().add(new File("client/src/main/resources/stylesheets/lobby.css").toURI().toURL().toExternalForm());
             this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
-            this.scenes.get(7).getStylesheets().add(new File("stylesheets/how2Play.css").toURI().toURL().toExternalForm());
-            this.scenes.get(8).getStylesheets().add(new File("stylesheets/endGame.css").toURI().toURL().toExternalForm());
+            this.scenes.get(7).getStylesheets().add(new File("client/src/main/resources/stylesheets/how2Play.css").toURI().toURL().toExternalForm());
+            this.scenes.get(11).getStylesheets().add(new File("client/src/main/resources/stylesheets/endGame.css").toURI().toURL().toExternalForm());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
         primaryStage.getIcons().add(new Image(new FileInputStream("client/src/main/resources/entername/MaxThePlant.png")));
         primaryStage.setTitle("Save Max The Plant");
-        showSplash();
+        display = new Scene(this.scenes.get(0));
+        primaryStage.setScene(display);
+        primaryStage.show();
     }
 
     /**
@@ -185,8 +208,8 @@ public class MainCtrl {
      *
      * @param scene Scene to show
      */
-    private void showScene(Scene scene) {
-        primaryStage.setScene(scene);
+    private void showScene(Parent scene) {
+        display.setRoot(scene);
         primaryStage.show();
     }
 
@@ -232,7 +255,6 @@ public class MainCtrl {
      */
     public void showLobbyScreen() {
         Platform.runLater(() -> showScene(this.scenes.get(5)));
-        ;
 
 //        //set up the lobby with the list of players
 //        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
@@ -257,8 +279,12 @@ public class MainCtrl {
         showScene(this.scenes.get(7));
     }
 
-    public void showEndGame() {
-        showScene(this.scenes.get(8));
+    public void setEndGame(int score){
+        ((EndGameCtrl) controllers.get(11)).initialize(score);
+    }
+
+    public void showEndGame(){
+        showScene(this.scenes.get(11));
     }
 
     /**
@@ -270,6 +296,14 @@ public class MainCtrl {
 
     public void startSPGame(Player player, ServerUtils server) throws IOException, InterruptedException {
         ((SPGameCtrl) this.controllers.get(4)).startGame(player);
+
+        //Defining a new Popup when starting the Singleplayer game,
+        //setting the fxml and controller
+        disconnectMessage = new Popup();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DisconnectMessage.fxml"));
+        disconnectMessage.getContent().add(loader.load());
+        DisconnectMessageCtrl controller = loader.getController();
+        controller.setMainCtrl(this);
     }
 
     /**
@@ -280,12 +314,15 @@ public class MainCtrl {
      * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
-        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
+        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) controllers.get(8);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8));
+        });
+
         multiChoiceCtrl.buttonsEnabled(true);
     }
-
+    
     /**
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
@@ -294,23 +331,60 @@ public class MainCtrl {
      * @param choiceEstimation
      */
     public void startCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
-        ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
-        ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
+        ChoiceEstimationCtrl choiceEstimationCtrl = (ChoiceEstimationCtrl) controllers.get(9);
+        choiceEstimationCtrl.start(parentCtrl, choiceEstimation);
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9));
+        });
+        choiceEstimationCtrl.buttonsEnabled(true);
     }
-
-    /**
+ /**
      * Load the AccurateEstimation question frame
      *
      * @param parentCtrl
      * @param accurateEstimation
      */
-    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
-        ((AccurateEstimationCtrl) this.controllers.get(11)).start(parentCtrl, accurateEstimation);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(11).getRoot());
+    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+        AccurateEstimationCtrl accurateEstimationCtrl = (AccurateEstimationCtrl) controllers.get(12);
+        accurateEstimationCtrl.start(parentCtrl, accurateEstimation);
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12));
+        });
     }
 
 
+    /**
+     * Load the Matching question frame.
+     * @param parentCtrl
+     * @param matching
+     * @throws MalformedURLException
+     */
+
+    public void startMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
+        MatchingCtrl matchingCtrl = (MatchingCtrl) this.controllers.get(13);
+        matchingCtrl.start(parentCtrl, matching);
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13));
+        });
+        matchingCtrl.buttonsEnabled(true);
+    }
+
+    /**
+     * Method for setting the fxml of the disconnectMessage popup and displaying it
+     * @throws IOException
+     * @param spGameCtrl
+     */
+    public void displayDisconnectMessage(SPGameCtrl spGameCtrl) throws IOException{
+        disconnectMessage.show(primaryStage);
+    }
+
+    /**
+     * Method for hiding the disconnect message
+     * @throws IOException
+     */
+    public void hideDisconnectMessage() throws IOException{
+        disconnectMessage.hide();
+    }
     /**
      * Sets the PlayerObj
      */
@@ -324,11 +398,11 @@ public class MainCtrl {
      * Enable buttons after the question for the next question
      */
     public void MPstartMC(Game game) {  //it is what it is :))
-        MPGameMultiChoiceCtrl multiChoiceCtrl = (MPGameMultiChoiceCtrl) this.controllers.get(15);
+        MPGameMultiChoiceCtrl multiChoiceCtrl = (MPGameMultiChoiceCtrl) this.controllers.get(14);
         Platform.runLater(() ->
                 {
                     try {
-                        ((MPGameMultiChoiceCtrl) this.controllers.get(15)).startGame(game, thisPlayer);
+                        ((MPGameMultiChoiceCtrl) this.controllers.get(14)).startGame(game, thisPlayer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -362,9 +436,9 @@ public class MainCtrl {
      * @param choiceEstimation
      */
     public void MPstartCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
-        ((MPChoiceEstimationCtrl) this.controllers.get(13)).start(parentCtrl, choiceEstimation);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13).getRoot());
-        ((MPChoiceEstimationCtrl) this.controllers.get(13)).buttonsEnabled(true);
+        ((MPChoiceEstimationCtrl) this.controllers.get(15)).start(parentCtrl, choiceEstimation);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(15));
+        ((MPChoiceEstimationCtrl) this.controllers.get(15)).buttonsEnabled(true);
     }
 
     /**
@@ -374,8 +448,8 @@ public class MainCtrl {
      * @param accurateEstimation
      */
     public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
-        ((MPAccurateEstimationCtrl) this.controllers.get(14)).start(parentCtrl, accurateEstimation);
-        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(14).getRoot());
+        ((MPAccurateEstimationCtrl) this.controllers.get(16)).start(parentCtrl, accurateEstimation);
+        ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16));
     }
 
     /**
@@ -397,6 +471,14 @@ public class MainCtrl {
      */
     public List<Controller> getControllers() {
         return controllers;
+    }
+
+    /**
+     * This method returns the timer.
+     * @return timer
+     */
+    public Timer getTimer() {
+        return timer;
     }
 
     /**
