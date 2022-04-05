@@ -5,7 +5,6 @@ import commons.Emoji;
 import commons.Player;
 import commons.Question;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -305,9 +304,6 @@ public class SPGameCtrl extends Controller {
             //if more than 15 seconds passed, move on to the next question
             if (seconds==0){
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
                             timer.stop();
                             try {
                                 startNewQuestion();
@@ -317,8 +313,6 @@ public class SPGameCtrl extends Controller {
                             } catch (InterruptedException ex) {
                                 ex.printStackTrace();
                             }
-                        }
-                    });
             }
         });
 

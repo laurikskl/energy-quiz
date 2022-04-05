@@ -16,13 +16,17 @@
 
 package client.scenes;
 
+import client.MyFXML;
+import client.MyModule;
 import client.utils.ServerUtils;
+import com.google.inject.Injector;
 import commons.Game;
 import commons.Player;
 import commons.Question;
 import commons.Screen;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -39,6 +43,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.inject.Guice.createInjector;
 import static commons.Screen.ENTERNAME;
 import static commons.Screen.LOBBY;
 
@@ -49,6 +54,9 @@ public class MainCtrl {
     //Controllers
     private List<Controller> controllers;
     private Popup disconnectMessage;
+
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     /**
      * Controller and scenes indexes.
@@ -161,9 +169,26 @@ public class MainCtrl {
      *
      * @param scene Scene to show
      */
-    private void showScene(Scene scene) {
-        primaryStage.setScene(scene);
+    private Controller showScene(Scene scene) {
+        if(scene.equals(scenes.get(4))) {
+            Pair<Controller, Parent> pair = FXML.load(MultiChoiceCtrl.class, "client", "scenes", "SPGameScreen.fxml");
+            primaryStage.getScene().setRoot(pair.getValue());
+            try {
+                primaryStage.getScene().getStylesheets().add(new File("client/src/main/resources/stylesheets/SPGame.css").toURI().toURL().toExternalForm());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            primaryStage.show();
+            return pair.getKey();
+        } else {
+            primaryStage.setScene(scene);
+        }
         primaryStage.show();
+        return null;
+    }
+
+    public void copy(Node node) {
+
     }
 
     /**
@@ -272,9 +297,12 @@ public class MainCtrl {
      * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
-        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
+        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) showScene(scenes.get(4));
         multiChoiceCtrl.start(parentCtrl, multiChoice);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        });
+
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
