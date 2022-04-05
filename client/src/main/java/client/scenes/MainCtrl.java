@@ -167,6 +167,11 @@ public class MainCtrl {
                         showMPGame();
                         current = QUESTION;
                         break;
+                    case SCOREBOARD:
+                        System.out.print("Showing Scoreboard");
+                        //showScoreboard();
+                        current = SCOREBOARD;
+                        break;
                 }
             }
 

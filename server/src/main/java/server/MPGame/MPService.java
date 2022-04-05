@@ -48,16 +48,17 @@ public class MPService {
             gameRound.setRound(i+1);
 
             gameRound.getQuestions().set(0, questions.get(i));
-
-
-
             gameRound.setPlayers(game.getPlayers());
 
             simpMessagingTemplate.convertAndSend("/topic/game/" + id, gameRound);
+
             sleep(15500);
 
-            List<Player> scoreboard = game.getPlayers();
             gameRound.screen = Screen.SCOREBOARD;
+            gameRound.setPlayers(game.getPlayers());
+
+            simpMessagingTemplate.convertAndSend("/topic/game/" + id, gameRound);
+
             sleep(3000);
 
         }

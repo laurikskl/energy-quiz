@@ -78,30 +78,30 @@ public class MPMultiChoiceCtrl extends Controller {
         //Finds the correct answer and inserts its name in the correctActivityName field
         this.correctActivityName = correctActivity.getName();
 
-//        byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
-//        byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
-//        byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
-//
-//        Image img1 = null;
-//        Image img2 = null;
-//        Image img3 = null;
-//        System.out.println("testMC");
+        byte[] byteArr1 = multiChoice.getActivities().get(0).getImageContent();
+        byte[] byteArr2 = multiChoice.getActivities().get(1).getImageContent();
+        byte[] byteArr3 = multiChoice.getActivities().get(2).getImageContent();
+
+        Image img1 = null;
+        Image img2 = null;
+        Image img3 = null;
+        System.out.println("testMC");
         Image defaultIMG = new Image(String.valueOf(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL()));
 
         image1.setImage(defaultIMG);
         image2.setImage(defaultIMG);
         image3.setImage(defaultIMG);
 
-//        //set to default if there was an error in getting the images
-//        if (img1.isError()) {
-//            image1.setImage(defaultIMG);
-//        }
-//        if (img2.isError()) {
-//            image2.setImage(defaultIMG);
-//        }
-//        if (img3.isError()) {
-//            image3.setImage(defaultIMG);
-//        }
+        //set to default if there was an error in getting the images
+        if (img1.isError()) {
+            image1.setImage(defaultIMG);
+        }
+        if (img2.isError()) {
+            image2.setImage(defaultIMG);
+        }
+        if (img3.isError()) {
+            image3.setImage(defaultIMG);
+        }
 
         answer1.setText(multiChoice.getActivities().get(0).getName());
         answer2.setText(multiChoice.getActivities().get(1).getName());

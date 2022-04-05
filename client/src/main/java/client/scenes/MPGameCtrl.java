@@ -214,6 +214,8 @@ public class MPGameCtrl extends Controller {
         simpleTimer();
         questionNumber.setText(round + 1 + "/20");
 
+        q = server.repairQuestion(q);
+
         System.out.println("Question class = " + q.getClass());
 
         //Fake, hard-coded question

@@ -111,6 +111,13 @@ public class Activity implements Comparable {
         return new Activity(id, name, powerConsumption, source, imageContent);
     }
 
+    /**
+     * @return internalId
+     */
+    public Long getInternalId() {
+        return this.internalID;
+    }
+
 
     /**
      * Getter for Id
@@ -268,5 +275,4 @@ public class Activity implements Comparable {
         }
         return -1;
     }
-
 }
