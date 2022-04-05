@@ -163,7 +163,7 @@ public class ServerUtils {
 
     public List<Player> getAllPlayers() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("player").
+                .target(SERVER).path("api/players").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
                 get(new GenericType<>() {
@@ -180,7 +180,7 @@ public class ServerUtils {
         //If list of players hasn't been generated yet, retrieve it from PlayerController
         if (players == null) {
             players = ClientBuilder.newClient(new ClientConfig())
-                    .target(SERVER).path("player").
+                    .target(SERVER).path("api/players").
                     request(APPLICATION_JSON)
                     .accept(APPLICATION_JSON).
                     get(new GenericType<>() {
@@ -203,7 +203,7 @@ public class ServerUtils {
 
     public Player setPlayer(String name, int score) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("player/setPlayer")
+                .target(SERVER).path("api/players/setPlayer")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(new Player(name, score), APPLICATION_JSON), Player.class);
