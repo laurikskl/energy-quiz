@@ -169,7 +169,7 @@ public class MainCtrl {
                         break;
                     case SCOREBOARD:
                         System.out.print("Showing Scoreboard");
-                        //showScoreboard();
+                        showScoreboard();
                         current = SCOREBOARD;
                         break;
                 }
@@ -222,6 +222,10 @@ public class MainCtrl {
     public void showSplash() {
         this.server.disconnect();
         showScene(this.scenes.get(0));
+    }
+
+    public void showScoreboard(){
+
     }
 
     /**
