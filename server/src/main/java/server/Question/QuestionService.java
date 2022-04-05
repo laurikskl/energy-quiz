@@ -67,7 +67,6 @@ public class QuestionService {
 
     public Question getRandomQuestion() {
         int randomType = random.nextInt(3);
-        randomType = 0;
         switch (randomType) {
             case 0:
                 return getRandomMostNRG();
