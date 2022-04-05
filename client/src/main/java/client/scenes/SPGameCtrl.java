@@ -73,7 +73,6 @@ public class SPGameCtrl extends Controller {
 
     @FXML
     private Text counterTimer;
-    private Timer timer;
 
     /**
      * @param server   ServerUtils instance
@@ -122,7 +121,7 @@ public class SPGameCtrl extends Controller {
         Collections.shuffle(questions);
 
         simpleTimer();
-        timer.stop();
+        mainCtrl.timer.stop();
         //start with first question
         doAQuestion(questions.get(0));
     }
@@ -167,7 +166,7 @@ public class SPGameCtrl extends Controller {
         //Checks if the user has reached 20 questions and finished his turn.
         //If he did, show the final screen.
         if (this.getqCount()==20) {
-            timer.stop();
+            mainCtrl.timer.stop();
             player.setScore(score);
 
             //Sets the player in the database with the final score of this round.
@@ -216,7 +215,7 @@ public class SPGameCtrl extends Controller {
 
         resetSeconds();
 
-        timer = new Timer(1000, e -> {
+        mainCtrl.timer = new Timer(1000, e -> {
 
             seconds--;
             counterTimer.setText(seconds + " seconds");
@@ -224,7 +223,7 @@ public class SPGameCtrl extends Controller {
             //if more than 15 seconds passed, move on to the next question
             if (seconds==0){
                 Platform.runLater(() -> {
-                    timer.stop();
+                    mainCtrl.timer.stop();
                     try {
                         startNewQuestion();
                         return;
@@ -237,7 +236,7 @@ public class SPGameCtrl extends Controller {
             }
         });
 
-        timer.start();
+        mainCtrl.timer.start();
 
     }
 
@@ -316,6 +315,7 @@ public class SPGameCtrl extends Controller {
      */
     public void back(MouseEvent mouseEvent) throws IOException {
         //shows popup
+        mainCtrl.timer.stop();
         mainCtrl.displayDisconnectMessage(this);
     }
 
@@ -441,23 +441,6 @@ public class SPGameCtrl extends Controller {
             }
         }
         Collections.shuffle(questions);
-        /**
-         //iterate over all questions
-         for(Question q : questions) {
-         this.doAQuestion(q);
-         }
-         //overwrite high-score if the current score is higher
-         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
-         getServer().setPlayer(player.getUserName(), score);
-         }*/
-    }
-
-    /**
-     * This method returns the timer.
-     * @return timer
-     */
-    public Timer getTimer() {
-        return timer;
     }
 
     /**

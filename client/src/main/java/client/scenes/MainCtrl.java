@@ -34,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import javax.inject.Inject;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,6 +57,8 @@ public class MainCtrl {
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
+
+    public Timer timer;
 
     /**
      * Controller and scenes indexes.
@@ -374,5 +377,13 @@ public class MainCtrl {
      */
     public List<Controller> getControllers() {
         return controllers;
+    }
+
+    /**
+     * This method returns the timer.
+     * @return timer
+     */
+    public Timer getTimer() {
+        return timer;
     }
 }
