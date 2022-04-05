@@ -3,11 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Question;
 import commons.ScoreSystem;
-import javafx.animation.PauseTransition;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -15,12 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
-//import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Scanner;
@@ -32,7 +24,7 @@ import java.util.Scanner;
  * - handling the user input (entering text in the textField)
  * - updating the score accordingly
  */
-public class AccurateEstimationCtrl extends Controller{
+public class AccurateEstimationCtrl extends Controller {
 
     private SPGameCtrl parentCtrl;
     private Question accurateEstimation;
@@ -73,10 +65,10 @@ public class AccurateEstimationCtrl extends Controller{
     /**
      * Method for starting the question, setting all the UI and starting the timer
      *
-     * @param parentCtrl       controller for the Singleplayer game
+     * @param parentCtrl         controller for the Singleplayer game
      * @param accurateEstimation question
      */
-    public void start(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+    public void start(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         this.parentCtrl = (SPGameCtrl) parentCtrl;
         //Set the isCorrect to false meaning there was no answer
         this.isCorrect = false;
@@ -121,7 +113,7 @@ public class AccurateEstimationCtrl extends Controller{
     /**
      * Method for showing what the correct answer actually was
      */
-    public void showCorrect(){
+    public void showCorrect() {
         actualText.setVisible(true);
         actualAnswer.setVisible(true);
     }
@@ -135,13 +127,14 @@ public class AccurateEstimationCtrl extends Controller{
 
     /**
      * Method that handles the user pressing the submit button
+     *
      * @param actionEvent
      */
-    public void handleSubmit(MouseEvent actionEvent) throws InterruptedException{
+    public void handleSubmit(MouseEvent actionEvent) throws InterruptedException {
         //Verifying if the submitted text is a Long
         userAnswer = enterNumber.getText();
         Scanner answerScanner = new Scanner(userAnswer);
-        if (answerScanner.hasNextLong()){
+        if (answerScanner.hasNextLong()) {
             //If it is a Long, set the final answer to the user input and calculate the score
             finalAnswer = answerScanner.nextLong();
             instant = Instant.now();
@@ -156,23 +149,17 @@ public class AccurateEstimationCtrl extends Controller{
             showCorrect();
 
             //Keep the same question while the correct answer shown
-            PauseTransition pause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            pause.setOnFinished(event -> {
-                try {
-                    parentCtrl.getTimer().stop();
-                    parentCtrl.refresh();
-                    parentCtrl.startNewQuestion(); //move to the next question
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            pause.play();
-        }
-        else {
+//            PauseTransition pause = new PauseTransition(
+//                    Duration.seconds(3)
+//            );
+
+
+            parentCtrl.setSeconds(4);
+            parentCtrl.refresh();
+//                    parentCtrl.startNewQuestion(); //move to the next question
+
+
+        } else {
             //If the user submitted text is not a Long, show an error
             numberError.setVisible(true);
         }
@@ -182,20 +169,20 @@ public class AccurateEstimationCtrl extends Controller{
      * Method for setting the score using the correct score calculating system,
      * then adding it to the existing score and updating the game screen
      */
-    public void handleScore() throws InterruptedException{
+    public void handleScore() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime(), finalAnswer, correctAnswer);
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(2)
-        );
-        pause.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                parentCtrl.scoreAwardedVisibility(false, 0);
-            }
-        });
-        pause.play();
+//        PauseTransition pause = new PauseTransition(
+//                Duration.seconds(2)
+//        );
+//        pause.setOnFinished(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                parentCtrl.scoreAwardedVisibility(false, 0);
+//            }
+//        });
+//        pause.play();
     }
 
 }

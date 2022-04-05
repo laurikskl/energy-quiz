@@ -4,15 +4,11 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
 import commons.ScoreSystem;
-import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.net.MalformedURLException;
@@ -26,7 +22,7 @@ import java.util.Collections;
  * - handling the user input (the user pressing one of the 3 buttons)
  * - updating the score accordingly
  */
-public class ChoiceEstimationCtrl extends Controller{
+public class ChoiceEstimationCtrl extends Controller {
 
     private Question choiceEstimation;
     private SPGameCtrl parentCtrl;
@@ -59,7 +55,8 @@ public class ChoiceEstimationCtrl extends Controller{
 
     /**
      * Method for starting the question, setting all the UI and starting the timer
-     * @param parentCtrl controller for the Singleplayer game
+     *
+     * @param parentCtrl       controller for the Singleplayer game
      * @param choiceEstimation question
      */
     public void start(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
@@ -94,7 +91,7 @@ public class ChoiceEstimationCtrl extends Controller{
     /**
      * Method for setting the buttons in a randomized way
      */
-    public void setButtons(){
+    public void setButtons() {
         Collections.shuffle(choiceEstimation.getConsumptions());
 
         answer1.setText(String.valueOf(choiceEstimation.getConsumptions().get(0)));
@@ -119,8 +116,7 @@ public class ChoiceEstimationCtrl extends Controller{
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
-        }
-        else if (answer3.getText().equals(correctText)) {
+        } else if (answer3.getText().equals(correctText)) {
             correct = answer3;
             wrong1 = answer1;
             wrong2 = answer2;
@@ -224,23 +220,23 @@ public class ChoiceEstimationCtrl extends Controller{
     /**
      * When the correct answer is pressed, the score for the question is calculated
      * and added to the score on the screen
-     * 
+     *
      * @throws InterruptedException
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(2)
-        );
-        pause.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                parentCtrl.scoreAwardedVisibility(false, 0);
-            }
-        });
-        pause.play();
+//        PauseTransition pause = new PauseTransition(
+//                Duration.seconds(2)
+//        );
+//        pause.setOnFinished(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                parentCtrl.scoreAwardedVisibility(false, 0);
+//            }
+//        });
+//        pause.play();
     }
 
     /**
@@ -261,7 +257,7 @@ public class ChoiceEstimationCtrl extends Controller{
      */
 
     public void buttonsEnabled(boolean enabled) {
-        if(enabled) {
+        if (enabled) {
             answer1.setDisable(false);
             answer2.setDisable(false);
             answer3.setDisable(false);
@@ -271,11 +267,6 @@ public class ChoiceEstimationCtrl extends Controller{
             answer3.setDisable(true);
         }
     }
-
-
-
-
-
 
 
 }

@@ -44,12 +44,12 @@ import static commons.Screen.LOBBY;
 
 public class MainCtrl {
 
+    //the client's player for multiplayer with their name
+    public Player thisPlayer;
     private Stage primaryStage;
-
     //Controllers
     private List<Controller> controllers;
     private Popup disconnectMessage;
-
     /**
      * Controller and scenes indexes.
      * 0 - splash
@@ -68,17 +68,13 @@ public class MainCtrl {
 
     //Scenes
     private List<Scene> scenes;
-
     private ServerUtils server;
-
-    //the client's player for multiplayer with their name
-    public Player thisPlayer;
-
     // Current scene as an enum
     private Screen current;
 
     /**
      * Injects server utils.
+     *
      * @param server the server utils
      */
     @Inject
@@ -124,16 +120,17 @@ public class MainCtrl {
     /**
      * gets the id of the current ongoing lobby and sends the player
      * to the relevant destination.
+     *
      * @param player The player who is typing in their name
      */
-    public void makeConnection(Player player){
+    public void makeConnection(Player player) {
         //save this player's username in main ctrl
         this.thisPlayer = player;
         long id = server.getLobby();
         current = ENTERNAME;
         // Choose what action to take, depending on type of message
-        server.registerForMessages("/topic/game/"+id, Game.class, game -> {
-            if(current != game.screen) {
+        server.registerForMessages("/topic/game/" + id, Game.class, game -> {
+            if (current != game.screen) {
                 switch (game.screen) {
                     case LOBBY:
                         showLobbyScreen();
@@ -141,7 +138,7 @@ public class MainCtrl {
                         break;
                 }
             }
-            switch(game.type){
+            switch (game.type) {
                 case LOBBYUPDATE:
                     LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
                     try {
@@ -203,8 +200,8 @@ public class MainCtrl {
 
     /**
      * Sets primaryStage's scene to the Lobby screen
-     *
-     *  removed the player parameter at the moment
+     * <p>
+     * removed the player parameter at the moment
      */
     public void showLobbyScreen() {
         Platform.runLater(() -> showScene(this.scenes.get(5)));
@@ -232,11 +229,11 @@ public class MainCtrl {
         showScene(this.scenes.get(7));
     }
 
-    public void setEndGame(int score){
+    public void setEndGame(int score) {
         ((EndGameCtrl) controllers.get(11)).initialize(score);
     }
 
-    public void showEndGame(){
+    public void showEndGame() {
         showScene(this.scenes.get(11));
     }
 
@@ -268,12 +265,14 @@ public class MainCtrl {
     /**
      * Load the MultipleChoice question frame
      * Enable buttons after the question for the next question
+     *
      * @param parentCtrl
      * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
+        System.out.println(Thread.currentThread().getName());
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
         multiChoiceCtrl.buttonsEnabled(true);
     }
@@ -281,40 +280,48 @@ public class MainCtrl {
     /**
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
+     *
      * @param parentCtrl
      * @param choiceEstimation
      */
     public void startCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
         ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
+        System.out.println(Thread.currentThread().getName());
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
         ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
     }
- /**
+
+    /**
      * Load the AccurateEstimation question frame
+     *
      * @param parentCtrl
      * @param accurateEstimation
      */
-    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         ((AccurateEstimationCtrl) this.controllers.get(12)).start(parentCtrl, accurateEstimation);
+        System.out.println(Thread.currentThread().getName());
         ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
     }
 
 
     /**
      * Method for setting the fxml of the disconnectMessage popup and displaying it
+     *
      * @throws IOException
      */
-    public void displayDisconnectMessage() throws IOException{
+    public void displayDisconnectMessage() throws IOException {
         disconnectMessage.show(primaryStage);
     }
 
     /**
      * Method for hiding the disconnect message
+     *
      * @throws IOException
      */
-    public void hideDisconnectMessage() throws IOException{
+    public void hideDisconnectMessage() throws IOException {
         disconnectMessage.hide();
     }
+
     /**
      * Closes the primary stage to quit the application
      */

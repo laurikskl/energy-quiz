@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Player;
 import commons.Question;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,13 +12,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controller for single-player game screen
@@ -109,7 +105,7 @@ public class SPGameCtrl extends Controller {
         Collections.shuffle(questions);
 
 //        simpleTimer();
-//        timer.stop();
+//        timer.cancel();
         //start with first question
         doAQuestion(questions.get(0));
     }
@@ -155,7 +151,7 @@ public class SPGameCtrl extends Controller {
         //Checks if the user has reached 20 questions and finished his turn.
         //If he did, show the final screen.
         if (this.getqCount() == 20) {
-            timer.stop();
+            timer.cancel();
             player.setScore(score);
 
             //Sets the player in the database with the final score of this round.
@@ -202,33 +198,55 @@ public class SPGameCtrl extends Controller {
     public void simpleTimer() {
 
         resetSeconds();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                seconds--;
+                counterTimer.setText(seconds + " seconds");
 
-        timer = new Timer(1000, e -> {
 
-            seconds--;
-            counterTimer.setText(seconds + " seconds");
+                if (seconds <= 0) {
+                    timer.cancel();
 
-            //if more than 15 seconds passed, move on to the next question
-            if (seconds == 0) {
-
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        timer.stop();
-                        try {
-                            startNewQuestion();
-                            return;
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
+                    try {
+                        startNewQuestion();
+                        Thread.currentThread().stop();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
-            }
-        });
 
-        timer.start();
+
+                }
+            }
+        }, 0, 1000);
+
+//        timer = new Timer(1000, e -> {
+//
+//            seconds--;
+//            counterTimer.setText(seconds + " seconds");
+//
+//            //if more than 15 seconds passed, move on to the next question
+//            if (seconds == 0) {
+//
+//                Platform.runLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        timer.stop();
+//                        try {
+//                            startNewQuestion();
+//                            return;
+//                        } catch (IOException ex) {
+//                            ex.printStackTrace();
+//                        } catch (InterruptedException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//
+//        timer.start();
 
     }
 
@@ -259,7 +277,7 @@ public class SPGameCtrl extends Controller {
 
     /**
      * This method inserts the frame, gets time and correctness of the answer from the controller
-     * Then it adds points to score accordingly, using ScoreSystem
+     * Then it adds points to score accordingly, using ScoreSystemg
      *
      * @param multiChoice current multiChoice question
      * @throws IOException when something goes wrong with file-reading or finding
@@ -319,7 +337,7 @@ public class SPGameCtrl extends Controller {
      */
     public void back(MouseEvent mouseEvent) throws IOException {
         //sets the scene back to the main screen
-        timer.stop();
+        timer.cancel();
         //shows popup
         mainCtrl.displayDisconnectMessage();
     }
