@@ -16,7 +16,10 @@
 
 package client.scenes;
 
+import client.MyFXML;
+import client.MyModule;
 import client.utils.ServerUtils;
+import com.google.inject.Injector;
 import commons.Game;
 import commons.Player;
 import commons.Question;
@@ -39,6 +42,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.inject.Guice.createInjector;
 import static commons.Screen.ENTERNAME;
 import static commons.Screen.LOBBY;
 
@@ -49,6 +53,9 @@ public class MainCtrl {
     //Controllers
     private List<Controller> controllers;
     private Popup disconnectMessage;
+
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     /**
      * Controller and scenes indexes.
@@ -67,7 +74,9 @@ public class MainCtrl {
      */
 
     //Scenes
-    private List<Scene> scenes;
+    private List<Parent> scenes;
+
+    private Scene display;
 
     private ServerUtils server;
 
@@ -90,7 +99,7 @@ public class MainCtrl {
      * Acts as constructor
      *
      * @param primaryStage the primary stage
-     * @param scenes       List of pairs of Controller instances and roots for fxml loader
+     * @param /*scenes       List of pairs of Controller instances and roots for fxml loader
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) throws FileNotFoundException {
         this.primaryStage = primaryStage;
@@ -99,8 +108,9 @@ public class MainCtrl {
 
         for (int i = 0; i < scenes.size(); i++) {
             this.controllers.add(scenes.get(i).getKey());
-            this.scenes.add(new Scene(scenes.get(i).getValue()));
+            this.scenes.add(scenes.get(i).getValue());
         }
+
 
         //add css
         try {
@@ -118,7 +128,9 @@ public class MainCtrl {
 
         primaryStage.getIcons().add(new Image(new FileInputStream("client/src/main/resources/entername/MaxThePlant.png")));
         primaryStage.setTitle("Save Max The Plant");
-        showSplash();
+        display = new Scene(this.scenes.get(0));
+        primaryStage.setScene(display);
+        primaryStage.show();
     }
 
     /**
@@ -161,8 +173,8 @@ public class MainCtrl {
      *
      * @param scene Scene to show
      */
-    private void showScene(Scene scene) {
-        primaryStage.setScene(scene);
+    private void showScene(Parent scene) {
+        display.setRoot(scene);
         primaryStage.show();
     }
 
@@ -272,9 +284,12 @@ public class MainCtrl {
      * @param multiChoice
      */
     public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
-        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) this.controllers.get(8);
+        MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) controllers.get(8);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8).getRoot());
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8));
+        });
+
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
@@ -285,9 +300,12 @@ public class MainCtrl {
      * @param choiceEstimation
      */
     public void startCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
-        ((ChoiceEstimationCtrl) this.controllers.get(9)).start(parentCtrl, choiceEstimation);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9).getRoot());
-        ((ChoiceEstimationCtrl) this.controllers.get(9)).buttonsEnabled(true);
+        ChoiceEstimationCtrl choiceEstimationCtrl = (ChoiceEstimationCtrl) controllers.get(9);
+        choiceEstimationCtrl.start(parentCtrl, choiceEstimation);
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9));
+        });
+        choiceEstimationCtrl.buttonsEnabled(true);
     }
  /**
      * Load the AccurateEstimation question frame
@@ -295,8 +313,11 @@ public class MainCtrl {
      * @param accurateEstimation
      */
     public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
-        ((AccurateEstimationCtrl) this.controllers.get(12)).start(parentCtrl, accurateEstimation);
-        ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12).getRoot());
+        AccurateEstimationCtrl accurateEstimationCtrl = (AccurateEstimationCtrl) controllers.get(12);
+        accurateEstimationCtrl.start(parentCtrl, accurateEstimation);
+        Platform.runLater(() -> {
+            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12));
+        });
     }
 
 
