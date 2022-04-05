@@ -2,8 +2,8 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Question;
+import commons.RoundPlayer;
 import commons.ScoreSystem;
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,11 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Scanner;
@@ -29,7 +27,7 @@ import java.util.Scanner;
  */
 public class MPAccurateEstimationCtrl extends Controller{
 
-    private SPGameCtrl parentCtrl;
+    private MPGameCtrl parentCtrl;
     private Question accurateEstimation;
     private boolean isCorrect;
     private Instant instant;
@@ -72,7 +70,7 @@ public class MPAccurateEstimationCtrl extends Controller{
      * @param accurateEstimation question
      */
     public void start(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
-        this.parentCtrl = (SPGameCtrl) parentCtrl;
+        this.parentCtrl = (MPGameCtrl) parentCtrl;
         //Set the isCorrect to false meaning there was no answer
         this.isCorrect = false;
         //Obtaining current state of clock
@@ -149,23 +147,6 @@ public class MPAccurateEstimationCtrl extends Controller{
             submit.setDisable(true);
             enterNumber.setDisable(true);
             showCorrect();
-
-            //Keep the same question while the correct answer shown
-            PauseTransition pause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            pause.setOnFinished(event -> {
-                try {
-                    this.mainCtrl.getTimer().stop();
-                    parentCtrl.refresh();
-                    parentCtrl.startNewQuestion(); //move to the next question
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            pause.play();
         }
         else {
             //If the user submitted text is not a Long, show an error
@@ -178,19 +159,13 @@ public class MPAccurateEstimationCtrl extends Controller{
      * then adding it to the existing score and updating the game screen
      */
     public void handleScore() throws InterruptedException{
-        //parentCtrl.scoreAwardedVisibility(true, addScore);
         int addScore = ScoreSystem.calculateScore(this.getTime(), finalAnswer, correctAnswer);
-        parentCtrl.setScore(parentCtrl.getScore() + addScore);
-//        PauseTransition pause = new PauseTransition(
-//                Duration.seconds(2)
-//        );
-//        pause.setOnFinished(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                parentCtrl.scoreAwardedVisibility(false, 0);
-//            }
-//        });
-//        pause.play();
+        String username = mainCtrl.thisPlayer.getUserName();
+        int round = parentCtrl.getRound();
+
+//      add in the roundplayer with the above parameters and send it to the server
+        RoundPlayer sendingObject = new RoundPlayer(username, addScore, round);
+        server.send("/app/game/" + mainCtrl.lobbyId + "/scoreupdate", sendingObject);
     }
 
 }

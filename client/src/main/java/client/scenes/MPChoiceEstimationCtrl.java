@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
+import commons.RoundPlayer;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -31,7 +32,7 @@ import java.util.Collections;
 public class MPChoiceEstimationCtrl extends Controller {
 
     private Question choiceEstimation;
-    private SPGameCtrl parentCtrl;
+    private MPGameCtrl parentCtrl;
     private boolean isCorrect;
     private Instant instant;
     private Long start;
@@ -66,7 +67,7 @@ public class MPChoiceEstimationCtrl extends Controller {
      * @param choiceEstimation question
      */
     public void start(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
-        this.parentCtrl = (SPGameCtrl) parentCtrl;
+        this.parentCtrl = (MPGameCtrl) parentCtrl;
         //Set the isCorrect to false meaning there was no answer
         this.isCorrect = false;
         //Obtaining current state of clock
@@ -168,23 +169,6 @@ public class MPChoiceEstimationCtrl extends Controller {
         buttonsEnabled(false);
 
         showCorrect();
-
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                this.mainCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
     }
 
     /**
@@ -206,23 +190,6 @@ public class MPChoiceEstimationCtrl extends Controller {
         buttonsEnabled(false);
 
         showCorrect();
-
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                this.mainCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
     }
 
     /**
@@ -244,23 +211,6 @@ public class MPChoiceEstimationCtrl extends Controller {
         buttonsEnabled(false);
 
         showCorrect();
-
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                this.mainCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
     }
 
     /**
@@ -271,18 +221,12 @@ public class MPChoiceEstimationCtrl extends Controller {
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
-        parentCtrl.scoreAwardedVisibility(true, addScore);
-        parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(2)
-        );
-        pause.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                parentCtrl.scoreAwardedVisibility(false, 0);
-            }
-        });
-        pause.play();
+        String username = mainCtrl.thisPlayer.getUserName();
+        int round = parentCtrl.getRound();
+
+//      add in the roundplayer with the above parameters and send it to the server
+        RoundPlayer sendingObject = new RoundPlayer(username, addScore, round);
+        server.send("/app/game/" + mainCtrl.lobbyId + "/scoreupdate", sendingObject);
     }
 
     /**
