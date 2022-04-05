@@ -38,7 +38,10 @@
             <Image url="@/entername/MaxThePlantWithSunglasses.png" />
          </image>
       </ImageView>
-      <Button id="back" fx:id="backButton" layoutX="187.0" layoutY="56.0" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
+      <Button id="back" fx:id="backButton" onMouseClicked="#back"
+              layoutX="187.0" layoutY="56.0"
+              mnemonicParsing="false"
+              style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
          <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
