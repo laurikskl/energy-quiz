@@ -10,6 +10,8 @@ import server.Question.QuestionService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Logic behind the methods needed for gameController.
  */
@@ -135,30 +137,48 @@ public class GameManagementService {
      *
      * @param id
      */
-    public void startGame(long id) {
+    public void startGame(long id) throws InterruptedException {
         //Get the game object of the correct id
         Game game = this.getById(id);
         System.out.println("Game id = " + game.getId());
+
         //Get the list of 20 questions
         List<Question> questionList = questionService.getQuestions();
+
         //Set the correct screen for the MP game
         game.type = Type.STARTMP;
         game.screen = Screen.QUESTION;
+
         System.out.println("Sending game object back to client, id = " + id);
         simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
         System.out.println(game.getPlayers().toString());
-        //Start the questions
-        //for (Question question : questionList) {
-        questionList.get(0).deleteImages();
-        game.setQuestion(questionList.get(0));
-        game.type = Type.QUESTION;
-        game.screen = Screen.QUESTION;
-        System.out.println("Sending game object back to client, id = " + id);
-        simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
 
-        //}
-        //Go over the questions and send them one by one with a (15) seconds break
-        //Before sending the question update the scores of the players
+        //Start the questions
+        for (Question question : questionList) {
+            //Send Questions
+            game.type = Type.QUESTION;
+            game.screen = Screen.QUESTION;
+
+            game.setRound(game.getRound() + 1);
+
+            question.deleteImages();
+            game.setQuestion(question);
+
+            System.out.println("Sending game object back to client, id = " + id);
+            simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
+
+            sleep(15500);
+
+            //Send Scoreboard
+            game.screen = Screen.SCOREBOARD;
+            game.setPlayers(game.getPlayers());
+            System.out.println("Sending game object back to client, id = " + id);
+            simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
+
+            sleep(3000);
+        }
+        //Go over the questions and send them one by one with a (15.5) seconds break
+        //Before sending the question update the scores of the players and wait 3 seconds
 
     }
 

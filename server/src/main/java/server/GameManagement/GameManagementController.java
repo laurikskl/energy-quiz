@@ -69,7 +69,7 @@ public class GameManagementController {
      * @param id
      */
     @MessageMapping("/game/{id}/startGame")
-    public void startGame(@DestinationVariable long id, String p) {
+    public void startGame(@DestinationVariable long id, String p) throws InterruptedException {
         System.out.println(p + ", id = " + id);
         gameManagementService.startGame(id);
     }
