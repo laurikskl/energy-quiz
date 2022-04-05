@@ -46,7 +46,13 @@ public class LeaderboardCtrl extends Controller {
 
         // First, it fetches all the players from the database and their correspondent scores
         // in decreasing order by score.
-        List<Player> leaderboardPlayers = server.getLeaderboard();
+        List<Player> leaderboardPlayers = new ArrayList<>();
+
+        try {
+            leaderboardPlayers = server.getLeaderboard();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
 
         for (int i = 1; i <= leaderboardPlayers.size(); i++) {
