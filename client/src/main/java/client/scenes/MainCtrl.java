@@ -48,20 +48,17 @@ import static commons.Screen.*;
 
 public class MainCtrl {
 
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
     //the client's player for multiplayer with their name
     public Player thisPlayer;
     //the lobby we are in
     public long lobbyId;
+    public Timer timer;
     private Stage primaryStage;
     //Controllers
     private List<Controller> controllers;
     private Popup disconnectMessage;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
-
-    public Timer timer;
-
     /**
      * Controller and scenes indexes.
      * 0 - splash
@@ -107,7 +104,7 @@ public class MainCtrl {
      * Acts as constructor
      *
      * @param primaryStage the primary stage
-     * @param /*scenes       List of pairs of Controller instances and roots for fxml loader
+     * @param /*scenes     List of pairs of Controller instances and roots for fxml loader
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) throws FileNotFoundException {
         this.primaryStage = primaryStage;
@@ -281,11 +278,11 @@ public class MainCtrl {
         showScene(this.scenes.get(7));
     }
 
-    public void setEndGame(int score){
+    public void setEndGame(int score) {
         ((EndGameCtrl) controllers.get(11)).initialize(score);
     }
 
-    public void showEndGame(){
+    public void showEndGame() {
         showScene(this.scenes.get(11));
     }
 
@@ -324,7 +321,7 @@ public class MainCtrl {
 
         multiChoiceCtrl.buttonsEnabled(true);
     }
-    
+
     /**
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
@@ -340,13 +337,14 @@ public class MainCtrl {
         });
         choiceEstimationCtrl.buttonsEnabled(true);
     }
- /**
+
+    /**
      * Load the AccurateEstimation question frame
      *
      * @param parentCtrl
      * @param accurateEstimation
      */
-    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException{
+    public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         AccurateEstimationCtrl accurateEstimationCtrl = (AccurateEstimationCtrl) controllers.get(12);
         accurateEstimationCtrl.start(parentCtrl, accurateEstimation);
         Platform.runLater(() -> {
@@ -357,6 +355,7 @@ public class MainCtrl {
 
     /**
      * Load the Matching question frame.
+     *
      * @param parentCtrl
      * @param matching
      * @throws MalformedURLException
@@ -373,20 +372,23 @@ public class MainCtrl {
 
     /**
      * Method for setting the fxml of the disconnectMessage popup and displaying it
-     * @throws IOException
+     *
      * @param spGameCtrl
+     * @throws IOException
      */
-    public void displayDisconnectMessage(SPGameCtrl spGameCtrl) throws IOException{
+    public void displayDisconnectMessage(SPGameCtrl spGameCtrl) throws IOException {
         disconnectMessage.show(primaryStage);
     }
 
     /**
      * Method for hiding the disconnect message
+     *
      * @throws IOException
      */
-    public void hideDisconnectMessage() throws IOException{
+    public void hideDisconnectMessage() throws IOException {
         disconnectMessage.hide();
     }
+
     /**
      * Sets the PlayerObj
      */
@@ -399,21 +401,12 @@ public class MainCtrl {
      * Show the screen for MPGameMultipleChoice
      * Enable buttons after the question for the next question
      */
-    public void MPstartMC(Game game) {  //it is what it is :))
-        MPGameMultiChoiceCtrl multiChoiceCtrl = (MPGameMultiChoiceCtrl) this.controllers.get(14);
-        Platform.runLater(() ->
-                {
-                    try {
-                        ((MPGameMultiChoiceCtrl) this.controllers.get(14)).startGame(game, thisPlayer);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+    public void MPstartMC(Controller parentCtrl, Question multiChoice) throws IOException {
+        MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(14);
+        multiChoiceCtrl.start(parentCtrl, multiChoice);
+        Platform.runLater(() -> {
+                    ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(14));
                 }
-        );
-        Platform.runLater(() ->
-                showScene(this.scenes.get(15))
         );
         multiChoiceCtrl.buttonsEnabled(true);
     }
@@ -477,6 +470,7 @@ public class MainCtrl {
 
     /**
      * This method returns the timer.
+     *
      * @return timer
      */
     public Timer getTimer() {

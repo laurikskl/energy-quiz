@@ -231,7 +231,7 @@ public class MPGameCtrl extends Controller {
 
         q = mostNRGQuestion;
         game.setQuestion(q);
-        doMultiChoice();
+        doMultiChoice(q);
 
         //Choose which type of question it is and load the appropriate frame with its controller
 //        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
@@ -254,10 +254,9 @@ public class MPGameCtrl extends Controller {
      *
      * @throws IOException when something goes wrong with file-reading or finding
      */
-    public void doMultiChoice() throws IOException, InterruptedException {
+    public void doMultiChoice(Question multiChoice) throws IOException {
         System.out.println("MultiChoice question has started");
-        this.mainCtrl.MPstartMC(game);
-//        this.mainCtrl.MPstartMC(this, multiChoice);
+        this.mainCtrl.MPstartMC(this, multiChoice);
     }
 
     /**

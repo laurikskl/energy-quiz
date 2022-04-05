@@ -28,8 +28,6 @@ import java.time.Instant;
  */
 public class MPMultiChoiceCtrl extends Controller {
 
-    private ServerUtils server;
-    private MainCtrl mainCtrl;
     private Question multiChoice;
     private MPGameCtrl parentCtrl;
 
