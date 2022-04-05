@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
@@ -77,8 +78,11 @@ public class MatchingCtrl extends Controller{
 
         byte[] byteArr1 = matching.getActivities().get(0).getImageContent();
         Image img1 = new Image(new ByteArrayInputStream(byteArr1));
-        image.setImage(img1);
-
+        if(img1.isError()) {
+            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
+        } else {
+            image.setImage(img1);
+        }
         //Setting the name of the current activity.
         nameOfActivity.setText(matching.getActivities().get(0).getName());
 

@@ -143,7 +143,7 @@ public class MPGameCtrl extends Controller {
         });
         nameCol.setPrefWidth(350);
         emojiCol.setPrefWidth(70);
-        nameCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        nameCol.setStyle("-fx-alignment: CENTER-RIGHT; ");
         try {
             emo1IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/trophy.png")));
             emo2IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/dead.png")));
