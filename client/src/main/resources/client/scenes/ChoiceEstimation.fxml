@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-height: 700; -fx-pref-width: 1100; -fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ChoiceEstimationCtrl">
    <children>
-      <Text layoutX="604.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How many kWh does it take?" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+      <Text layoutX="604.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How many Wh does it take?" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
