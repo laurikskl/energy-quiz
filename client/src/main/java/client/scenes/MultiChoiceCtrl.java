@@ -168,14 +168,7 @@ public class MultiChoiceCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorWrong(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
-        });
-        pause.play();
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
     }
 
 
