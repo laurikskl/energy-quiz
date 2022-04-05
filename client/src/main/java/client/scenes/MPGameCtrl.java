@@ -121,10 +121,6 @@ public class MPGameCtrl extends Controller {
         this.round = 0;
         this.game = game;
 
-        refreshScoreboard();
-        colNameScoreboard.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
-        colScoreScoreboard.setCellValueFactory(col -> new SimpleIntegerProperty(col.getValue().score));
-
         //display emoji when received
         server.registerForMessages("/topic/game/" + lobbyId + "/emoji", Emoji.class, emoji -> {
             try {
@@ -214,7 +210,7 @@ public class MPGameCtrl extends Controller {
         simpleTimer();
         questionNumber.setText(round + 1 + "/20");
 
-        q = server.repairQuestion(q);
+//        q = server.repairQuestion(q);
 
         System.out.println("Question class = " + q.getClass());
 

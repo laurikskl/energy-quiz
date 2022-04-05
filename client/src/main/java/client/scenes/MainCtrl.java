@@ -398,7 +398,11 @@ public class MainCtrl {
      * Sets the PlayerObj
      */
     public void startMPGame(Game game) throws IOException, InterruptedException {
-        ((MPGameCtrl) this.controllers.get(6)).startGame(thisPlayer, lobbyId, game);
+        try {
+            ((MPGameCtrl) this.controllers.get(6)).startGame(thisPlayer, lobbyId, game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -337,7 +337,7 @@ public class ServerUtils {
             .target(SERVER).path("api/lobby/getid")
             .request(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .get(new GenericType <>() {
+            .get(new GenericType<>() {
             });
     }
 
@@ -350,7 +350,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/admin/getAll").
                 request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON).
-                get(new GenericType<>() {
+                get(new GenericType<List<Activity>>() {
                 });
     }
 
@@ -369,7 +369,7 @@ public class ServerUtils {
                 .target(SERVER).path("api/admin/getByExample")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<>() {});
+                .post(Entity.entity(activitySearchRequest, APPLICATION_JSON), new GenericType<List<Activity>>() {});
     }
 
     /**

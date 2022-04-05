@@ -16,6 +16,7 @@
 package commons;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.json.JSONObject;
 
 import javax.persistence.*;
@@ -43,7 +44,6 @@ public class Activity implements Comparable {
 
     @Column
     public String id;
-
     @Column
     public String name;
     @Column
@@ -116,6 +116,13 @@ public class Activity implements Comparable {
      */
     public Long getInternalId() {
         return this.internalID;
+    }
+
+    /**
+     * @param internalId
+     */
+    public void setInternalId(Long internalId) {
+        this.internalID = internalId;
     }
 
 
