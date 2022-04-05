@@ -102,9 +102,9 @@ public class ChoiceEstimationCtrl extends Controller{
         answer3.setText(String.valueOf(choiceEstimation.getConsumptions().get(2)));
 
         //Set the style of the buttons when setting the answers, so they don't stay the same from question to question
-        answer1.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100;");
-        answer2.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100;");
-        answer3.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100;");
+        answer1.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100; ");
+        answer2.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100; ");
+        answer3.setStyle("-fx-background-color: #7CCADE; -fx-background-radius: 20; -fx-pref-width: 360; -fx-pref-height: 100; ");
     }
 
     /**

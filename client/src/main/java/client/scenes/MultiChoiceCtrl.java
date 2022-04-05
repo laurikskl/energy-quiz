@@ -114,9 +114,9 @@ public class MultiChoiceCtrl extends Controller {
         answer3.setText(multiChoice.getActivities().get(2).getName());
 
         //Setting the colour of buttons when the question is initialized, so they don't stay the same colour after a question
-        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; ");
+        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; ");
+        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; ");
     }
 
     /**
