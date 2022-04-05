@@ -178,7 +178,7 @@ public class MPGameCtrl extends Controller {
         });
         nameCol.setPrefWidth(350);
         emojiCol.setPrefWidth(70);
-        nameCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        nameCol.setStyle("-fx-alignment: CENTER-RIGHT; ");
         try {
             emo1IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/trophy.png")));
             emo2IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/dead.png")));
@@ -403,6 +403,9 @@ public class MPGameCtrl extends Controller {
             case "Sad":
                 img = new Image(new FileInputStream("client/src/main/resources/emoticons/sad.png"));
                 break;
+            case "Disconnect": //we treat the disconnect message as an emoji for convenience
+                img = new Image(new FileInputStream("client/src/main/resources/icons/disconnect.png"));
+                break;
         }
 
         ImageView imgView = new ImageView();
@@ -494,13 +497,21 @@ public class MPGameCtrl extends Controller {
      * @param mouseEvent mouse clicked
      */
 
+
     public void SmileEmoji(MouseEvent mouseEvent) {
         sendEmoji("Smile");
     }
 
 
     /**
-     * Set visibility of cooldown text
+     * Send the disconnect message to all players
+     */
+
+    public void disconnectMessage() {
+        sendEmoji("Disconnect");
+    }
+
+    /** Set visibility of cooldown text
      *
      * @param visible true iff text should be visible
      */
