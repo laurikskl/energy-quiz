@@ -7,8 +7,6 @@ import commons.Question;
 import commons.RoundPlayer;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MPMatchingCtrl extends Controller{
+public class MPMatchingCtrl extends Controller {
 
     private Question matching;
     private MPGameCtrl parentCtrl;
@@ -93,7 +91,7 @@ public class MPMatchingCtrl extends Controller{
     /**
      * Method for setting the buttons in a randomized way
      */
-    public void setButtons(){
+    public void setButtons() {
 
         answer1.setText(String.valueOf(possibleActivities.get(0).getName()));
         answer2.setText(String.valueOf(possibleActivities.get(1).getName()));
@@ -111,11 +109,11 @@ public class MPMatchingCtrl extends Controller{
         Button wrong2 = null;
 
         //set the correct and wrong buttons
-        if( answer1.getText().equals(correctActivityName)) {
+        if (answer1.getText().equals(correctActivityName)) {
             correct = answer1;
             wrong1 = answer2;
             wrong2 = answer3;
-        } else if(answer2.getText().equals(correctActivityName)) {
+        } else if (answer2.getText().equals(correctActivityName)) {
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
@@ -139,9 +137,10 @@ public class MPMatchingCtrl extends Controller{
 
     /**
      * This method changes the color of the correct answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorsCorrect(Button button){
+    public void temporaryChangeButtonColorsCorrect(Button button) {
 
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
@@ -155,9 +154,10 @@ public class MPMatchingCtrl extends Controller{
 
     /**
      * This method changes the color of the wrong answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorWrong(Button button){
+    public void temporaryChangeButtonColorWrong(Button button) {
         button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
@@ -269,7 +269,7 @@ public class MPMatchingCtrl extends Controller{
      */
 
     public void buttonsEnabled(boolean enabled) {
-        if(enabled) {
+        if (enabled) {
             answer1.setDisable(false);
             answer2.setDisable(false);
             answer3.setDisable(false);
