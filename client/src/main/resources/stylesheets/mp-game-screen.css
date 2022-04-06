@@ -5,18 +5,37 @@
 :root{
     font-family: spartan;
 }
+/*Entire table*/
 .table-view {
     -fx-background-color: transparent;
 }
 
-.table-row-cell:even {
-    -fx-background-color: #7CCADE;
+/*Single cells*/
+.table-row-cell{
+    -fx-background-color:  transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-cell-size: 32px;
 }
 
-.table-row-cell:odd {
-    -fx-background-color: #8DF5EE;
+/*Making header transparent*/
+.table-view .column-header-background{
+    -fx-background-color: transparent;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0px;
+}
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
 }
 
-.joker-button:hover{
-    fx-background-color:#8DF5EE;
-}
+/*Making scroll bars invisible*/
+.table-view .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}}
