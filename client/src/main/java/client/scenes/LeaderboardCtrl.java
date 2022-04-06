@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,13 +80,24 @@ public class LeaderboardCtrl extends Controller {
         colName.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().userName));
         colScore.setCellValueFactory(col -> new SimpleStringProperty(col.getValue().score));
 
+        //disable horizontal scrolling for table
+        table.addEventFilter(ScrollEvent.ANY, event -> {
+            if (event.getDeltaX() != 0) {
+                event.consume();
+            }
+        });
+
+        //aligning text in table
+        colPlace.setStyle("-fx-alignment: CENTER;");
+        colName.setStyle("-fx-alignment: CENTER;");
+        colScore.setStyle("-fx-alignment: CENTER;");
     }
 
     /**
      * goes back to the splash screen
      *
      * @param mouseEvent is when the back button is clicked
-     * @throws IOException
+     * @throws IOException when something in IO goes wrong
      */
     public void back(MouseEvent mouseEvent) throws IOException {
         getMainCtrl().showSplash();

@@ -1,6 +1,7 @@
 /*Entire table*/
 .table-view {
     -fx-background-color: transparent;
+    -fx-table-border-color: transparent;
 }
 
 /*Single cells*/
