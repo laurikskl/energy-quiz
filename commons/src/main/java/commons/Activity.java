@@ -16,7 +16,6 @@
 package commons;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.json.JSONObject;
 
 import javax.persistence.*;
@@ -34,14 +33,6 @@ import java.util.Objects;
 @Table
 public class Activity implements Comparable {
 
-    /**
-     * All fields for activities
-     */
-
-    @Id
-    @GeneratedValue
-    private Long internalID;
-
     @Column
     public String id;
     @Column
@@ -53,6 +44,13 @@ public class Activity implements Comparable {
     @Column
     @Lob
     public byte[] imageContent;
+    /**
+     * All fields for activities
+     */
+
+    @Id
+    @GeneratedValue
+    private Long internalID;
 
 
     /**
@@ -100,7 +98,7 @@ public class Activity implements Comparable {
 
         byte[] imageContent = null;
 
-        if (Files.exists(imagePath)){
+        if (Files.exists(imagePath)) {
             try {
                 imageContent = Files.readAllBytes(imagePath);
             } catch (IOException e) {
