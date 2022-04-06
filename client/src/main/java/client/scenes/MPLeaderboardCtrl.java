@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
@@ -23,11 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MPLeaderboardCtrl extends Controller{
+public class MPLeaderboardCtrl extends Controller {
 
-    private int seconds = 3;
     double progress = 0;
-
+    private int seconds = 3;
     @FXML
     private ProgressBar progressBar;
     @FXML
@@ -49,7 +47,7 @@ public class MPLeaderboardCtrl extends Controller{
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         this.backImg.setImage(new Image("icons/back.png"));
     }
 
@@ -63,7 +61,7 @@ public class MPLeaderboardCtrl extends Controller{
         this.mainCtrl.showSplash();
     }
 
-    public void showIntermediaryLeaderboard(List<Player> leaderboardPlayers){
+    public void showIntermediaryLeaderboard(List<Player> leaderboardPlayers) {
         List<PlayerForTable> leaderboardTable = new ArrayList<>();
         for (int i = 1; i <= leaderboardPlayers.size(); i++) {
 
@@ -94,11 +92,11 @@ public class MPLeaderboardCtrl extends Controller{
         mainCtrl.timer = new Timer(1000, e -> {
 
             seconds--;
-            progress+=0.2;
-            Platform.runLater(() -> progressBar.setProgress(1.0-progress));
+            progress += 0.2;
+            Platform.runLater(() -> progressBar.setProgress(1.0 - progress));
 
             //if more than 15 seconds passed, move on to the next question
-            if (seconds==0){
+            if (seconds == 0) {
                 Platform.runLater(() -> {
                     mainCtrl.timer.stop();
                     resetProgress();
@@ -114,12 +112,12 @@ public class MPLeaderboardCtrl extends Controller{
 
     }
 
-    private void resetSeconds (){
+    private void resetSeconds() {
         this.seconds = 6;
     }
 
-    private void resetProgress(){
-        this.progress=0;
+    private void resetProgress() {
+        this.progress = 0;
     }
 
 

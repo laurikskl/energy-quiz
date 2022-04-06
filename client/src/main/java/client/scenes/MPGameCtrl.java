@@ -2,16 +2,15 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.*;
+import commons.Emoji;
+import commons.Game;
+import commons.Player;
+import commons.Question;
 import javafx.animation.PauseTransition;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,8 +26,6 @@ import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -235,14 +232,11 @@ public class MPGameCtrl extends Controller {
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
             doMultiChoice((Question.MostNRGQuestion) q);
-        }
-        else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
-        }
-        else if (q.getClass().equals(Question.Matching.class)) {
+        } else if (q.getClass().equals(Question.Matching.class)) {
             doMatching((Question.Matching) q);
-        }
-        else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
             doAccurateEstimationQuestion((Question.AccurateEstimation) q);
         }
 
@@ -358,11 +352,11 @@ public class MPGameCtrl extends Controller {
 
     /**
      * @param visible true iff scoreAwarded should be visible
-     * @param points the points awarded for a question
+     * @param points  the points awarded for a question
      */
 
     public void scoreAwardedVisibility(boolean visible, int points) {
-        if(visible) {
+        if (visible) {
             scoreAwarded.setVisible(true);
             scoreAwarded.setText("+" + points);
         } else {
@@ -525,13 +519,14 @@ public class MPGameCtrl extends Controller {
 
     public void disconnectMessage() {
         try {
-        sendEmoji("Disconnect");
+            sendEmoji("Disconnect");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /** Set visibility of cooldown text
+    /**
+     * Set visibility of cooldown text
      *
      * @param visible true iff text should be visible
      */
