@@ -154,29 +154,8 @@ public class MainCtrl {
         // Choose what action to take, depending on type of message
         server.registerForMessages("/topic/game/" + id, Game.class, game -> {
             System.out.println("Received game object!");
-            System.out.println(game.screen + " " + game.type);
-            if (!current.equals(game.screen)) {
-                System.out.println("CURRENT != game.screen");
-                switch (game.screen) {
-                    case LOBBY:
-                        System.out.println("Showing Lobby");
-                        showLobbyScreen();
-                        current = LOBBY;
-                        break;
-                    case QUESTION:
-                        System.out.println("Showing MPGameScreen");
-                        showMPGame();
-                        current = QUESTION;
-                        break;
-                    case LEADERBOARD:
-                        System.out.print("Showing Scoreboard");
-                        showScoreboard(game.getPlayers());
-                        current = LEADERBOARD;
-                        break;
-                }
-            }
+            System.out.println(game.type + " " + game.screen);
 
-            System.out.println("Switch moment");
             switch (game.type) {
                 case LOBBYUPDATE:
                     System.out.println("Update lobby");
@@ -205,6 +184,31 @@ public class MainCtrl {
                     System.out.println("Show Leaderboard");
                 default:
             }
+
+            System.out.println("Switch moment");
+
+            if (!current.equals(game.screen)) {
+                System.out.println("CURRENT != game.screen");
+                switch (game.screen) {
+                    case LOBBY:
+                        System.out.println("Showing Lobby");
+                        showLobbyScreen();
+                        current = LOBBY;
+                        break;
+                    case QUESTION:
+                        System.out.println("Showing MPGameScreen");
+                        showMPGame();
+                        current = QUESTION;
+                        break;
+                    case LEADERBOARD:
+                        System.out.print("Showing Scoreboard");
+                        showScoreboard(game.getPlayers());
+                        current = LEADERBOARD;
+                        break;
+                }
+            }
+
+
         });
         server.send("/app/game/" + id + "/lobby/join", player);
     }
@@ -296,7 +300,7 @@ public class MainCtrl {
     }
 
     public void setEndGame(int score) {
-        ((EndGameCtrl) controllers.get(11)).initialize(score);
+        ((EndGameCtrl) controllers.get(11)).setScore(score);
     }
 
     public void showEndGame() {
@@ -424,6 +428,7 @@ public class MainCtrl {
      */
     public void MPstartMC(Controller parentCtrl, Question multiChoice) throws IOException {
         MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(14);
+
         Platform.runLater(() -> {
             try {
                 multiChoiceCtrl.start(parentCtrl, multiChoice);
@@ -432,6 +437,7 @@ public class MainCtrl {
             }
             ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(14));
         });
+
         multiChoiceCtrl.buttonsEnabled(true);
     }
 
@@ -455,15 +461,14 @@ public class MainCtrl {
      * @param choiceEstimation
      */
     public void MPstartCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
+        MPChoiceEstimationCtrl mpChoiceEstimationCtrl = ((MPChoiceEstimationCtrl) this.controllers.get(15));
+        mpChoiceEstimationCtrl.start(parentCtrl, choiceEstimation);
+
         Platform.runLater(() -> {
-            try {
-                ((MPChoiceEstimationCtrl) this.controllers.get(15)).start(parentCtrl, choiceEstimation);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
             ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(15));
         });
-        ((MPChoiceEstimationCtrl) this.controllers.get(15)).buttonsEnabled(true);
+
+        mpChoiceEstimationCtrl.buttonsEnabled(true);
     }
 
     /**
@@ -473,12 +478,10 @@ public class MainCtrl {
      * @param accurateEstimation
      */
     public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
+        MPAccurateEstimationCtrl mpAccurateEstimationCtrl = ((MPAccurateEstimationCtrl) this.controllers.get(16));
+        mpAccurateEstimationCtrl.start(parentCtrl, accurateEstimation);
+
         Platform.runLater(() -> {
-            try {
-                ((MPAccurateEstimationCtrl) this.controllers.get(16)).start(parentCtrl, accurateEstimation);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
             ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16));
         });
     }
@@ -490,14 +493,14 @@ public class MainCtrl {
      * @param matching
      */
     public void MPstartMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
+        MPMatchingCtrl mpMatchingCtrl = ((MPMatchingCtrl) this.controllers.get(17));
+        mpMatchingCtrl.start(parentCtrl, matching);
+
         Platform.runLater(() -> {
-            try {
-                ((MPMatchingCtrl) this.controllers.get(17)).start(parentCtrl, matching);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
             ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(17));
         });
+
+        mpMatchingCtrl.buttonsEnabled(true);
     }
 
     /**

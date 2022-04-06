@@ -83,6 +83,7 @@ public class LobbyCtrl extends Controller {
     private void initialize() throws IOException {
         colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
         hintIMG.setImage(new Image(new File("client/src/main/resources/icons/lightBulb.png").toURI().toURL().toString()));
+        playIMG.setImage(new Image(new File("client/src/main/resources/icons/playButton.png").toURI().toURL().toString()));
 
         //setting font everywhere
         Font font = Font.loadFont(new FileInputStream("client/src/main/resources/fonts/Spartan-Bold.ttf"), 25);
@@ -139,11 +140,11 @@ public class LobbyCtrl extends Controller {
      * Method that returns the application to the initial screen when the back button is pressed.
      * Unsubscribe from the websocket connection
      *
-     * @param actionEvent - pressing the back button triggers this function
+     * @param mouseEvent - pressing the back button triggers this function
      * @throws IOException when files not found/misread
      */
 
-    public void back(ActionEvent actionEvent) {
+    public void back(MouseEvent mouseEvent) {
         leaveLobby();
         server.disconnect();
         getMainCtrl().showSplash();

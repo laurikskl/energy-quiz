@@ -160,6 +160,8 @@ public class MPAccurateEstimationCtrl extends Controller{
      */
     public void handleScore() throws InterruptedException{
         int addScore = ScoreSystem.calculateScore(this.getTime(), finalAnswer, correctAnswer);
+        parentCtrl.scoreAwardedVisibility(true, addScore);
+        parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();
         int round = parentCtrl.getRound();
 

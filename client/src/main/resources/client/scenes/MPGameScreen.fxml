@@ -17,9 +17,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MPGameCtrl">
     <children>
-        <Button id="back-button" fx:id="backButton" layoutX="81.0" layoutY="47.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #f1f1f1;" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="100.0">
+        <Button id="back-button" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #f1f1f1;">
             <graphic>
-                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="backImg" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@/icons/back.png" />
                     </image>
@@ -35,7 +35,6 @@
                 <Font name="System Bold" size="36.0" />
             </font>
         </Text>
-        <ImageView id="emoji-viewer" fitHeight="120.0" fitWidth="120.0" layoutX="1400.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="20.0" />
         <HBox layoutX="449.0" layoutY="14.0" prefHeight="107.0" prefWidth="354.0" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="100.0">
             <children>
                 <Button id="bomb-joker" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button">
@@ -147,16 +146,31 @@
                 </VBox>
             </children>
         </AnchorPane>
-        <Text fx:id="cooldownText" fill="RED" layoutX="691.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please wait 0 seconds before sending another chat" textAlignment="CENTER">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Text>
       <Text fx:id="counterTimer" fill="RED" layoutX="1483.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" --:--">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
-      <BorderPane fx:id="questionFrame" layoutX="450.0" layoutY="201.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1120.0" />
+      <BorderPane fx:id="questionFrame" layoutX="317.0" layoutY="202.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="1254.0" />
+        <Text fx:id="cooldownText" fill="RED" layoutX="1155.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please wait 0 seconds before sending another chat" textAlignment="CENTER">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+      <Text fx:id="scoreCount" fill="#6639d4" layoutX="322.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE: 0">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Text>
+      <Text fx:id="scoreAwarded" fill="#39d444" layoutX="326.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dsajudshu" wrappingWidth="199.39993286132812">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Text>
+      <Text fx:id="name" fill="#6639d4" layoutX="970.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;name&gt;">
+         <font>
+            <Font size="60.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>

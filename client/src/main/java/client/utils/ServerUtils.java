@@ -282,7 +282,11 @@ public class ServerUtils {
 
     public void disconnect(){
         if (STOMPSESSION != null) {
-            STOMPSESSION.disconnect();
+            try {
+                STOMPSESSION.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             STOMPSESSION = null;
         }
     }

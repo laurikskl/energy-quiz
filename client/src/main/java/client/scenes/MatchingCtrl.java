@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -27,8 +28,6 @@ import java.util.List;
 public class MatchingCtrl extends Controller{
 
     private Question matching;
-    private ServerUtils server;
-    private MainCtrl mainCtrl;
     private SPGameCtrl parentCtrl;
 
     private Activity correctActivity;
@@ -189,9 +188,9 @@ public class MatchingCtrl extends Controller{
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress1(MouseEvent mouseEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctActivityName)) {
@@ -214,9 +213,9 @@ public class MatchingCtrl extends Controller{
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress2(MouseEvent mouseEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctActivityName)) {
@@ -239,9 +238,9 @@ public class MatchingCtrl extends Controller{
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress3(MouseEvent mouseEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctActivityName)) {

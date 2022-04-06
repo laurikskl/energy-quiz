@@ -20,6 +20,14 @@ public class RoundPlayer extends Player {
         this.round = round;
     }
 
+
+    /**
+     * Default constructor for serialization
+     */
+    public RoundPlayer() {
+        super();
+    }
+
     /**
      * Getter for round number
      *

@@ -1,32 +1,25 @@
-@font-face{
-    font-family: spartan;
-    src: url('/../fonts/spartan.ttf');
-}
-:root{
-    font-family: spartan;
-}
 /*Entire table*/
 .table-view {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
 /*Single cells*/
 .table-row-cell{
-    -fx-background-color:  transparent;
-    -fx-table-cell-border-color: transparent;
+    -fx-background-color:  rgba(0, 0, 0, 0);
+    -fx-table-cell-border-color: rgba(0, 0, 0, 0);
     -fx-cell-size: 32px;
 }
 
 /*Making header transparent*/
 .table-view .column-header-background{
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 .table-view .column-header {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
     -fx-pref-height: 0px;
 }
 .table-view .column-header-background .filler {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
 .joker-button {
@@ -45,4 +38,4 @@
     -fx-min-height: 0;
     -fx-pref-height: 0;
     -fx-max-height: 0;
-}}
+}

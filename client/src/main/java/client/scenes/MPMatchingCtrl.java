@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -82,9 +83,7 @@ public class MPMatchingCtrl extends Controller{
         nameOfActivity.setText(matching.getActivities().get(0).getName());
 
         possibleActivities = new ArrayList<>();
-        possibleActivities.add(matching.getActivities().get(1));
-        possibleActivities.add(matching.getActivities().get(2));
-        possibleActivities.add(matching.getActivities().get(3));
+        possibleActivities.addAll(matching.getActivities());
         Collections.shuffle(possibleActivities);
 
         setButtons();
@@ -184,9 +183,9 @@ public class MPMatchingCtrl extends Controller{
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void handleButtonPress1(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress1(MouseEvent mouseEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer1.getText().equals(correctActivityName)) {
@@ -206,9 +205,9 @@ public class MPMatchingCtrl extends Controller{
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void handleButtonPress2(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress2(MouseEvent mouseEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer2.getText().equals(correctActivityName)) {
@@ -227,9 +226,9 @@ public class MPMatchingCtrl extends Controller{
      * and set 'isCorrect' field accordingly. Also stop the timer and show correct
      * answers by colouring the fields
      *
-     * @param actionEvent
+     * @param mouseEvent
      */
-    public void handleButtonPress3(ActionEvent actionEvent) throws InterruptedException, IOException {
+    public void handleButtonPress3(MouseEvent mouseEvent) throws InterruptedException, IOException {
         instant = Instant.now();
         finish = instant.getEpochSecond();
         if (answer3.getText().equals(correctActivityName)) {
@@ -252,6 +251,8 @@ public class MPMatchingCtrl extends Controller{
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.scoreAwardedVisibility(true, addScore);
+        parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();
         int round = parentCtrl.getRound();
 

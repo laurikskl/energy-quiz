@@ -8,12 +8,17 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,8 @@ public class MPLeaderboardCtrl extends Controller{
 
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private ImageView backImg;
     @FXML
     private TableView<PlayerForTable> table;
     @FXML
@@ -43,7 +50,17 @@ public class MPLeaderboardCtrl extends Controller{
 
     @FXML
     private void initialize(){
+        this.backImg.setImage(new Image("icons/back.png"));
+    }
 
+    /**
+     * @param mouseEvent
+     * @throws IOException
+     */
+    public void back(MouseEvent mouseEvent) throws IOException {
+        mainCtrl.timer.stop();
+        ((MPGameCtrl) mainCtrl.getControllers().get(6)).disconnectMessage();
+        this.mainCtrl.showSplash();
     }
 
     public void showIntermediaryLeaderboard(List<Player> leaderboardPlayers){
@@ -78,7 +95,7 @@ public class MPLeaderboardCtrl extends Controller{
 
             seconds--;
             progress+=0.2;
-            progressBar.setProgress(1.0-progress);
+            Platform.runLater(() -> progressBar.setProgress(1.0-progress));
 
             //if more than 15 seconds passed, move on to the next question
             if (seconds==0){

@@ -41,12 +41,6 @@ public class MPGameCtrl extends Controller {
      * FXML fields
      */
     @FXML
-    private TableView<Player> scoreboard;
-    @FXML
-    private TableColumn<Player, String> colNameScoreboard;
-    @FXML
-    private TableColumn<Player, Number> colScoreScoreboard;
-    @FXML
     private ImageView emo1IMG, emo2IMG, emo3IMG, emo4IMG, emo5IMG, emo6IMG;
     @FXML
     private TableColumn<Pair<String, ImageView>, String> nameCol;
@@ -72,13 +66,22 @@ public class MPGameCtrl extends Controller {
     private boolean onCooldown;
     private PauseTransition cooldown;
     private Player player;
+    private int score;
     private long lobbyId;
     private int round;
+
+    @FXML
+    private ImageView backImg;
     @FXML
     private Text questionNumber;
+    @FXML
+    private Text name;
+    @FXML
+    private Text scoreCount;
+    @FXML
+    private Text scoreAwarded;
 
     private Game game;
-    private ObservableList<Player> data;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -90,6 +93,11 @@ public class MPGameCtrl extends Controller {
         super(server, mainCtrl);
     }
 
+    @FXML
+    private void initialize() {
+        this.backImg.setImage(new Image("icons/back.png"));
+    }
+
     public int getRound() {
         return round;
     }
@@ -97,12 +105,13 @@ public class MPGameCtrl extends Controller {
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
      *
-     * @param actionEvent - pressing the back button triggers this function
+     * @param mouseEvent - pressing the back button triggers this function
      * @throws IOException - something went wrong with reading/writing/finding files
      */
     // TODO: Maybe it should also handle disconnecting, actually
-    public void back(ActionEvent actionEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
         mainCtrl.timer.stop();
+        disconnectMessage();
         this.mainCtrl.showSplash();
     }
 
@@ -120,6 +129,13 @@ public class MPGameCtrl extends Controller {
         this.player = player;
         this.round = 0;
         this.game = game;
+
+        name.setText(player.getUserName());
+        scoreCount.setText("Score: 0");
+        questionNumber.setText("1/20");
+
+        scoreAwardedVisibility(false, 0);
+
         simpleTimer();
 
         //display emoji when received
@@ -208,6 +224,8 @@ public class MPGameCtrl extends Controller {
         resetSeconds();
         mainCtrl.timer.start();
         questionNumber.setText(++round + "/20");
+
+        scoreAwardedVisibility(false, 0);
 
         System.out.println("Question class = " + q.getClass());
 
@@ -321,6 +339,35 @@ public class MPGameCtrl extends Controller {
      */
     public void resetSeconds() {
         this.seconds = 16;
+    }
+
+    /**
+     * @return score
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * @param score
+     */
+    public void setScore(int score) {
+        this.score = score;
+        this.scoreCount.setText("SCORE: " + score);
+    }
+
+    /**
+     * @param visible true iff scoreAwarded should be visible
+     * @param points the points awarded for a question
+     */
+
+    public void scoreAwardedVisibility(boolean visible, int points) {
+        if(visible) {
+            scoreAwarded.setVisible(true);
+            scoreAwarded.setText("+" + points);
+        } else {
+            scoreAwarded.setVisible(false);
+        }
     }
 
     public void sendEmoji(String kind) {
@@ -477,7 +524,11 @@ public class MPGameCtrl extends Controller {
      */
 
     public void disconnectMessage() {
+        try {
         sendEmoji("Disconnect");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /** Set visibility of cooldown text
@@ -487,10 +538,5 @@ public class MPGameCtrl extends Controller {
 
     public void visibleCooldown(boolean visible) {
         cooldownText.setVisible(visible);
-    }
-
-    public void refreshScoreboard() {
-        data = FXCollections.observableList(game.getPlayers());
-        scoreboard.setItems(data);
     }
 }

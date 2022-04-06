@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import server.Question.QuestionService;
 
+import java.net.http.WebSocket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +113,7 @@ public class GameManagementService {
      * @param roundPlayer the player that is updating their score
      */
     public void scoreUpdate(long id, RoundPlayer roundPlayer) {
+        System.out.println("Updating score for player: " + roundPlayer.getUserName());
         Game game = this.getById((int) id);
         // the amount of points the player wants to add
         int score = roundPlayer.getScore();
@@ -119,6 +121,7 @@ public class GameManagementService {
         // if the round the player is sending the score from doesn't match
         // the current round of the game then we don't give the player
         // points
+        System.out.println(game.getRound() + ":" + roundPlayer.getRound() + ":" + roundPlayer.getScore());
         if (game.getRound() != roundPlayer.getRound()) return;
 
         // we look through the players in the game to find the one
@@ -127,7 +130,7 @@ public class GameManagementService {
             if (player.getUserName().equals(roundPlayer.getUserName())) {
                 //the score of the player before adding to it
                 int currentScore = player.getScore();
-                player.setScore((score + currentScore));
+                player.setScore(score + currentScore);
             }
         }
     }
@@ -172,7 +175,7 @@ public class GameManagementService {
             //Send Scoreboard
             game.type = Type.LEADERBOARD;
             game.screen = Screen.LEADERBOARD;
-            game.setPlayers(game.getPlayers());
+            game.setPlayers(this.getById(id).getPlayers());
             System.out.println("Sending Leaderboard to client, id = " + id);
             simpMessagingTemplate.convertAndSend("/topic/game/" + id, game);
 

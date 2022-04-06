@@ -221,6 +221,8 @@ public class MPChoiceEstimationCtrl extends Controller {
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+        parentCtrl.scoreAwardedVisibility(true, addScore);
+        parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();
         int round = parentCtrl.getRound();
 

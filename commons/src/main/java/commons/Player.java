@@ -27,7 +27,7 @@ public class Player {
     public int score;
 
     @SuppressWarnings("unused")
-    private Player() {
+    public Player() {
         // for object mapper
     }
 

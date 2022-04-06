@@ -23,7 +23,7 @@
         </Text>
         <Button id="back" fx:id="backButton" layoutX="191.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #f1f1f1;">
             <graphic>
-                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="backImg" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@/icons/back.png" />
                     </image>
