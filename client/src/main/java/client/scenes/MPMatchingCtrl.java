@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class MPMatchingCtrl extends Controller {
 
@@ -133,6 +134,26 @@ public class MPMatchingCtrl extends Controller {
 
         final Button wrong12 = wrong2;
         temporaryChangeButtonColorWrong(wrong12);
+    }
+
+    /**
+     * Method for removing a random wrong answer - used for the bombJoker
+     */
+    public void removeWrongAnswer(){
+        Random rand = new Random();
+        int wrong = rand.nextInt(2);
+        if (answer1.getText().equals(correctActivityName)){
+            if (wrong == 0) answer2.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else if (answer2.getText().equals(correctActivityName)){
+            if (wrong == 0) answer1.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else{
+            if (wrong == 0) answer1.setDisable(true);
+            else answer2.setDisable(true);
+        }
     }
 
     /**

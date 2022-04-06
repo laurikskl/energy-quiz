@@ -16,6 +16,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  * This class handles the choiceEstimation question type, by:
@@ -125,6 +126,26 @@ public class MPChoiceEstimationCtrl extends Controller {
         correct.setStyle(correct.getStyle() + " -fx-background-color: #45ff9c; ");
         wrong1.setStyle(wrong1.getStyle() + " -fx-background-color: #ff4f75; ");
         wrong2.setStyle(wrong2.getStyle() + " -fx-background-color: #ff4f75; ");
+    }
+
+    /**
+     * Method for removing a random wrong answer - used for the bombJoker
+     */
+    public void removeWrongAnswer(){
+        Random rand = new Random();
+        int wrong = rand.nextInt(2);
+        if (answer1.getText().equals(correctText)){
+            if (wrong == 0) answer2.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else if (answer2.getText().equals(correctText)){
+            if (wrong == 0) answer1.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else{
+            if (wrong == 0) answer1.setDisable(true);
+            else answer2.setDisable(true);
+        }
     }
 
     /**
