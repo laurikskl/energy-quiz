@@ -54,7 +54,7 @@
         </TableView>
       <Button fx:id="refresh"
               layoutX="1325.0" layoutY="121.0"
-              mnemonicParsing="false" onAction="#refresh"
+              mnemonicParsing="false" onMouseClicked="#refresh"
               prefHeight="37.0" prefWidth="70.0"
               style="-fx-border-image-insets: 20; -fx-background-radius: 20;" text="REFRESH">
          <cursor>

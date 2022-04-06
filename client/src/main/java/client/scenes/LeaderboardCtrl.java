@@ -91,8 +91,9 @@ public class LeaderboardCtrl extends Controller {
     }
     /**
      * With this method, the player can refresh the Leaderboard table and see actual data.
+     * @param mouseEvent
      */
-  public void refresh() {
+  public void refresh(MouseEvent mouseEvent) {
 
     List<Player> leaderboardPlayers = server.getLeaderboard();
     List<PlayerForTable> leaderboardTable = new ArrayList<>();
