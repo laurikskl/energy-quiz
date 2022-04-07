@@ -115,22 +115,18 @@ public class LobbyCtrl extends Controller {
 
     private Callback<TableColumn<Player, String>, TableCell<Player, String>> getCustomCellFactory(Font font) {
         //credit to https://tousu.in/?qa=738424/
-        return new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
-
-            @Override
-            public TableCell<Player, String> call(TableColumn<Player, String> param) {
-                TableCell<Player, String> cell = new TableCell<Player, String>() {
-                    @Override
-                    public void updateItem(final String item, boolean empty) {
-                        if (item != null) {
-                            setText(item);
-                        }
+        return param -> {
+            TableCell<Player, String> cell = new TableCell<>() {
+                @Override
+                public void updateItem(final String item, boolean empty) {
+                    if (item != null) {
+                        setText(item);
                     }
-                };
-                cell.setFont(font);
-                cell.setStyle("-fx-font-size: 40px; ");
-                return cell;
-            }
+                }
+            };
+            cell.setFont(font);
+            cell.setStyle("-fx-font-size: 40px; ");
+            return cell;
         };
     }
 
@@ -140,7 +136,6 @@ public class LobbyCtrl extends Controller {
      * Unsubscribe from the websocket connection
      *
      * @param mouseEvent - pressing the back button triggers this function
-     * @throws IOException when files not found/misread
      */
 
     public void back(MouseEvent mouseEvent) {
@@ -191,8 +186,13 @@ public class LobbyCtrl extends Controller {
 
     public void createTable(List<Player> newPlayers) throws IOException {
         this.players = newPlayers;
-        table.getItems().setAll(players);
-        resetHint();
+        for(Player p : newPlayers) {
+            if(!table.getItems().contains(p)) {
+                table.getItems().add(p);
+            }
+        }
+        table.getItems().removeIf(p -> !newPlayers.contains(p));
+        table.refresh();
         resetPlayerAmount(players);
     }
 
