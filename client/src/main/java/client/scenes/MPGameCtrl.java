@@ -472,6 +472,8 @@ public class MPGameCtrl extends Controller {
                 break;
             case "BombJoker":
                 img = new Image(new FileInputStream("client/src/main/resources/icons/bombChat.png"));
+            case "doublePointsJoker":
+                img = new Image(new FileInputStream("client/src/main/resources/icons/doublePointsJoker.png"));
         }
 
         ImageView imgView = new ImageView();
@@ -635,5 +637,6 @@ public class MPGameCtrl extends Controller {
     public void doublePointsJoker(MouseEvent mouseEvent){
         setDoublePointJokerToUsed(true);
         doublePointsJoker.setDisable(true);
+        sendEmoji("doublePointsJoker");
     }
 }
