@@ -160,6 +160,13 @@ public class MPAccurateEstimationCtrl extends Controller{
      */
     public void handleScore() throws InterruptedException{
         int addScore = ScoreSystem.calculateScore(this.getTime(), finalAnswer, correctAnswer);
+
+        //double the score if the player is using the joker
+        if ( parentCtrl.isDoublePointJokerUsed() == true){
+            addScore = addScore * 2;
+            parentCtrl.setDoublePointJokerToUsed(false);
+        }
+
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();

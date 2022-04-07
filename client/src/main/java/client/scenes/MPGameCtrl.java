@@ -70,6 +70,7 @@ public class MPGameCtrl extends Controller {
     private int round;
     private Question currentQuestion;
     private boolean bombJokerUsed;
+    private boolean doublePointJoker = false;
 
     @FXML
     private ImageView backImg;
@@ -83,6 +84,8 @@ public class MPGameCtrl extends Controller {
     private Text scoreAwarded;
     @FXML
     private Button bombJoker;
+    @FXML
+    private Button doublePointsJoker;
 
     private Game game;
 
@@ -268,18 +271,41 @@ public class MPGameCtrl extends Controller {
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
+
             doMultiChoice((Question.MostNRGQuestion) q);
             if(!bombJokerUsed) bombJoker.setDisable(false);
+
+            disableJokerAfterUsing();
+
         } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
             if(!bombJokerUsed) bombJoker.setDisable(false);
+
+            disableJokerAfterUsing();
+
         } else if (q.getClass().equals(Question.Matching.class)) {
+
             doMatching((Question.Matching) q);
             if(!bombJokerUsed) bombJoker.setDisable(false);
+
+            disableJokerAfterUsing();
+
         } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+
             doAccurateEstimationQuestion((Question.AccurateEstimation) q);
             bombJoker.setDisable(true);
+
+            disableJokerAfterUsing();
+
         }
+
+    }
+
+    public void disableJokerAfterUsing (){
+
+        if (!isDoublePointJokerUsed()) doublePointsJoker.setDisable(false);
+        else doublePointsJoker.setDisable(true);
 
     }
 
@@ -593,5 +619,26 @@ public class MPGameCtrl extends Controller {
             }
         }
         return null;
+    }
+
+    /**
+     * Methods used for the doublePointsJoker.
+     */
+
+    /**
+     *
+     * @return
+     */
+    public boolean isDoublePointJokerUsed() {
+        return doublePointJoker;
+    }
+
+    public void setDoublePointJokerToUsed( boolean value){
+        doublePointJoker = value;
+    }
+
+    public void doublePointsJoker(MouseEvent mouseEvent){
+        setDoublePointJokerToUsed(true);
+        doublePointsJoker.setDisable(true);
     }
 }

@@ -272,6 +272,13 @@ public class MPMatchingCtrl extends Controller {
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+
+        //double the score if the player is using the joker
+        if ( parentCtrl.isDoublePointJokerUsed() == true){
+            addScore = addScore * 2;
+            parentCtrl.setDoublePointJokerToUsed(false);
+        }
+
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();
