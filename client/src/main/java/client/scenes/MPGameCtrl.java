@@ -70,6 +70,8 @@ public class MPGameCtrl extends Controller {
     private int round;
     private Question currentQuestion;
     private boolean bombJokerUsed;
+
+    //boolean value that is used to set if the joker for doubling points has been used
     private boolean doublePointJoker = false;
 
     @FXML
@@ -275,37 +277,22 @@ public class MPGameCtrl extends Controller {
             doMultiChoice((Question.MostNRGQuestion) q);
             if(!bombJokerUsed) bombJoker.setDisable(false);
 
-            disableJokerAfterUsing();
-
         } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
 
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
             if(!bombJokerUsed) bombJoker.setDisable(false);
-
-            disableJokerAfterUsing();
 
         } else if (q.getClass().equals(Question.Matching.class)) {
 
             doMatching((Question.Matching) q);
             if(!bombJokerUsed) bombJoker.setDisable(false);
 
-            disableJokerAfterUsing();
-
         } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
 
             doAccurateEstimationQuestion((Question.AccurateEstimation) q);
             bombJoker.setDisable(true);
 
-            disableJokerAfterUsing();
-
         }
-
-    }
-
-    public void disableJokerAfterUsing (){
-
-        if (!isDoublePointJokerUsed()) doublePointsJoker.setDisable(false);
-        else doublePointsJoker.setDisable(true);
 
     }
 
@@ -627,16 +614,24 @@ public class MPGameCtrl extends Controller {
 
     /**
      *
-     * @return
+     * @return if the joker has been used or not.
      */
     public boolean isDoublePointJokerUsed() {
         return doublePointJoker;
     }
 
+    /**
+     * Set if the joker was used to true.
+     * @param value
+     */
     public void setDoublePointJokerToUsed( boolean value){
         doublePointJoker = value;
     }
 
+    /**
+     * Method used when player uses the joker.
+     * @param mouseEvent
+     */
     public void doublePointsJoker(MouseEvent mouseEvent){
         setDoublePointJokerToUsed(true);
         doublePointsJoker.setDisable(true);

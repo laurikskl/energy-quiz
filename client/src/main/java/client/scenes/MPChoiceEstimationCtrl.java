@@ -240,10 +240,14 @@ public class MPChoiceEstimationCtrl extends Controller {
 
         //double the score if the player is using the joker
         if ( parentCtrl.isDoublePointJokerUsed() == true){
+            // double the score
             addScore = addScore * 2;
+            // reset the value of the joker after it's powerup has been used.
+            // however, the player won't be able to use it anymore, since
+            // the joker button is disabled after being clicked once.
             parentCtrl.setDoublePointJokerToUsed(false);
         }
-        
+
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();
