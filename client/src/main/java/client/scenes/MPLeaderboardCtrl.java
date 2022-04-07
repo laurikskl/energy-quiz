@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -39,8 +40,6 @@ public class MPLeaderboardCtrl extends Controller {
     @FXML
     private TableColumn<PlayerForTable, String> colScore;
 
-    private ObservableList<PlayerForTable> data;
-
     @Inject
     public MPLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
@@ -52,8 +51,8 @@ public class MPLeaderboardCtrl extends Controller {
     }
 
     /**
-     * @param mouseEvent
-     * @throws IOException
+     * @param mouseEvent - activated on button click
+     * @throws IOException - when something goes wrong in IO
      */
     public void back(MouseEvent mouseEvent) throws IOException {
         mainCtrl.timer.stop();
@@ -81,7 +80,7 @@ public class MPLeaderboardCtrl extends Controller {
         resetSeconds();
 
         mainCtrl.timer.start();
-        data = FXCollections.observableList(leaderboardTable);
+        ObservableList<PlayerForTable> data = FXCollections.observableList(leaderboardTable);
         table.setItems(data);
 
         // Place the place, username and score in the table.
@@ -102,10 +101,21 @@ public class MPLeaderboardCtrl extends Controller {
                     resetProgress();
                     progressBar.setProgress(1.0);
                     startNextQuestion();
-                    return;
                 });
             }
         });
+
+        //disable horizontal scrolling for table
+        table.addEventFilter(ScrollEvent.ANY, event -> {
+            if (event.getDeltaX() != 0) {
+                event.consume();
+            }
+        });
+
+        //aligning text in table
+        colPlace.setStyle("-fx-alignment: CENTER;");
+        colName.setStyle("-fx-alignment: CENTER;");
+        colScore.setStyle("-fx-alignment: CENTER;");
     }
 
     private void startNextQuestion() {

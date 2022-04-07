@@ -87,7 +87,7 @@ public class MainCtrl {
 
     private Scene display;
 
-    private ServerUtils server;
+    private final ServerUtils server;
     // Current scene as an enum
     private Screen current;
 
@@ -105,16 +105,16 @@ public class MainCtrl {
      * Acts as constructor
      *
      * @param primaryStage the primary stage
-     * @param /*scenes     List of pairs of Controller instances and roots for fxml loader
+     * @param scenes     List of pairs of Controller instances and roots for fxml loader
      */
     public void initialize(Stage primaryStage, List<Pair<Controller, Parent>> scenes) throws FileNotFoundException {
         this.primaryStage = primaryStage;
         this.controllers = new ArrayList<>();
         this.scenes = new ArrayList<>();
 
-        for (int i = 0; i < scenes.size(); i++) {
-            this.controllers.add(scenes.get(i).getKey());
-            this.scenes.add(scenes.get(i).getValue());
+        for (Pair<Controller, Parent> scene : scenes) {
+            this.controllers.add(scene.getKey());
+            this.scenes.add(scene.getValue());
         }
 
 
@@ -129,6 +129,7 @@ public class MainCtrl {
             this.scenes.get(6).getStylesheets().add(new File("client/src/main/resources/stylesheets/mp-game-screen.css").toURI().toURL().toExternalForm());
             this.scenes.get(7).getStylesheets().add(new File("client/src/main/resources/stylesheets/how2Play.css").toURI().toURL().toExternalForm());
             this.scenes.get(11).getStylesheets().add(new File("client/src/main/resources/stylesheets/endGame.css").toURI().toURL().toExternalForm());
+            this.scenes.get(18).getStylesheets().add(new File("client/src/main/resources/stylesheets/leaderboard.css").toURI().toURL().toExternalForm());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -165,9 +166,7 @@ public class MainCtrl {
                     System.out.println("Start MPGame");
                     try {
                         startMPGame(game);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                     break;
@@ -175,9 +174,7 @@ public class MainCtrl {
                     System.out.println("Do a question");
                     try {
                         doQuestion(game.getQuestion());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 case LEADERBOARD:
@@ -232,6 +229,10 @@ public class MainCtrl {
         showScene(this.scenes.get(0));
     }
 
+    /** Display the scoreboard after a question
+     *
+     * @param players - players in the game
+     */
     public void showScoreboard(List<Player> players){
         Platform.runLater(() -> {
             MPLeaderboardCtrl mpLeaderboardController = (MPLeaderboardCtrl) controllers.get(18);
@@ -275,14 +276,6 @@ public class MainCtrl {
      */
     public void showLobbyScreen() {
         Platform.runLater(() -> showScene(this.scenes.get(5)));
-
-//        //set up the lobby with the list of players
-//        LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
-//        try {
-//            ctrl.createLobby(players);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**
@@ -330,15 +323,13 @@ public class MainCtrl {
      * Load the MultipleChoice question frame
      * Enable buttons after the question for the next question
      *
-     * @param parentCtrl
-     * @param multiChoice
+     * @param parentCtrl - the parentController
+     * @param multiChoice - a multichoice question
      */
     public void startMC(Controller parentCtrl, Question multiChoice) throws MalformedURLException {
         MultiChoiceCtrl multiChoiceCtrl = (MultiChoiceCtrl) controllers.get(8);
         multiChoiceCtrl.start(parentCtrl, multiChoice);
-        Platform.runLater(() -> {
-            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8));
-        });
+        Platform.runLater(() -> ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(8)));
 
         multiChoiceCtrl.buttonsEnabled(true);
     }
@@ -347,71 +338,63 @@ public class MainCtrl {
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
      *
-     * @param parentCtrl
-     * @param choiceEstimation
+     * @param parentCtrl - the parent controller
+     * @param choiceEstimation - choice estimation question
      */
     public void startCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
         ChoiceEstimationCtrl choiceEstimationCtrl = (ChoiceEstimationCtrl) controllers.get(9);
         choiceEstimationCtrl.start(parentCtrl, choiceEstimation);
-        Platform.runLater(() -> {
-            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9));
-        });
+        Platform.runLater(() -> ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(9)));
         choiceEstimationCtrl.buttonsEnabled(true);
     }
 
     /**
      * Load the AccurateEstimation question frame
      *
-     * @param parentCtrl
-     * @param accurateEstimation
+     * @param parentCtrl - the parent controller
+     * @param accurateEstimation - accurate estimation question
      */
     public void startAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         AccurateEstimationCtrl accurateEstimationCtrl = (AccurateEstimationCtrl) controllers.get(12);
         accurateEstimationCtrl.start(parentCtrl, accurateEstimation);
-        Platform.runLater(() -> {
-            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12));
-        });
+        Platform.runLater(() -> ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(12)));
     }
 
 
     /**
      * Load the Matching question frame.
      *
-     * @param parentCtrl
-     * @param matching
-     * @throws MalformedURLException
+     * @param parentCtrl - parent controller
+     * @param matching - matching question
+     * @throws MalformedURLException - when URL not formed properly
      */
 
     public void startMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
         MatchingCtrl matchingCtrl = (MatchingCtrl) this.controllers.get(13);
         matchingCtrl.start(parentCtrl, matching);
-        Platform.runLater(() -> {
-            ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13));
-        });
+        Platform.runLater(() -> ((SPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(13)));
         matchingCtrl.buttonsEnabled(true);
     }
 
     /**
      * Method for setting the fxml of the disconnectMessage popup and displaying it
      *
-     * @param spGameCtrl
-     * @throws IOException
+     * @param spGameCtrl - instance of SPGame controller
      */
-    public void displayDisconnectMessage(SPGameCtrl spGameCtrl) throws IOException {
+    public void displayDisconnectMessage(SPGameCtrl spGameCtrl) {
         disconnectMessage.show(primaryStage);
     }
 
     /**
      * Method for hiding the disconnect message
-     *
-     * @throws IOException
      */
-    public void hideDisconnectMessage() throws IOException {
+    public void hideDisconnectMessage() {
         disconnectMessage.hide();
     }
 
     /**
      * Sets the PlayerObj
+     * @param game - the ongoing game lobby
      */
     public void startMPGame(Game game) throws IOException, InterruptedException {
         try {
@@ -425,8 +408,11 @@ public class MainCtrl {
      * Run the MPGameMultipleChoice question startGame method
      * Show the screen for MPGameMultipleChoice
      * Enable buttons after the question for the next question
+     *
+     * @param parentCtrl - the parent controller
+     * @param multiChoice - multichoice question
      */
-    public void MPstartMC(Controller parentCtrl, Question multiChoice) throws IOException {
+    public void MPstartMC(Controller parentCtrl, Question multiChoice) {
         MPMultiChoiceCtrl multiChoiceCtrl = (MPMultiChoiceCtrl) this.controllers.get(14);
 
         Platform.runLater(() -> {
@@ -444,9 +430,9 @@ public class MainCtrl {
     /**
      * Get the MPGameController and invoke a method doAQuestion from it
      *
-     * @param q
-     * @throws IOException
-     * @throws InterruptedException
+     * @param q - question to be done
+     * @throws IOException - exception concerning IO
+     * @throws InterruptedException - when doAQuestion gets interrupted
      */
     public void doQuestion(Question q) throws IOException, InterruptedException {
         MPGameCtrl ctrl = (MPGameCtrl) this.controllers.get(6);
@@ -457,16 +443,14 @@ public class MainCtrl {
      * Load the ChoiceEstimation question frame
      * Enable buttons after the question for the next question
      *
-     * @param parentCtrl
-     * @param choiceEstimation
+     * @param parentCtrl - the parent controller
+     * @param choiceEstimation - choice estimation question
      */
     public void MPstartCE(Controller parentCtrl, Question choiceEstimation) throws MalformedURLException {
         MPChoiceEstimationCtrl mpChoiceEstimationCtrl = ((MPChoiceEstimationCtrl) this.controllers.get(15));
         mpChoiceEstimationCtrl.start(parentCtrl, choiceEstimation);
 
-        Platform.runLater(() -> {
-            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(15));
-        });
+        Platform.runLater(() -> ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(15)));
 
         mpChoiceEstimationCtrl.buttonsEnabled(true);
     }
@@ -474,31 +458,27 @@ public class MainCtrl {
     /**
      * Load the AccurateEstimation question frame
      *
-     * @param parentCtrl
-     * @param accurateEstimation
+     * @param parentCtrl - the parent controller
+     * @param accurateEstimation - accurate estimation question
      */
     public void MPstartAE(Controller parentCtrl, Question accurateEstimation) throws MalformedURLException {
         MPAccurateEstimationCtrl mpAccurateEstimationCtrl = ((MPAccurateEstimationCtrl) this.controllers.get(16));
         mpAccurateEstimationCtrl.start(parentCtrl, accurateEstimation);
 
-        Platform.runLater(() -> {
-            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16));
-        });
+        Platform.runLater(() -> ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(16)));
     }
 
     /**
      * Load the AccurateEstimation question frame
      *
-     * @param parentCtrl
-     * @param matching
+     * @param parentCtrl - the parent controller
+     * @param matching - matching question
      */
     public void MPstartMatching(Controller parentCtrl, Question matching) throws MalformedURLException {
         MPMatchingCtrl mpMatchingCtrl = ((MPMatchingCtrl) this.controllers.get(17));
         mpMatchingCtrl.start(parentCtrl, matching);
 
-        Platform.runLater(() -> {
-            ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(17));
-        });
+        Platform.runLater(() -> ((MPGameCtrl) parentCtrl).getQuestionFrame().setCenter(this.scenes.get(17)));
 
         mpMatchingCtrl.buttonsEnabled(true);
     }
@@ -534,7 +514,7 @@ public class MainCtrl {
     }
 
     /**
-     *
+     * Update the lobby table
      */
     public void updateLobby(Game game) {
         LobbyCtrl ctrl = (LobbyCtrl) controllers.get(5);
