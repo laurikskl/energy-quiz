@@ -158,7 +158,7 @@ public class MPMatchingCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorWrong(Button button) {
-        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
