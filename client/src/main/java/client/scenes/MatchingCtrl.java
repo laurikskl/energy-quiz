@@ -25,6 +25,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class handles the Matching question type, by:
+ *  * - displaying the correlated question frame when a question of this type is generated
+ *  * - setting the information of the UI to the one generated in the question (activity with image) + 3 buttons with activities
+ *  * - handling the user input (pressing an answer button)
+ *  * - updating the score accordingly
+ */
 public class MatchingCtrl extends Controller{
 
     private Question matching;

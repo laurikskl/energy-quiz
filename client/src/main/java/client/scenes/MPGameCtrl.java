@@ -472,6 +472,7 @@ public class MPGameCtrl extends Controller {
                 break;
             case "BombJoker":
                 img = new Image(new FileInputStream("client/src/main/resources/icons/bombChat.png"));
+                break;
             case "doublePointsJoker":
                 img = new Image(new FileInputStream("client/src/main/resources/icons/doublePointsJoker.png"));
         }
