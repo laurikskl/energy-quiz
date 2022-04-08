@@ -38,7 +38,7 @@
                 <TableColumn fx:id="colScore" maxWidth="500.0" prefWidth="149.60015869140625" text="Score" />
             </columns>
         </TableView>
-      <Button fx:id="refresh" layoutX="1325.0" layoutY="121.0" mnemonicParsing="false" onAction="#refresh" prefHeight="37.0" prefWidth="70.0" style="-fx-border-image-insets: 20; -fx-background-radius: 20;" text="REFRESH">
+      <Button fx:id="refresh" layoutX="1325.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#refresh" prefHeight="37.0" prefWidth="70.0" style="-fx-border-image-insets: 20; -fx-background-radius: 20;" text="REFRESH">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
