@@ -23,9 +23,13 @@ You should download the game. You should have a stable internet connection in or
 
 In order for the game to work you should also download the folder containing the activities in the following way:
 
-1. Go to https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/tree/main/activities.
-2. Press the download icon and then under "download this directory" press the zip button.
-3. Unzip the file and put the activities folder in the project folder called repository-template by default.
+1. Go to https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/releases
+2. Get the zip folder containing activities and the activities.json file.
+3. Now in the application go to the admin panel and import the activities from this activities.json file, make sure you check override database.
+
+You should only have to do this once to get the activities into the server as they are stored in the database after importing.
+
+If launching a game still doesn't work, try deleting quizzz.mv and other .db files from the project folder.
 
 ## How to contribute to it
 
