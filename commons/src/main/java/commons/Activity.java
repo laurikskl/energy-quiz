@@ -33,13 +33,8 @@ import java.util.Objects;
 @Table
 public class Activity implements Comparable {
 
-    /**
-     * All fields for activities
-     */
-
-    @Id
+    @Column
     public String id;
-
     @Column
     public String name;
     @Column
@@ -49,6 +44,13 @@ public class Activity implements Comparable {
     @Column
     @Lob
     public byte[] imageContent;
+    /**
+     * All fields for activities
+     */
+
+    @Id
+    @GeneratedValue
+    private Long internalID;
 
 
     /**
@@ -96,7 +98,7 @@ public class Activity implements Comparable {
 
         byte[] imageContent = null;
 
-        if (Files.exists(imagePath)){
+        if (Files.exists(imagePath)) {
             try {
                 imageContent = Files.readAllBytes(imagePath);
             } catch (IOException e) {
@@ -105,6 +107,20 @@ public class Activity implements Comparable {
         }
 
         return new Activity(id, name, powerConsumption, source, imageContent);
+    }
+
+    /**
+     * @return internalId
+     */
+    public Long getInternalId() {
+        return this.internalID;
+    }
+
+    /**
+     * @param internalId
+     */
+    public void setInternalId(Long internalId) {
+        this.internalID = internalId;
     }
 
 
@@ -264,5 +280,4 @@ public class Activity implements Comparable {
         }
         return -1;
     }
-
 }

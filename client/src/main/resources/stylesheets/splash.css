@@ -1,3 +1,16 @@
+#root{
+    font-family: spartan;
+}
+
+.button {
+    -fx-background-color: #8DF5EE;
+}
+
+.button:hover {
+    -fx-background-color: #7259ff;
+    -fx-text-fill: #f1f1f1;
+}
+
 .mainButton {
     -fx-background-color: #7CCADE;
 }
@@ -30,3 +43,11 @@
     -fx-background-radius: 20;
 }
 
+#adminButton {
+    -fx-background-color: #8DF5EE;
+}
+
+#adminButton:hover {
+    -fx-background-color: #7259ff;
+    -fx-text-fill: #f1f1f1;
+}

@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -42,6 +42,8 @@ public class LobbyCtrl extends Controller {
     private ImageView hintIMG;
     @FXML
     private Button backButton;
+    @FXML
+    private Button playButton;
     @FXML
     private TableView<Player> table;
     @FXML
@@ -80,19 +82,20 @@ public class LobbyCtrl extends Controller {
     private void initialize() throws IOException {
         colName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().userName));
         hintIMG.setImage(new Image(new File("client/src/main/resources/icons/lightBulb.png").toURI().toURL().toString()));
+        playIMG.setImage(new Image(new File("client/src/main/resources/icons/playButton.png").toURI().toURL().toString()));
 
         //setting font everywhere
         Font font = Font.loadFont(new FileInputStream("client/src/main/resources/fonts/Spartan-Bold.ttf"), 25);
         colName.setCellFactory(getCustomCellFactory(font)); //setting font for table
-        for(Node node : anchor.getChildren()) {
-            if(node instanceof Text) {
+        for (Node node : anchor.getChildren()) {
+            if (node instanceof Text) {
                 ((Text) node).setFont(font);
             }
         }
         hintText.setFont(font);
-        playersText.setStyle("-fx-font-size: 35px;-fx-alignment: CENTER;");
-        hintText.setStyle("-fx-font-size: 20px");
-        pressToStart.setStyle("-fx-alignment: CENTER;-fx-font-size: 20px");
+        playersText.setStyle("-fx-font-size: 35px; -fx-alignment: CENTER; ");
+        hintText.setStyle("-fx-font-size: 20px; ");
+        pressToStart.setStyle("-fx-alignment: CENTER; -fx-font-size: 20px; ");
 
         //disable horizontal scrolling for table
         table.addEventFilter(ScrollEvent.ANY, event -> {
@@ -112,22 +115,18 @@ public class LobbyCtrl extends Controller {
 
     private Callback<TableColumn<Player, String>, TableCell<Player, String>> getCustomCellFactory(Font font) {
         //credit to https://tousu.in/?qa=738424/
-        return new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
-
-            @Override
-            public TableCell<Player, String> call(TableColumn<Player, String> param) {
-                TableCell<Player, String> cell = new TableCell<Player, String>() {
-                    @Override
-                    public void updateItem(final String item, boolean empty) {
-                        if (item != null) {
-                            setText(item);
-                        }
+        return param -> {
+            TableCell<Player, String> cell = new TableCell<>() {
+                @Override
+                public void updateItem(final String item, boolean empty) {
+                    if (item != null) {
+                        setText(item);
                     }
-                };
-                cell.setFont(font);
-                cell.setStyle("-fx-font-size: 40px");
-                return cell;
-            }
+                }
+            };
+            cell.setFont(font);
+            cell.setStyle("-fx-font-size: 40px; ");
+            return cell;
         };
     }
 
@@ -135,11 +134,11 @@ public class LobbyCtrl extends Controller {
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
      * Unsubscribe from the websocket connection
-     * @param actionEvent - pressing the back button triggers this function
-     * @throws IOException when files not found/misread
+     *
+     * @param mouseEvent - pressing the back button triggers this function
      */
 
-    public void back(ActionEvent actionEvent) {
+    public void back(MouseEvent mouseEvent) {
         leaveLobby();
         server.disconnect();
         getMainCtrl().showSplash();
@@ -149,8 +148,8 @@ public class LobbyCtrl extends Controller {
      * Removes the player from the lobby.
      */
 
-    public void leaveLobby(){
-        long id = getServer().getLobby();
+    public void leaveLobby() {
+        int id = getServer().getLobby();
         getServer().send("/app/game/" + id + "/lobby/leave", mainCtrl.thisPlayer);
     }
 
@@ -159,18 +158,24 @@ public class LobbyCtrl extends Controller {
      * Method that changes the stage to MPGameScreen
      * TODO: Should also be managing the start of the game, fetching questions etc.
      *
-     * @param actionEvent clicked mouse
+     * @param mouseEvent clicked mouse
      * @throws IOException when something goes wrong with files
      */
 
-    public void startGame(ActionEvent actionEvent) throws IOException {
-        //long id = getServer().getLobby();
+    public void startGame(MouseEvent mouseEvent) throws IOException {
+        playButton.setDisable(false);
+        long id = getServer().getLobby();
+        System.out.println("BUTTON PRESSED and disabled!!! id = " + id);
         String startGame = "Game started";
-        //getServer().send("/game/" + id + "/lobby/start", startGame);
-        getMainCtrl().showMPGame();
+        String startLobby = "Lobby added to gameService";
+        //Sends request to lobby to add current lobby to the game service
+        getServer().send("/app/game/" + id + "/lobby/start", startLobby);
+        //Sends request to GameManagementController to start a MP game
+        getServer().send("/app/game/" + id + "/startGame", startGame);
+
+        //getMainCtrl().showMPGame();
 
         // TODO: Start a session, forward other players to the game, fetch questions.
-
     }
 
     /**
@@ -181,9 +186,15 @@ public class LobbyCtrl extends Controller {
 
     public void createTable(List<Player> newPlayers) throws IOException {
         this.players = newPlayers;
-        table.getItems().setAll(players);
-        resetHint();
+        for (Player p : newPlayers) {
+            if (!table.getItems().contains(p)) {
+                table.getItems().add(p);
+            }
+        }
+        table.getItems().removeIf(p -> !newPlayers.contains(p));
+        table.refresh();
         resetPlayerAmount(players);
+        resetHint();
     }
 
 
@@ -194,7 +205,7 @@ public class LobbyCtrl extends Controller {
      */
 
     public void resetHint() throws IOException {
-        if(hints == null) {
+        if (hints == null) {
             //reading the hints and selecting a random one to display
             File hintDoc = new File("client/src/main/resources/main/Hints.txt");
             BufferedReader reader = new BufferedReader(new FileReader(hintDoc));
@@ -202,7 +213,7 @@ public class LobbyCtrl extends Controller {
             String line;
             do {
                 line = reader.readLine();
-                if(line != null) {
+                if (line != null) {
                     hints.add(line);
                 }
             } while (line != null);
@@ -223,19 +234,4 @@ public class LobbyCtrl extends Controller {
         this.players = players;
         playersText.setText("Players: " + players.size());
     }
-
-
-    /**
-     * The method called by EnterNameMultiplayerCtrl to get/create a lobby with a list of players
-     * It also sets FXML fields' values
-     *
-     * @param players the players in this lobby
-     */
-
-    public void createLobby(List<Player> players) throws IOException {
-        createTable(players);
-        resetHint();
-        resetPlayerAmount(players);
-    }
-
 }

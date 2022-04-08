@@ -4,8 +4,8 @@ import client.utils.ServerUtils;
 import commons.Question;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,8 +17,7 @@ import javafx.util.Duration;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
-//import java.io.File;
-import java.io.IOException;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Scanner;
@@ -102,11 +101,11 @@ public class AccurateEstimationCtrl extends Controller{
         Image img = new Image(new ByteArrayInputStream(byteArray));
 
         image.setImage(img);
-//        if(img.isError()) {
-//            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
-//        } else {
-//            image.setImage(img);
-//        }
+        if(img.isError()) {
+            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
+        } else {
+            image.setImage(img);
+        }
 
         activity.setText(accurateEstimation.getActivities().get(0).getName());
 
@@ -153,22 +152,11 @@ public class AccurateEstimationCtrl extends Controller{
             enterNumber.setDisable(true);
             showCorrect();
 
-            //Keep the same question while the correct answer shown
-            PauseTransition pause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            pause.setOnFinished(event -> {
-                try {
-                    parentCtrl.getTimer().stop();
-                    parentCtrl.refresh();
-                    parentCtrl.startNewQuestion(); //move to the next question
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            pause.play();
+            // Shows the question for 3 more seconds after an answer has been submitted,
+            // then moves on to the next question.
+            parentCtrl.setSeconds(4);
+            parentCtrl.refresh();
+
         }
         else {
             //If the user submitted text is not a Long, show an error
@@ -181,19 +169,19 @@ public class AccurateEstimationCtrl extends Controller{
      * then adding it to the existing score and updating the game screen
      */
     public void handleScore() throws InterruptedException{
-        //parentCtrl.scoreAwardedVisibility(true, addScore);
         int addScore = ScoreSystem.calculateScore(this.getTime(), finalAnswer, correctAnswer);
+        parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-//        PauseTransition pause = new PauseTransition(
-//                Duration.seconds(2)
-//        );
-//        pause.setOnFinished(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                parentCtrl.scoreAwardedVisibility(false, 0);
-//            }
-//        });
-//        pause.play();
+        PauseTransition pause = new PauseTransition(
+                Duration.seconds(2)
+        );
+        pause.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parentCtrl.scoreAwardedVisibility(false, 0);
+            }
+        });
+        pause.play();
     }
 
 }

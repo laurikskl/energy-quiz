@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import server.Activity.ActivityController;
 import server.database.ActivityRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -53,7 +50,7 @@ public class QuestionService {
         ArrayList<Question> questions = new ArrayList<>();
         while (questions.size() < 20) {
             Question q = getRandomQuestion();
-            if(q != null) {
+            if (q != null) {
                 questions.add(q);
             }
         }
@@ -66,7 +63,7 @@ public class QuestionService {
      */
 
     public Question getRandomQuestion() {
-        int randomType = random.nextInt(3);
+        int randomType = random.nextInt(4);
         switch (randomType) {
             case 0:
                 return getRandomMostNRG();
@@ -74,6 +71,8 @@ public class QuestionService {
                 return getRandomChoiceEstimation();
             case 2:
                 return getRandomAccurateEstimation();
+            case 3:
+                return getRandomMatching();
         }
         return null;
     }
@@ -136,75 +135,75 @@ public class QuestionService {
 
         //adding the correct answer at index 0
         long correct = activity.getPowerConsumption();
-
-        //ignore numbers that are too big for the question generation
-        if(correct >= 2000000000) {
-            return getRandomChoiceEstimation();
-        }
-        System.out.println(correct);
-
-        //finding out how many zeroes the correct answer has at the end
-        int zeroCount = zerosAtEnd(correct);
-        System.out.println("zeros " + zeroCount);
-
         List<Long> answers = new ArrayList<>();
         answers.add(correct);
 
+        //ignore numbers that are too big for the question generation
+        if (correct >= 2000000000) {
+            return getRandomChoiceEstimation();
+        }
+
+        //Taking care of small numbers
+        if(correct <= 10) {
+            while(answers.size() < 3) {
+                long rand = random.nextInt(10);
+                if(!answers.contains(rand) && rand > 0) {
+                    answers.add(rand);
+                }
+            }
+            return new Question.ChoiceEstimation(List.of(activity), answers);
+        }
+
+        //finding out how many zeroes the correct answer has at the end
+        int zeroCount = zerosAtEnd(correct);
+
+        //if zeros at end then all answers only differ in first digit
+        if(zeroCount > 0) {
+            char[] digits = String.valueOf(correct).toCharArray();
+            List<Character> firstdigits = new ArrayList<>(); //list containing first digits of all three answers
+            firstdigits.add(digits[0]);
+            while (firstdigits.size() < 3) {
+                int rand = random.nextInt( 10);
+                char toAdd = (char) ('0' + rand);
+                if(rand > 0 && !firstdigits.contains(toAdd)) {
+                    firstdigits.add(toAdd);
+                }
+            }
+            //creating two digit arrays and setting their first digit to the random digits
+            char[] answerTwo = digits.clone(), answerThree = digits.clone();
+            answerTwo[0] = firstdigits.get(1);
+            answerThree[0] = firstdigits.get(2);
+
+            //adding the char[]s as longs to the list of answers and returning a question of it
+            for(char[] digs : List.of(answerTwo, answerThree)) {
+                answers.add(Long.parseLong(String.valueOf(digs)));
+            }
+            return new Question.ChoiceEstimation(List.of(activity), answers);
+        }
+
+
+
         //setting random upper and lower bounds used in calculating min and max values
+        //to change the chance distribution of the answer being the middle one
         float lowerBound = -1L;
-        while(lowerBound <= 0) {
-            lowerBound = ThreadLocalRandom.current().nextLong(7L)/10F;
+        while (lowerBound <= 0) {
+            lowerBound = ThreadLocalRandom.current().nextLong(7L) / 10F;
         }
 
         float upperBound = -1;
-        while(upperBound <= 0) {
-            upperBound = ThreadLocalRandom.current().nextLong(5L)/10F;
+        while (upperBound <= 0) {
+            upperBound = ThreadLocalRandom.current().nextLong(5L) / 10F;
         }
 
         //adding two other answers with a maximum difference of lower/upper bound
         long min = Math.round(lowerBound * correct);
         long max = Math.round((upperBound + 1) * correct);
 
-        //fix the bug where the correct answer is quite small
-        if(correct <= 10) {
-            while(answers.size() < 3) {
-                long rand = random.nextInt(10);
-                if(!answers.contains(rand)) {
-                    answers.add(rand);
-                }
-            }
-        }
-
-
-
         while (answers.size() < 3) {
             long randomNumber = ThreadLocalRandom.current().nextLong(min,max + 1);
-            //for larger numbers make sure each answer has the same amount of zeros at end
-            /*
-            if(correct % 5F == 0 && zeroCount == 0) {
-                char[] digits = String.valueOf(correct).toCharArray();
-                int lastDigit = Integer.parseInt(String.valueOf(digits[digits.length - 1]));
-                //take care of numbers ending in 5
-                if(lastDigit == 5) {
-                    int digitsAmount = String.valueOf(randomNumber).toCharArray().length;
-                    while(Integer.parseInt(String.valueOf(String.valueOf(randomNumber).toCharArray()[digitsAmount - 1])) != 5 ||
-                            Integer.parseInt(String.valueOf(String.valueOf(randomNumber).toCharArray()[digitsAmount - 1])) != 10) {
-                        randomNumber++;
-                    }
-                }
-                if(zeroCount > 0) {
-                    for(int i = 0; i < zeroCount; i++) {
-                        Math.round(randomNumber /= 10F);
-                    }
-                    if(zerosAtEnd(randomNumber) > 0) {
-                        randomNumber += random.nextInt(10);
-                    }
-                    for(int i = 0; i < zeroCount; i++) {
-                        randomNumber *= 10F;
-                    }
-                }
-            }*/
-
+            if(zerosAtEnd(randomNumber) > 0) {
+                randomNumber += random.nextInt(10);
+            }
             if (!answers.contains(randomNumber) && randomNumber > 0) {
                 answers.add(randomNumber);
             }
@@ -221,7 +220,7 @@ public class QuestionService {
     public int zerosAtEnd(Long num) {
         long correctToDiv = num;
         int zeroCount = 0;
-        while(correctToDiv % 10L == 0) {
+        while (correctToDiv % 10L == 0) {
             correctToDiv /= 10L;
             zeroCount++;
         }
@@ -253,7 +252,7 @@ public class QuestionService {
     /**
      * @return a random question of type accurateEstimation
      */
-    public Question.AccurateEstimation getRandomAccurateEstimation(){
+    public Question.AccurateEstimation getRandomAccurateEstimation() {
         //Generate a random activity
         Activity activity = activityController.getRandomActivity();
         List<Activity> activities = new ArrayList<>();
@@ -262,5 +261,15 @@ public class QuestionService {
         activities.add(activity);
 
         return new Question.AccurateEstimation(activities, null);
+    }
+
+    /**
+     * reload activities inside a question from the database by id
+     * @param question question to repair
+     * @return repaired question
+     */
+    public Question repairQuestion(Question question) {
+        question.getActivities().forEach(activity -> activity.setImageContent(activityRepository.getById(activity.getInternalId()).getImageContent()));
+        return question;
     }
 }

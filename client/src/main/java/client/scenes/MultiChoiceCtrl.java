@@ -30,8 +30,6 @@ import java.time.Instant;
  */
 public class MultiChoiceCtrl extends Controller {
 
-    private ServerUtils server;
-    private MainCtrl mainCtrl;
     private Question multiChoice;
     private SPGameCtrl parentCtrl;
 
@@ -114,9 +112,9 @@ public class MultiChoiceCtrl extends Controller {
         answer3.setText(multiChoice.getActivities().get(2).getName());
 
         //Setting the colour of buttons when the question is initialized, so they don't stay the same colour after a question
-        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
-        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top;");
+        answer1.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; ");
+        answer2.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; ");
+        answer3.setStyle("-fx-pref-height: 450; -fx-pref-width: 360; -fx-background-radius: 20; -fx-background-color: #7CCADE; -fx-content-display: top; ");
     }
 
     /**
@@ -161,13 +159,6 @@ public class MultiChoiceCtrl extends Controller {
      */
     public void temporaryChangeButtonColorsCorrect(Button button){
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
-        });
-        pause.play();
     }
 
     /**
@@ -175,14 +166,7 @@ public class MultiChoiceCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorWrong(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            button.setStyle(button.getStyle() + " -fx-background-color: #7CCADE; "); //back to blue
-        });
-        pause.play();
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
     }
 
 
@@ -216,23 +200,8 @@ public class MultiChoiceCtrl extends Controller {
         //show which answer was the correct one (for 3 seconds)
         showCorrect();
 
-        //keep the same question while the correct answer shown
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion(); //move to the next question
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
-
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
     }
 
     /**
@@ -254,21 +223,9 @@ public class MultiChoiceCtrl extends Controller {
         buttonsEnabled(false);
 
         showCorrect();
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
 
     }
 
@@ -291,21 +248,9 @@ public class MultiChoiceCtrl extends Controller {
         buttonsEnabled(false);
 
         showCorrect();
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(3)
-        );
-        pause.setOnFinished(event -> {
-            try {
-                parentCtrl.getTimer().stop();
-                parentCtrl.refresh();
-                parentCtrl.startNewQuestion();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        pause.play();
+
+        parentCtrl.setSeconds(4);
+        parentCtrl.refresh();
 
     }
 

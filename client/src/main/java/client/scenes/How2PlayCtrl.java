@@ -45,7 +45,7 @@ public class How2PlayCtrl extends Controller{
      * Go back to the Splash Screen.
      * @param mouseEvent
      */
-    public void goBack(MouseEvent mouseEvent) {
+    public void back(MouseEvent mouseEvent) {
         getMainCtrl().showSplash();
         getMainCtrl().getPrimaryStage().show();
     }

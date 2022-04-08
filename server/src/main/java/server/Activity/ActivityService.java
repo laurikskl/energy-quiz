@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.database.ActivityRepository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -33,11 +33,9 @@ public class ActivityService {
 
     public Activity getRandomActivity() {
         int randomId = random.nextInt((int) repository.count());
-        List<Activity> activities = repository.findAll();
+        Optional<Activity> activity = repository.findById((long) randomId);
 
-        Activity activity = activities.get(randomId);
-
-        return activity;
+        return activity.get();
     }
 
 }

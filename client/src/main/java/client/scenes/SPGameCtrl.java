@@ -1,40 +1,25 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.Emoji;
 import commons.Player;
 import commons.Question;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableObjectValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import javafx.util.Pair;
 
 import javax.inject.Inject;
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Controller for single-player game screen
@@ -88,7 +73,6 @@ public class SPGameCtrl extends Controller {
 
     @FXML
     private Text counterTimer;
-    private Timer timer;
 
     /**
      * @param server   ServerUtils instance
@@ -113,25 +97,6 @@ public class SPGameCtrl extends Controller {
         this.qCount = 0;
         this.score = 0;
         this.questions = new ArrayList<>();
-        this.onCooldown = false;
-
-        //display emoji when received
-        server.registerForMessages("/topic/game/1/emoji", Emoji.class, emoji -> {
-            try {
-                displayEmoji(emoji);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        });
-
-        //setting up emoji cooldown for 4 seconds
-        cooldownText.setVisible(false);
-        this.cooldown = new PauseTransition(new Duration(4000));
-        cooldown.setOnFinished(event -> {
-            //turn off cooldown and set its text to invisible after 4 seconds
-            onCooldown = false;
-            cooldownText.setVisible(false);
-        });
 
         //if statement to make tests work
         if (name == null || scoreCount == null || questionNumber == null) {
@@ -140,54 +105,6 @@ public class SPGameCtrl extends Controller {
         name.setText(player.getUserName());
         scoreCount.setText("Score: 0");
         questionNumber.setText("1/20");
-
-        //setup for the chat
-        nameCol.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getKey()));
-        emojiCol.setCellValueFactory(q -> new ObservableObjectValue<>() {
-            @Override
-            public void addListener(InvalidationListener listener) {
-
-            }
-
-            @Override
-            public void removeListener(InvalidationListener listener) {
-
-            }
-
-            @Override
-            public ImageView get() {
-                return q.getValue().getValue();
-            }
-
-            @Override
-            public void addListener(ChangeListener<? super ImageView> listener) {
-
-            }
-
-            @Override
-            public void removeListener(ChangeListener<? super ImageView> listener) {
-
-            }
-
-            @Override
-            public ImageView getValue() {
-                return get();
-            }
-        });
-        nameCol.setPrefWidth(350);
-        emojiCol.setPrefWidth(70);
-        nameCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-        emo1IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/trophy.png")));
-        emo2IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/dead.png")));
-        emo3IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/kiss.png")));
-        emo4IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/laugh.png")));
-        emo5IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/sad.png")));
-        emo6IMG.setImage(new Image(new FileInputStream("client/src/main/resources/emoticons/smile.png")));
-        ImageView empty = new ImageView();
-        empty.setFitHeight(25);
-        for(int i = 0; i < 5; i++) {
-            chat.getItems().add(new Pair<>("", empty)); //filling with empty rows to not show: no content in table
-        }
 
         scoreAwardedVisibility(false, 0);
 
@@ -200,90 +117,13 @@ public class SPGameCtrl extends Controller {
                 System.out.println("Couldn't get questions from server");
             }
         }
+
         Collections.shuffle(questions);
 
+        simpleTimer();
+        mainCtrl.timer.stop();
         //start with first question
         doAQuestion(questions.get(0));
-    }
-
-    /**
-     * This method gets called everytime the game moves on to the next question.
-     * That is, either when the player has answered by pressing a button,
-     * or when the timer of 15 seconds per question runs out.
-     * @throws IOException when something goes wrong with file-reading or finding
-     * @throws InterruptedException when a question is interrupted
-     */
-    public void startNewQuestion() throws IOException, InterruptedException {
-
-        //for now, I will make the application exit after the player has done 20 questions
-        if (this.getqCount()==20) {
-            Platform.exit();
-        }
-        doAQuestion(questions.get(this.getqCount()));
-
-    }
-
-
-    /**
-     * @param visible true iff scoreAwarded should be visible
-     * @param points the points awarded for a question
-     */
-
-    public void scoreAwardedVisibility(boolean visible, int points) {
-        if(visible) {
-            scoreAwarded.setVisible(true);
-            scoreAwarded.setText("+" + points);
-        } else {
-            scoreAwarded.setVisible(false);
-        }
-    }
-
-
-    /**
-     * This method resets the text for the countdown timer every second.
-     * If the timer hit 0 seconds and the player has not answered, it calls the method
-     * to move on to the next question.
-     */
-    public void simpleTimer() {
-
-        resetSeconds();
-
-        timer = new Timer(1000, e -> {
-
-            seconds--;
-
-            //if more than 15 seconds passed, move on to the next question
-            if (seconds<0){
-
-                timer.stop();
-
-                try {
-                    startNewQuestion();
-                    return;
-                } catch (IOException | InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            counterTimer.setText(seconds + " seconds");
-        });
-
-        timer.start();
-
-    }
-
-    /**
-     * This method resets the seconds.
-     */
-    public void resetSeconds(){
-        this.seconds = 16;
-    }
-
-    /** Getter for question frame
-     *
-     * @return BorderPane of question frame
-     */
-    public BorderPane getQuestionFrame() {
-        return questionFrame;
     }
 
     /**
@@ -316,6 +156,115 @@ public class SPGameCtrl extends Controller {
     }
 
     /**
+     * This method gets called everytime the game moves on to the next question.
+     * That is, either when the player has answered by pressing a button,
+     * or when the timer of 15 seconds per question runs out.
+     * @throws IOException when something goes wrong with file-reading or finding
+     * @throws InterruptedException when a question is interrupted
+     */
+    public void startNewQuestion() throws IOException, InterruptedException {
+        //Checks if the user has reached 20 questions and finished his turn.
+        //If he did, show the final screen.
+        if (this.getqCount()==20) {
+            mainCtrl.timer.stop();
+            player.setScore(score);
+
+            //Sets the player in the database with the final score of this round.
+
+            if (server.getPlayer(player.userName)!=null && player.score < server.getPlayer(player.userName).getScore()){
+                //If current score is lower than the highest score of the player, keep his highest score.
+                server.setPlayer(player.userName, (int) server.getPlayer(player.userName).getScore());
+            }
+            else{
+                //If the player doesn't exist or had reached a higher score this round, set it with the highest score.
+                server.setPlayer(player.userName, player.score);
+            }
+
+            //Sets the screen with the final score of the player and then displays EndGame screen.
+            getMainCtrl().setEndGame(player.score);
+            getMainCtrl().showEndGame();
+
+            //With this line, the method stops generating a new question after the user reached the 20th question.
+            return;
+        }
+
+        doAQuestion(questions.get(this.getqCount()));
+    }
+
+    /**
+     * @param visible true iff scoreAwarded should be visible
+     * @param points the points awarded for a question
+     */
+
+    public void scoreAwardedVisibility(boolean visible, int points) {
+        if(visible) {
+            scoreAwarded.setVisible(true);
+            scoreAwarded.setText("+" + points);
+        } else {
+            scoreAwarded.setVisible(false);
+        }
+    }
+
+
+    /**
+     * This method resets the text for the countdown timer every second.
+     * If the timer hit 0 seconds and the player has not answered, it calls the method
+     * to move on to the next question.
+     */
+    public void simpleTimer() {
+
+        resetSeconds();
+
+        mainCtrl.timer = new Timer(1000, e -> {
+
+            seconds--;
+            counterTimer.setText(seconds + " seconds");
+
+            //if more than 15 seconds passed, move on to the next question
+            if (seconds==0){
+                Platform.runLater(() -> {
+                    mainCtrl.timer.stop();
+                    try {
+                        startNewQuestion();
+                        return;
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+            }
+        });
+
+        mainCtrl.timer.start();
+
+    }
+
+    /**
+     * This method resets the seconds.
+     */
+    public void resetSeconds(){
+        this.seconds = 16;
+    }
+
+    /**
+     * Update visible score and visible question counter.
+     */
+    public void refresh(){
+
+        scoreCount.setText(String.valueOf(score));
+        //questionNumber.setText(qCount + "/20");
+    }
+
+    /** Getter for question frame
+     *
+     * @return BorderPane of question frame
+     */
+    public BorderPane getQuestionFrame() {
+        return questionFrame;
+    }
+
+    /**
      * This method inserts the frame, gets time and correctness of the answer from the controller
      * Then it adds points to score accordingly, using ScoreSystem
      *
@@ -341,21 +290,10 @@ public class SPGameCtrl extends Controller {
      * This method inserts the frame, gets time and correctness of the answer from the controller
      * Then it adds points to score accordingly, using ScoreSystem
      *
-     * @param q current Matching question
-     * @throws IOException when file-reading or finding goes wrong
+     * @param matching current Matching question
      */
-    public void doMatching(Question.Matching q) throws IOException {
-        String pathToFxml = "client/src/main/resources/client/scenes/Matching.fxml";
-        URL url = new File(pathToFxml).toURI().toURL();
-        FXMLLoader fxmlLoader = new FXMLLoader(url);
-        Parent root = fxmlLoader.load();
-
-        //TODO: Create MatchingCtrl
-//        MatchingCtrl controller = fxmlLoader.<MatchingCtrl>getController();
-//        controller.initialize(server, mainCtrl, (Question.Matching) q);
-        Scene scene = new Scene(root);
-
-        questionFrame.setCenter(scene.getRoot());
+    public void doMatching(Question.Matching matching) throws IOException {
+        getMainCtrl().startMatching(this, matching);
     }
 
     /**
@@ -370,14 +308,15 @@ public class SPGameCtrl extends Controller {
     }
 
     /**
-     * This method takes you back to the splash screen when the back button is pressed
+     * This method displays a message when you press the back button in game, so you can confirm you want to exit
      *
      * @param mouseEvent click
      * @throws IOException when file not found or misread
      */
     public void back(MouseEvent mouseEvent) throws IOException {
-        //sets the scene back to the main screen
-        getMainCtrl().showSplash();
+        //shows popup
+        mainCtrl.timer.stop();
+        mainCtrl.displayDisconnectMessage(this);
     }
 
 
@@ -502,185 +441,22 @@ public class SPGameCtrl extends Controller {
             }
         }
         Collections.shuffle(questions);
-        /**
-         //iterate over all questions
-         for(Question q : questions) {
-         this.doAQuestion(q);
-         }
-         //overwrite high-score if the current score is higher
-         if(score > getServer().getPlayer(player.getUserName()).getScore()) {
-         getServer().setPlayer(player.getUserName(), score);
-         }*/
     }
 
     /**
-     * Update visible score and visible question counter.
-     */
-    public void refresh(){
-        scoreCount.setText(String.valueOf(score));
-        //questionNumber.setText(qCount + "/20");
-    }
-
-    /**
-     * This method returns the timer.
-     * @return timer
-     */
-    public Timer getTimer() {
-        return timer;
-    }
-
-
-    /** Tell the server this player sent a specific kind of emoji
      *
-     * @param kind the kind of emoji sent
+     * @return the text with how many seconds this has left
      */
-
-    public void sendEmoji(String kind) {
-        if(!onCooldown) {
-            //send emoji if not on cooldown
-            server.send("/app/game/" + 1 + "/lobby/emoji-received", new Emoji(player, kind));
-            onCooldown = true;
-            //start 4 second cooldown defined in initialize
-            cooldown.play();
-        } else {
-            //if on cooldown show cooldown text with time remaining
-            int timeLeft = 4 - (int) cooldown.currentTimeProperty().get().toSeconds();
-            if(timeLeft == 1) {
-                cooldownText.setText("Wait " + timeLeft + " second before sending another message");
-            } else {
-                cooldownText.setText("Wait " + timeLeft + " seconds before sending another message");
-            }
-            cooldownText.setVisible(true);
-        }
+    public Text getCounterTimer() {
+        return counterTimer;
     }
 
-
-    /** Displays emoji sent or received on the screen
-     *
-     * @param sent the emoji sent/received
-     * @throws FileNotFoundException when emoji image files not found
-     */
-
-    private void displayEmoji(Emoji sent) throws FileNotFoundException {
-        String name = sent.getSender().getUserName();
-        Image img = null;
-        switch(sent.getEmoji()) {
-            case "Dead":
-                img = new Image(new FileInputStream("client/src/main/resources/emoticons/dead.png"));
-                break;
-            case "Trophy":
-                img = new Image(new FileInputStream("client/src/main/resources/emoticons/trophy.png"));
-                break;
-            case "Kiss":
-                img = new Image(new FileInputStream("client/src/main/resources/emoticons/kiss.png"));
-                break;
-            case "Laugh":
-                img = new Image(new FileInputStream("client/src/main/resources/emoticons/laugh.png"));
-                break;
-            case "Smile":
-                img = new Image(new FileInputStream("client/src/main/resources/emoticons/smile.png"));
-                break;
-            case "Sad":
-                img = new Image(new FileInputStream("client/src/main/resources/emoticons/sad.png"));
-                break;
-        }
-
-        ImageView imgView = new ImageView();
-        imgView.setFitWidth(25);
-        imgView.setFitHeight(25);
-        imgView.setImage(img);
-
-        //adding message to the bottom of the chat by shifting all messages up by one
-        Pair<String, ImageView> toAdd = new Pair<>(name, imgView);
-        Stack<Pair<String, ImageView>> toStore = new Stack<>();
-        for(int i = 4; i > 0; i--) {
-            toStore.push(chat.getItems().get(i));
-        }
-        for(int i = 0; i < 4; i++) {
-            chat.getItems().set(i, toStore.pop());
-        }
-        chat.getItems().set(4, toAdd);
-
-        //remove message after 5 seconds
-        PauseTransition pause = new PauseTransition();
-        pause.setDuration(Duration.seconds(5));
-        pause.setOnFinished(event -> {
-            int index = chat.getItems().indexOf(toAdd);
-            if(index >= 0) {
-                chat.getItems().set(index, new Pair<>("", new ImageView()));
-            }
-        });
-        pause.play();
+    public int getSeconds() {
+        return seconds;
     }
 
-
-    /** Trophy emoji sent
-     *
-     * @param mouseEvent mouse clicked
-     */
-
-    public void TrophyEmoji(MouseEvent mouseEvent) {
-        sendEmoji("Trophy");
-    }
-
-
-    /** Dead emoji sent
-     *
-     * @param mouseEvent mouse clicked
-     */
-
-    public void DeadEmoji(MouseEvent mouseEvent) {
-        sendEmoji("Dead");
-    }
-
-
-    /** Laugh emoji sent
-     *
-     * @param mouseEvent mouse clicked
-     */
-
-    public void LaughEmoji(MouseEvent mouseEvent) {
-        sendEmoji("Laugh");
-    }
-
-
-    /** Kiss emoji sent
-     *
-     * @param mouseEvent mouse clicked
-     */
-
-    public void KissEmoji(MouseEvent mouseEvent) {
-        sendEmoji("Kiss");
-    }
-
-
-    /** Sad emoji sent
-     *
-     * @param mouseEvent mouse clicked
-     */
-
-    public void SadEmoji(MouseEvent mouseEvent) {
-        sendEmoji("Sad");
-    }
-
-
-    /** Smile emoji sent
-     *
-     * @param mouseEvent mouse clicked
-     */
-
-    public void SmileEmoji(MouseEvent mouseEvent) {
-        sendEmoji("Smile");
-    }
-
-
-    /** Set visibility of cooldown text
-     *
-     * @param visible true iff text should be visible
-     */
-
-    public void visibleCooldown(boolean visible) {
-       cooldownText.setVisible(visible);
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 
 

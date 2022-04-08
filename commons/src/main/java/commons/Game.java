@@ -1,16 +1,16 @@
 package commons;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Game {
-
-    private long id;
-    private int round;
-    private ArrayList<Player> players;
-    private ArrayList<Question> questions;
     public Type type;
     public Screen screen;
+    private long id;
+    private int round;
+    private List<Player> players;
+    private List<Question> questions;
+    private Question question; //Question used for the MP game
 
     /**
      * Create a Game Object
@@ -19,7 +19,7 @@ public class Game {
      * @param players   - the users participating in the game
      * @param questions - the list of questions used in the current game
      */
-    public Game(long id, ArrayList<Player> players, ArrayList<Question> questions) {
+    public Game(long id, List<Player> players, List<Question> questions) {
         this.id = id;
         this.players = players;
         this.questions = questions;
@@ -64,7 +64,7 @@ public class Game {
      *
      * @return players
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -73,7 +73,7 @@ public class Game {
      *
      * @param players
      */
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
@@ -82,12 +82,31 @@ public class Game {
      *
      * @return questions
      */
-    public ArrayList<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
     /**
+     * Getter for the current question
+     *
+     * @return question for the MP game
+     */
+    public Question getQuestion() {
+        return question;
+    }
+
+    /**
+     * Setter for the current question
+     *
+     * @param question - question for the MP game
+     */
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    /**
      * Equals method.
+     *
      * @param o an object
      * @return boolean if equals
      */
@@ -101,7 +120,7 @@ public class Game {
         }
         Game game = (Game) o;
         return id == game.id && round == game.round && Objects.equals(players, game.players) &&
-            Objects.equals(questions, game.questions);
+                Objects.equals(questions, game.questions);
     }
 
     @Override

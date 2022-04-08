@@ -1,6 +1,10 @@
 package commons;
 
 public enum Type {
-  LOBBYUPDATE,
-  EMOJI
+    LOBBYUPDATE,
+    EMOJI,
+    STARTMP,
+    NOTHING,
+    QUESTION,
+    LEADERBOARD
 }

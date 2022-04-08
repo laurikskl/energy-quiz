@@ -14,10 +14,19 @@
     -fx-background-color: #6639D4;
 }
 
-.back-button{
-    -fx-background-color: #f1f1f1;
+.tab-pane *.tab-header-area *.tab-header-background {
+  -fx-background-color:transparent;
 }
 
-.tab-pane{
-    -fx-background-color: #7CCADE;
+.tab{
+    -fx-background-color: #8DF5EE;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-border-width: 5px;
+}
+
+.tab:selected{
+    -fx-background-color: #6639D4;
+    -fx-text-base-color: #f1f1f1;
+    -fx-focus-color: #6639D4;
 }

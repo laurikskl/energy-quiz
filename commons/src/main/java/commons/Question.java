@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -28,7 +26,6 @@ public abstract class Question {
      * activities is the list of activities used in a question
      * correct is the correct activity if applicable
      */
-
     private List<Activity> activities;
     private List<Long> consumptions;
     private Activity correct;
@@ -37,7 +34,6 @@ public abstract class Question {
     /**
      * @param activities the list of activities used in a question
      */
-
     public Question(List<Activity> activities, List<Long> consumptions) {
         this.activities = activities;
         this.consumptions = consumptions;
@@ -47,7 +43,6 @@ public abstract class Question {
     /**
      * @return the correct Activity
      */
-
     public Activity getCorrect() {
         return correct;
     }
@@ -55,7 +50,6 @@ public abstract class Question {
     /**
      * @param correct the correct Activity
      */
-
     public void setCorrect(Activity correct) {
         this.correct = correct;
     }
@@ -63,13 +57,18 @@ public abstract class Question {
     /**
      * @return the list of activities
      */
-
     public List<Activity> getActivities() {
         return activities;
     }
 
     /**
-     *
+     * @param activities the list of activities
+     */
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
+    /**
      * @return the list of consumptions
      */
     public List<Long> getConsumptions() {
@@ -77,11 +76,15 @@ public abstract class Question {
     }
 
     /**
-     * @param activities the list of activities
+     * Set images to null for all the activities in this question
+     * Useful when we need to send question with web socket
      */
-
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
+    public void deleteImages() {
+        for (Activity act : this.activities) {
+            act.setImageContent(null);
+        }
+        if (correct != null)
+            correct.setImageContent(null);
     }
 
     /**
@@ -171,18 +174,7 @@ public abstract class Question {
 
         public Matching(List<Activity> activities, List<Long> consumptions) {
             super(activities, consumptions);
-            setCorrect(activities.get(1));
-            ArrayList<Activity> newList = new ArrayList<>();
-            newList.add(activities.get(0));
-            ArrayList<Activity> subset = new ArrayList<>();
-            for(int i = 1; i < activities.size(); i++) {
-                subset.add(activities.get(i));
-            }
-            Collections.shuffle(subset);
-            newList.addAll(subset);
-            setActivities(newList);
         }
-
     }
 
     /**
@@ -203,8 +195,7 @@ public abstract class Question {
         }
 
         /**
-         *
-         * @param activities - the activity used for this question (at index 0)
+         * @param activities   - the activity used for this question (at index 0)
          * @param consumptions - the consumption of the activity (also at index 0)
          */
         public AccurateEstimation(List<Activity> activities, List<Long> consumptions) {

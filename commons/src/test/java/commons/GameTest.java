@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
 
@@ -58,6 +61,9 @@ class GameTest {
         assertNotNull(game);
     }
 
+    @Test
+    void emptyConstructor(){assertNotNull(new Game());}
+
     /**
      * Testing if the id is right
      */
@@ -106,5 +112,28 @@ class GameTest {
     @Test
     void getQuestions() {
         assertEquals(questions, game.getQuestions());
+    }
+
+    @Test
+    void getQuestion(){
+        Question question2 = this.question;
+        assertNull(game.getQuestion());
+    }
+
+    @Test
+    void setQuestion() {
+        Question question = new Question.MostNRGQuestion(activities, activity2, null);
+        Question question2 = new Question.MostNRGQuestion(activities, activity1, null);
+        game.setQuestion(question2);
+        assertFalse(game.getQuestion().equals(question));
+    }
+
+    @Test
+    void testEquals(){
+
+    }
+    @Test
+    void testHash(){
+        assertTrue(game.hashCode() == (game.hashCode()));
     }
 }
