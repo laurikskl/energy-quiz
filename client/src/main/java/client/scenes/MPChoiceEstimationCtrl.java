@@ -16,6 +16,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  * This class handles the choiceEstimation question type, by:
@@ -128,6 +129,26 @@ public class MPChoiceEstimationCtrl extends Controller {
     }
 
     /**
+     * Method for removing a random wrong answer - used for the bombJoker
+     */
+    public void removeWrongAnswer(){
+        Random rand = new Random();
+        int wrong = rand.nextInt(2);
+        if (answer1.getText().equals(correctText)){
+            if (wrong == 0) answer2.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else if (answer2.getText().equals(correctText)){
+            if (wrong == 0) answer1.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else{
+            if (wrong == 0) answer1.setDisable(true);
+            else answer2.setDisable(true);
+        }
+    }
+
+    /**
      * Getter for the time spent on a question
      *
      * @return
@@ -216,6 +237,17 @@ public class MPChoiceEstimationCtrl extends Controller {
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+
+        //double the score if the player is using the joker
+        if ( parentCtrl.isDoublePointJokerUsed() == true){
+            // double the score
+            addScore = addScore * 2;
+            // reset the value of the joker after it's powerup has been used.
+            // however, the player won't be able to use it anymore, since
+            // the joker button is disabled after being clicked once.
+            parentCtrl.setDoublePointJokerToUsed(false);
+        }
+
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();
