@@ -24,6 +24,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class handles the Matching question type in MULTIPLAYER games, by:
+ *  * - displaying the correlated question frame when a question of this type is generated
+ *  * - setting the information of the UI to the one generated in the question (activity with image) + 3 buttons with activities
+ *  * - handling the user input (pressing an answer button)
+ *  * - updating the score accordingly
+ */
 public class MPMatchingCtrl extends Controller {
 
     private Question matching;

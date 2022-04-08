@@ -78,8 +78,6 @@ public class EnterNameSinglePlayerCtrl extends Controller {
                 } catch (Exception e) { //this should only happen when the server is null
                     player = new Player(usernameString, 0);
                 }
-//            super.getMainCtrl().startSPGame(player, server);
-//            super.getMainCtrl().showSPGame();
                 getMainCtrl().startSPGame(player, getServer());
                 getMainCtrl().showSPGame();
             }

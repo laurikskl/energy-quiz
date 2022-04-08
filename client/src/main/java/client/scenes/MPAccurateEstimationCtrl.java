@@ -20,7 +20,7 @@ import java.time.Instant;
 import java.util.Scanner;
 
 /**
- * This class handles the accurateEstimation question type, by:
+ * This class handles the accurateEstimation question type in MULTIPLAYER game, by:
  * - displaying the correlated question frame when a question of this type is generated
  * - setting the information of the UI to the one generated in the question (activity with image)
  * - handling the user input (entering text in the textField)

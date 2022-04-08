@@ -22,7 +22,7 @@ import java.time.Instant;
 import java.util.Random;
 
 /**
- * This class handles the multiChoice question type, by:
+ * This class handles the multiChoice question type in MULTIPLAYER games, by:
  * - displaying the correlated question frame when a question of this type is generated
  * - setting the information of the UI to the one generated in the question (3 buttons each displaying an activity with an image)
  * - handling the user input (the user pressing one of the 3 buttons)

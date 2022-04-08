@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * This class handles the choiceEstimation question type, by:
+ * This class handles the choiceEstimation question type in MULTIPLAYER game, by:
  * - displaying the correlated question frame when a question of this type is generated
  * - setting the information of the UI to the one generated in the question (activity with image + answers)
  * - handling the user input (the user pressing one of the 3 buttons)

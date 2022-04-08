@@ -418,6 +418,12 @@ public class MPGameCtrl extends Controller {
         }
     }
 
+
+    /** Notify the server that this player sent a specific kind of emoji
+     *
+     * @param kind the kind of emoji
+     */
+
     public void sendEmoji(String kind) {
         if (!onCooldown) {
             //send emoji if not on cooldown
@@ -472,6 +478,7 @@ public class MPGameCtrl extends Controller {
                 break;
             case "BombJoker":
                 img = new Image(new FileInputStream("client/src/main/resources/icons/bombChat.png"));
+                break;
             case "doublePointsJoker":
                 img = new Image(new FileInputStream("client/src/main/resources/icons/doublePointsJoker.png"));
         }
