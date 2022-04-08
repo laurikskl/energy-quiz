@@ -76,7 +76,7 @@ public class MPLeaderboardCtrl extends Controller {
             // Add the player with his place to the leaderboard.
             leaderboardTable.add(playerWithPlace);
         }
-        progressBar.setStyle("-fx-accent: #6639D4");
+        progressBar.setStyle("-fx-accent: #6639D4;");
         resetSeconds();
 
         mainCtrl.timer.start();
