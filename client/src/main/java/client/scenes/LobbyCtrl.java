@@ -186,14 +186,15 @@ public class LobbyCtrl extends Controller {
 
     public void createTable(List<Player> newPlayers) throws IOException {
         this.players = newPlayers;
-        for(Player p : newPlayers) {
-            if(!table.getItems().contains(p)) {
+        for (Player p : newPlayers) {
+            if (!table.getItems().contains(p)) {
                 table.getItems().add(p);
             }
         }
         table.getItems().removeIf(p -> !newPlayers.contains(p));
         table.refresh();
         resetPlayerAmount(players);
+        resetHint();
     }
 
 
@@ -233,19 +234,4 @@ public class LobbyCtrl extends Controller {
         this.players = players;
         playersText.setText("Players: " + players.size());
     }
-
-
-    /**
-     * The method called by EnterNameMultiplayerCtrl to get/create a lobby with a list of players
-     * It also sets FXML fields' values
-     *
-     * @param players the players in this lobby
-     */
-
-    public void createLobby(List<Player> players) throws IOException {
-        createTable(players);
-        resetHint();
-        resetPlayerAmount(players);
-    }
-
 }

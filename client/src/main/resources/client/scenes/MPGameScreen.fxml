@@ -37,7 +37,7 @@
         </Text>
         <HBox layoutX="449.0" layoutY="14.0" prefHeight="107.0" prefWidth="354.0" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="100.0">
             <children>
-                <Button id="bomb-joker" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button">
+                <Button id="bomb-joker" fx:id="bombJoker" mnemonicParsing="false" onMouseClicked="#removeAnswerJoker" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button">
                     <graphic>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" translateX="12.0">
                             <image>
@@ -52,19 +52,7 @@
                         <Insets right="23.0" />
                     </padding>
                 </Button>
-                <Button id="timer-joker" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button">
-                    <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@/icons/clock.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <HBox.margin>
-                        <Insets right="20.0" />
-                    </HBox.margin>
-                </Button>
-                <Button id="points-joker" mnemonicParsing="false" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button" textFill="#f1f1f1">
+                <Button fx:id="doublePointsJoker" mnemonicParsing="false" onMouseClicked="#doublePointsJoker" style="-fx-background-color: #6639D4; -fx-background-radius: 90; -fx-pref-height: 100; -fx-pref-width: 100;" styleClass="joker-button" textFill="#f1f1f1">
                     <font>
                         <Font size="36.0" />
                     </font>

@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class MPMatchingCtrl extends Controller {
 
@@ -136,6 +137,26 @@ public class MPMatchingCtrl extends Controller {
     }
 
     /**
+     * Method for removing a random wrong answer - used for the bombJoker
+     */
+    public void removeWrongAnswer(){
+        Random rand = new Random();
+        int wrong = rand.nextInt(2);
+        if (answer1.getText().equals(correctActivityName)){
+            if (wrong == 0) answer2.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else if (answer2.getText().equals(correctActivityName)){
+            if (wrong == 0) answer1.setDisable(true);
+            else answer3.setDisable(true);
+        }
+        else{
+            if (wrong == 0) answer1.setDisable(true);
+            else answer2.setDisable(true);
+        }
+    }
+
+    /**
      * This method changes the color of the correct answer for 3 seconds.
      *
      * @param button - the answer to be changed
@@ -158,7 +179,7 @@ public class MPMatchingCtrl extends Controller {
      * @param button - the answer to be changed
      */
     public void temporaryChangeButtonColorWrong(Button button) {
-        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
@@ -251,6 +272,18 @@ public class MPMatchingCtrl extends Controller {
      */
     public void handleCorrect() throws InterruptedException {
         int addScore = ScoreSystem.calculateScore(this.getTime());
+
+        //double the score if the player is using the joker
+        if ( parentCtrl.isDoublePointJokerUsed() == true){
+            // double the score
+            addScore = addScore * 2;
+            // reset the value of the joker after it's powerup has been used.
+            // however, the player won't be able to use it anymore, since
+            // the joker button is disabled after being clicked once.
+            parentCtrl.setDoublePointJokerToUsed(false);
+        }
+
+
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
         String username = mainCtrl.thisPlayer.getUserName();

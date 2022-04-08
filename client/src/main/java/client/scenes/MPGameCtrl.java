@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -26,6 +27,7 @@ import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -66,6 +68,11 @@ public class MPGameCtrl extends Controller {
     private int score;
     private long lobbyId;
     private int round;
+    private Question currentQuestion;
+    private boolean bombJokerUsed;
+
+    //boolean value that is used to set if the joker for doubling points has been used
+    private boolean doublePointJoker = false;
 
     @FXML
     private ImageView backImg;
@@ -77,6 +84,10 @@ public class MPGameCtrl extends Controller {
     private Text scoreCount;
     @FXML
     private Text scoreAwarded;
+    @FXML
+    private Button bombJoker;
+    @FXML
+    private Button doublePointsJoker;
 
     private Game game;
 
@@ -112,6 +123,34 @@ public class MPGameCtrl extends Controller {
         this.mainCtrl.showSplash();
     }
 
+    /**
+     * Method that handles user pressing the "remove one incorrect answer" joker
+     * @param mouseEvent
+     * @throws IOException
+     */
+    public void removeAnswerJoker(MouseEvent mouseEvent) throws IOException {
+        if(currentQuestion.getClass().equals(Question.ChoiceEstimation.class)) {
+            MPChoiceEstimationCtrl mpChoiceEstimationCtrl = findController(MPChoiceEstimationCtrl.class);
+            if (mpChoiceEstimationCtrl != null) {
+                mpChoiceEstimationCtrl.removeWrongAnswer();
+            }
+        }
+        else if (currentQuestion.getClass().equals(Question.MostNRGQuestion.class)) {
+            MPMultiChoiceCtrl mpMultiChoiceCtrl = findController(MPMultiChoiceCtrl.class);
+            if (mpMultiChoiceCtrl != null) {
+                mpMultiChoiceCtrl.removeWrongAnswer();
+            }
+        }
+        else if (currentQuestion.getClass().equals(Question.Matching.class)) {
+            MPMatchingCtrl mpMatchingCtrl = findController(MPMatchingCtrl.class);
+            if (mpMatchingCtrl != null) {
+                mpMatchingCtrl.removeWrongAnswer();
+            }
+        }
+        bombJoker.setDisable(true);
+        bombJokerUsed = true;
+        sendEmoji("BombJoker");
+    }
 
     /**
      * Called when starting a game
@@ -130,6 +169,8 @@ public class MPGameCtrl extends Controller {
         name.setText(player.getUserName());
         scoreCount.setText("Score: 0");
         questionNumber.setText("1/20");
+
+        bombJokerUsed = false;
 
         scoreAwardedVisibility(false, 0);
 
@@ -217,6 +258,7 @@ public class MPGameCtrl extends Controller {
      */
     public void doAQuestion(Question q) throws IOException, InterruptedException {
         //Question has been run
+        currentQuestion = q;
         System.out.println("Question has started!");
         resetSeconds();
         mainCtrl.timer.start();
@@ -231,13 +273,25 @@ public class MPGameCtrl extends Controller {
 
         //Choose which type of question it is and load the appropriate frame with its controller
         if (q.getClass().equals(Question.MostNRGQuestion.class)) {
+
             doMultiChoice((Question.MostNRGQuestion) q);
+            if(!bombJokerUsed) bombJoker.setDisable(false);
+
         } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+
             doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
+            if(!bombJokerUsed) bombJoker.setDisable(false);
+
         } else if (q.getClass().equals(Question.Matching.class)) {
+
             doMatching((Question.Matching) q);
+            if(!bombJokerUsed) bombJoker.setDisable(false);
+
         } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+
             doAccurateEstimationQuestion((Question.AccurateEstimation) q);
+            bombJoker.setDisable(true);
+
         }
 
     }
@@ -422,6 +476,10 @@ public class MPGameCtrl extends Controller {
             case "Disconnect": //we treat the disconnect message as an emoji for convenience
                 img = new Image(new FileInputStream("client/src/main/resources/icons/disconnect.png"));
                 break;
+            case "BombJoker":
+                img = new Image(new FileInputStream("client/src/main/resources/icons/bombChat.png"));
+            case "doublePointsJoker":
+                img = new Image(new FileInputStream("client/src/main/resources/icons/doublePointsJoker.png"));
         }
 
         ImageView imgView = new ImageView();
@@ -539,5 +597,52 @@ public class MPGameCtrl extends Controller {
 
     public void visibleCooldown(boolean visible) {
         cooldownText.setVisible(visible);
+    }
+
+    /**
+     * Helper method, removeWrongAnswer() gave errors when used in a static context, so I had to
+     * provide a correct controller
+     * @param controllerClass
+     * @param <T>
+     * @return
+     */
+    private <T extends Controller> T findController(Class<T> controllerClass) {
+        List<Controller> controllers = mainCtrl.getControllers();
+        for (Controller controller : controllers) {
+            if (controller.getClass().getName().equals(controllerClass.getName())) {
+                return (T) controller;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Methods used for the doublePointsJoker.
+     */
+
+    /**
+     *
+     * @return if the joker has been used or not.
+     */
+    public boolean isDoublePointJokerUsed() {
+        return doublePointJoker;
+    }
+
+    /**
+     * Set if the joker was used to true.
+     * @param value
+     */
+    public void setDoublePointJokerToUsed( boolean value){
+        doublePointJoker = value;
+    }
+
+    /**
+     * Method used when player uses the joker.
+     * @param mouseEvent
+     */
+    public void doublePointsJoker(MouseEvent mouseEvent){
+        setDoublePointJokerToUsed(true);
+        doublePointsJoker.setDisable(true);
+        sendEmoji("doublePointsJoker");
     }
 }
