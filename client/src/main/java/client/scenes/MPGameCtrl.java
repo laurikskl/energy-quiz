@@ -364,6 +364,12 @@ public class MPGameCtrl extends Controller {
         }
     }
 
+
+    /** Notify the server that this player sent a specific kind of emoji
+     *
+     * @param kind the kind of emoji
+     */
+
     public void sendEmoji(String kind) {
         if (!onCooldown) {
             //send emoji if not on cooldown
