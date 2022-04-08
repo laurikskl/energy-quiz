@@ -55,34 +55,37 @@ public class EnterNameSinglePlayerCtrl extends Controller {
      */
     @FXML
     public void startGame(MouseEvent actionEvent) throws IOException, InterruptedException {
+        if (this.server.checkServer() && this.server.connect()) {
+            usernameString = userName.getText();
 
-        usernameString = userName.getText();
+            //if the user doesn't provide a username, send a warning text
+            if (usernameString.isEmpty()) warningText.setText("Please provide a name!");
+            else if (usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
 
-        //if the user doesn't provide a username, send a warning text
-        if(usernameString.isEmpty()) warningText.setText("Please provide a name!");
-        else if(usernameString.length() > 15) warningText.setText("Your name can be 15 characters at most!");
-
-        else {
-            //fetch player from database, if it doesn't exist store a new player with score 0
-            Player player;
-            try {
-
-                player = getServer().getPlayer(usernameString);
-
-                if (player == null) {
-                    player = new Player(usernameString, 0);
-                    getServer().setPlayer(usernameString, 0);
-                }
-                else {
+            else {
+                //fetch player from database, if it doesn't exist store a new player with score 0
+                Player player;
+                try {
                     player = getServer().getPlayer(usernameString);
+
+                    if (player == null) {
+                        player = new Player(usernameString, 0);
+                        getServer().setPlayer(usernameString, 0);
+                    }
+                    else {
+                        player = getServer().getPlayer(usernameString);
+                    }
+                } catch (Exception e) { //this should only happen when the server is null
+                    player = new Player(usernameString, 0);
                 }
-            } catch (Exception e) { //this should only happen when the server is null
-                player = new Player(usernameString, 0);
-            }
 //            super.getMainCtrl().startSPGame(player, server);
 //            super.getMainCtrl().showSPGame();
-            getMainCtrl().startSPGame(player, getServer());
-            getMainCtrl().showSPGame();
+                getMainCtrl().startSPGame(player, getServer());
+                getMainCtrl().showSPGame();
+            }
+        }
+        else {
+            this.warningText.setText("Couldn't connect to the server");
         }
 
     }

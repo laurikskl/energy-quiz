@@ -99,6 +99,16 @@ public class Main extends Application {
         scenes.add(FXML.load(AccurateEstimationCtrl.class,"client", "scenes", "AccurateEstimation.fxml" ));
         //13
         scenes.add(FXML.load(MatchingCtrl.class,"client", "scenes", "Matching.fxml" ));
+        //14
+        scenes.add(FXML.load(MPMultiChoiceCtrl.class, "client", "scenes", "MPMultiChoiceScreen.fxml"));
+        //15
+        scenes.add(FXML.load(MPChoiceEstimationCtrl.class, "client", "scenes", "MPChoiceEstimation.fxml"));
+        //16
+        scenes.add(FXML.load(MPAccurateEstimationCtrl.class, "client", "scenes", "MPAccurateEstimation.fxml"));
+        //17
+        scenes.add(FXML.load(MPMatchingCtrl.class, "client", "scenes", "MPMatching.fxml"));
+        //18
+        scenes.add(FXML.load(MPLeaderboardCtrl.class, "client", "scenes", "MPLeaderboard.fxml"));
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, scenes);
     }

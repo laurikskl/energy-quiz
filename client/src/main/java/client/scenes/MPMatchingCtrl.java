@@ -4,10 +4,9 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Question;
+import commons.RoundPlayer;
 import commons.ScoreSystem;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -17,7 +16,6 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
@@ -25,10 +23,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MatchingCtrl extends Controller{
+public class MPMatchingCtrl extends Controller {
 
     private Question matching;
-    private SPGameCtrl parentCtrl;
+    private MPGameCtrl parentCtrl;
 
     private Activity correctActivity;
     private int isCorrect;
@@ -56,12 +54,12 @@ public class MatchingCtrl extends Controller{
      * @param mainCtrl
      */
     @Inject
-    public MatchingCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MPMatchingCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(server, mainCtrl);
     }
 
     public void start(Controller parentCtrl, Question matching) throws MalformedURLException {
-        this.parentCtrl = (SPGameCtrl) parentCtrl;
+        this.parentCtrl = (MPGameCtrl) parentCtrl;
         //Set the isCorrect to -1 meaning there was no answer
         this.isCorrect = -1;
         //Obtaining current state of clock
@@ -77,18 +75,13 @@ public class MatchingCtrl extends Controller{
 
         byte[] byteArr1 = matching.getActivities().get(0).getImageContent();
         Image img1 = new Image(new ByteArrayInputStream(byteArr1));
-        if(img1.isError()) {
-            image.setImage(new Image(new File("client/src/main/resources/entername/MaxThePlant.png").toURI().toURL().toString()));
-        } else {
-            image.setImage(img1);
-        }
+        image.setImage(img1);
+
         //Setting the name of the current activity.
         nameOfActivity.setText(matching.getActivities().get(0).getName());
 
         possibleActivities = new ArrayList<>();
-        possibleActivities.add(matching.getActivities().get(1));
-        possibleActivities.add(matching.getActivities().get(2));
-        possibleActivities.add(matching.getActivities().get(3));
+        possibleActivities.addAll(matching.getActivities());
         Collections.shuffle(possibleActivities);
 
         setButtons();
@@ -98,7 +91,7 @@ public class MatchingCtrl extends Controller{
     /**
      * Method for setting the buttons in a randomized way
      */
-    public void setButtons(){
+    public void setButtons() {
 
         answer1.setText(String.valueOf(possibleActivities.get(0).getName()));
         answer2.setText(String.valueOf(possibleActivities.get(1).getName()));
@@ -116,11 +109,11 @@ public class MatchingCtrl extends Controller{
         Button wrong2 = null;
 
         //set the correct and wrong buttons
-        if( answer1.getText().equals(correctActivityName)) {
+        if (answer1.getText().equals(correctActivityName)) {
             correct = answer1;
             wrong1 = answer2;
             wrong2 = answer3;
-        } else if(answer2.getText().equals(correctActivityName)) {
+        } else if (answer2.getText().equals(correctActivityName)) {
             correct = answer2;
             wrong1 = answer1;
             wrong2 = answer3;
@@ -144,9 +137,10 @@ public class MatchingCtrl extends Controller{
 
     /**
      * This method changes the color of the correct answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorsCorrect(Button button){
+    public void temporaryChangeButtonColorsCorrect(Button button) {
 
         button.setStyle(button.getStyle() + " -fx-background-color: #45ff9c; "); //green
         PauseTransition pause = new PauseTransition(
@@ -160,10 +154,11 @@ public class MatchingCtrl extends Controller{
 
     /**
      * This method changes the color of the wrong answer for 3 seconds.
+     *
      * @param button - the answer to be changed
      */
-    public void temporaryChangeButtonColorWrong(Button button){
-        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75 "); //red
+    public void temporaryChangeButtonColorWrong(Button button) {
+        button.setStyle(button.getStyle() + " -fx-background-color: #ff4f75; "); //red
         PauseTransition pause = new PauseTransition(
                 Duration.seconds(3)
         );
@@ -203,9 +198,6 @@ public class MatchingCtrl extends Controller{
 
         //show which answer was the correct one (for 3 seconds)
         showCorrect();
-
-        parentCtrl.setSeconds(4);
-        parentCtrl.refresh();
     }
 
     /**
@@ -227,10 +219,6 @@ public class MatchingCtrl extends Controller{
         buttonsEnabled(false);
 
         showCorrect();
-
-        parentCtrl.setSeconds(4);
-        parentCtrl.refresh();
-
     }
 
     /**
@@ -252,10 +240,6 @@ public class MatchingCtrl extends Controller{
         buttonsEnabled(false);
 
         showCorrect();
-
-        parentCtrl.setSeconds(4);
-        parentCtrl.refresh();
-
     }
 
 
@@ -269,16 +253,12 @@ public class MatchingCtrl extends Controller{
         int addScore = ScoreSystem.calculateScore(this.getTime());
         parentCtrl.scoreAwardedVisibility(true, addScore);
         parentCtrl.setScore(parentCtrl.getScore() + addScore);
-        PauseTransition pause = new PauseTransition(
-                Duration.seconds(2)
-        );
-        pause.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                parentCtrl.scoreAwardedVisibility(false, 0);
-            }
-        });
-        pause.play();
+        String username = mainCtrl.thisPlayer.getUserName();
+        int round = parentCtrl.getRound();
+
+//      add in the roundplayer with the above parameters and send it to the server
+        RoundPlayer sendingObject = new RoundPlayer(username, addScore, round);
+        server.send("/app/game/" + mainCtrl.lobbyId + "/scoreupdate", sendingObject);
     }
 
 
@@ -289,7 +269,7 @@ public class MatchingCtrl extends Controller{
      */
 
     public void buttonsEnabled(boolean enabled) {
-        if(enabled) {
+        if (enabled) {
             answer1.setDisable(false);
             answer2.setDisable(false);
             answer3.setDisable(false);

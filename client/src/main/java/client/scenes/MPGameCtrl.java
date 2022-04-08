@@ -3,23 +3,26 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Emoji;
+import commons.Game;
 import commons.Player;
+import commons.Question;
 import javafx.animation.PauseTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,7 +37,6 @@ public class MPGameCtrl extends Controller {
     /**
      * FXML fields
      */
-
     @FXML
     private ImageView emo1IMG, emo2IMG, emo3IMG, emo4IMG, emo5IMG, emo6IMG;
     @FXML
@@ -45,6 +47,14 @@ public class MPGameCtrl extends Controller {
     private TableView<Pair<String, ImageView>> chat;
     @FXML
     private Text cooldownText;
+    @FXML
+    private BorderPane questionFrame;
+
+    /*For the timer.
+     */
+    @FXML
+    private Text counterTimer;
+    private int seconds;
 
     /**
      * Fields used in class
@@ -53,8 +63,22 @@ public class MPGameCtrl extends Controller {
     private boolean onCooldown;
     private PauseTransition cooldown;
     private Player player;
+    private int score;
     private long lobbyId;
+    private int round;
 
+    @FXML
+    private ImageView backImg;
+    @FXML
+    private Text questionNumber;
+    @FXML
+    private Text name;
+    @FXML
+    private Text scoreCount;
+    @FXML
+    private Text scoreAwarded;
+
+    private Game game;
 
     /**
      * @param server   reference to an instance of ServerUtils
@@ -66,29 +90,50 @@ public class MPGameCtrl extends Controller {
         super(server, mainCtrl);
     }
 
+    @FXML
+    private void initialize() {
+        this.backImg.setImage(new Image("icons/back.png"));
+    }
+
+    public int getRound() {
+        return round;
+    }
 
     /**
      * Method that returns the application to the initial screen when the back button is pressed.
      *
-     * @param actionEvent - pressing the back button triggers this function
+     * @param mouseEvent - pressing the back button triggers this function
      * @throws IOException - something went wrong with reading/writing/finding files
      */
-
-    public void back(ActionEvent actionEvent) throws IOException {
-        getMainCtrl().showSplash();
+    // TODO: Maybe it should also handle disconnecting, actually
+    public void back(MouseEvent mouseEvent) throws IOException {
+        mainCtrl.timer.stop();
+        disconnectMessage();
+        this.mainCtrl.showSplash();
     }
 
 
-    /** Called when starting a game
+    /**
+     * Called when starting a game
      * THIS IS NOT USED YET!!!!!!!!!!!!!!!!!!!!!!!!
      *
      * @param player the player of this client
      */
 
-    public void startGame(Player player, long lobbyId) {
+    public void startGame(Player player, long lobbyId, Game game) throws IOException, InterruptedException {
         this.lobbyId = lobbyId;
         this.onCooldown = false;
         this.player = player;
+        this.round = 0;
+        this.game = game;
+
+        name.setText(player.getUserName());
+        scoreCount.setText("Score: 0");
+        questionNumber.setText("1/20");
+
+        scoreAwardedVisibility(false, 0);
+
+        simpleTimer();
 
         //display emoji when received
         server.registerForMessages("/topic/game/" + lobbyId + "/emoji", Emoji.class, emoji -> {
@@ -157,9 +202,100 @@ public class MPGameCtrl extends Controller {
         //filling with empty rows to not show: no content in table
         ImageView empty = new ImageView();
         empty.setFitHeight(25);
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             chat.getItems().add(new Pair<>("", empty));
         }
+    }
+
+    /**
+     * This method takes care of every individual question by
+     * running the concrete method for each type of question.
+     * This method also handles changing the score that is visible on the screen
+     * and question counter
+     *
+     * @param q the current question
+     */
+    public void doAQuestion(Question q) throws IOException, InterruptedException {
+        //Question has been run
+        System.out.println("Question has started!");
+        resetSeconds();
+        mainCtrl.timer.start();
+        questionNumber.setText(++round + "/20");
+
+        scoreAwardedVisibility(false, 0);
+
+        System.out.println("Question class = " + q.getClass());
+
+        q = this.server.repairQuestion(q);
+        game.setQuestion(q);
+
+        //Choose which type of question it is and load the appropriate frame with its controller
+        if (q.getClass().equals(Question.MostNRGQuestion.class)) {
+            doMultiChoice((Question.MostNRGQuestion) q);
+        } else if (q.getClass().equals(Question.ChoiceEstimation.class)) {
+            doChoiceEstimationQuestion((Question.ChoiceEstimation) q);
+        } else if (q.getClass().equals(Question.Matching.class)) {
+            doMatching((Question.Matching) q);
+        } else if (q.getClass().equals(Question.AccurateEstimation.class)) {
+            doAccurateEstimationQuestion((Question.AccurateEstimation) q);
+        }
+
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @throws IOException when something goes wrong with file-reading or finding
+     */
+    public void doMultiChoice(Question multiChoice) throws IOException {
+        System.out.println("MultiChoice question has started");
+        this.mainCtrl.MPstartMC(this, multiChoice);
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param choiceEstimation current Estimation question
+     * @throws IOException cooldownText.setText("Wait " + timeLeft + " second before sending another message");
+     */
+    public void doChoiceEstimationQuestion(Question.ChoiceEstimation choiceEstimation) throws IOException {
+        System.out.println("Choice estimation start");
+        getMainCtrl().MPstartCE(this, choiceEstimation);
+    }
+
+    /**
+     * This method inserts the frame, gets time and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param matching current Matching question
+     * @throws IOException when file-reading or finding goes wrong
+     */
+    public void doMatching(Question.Matching matching) throws IOException {
+        System.out.println("Matching start");
+        getMainCtrl().MPstartMatching(this, matching);
+    }
+
+    /**
+     * This method inserts the frame, gets time, distance and correctness of the answer from the controller
+     * Then it adds points to score accordingly, using ScoreSystem
+     *
+     * @param accurateEstimation current AccurateEstimation question
+     * @throws IOException
+     */
+    public void doAccurateEstimationQuestion(Question.AccurateEstimation accurateEstimation) throws IOException, InterruptedException {
+        System.out.println("Accurate Estimation start");
+        getMainCtrl().MPstartAE(this, accurateEstimation);
+    }
+
+    /**
+     * Getter for question frame
+     *
+     * @return BorderPane of question frame
+     */
+    public BorderPane getQuestionFrame() {
+        return questionFrame;
     }
 
 
@@ -168,8 +304,68 @@ public class MPGameCtrl extends Controller {
      * @param kind the kind of emoji sent
      */
 
+    /**
+     * This method resets the text for the countdown timer every second.
+     * If the timer hit 0 seconds and the player has not answered, it calls the method
+     * to move on to the next question.
+     */
+    public void simpleTimer() {
+
+        resetSeconds();
+
+        mainCtrl.timer = new Timer(1000, e -> {
+
+            seconds--;
+
+            //if more than 15 seconds passed, move on to the next question
+            if (seconds <= 0) {
+
+                mainCtrl.timer.stop();
+
+            }
+            counterTimer.setText(seconds + " seconds");
+        });
+
+    }
+
+    /**
+     * This method resets the seconds.
+     */
+    public void resetSeconds() {
+        this.seconds = 16;
+    }
+
+    /**
+     * @return score
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * @param score
+     */
+    public void setScore(int score) {
+        this.score = score;
+        this.scoreCount.setText("SCORE: " + score);
+    }
+
+    /**
+     * @param visible true iff scoreAwarded should be visible
+     * @param points  the points awarded for a question
+     */
+
+    public void scoreAwardedVisibility(boolean visible, int points) {
+        if (visible) {
+            scoreAwarded.setVisible(true);
+            scoreAwarded.setText("+" + points);
+        } else {
+            scoreAwarded.setVisible(false);
+        }
+    }
+
     public void sendEmoji(String kind) {
-        if(!onCooldown) {
+        if (!onCooldown) {
             //send emoji if not on cooldown
             server.send("/app/game/" + lobbyId + "/lobby/emoji-received", new Emoji(player, kind));
             onCooldown = true;
@@ -178,7 +374,7 @@ public class MPGameCtrl extends Controller {
         } else {
             //if on cooldown show cooldown text with time remaining
             int timeLeft = 4 - (int) cooldown.currentTimeProperty().get().toSeconds();
-            if(timeLeft == 1) {
+            if (timeLeft == 1) {
                 cooldownText.setText("Wait " + timeLeft + " second before sending another message");
             } else {
                 cooldownText.setText("Wait " + timeLeft + " seconds before sending another message");
@@ -188,7 +384,8 @@ public class MPGameCtrl extends Controller {
     }
 
 
-    /** Displays emoji sent or received on the screen
+    /**
+     * Displays emoji sent or received on the screen
      *
      * @param sent the emoji sent/received
      * @throws FileNotFoundException when emoji image files not found
@@ -197,7 +394,7 @@ public class MPGameCtrl extends Controller {
     private void displayEmoji(Emoji sent) throws FileNotFoundException {
         String name = sent.getSender().getUserName();
         Image img = null;
-        switch(sent.getEmoji()) {
+        switch (sent.getEmoji()) {
             case "Dead":
                 img = new Image(new FileInputStream("client/src/main/resources/emoticons/dead.png"));
                 break;
@@ -229,10 +426,10 @@ public class MPGameCtrl extends Controller {
         //adding message to the bottom of the chat by shifting all messages up by one
         Pair<String, ImageView> toAdd = new Pair<>(name, imgView);
         Stack<Pair<String, ImageView>> toStore = new Stack<>();
-        for(int i = 4; i > 0; i--) {
+        for (int i = 4; i > 0; i--) {
             toStore.push(chat.getItems().get(i));
         }
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             chat.getItems().set(i, toStore.pop());
         }
         chat.getItems().set(4, toAdd);
@@ -242,14 +439,15 @@ public class MPGameCtrl extends Controller {
         pause.setDuration(Duration.seconds(5));
         pause.setOnFinished(event -> {
             int index = chat.getItems().indexOf(toAdd);
-            if(index >= 0) {
+            if (index >= 0) {
                 chat.getItems().set(index, new Pair<>("", new ImageView()));
             }
         });
         pause.play();
     }
 
-    /** Trophy emoji sent
+    /**
+     * Trophy emoji sent
      *
      * @param mouseEvent mouse clicked
      */
@@ -259,7 +457,8 @@ public class MPGameCtrl extends Controller {
     }
 
 
-    /** Dead emoji sent
+    /**
+     * Dead emoji sent
      *
      * @param mouseEvent mouse clicked
      */
@@ -269,7 +468,8 @@ public class MPGameCtrl extends Controller {
     }
 
 
-    /** Laugh emoji sent
+    /**
+     * Laugh emoji sent
      *
      * @param mouseEvent mouse clicked
      */
@@ -279,7 +479,8 @@ public class MPGameCtrl extends Controller {
     }
 
 
-    /** Kiss emoji sent
+    /**
+     * Kiss emoji sent
      *
      * @param mouseEvent mouse clicked
      */
@@ -289,7 +490,8 @@ public class MPGameCtrl extends Controller {
     }
 
 
-    /** Sad emoji sent
+    /**
+     * Sad emoji sent
      *
      * @param mouseEvent mouse clicked
      */
@@ -299,7 +501,8 @@ public class MPGameCtrl extends Controller {
     }
 
 
-    /** Smile emoji sent
+    /**
+     * Smile emoji sent
      *
      * @param mouseEvent mouse clicked
      */
@@ -315,10 +518,15 @@ public class MPGameCtrl extends Controller {
      */
 
     public void disconnectMessage() {
-        sendEmoji("Disconnect");
+        try {
+            sendEmoji("Disconnect");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    /** Set visibility of cooldown text
+    /**
+     * Set visibility of cooldown text
      *
      * @param visible true iff text should be visible
      */

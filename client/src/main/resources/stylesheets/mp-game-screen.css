@@ -1,34 +1,34 @@
-@font-face{
-    font-family: spartan;
-    src: url('/../fonts/spartan.ttf');
-}
-:root{
-    font-family: spartan;
-}
 /*Entire table*/
 .table-view {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
 /*Single cells*/
 .table-row-cell{
-    -fx-background-color:  transparent;
-    -fx-table-cell-border-color: transparent;
+    -fx-background-color:  rgba(0, 0, 0, 0);
+    -fx-table-cell-border-color: rgba(0, 0, 0, 0);
     -fx-cell-size: 32px;
 }
 
 /*Making header transparent*/
 .table-view .column-header-background{
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 .table-view .column-header {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
     -fx-pref-height: 0px;
 }
 .table-view .column-header-background .filler {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
+.joker-button {
+    -fx-background-color: #6639D4;
+}
+
+.joker-button:hover {
+    -fx-background-color:#8DF5EE;
+}
 /*Making scroll bars invisible*/
 .table-view .scroll-bar * {
     -fx-min-width: 0;
@@ -38,4 +38,4 @@
     -fx-min-height: 0;
     -fx-pref-height: 0;
     -fx-max-height: 0;
-}}
+}

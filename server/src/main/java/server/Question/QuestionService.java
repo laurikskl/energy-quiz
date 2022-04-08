@@ -50,7 +50,7 @@ public class QuestionService {
         ArrayList<Question> questions = new ArrayList<>();
         while (questions.size() < 20) {
             Question q = getRandomQuestion();
-            if(q != null) {
+            if (q != null) {
                 questions.add(q);
             }
         }
@@ -139,7 +139,7 @@ public class QuestionService {
         answers.add(correct);
 
         //ignore numbers that are too big for the question generation
-        if(correct >= 2000000000) {
+        if (correct >= 2000000000) {
             return getRandomChoiceEstimation();
         }
 
@@ -186,13 +186,13 @@ public class QuestionService {
         //setting random upper and lower bounds used in calculating min and max values
         //to change the chance distribution of the answer being the middle one
         float lowerBound = -1L;
-        while(lowerBound <= 0) {
-            lowerBound = ThreadLocalRandom.current().nextLong(7L)/10F;
+        while (lowerBound <= 0) {
+            lowerBound = ThreadLocalRandom.current().nextLong(7L) / 10F;
         }
 
         float upperBound = -1;
-        while(upperBound <= 0) {
-            upperBound = ThreadLocalRandom.current().nextLong(5L)/10F;
+        while (upperBound <= 0) {
+            upperBound = ThreadLocalRandom.current().nextLong(5L) / 10F;
         }
 
         //adding two other answers with a maximum difference of lower/upper bound
@@ -220,7 +220,7 @@ public class QuestionService {
     public int zerosAtEnd(Long num) {
         long correctToDiv = num;
         int zeroCount = 0;
-        while(correctToDiv % 10L == 0) {
+        while (correctToDiv % 10L == 0) {
             correctToDiv /= 10L;
             zeroCount++;
         }
@@ -252,7 +252,7 @@ public class QuestionService {
     /**
      * @return a random question of type accurateEstimation
      */
-    public Question.AccurateEstimation getRandomAccurateEstimation(){
+    public Question.AccurateEstimation getRandomAccurateEstimation() {
         //Generate a random activity
         Activity activity = activityController.getRandomActivity();
         List<Activity> activities = new ArrayList<>();
@@ -261,5 +261,15 @@ public class QuestionService {
         activities.add(activity);
 
         return new Question.AccurateEstimation(activities, null);
+    }
+
+    /**
+     * reload activities inside a question from the database by id
+     * @param question question to repair
+     * @return repaired question
+     */
+    public Question repairQuestion(Question question) {
+        question.getActivities().forEach(activity -> activity.setImageContent(activityRepository.getById(activity.getInternalId()).getImageContent()));
+        return question;
     }
 }

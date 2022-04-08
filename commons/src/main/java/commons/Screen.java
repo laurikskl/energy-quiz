@@ -2,5 +2,7 @@ package commons;
 
 public enum Screen {
   LOBBY,
-  ENTERNAME
+  ENTERNAME,
+  QUESTION,
+  LEADERBOARD
 }
