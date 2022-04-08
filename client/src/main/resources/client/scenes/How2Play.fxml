@@ -25,11 +25,12 @@
                 </ImageView>
             </graphic>
         </Button>
-        <TabPane fx:id="tabPane" layoutX="483.0" layoutY="163.0" prefHeight="750.0" prefWidth="1000.0" style="-fx-tab-max-height: 40; -fx-tab-min-height: 40;" tabClosingPolicy="UNAVAILABLE" tabMinWidth="200.0" AnchorPane.bottomAnchor="153.0" AnchorPane.topAnchor="163.0">
+        <TabPane fx:id="tabPane" layoutX="483.0" layoutY="163.0" prefHeight="750.0" prefWidth="1000.0" style="-fx-tab-max-height: 40; -fx-tab-min-height: 40;" tabClosingPolicy="UNAVAILABLE" tabMinWidth="150.0" AnchorPane.bottomAnchor="153.0" AnchorPane.topAnchor="163.0">
             <tabs>
                 <Tab text="Story" />
                 <Tab text="Basic Rules" />
                 <Tab text="Multiplayer" />
+                <Tab text="Jokers"/>
                 <Tab text="Leaderboard" />
             </tabs>
         </TabPane>
